@@ -5,4 +5,7 @@
 # contributor: Yasser González Fernández <yglez@uh.cu>
 # --
 class ${1:ClassName}(${2:object}):
-    $0
+
+    def __init__(self${3:, }$4):
+        super($1,self).__init__($4)
+        $0
