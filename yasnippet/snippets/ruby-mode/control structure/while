@@ -1,0 +1,5 @@
+#name : while ... end
+# --
+while ${condition}
+  $0
+end

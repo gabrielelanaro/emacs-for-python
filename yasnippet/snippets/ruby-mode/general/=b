@@ -1,0 +1,5 @@
+#name : =begin rdoc ... =end
+# --
+=begin rdoc
+  $0
+=end
