@@ -86,3 +86,5 @@
   "Texinfo outline mode"
   (texinfo-mode)
   (outline-setup "^@chap\\|@\\(sub\\)*section"))
+
+(provide 'python-outline)

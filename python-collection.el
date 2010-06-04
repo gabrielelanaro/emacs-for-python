@@ -74,6 +74,12 @@
 	"ssh")
        eshell-visual-commands))))
 
+;; Virtualenv workon command
+(require 'virtualenv)
+
+;; Flymake for python configuration
+(require 'python-flymake)
+
 ;;=====================
 ;; Keybindings Section
 ;;=====================
@@ -85,3 +91,6 @@
 
 ;; calc-mode more comfortable
 (global-set-key (kbd "M-c") 'calc-dispatch)
+
+; Ctrl+tab mapped to Alt+tab
+(define-key function-key-map [(control tab)] [?\M-\t])
