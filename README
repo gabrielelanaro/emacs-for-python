@@ -3,3 +3,30 @@
 I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
+
+== Packages Enabled ==
+
+* pabbrev (ext)
+* ido
+* virtualenv (mine)
+* flymake-pyflakes (ext)
+* org-mode
+* ibuffer
+* eshell
+* yasnippet
+* open-next-line
+
+== Configurations ==
+
+skeleton-pair (autoclosing brackets)
+X11 fonts
+calc-dispatch remapped
+automatic auto-fill-mode
+
+== Keybindings ==
+s-c clipboard-copy
+s-x clipboard-cut
+s-v clipboard-yank
+
+C-TAB dabbrev-expand
+F5 compile
