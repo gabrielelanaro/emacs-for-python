@@ -1,6 +1,5 @@
 ;; This file initializate all the extensions contained in this package
 
-
 ;; Trick to get the filename of the installation directory
 (defconst python-collection-install-dir
   (file-name-directory (or load-file-name
@@ -17,7 +16,8 @@
 	     (concat python-collection-install-dir "yasnippet"))
 (add-to-list 'load-path
 	     (concat python-collection-install-dir "plugins"))
-
+(add-to-list 'load-path
+	     (concat python-collection-install-dir "auto-complete"))
 
 ;;============
 ;; Extensions 
@@ -31,12 +31,21 @@
 
 (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
 
-;; Predictive Abbreviation
-(require 'pabbrev)
-(global-pabbrev-mode)
+;; Auto-completion
+(require 'auto-complete-config)
 
-;; Auto-fill-mode by default in almost all buffers
-(setq-default auto-fill-function 'do-auto-fill)
+(add-to-list 'ac-dictionary-directories 
+	     (concat python-collection-install-dir "auto-complete/ac-dict"))
+(ac-config-default)
+
+;; Auto-fill-mode for python-mode only for comments
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (auto-fill-mode 1)
+	    (set (make-local-variable 'fill-nobreak-predicate)
+		 (lambda ()
+		   (not (eq (get-text-property (point) 'face)
+			    'font-lock-comment-face))))))
 
 ;; ibuffer by default
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -54,7 +63,7 @@
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
 
-; Open Next Line
+;; Open Next Line
 (require 'open-next-line)
 
 ;; Eshell tweaks
