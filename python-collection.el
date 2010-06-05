@@ -11,6 +11,7 @@
 ;; Adjust load path to add the following paths
 ;; yasnippet/
 ;; plugins/
+;; auto-complete
 
 (add-to-list 'load-path
 	     (concat python-collection-install-dir "yasnippet"))
@@ -33,10 +34,13 @@
 
 ;; Auto-completion
 (require 'auto-complete-config)
-
 (add-to-list 'ac-dictionary-directories 
 	     (concat python-collection-install-dir "auto-complete/ac-dict"))
 (ac-config-default)
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete) ;; To use
+						      ;; fuzzy-completion,
+						      ;; maybe it's
+						      ;; too much slow
 
 ;; Auto-completion lightening for python-mode
 (add-hook 'python-mode-hook
@@ -50,7 +54,6 @@
 
 
 ;; Auto-fill-mode for python-mode only for comments
-
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (auto-fill-mode 1)
