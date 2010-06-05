@@ -6,15 +6,17 @@ really modern and exciting (yet stable) way to edit text files.
 
 == Packages Enabled ==
 
-* pabbrev (ext)
+* auto-complete (ext)
 * ido
 * virtualenv (mine)
 * flymake-pyflakes (ext)
 * org-mode
 * ibuffer
 * eshell
-* yasnippet
+* yasnippet (ext)
 * open-next-line
+
+* cython-mode
 
 == Configurations ==
 
