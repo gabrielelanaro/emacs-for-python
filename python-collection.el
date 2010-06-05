@@ -38,7 +38,19 @@
 	     (concat python-collection-install-dir "auto-complete/ac-dict"))
 (ac-config-default)
 
+;; Auto-completion lightening for python-mode
+(add-hook 'python-mode-hook
+	  (lambda () (setq ac-sources 
+			   '(ac-source-filename
+			    ac-source-yasnippet
+			    ac-source-abbrev
+			    ac-source-words-in-same-mode-buffers
+			    ac-source-dictionary)
+			   )))
+
+
 ;; Auto-fill-mode for python-mode only for comments
+
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (auto-fill-mode 1)
