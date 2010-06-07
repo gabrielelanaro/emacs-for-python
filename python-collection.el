@@ -43,14 +43,14 @@
 						      ;; too much slow
 
 ;; Auto-completion lightening for python-mode
-(add-hook 'python-mode-hook
-	  (lambda () (setq ac-sources 
-			   '(ac-source-filename
-			    ac-source-yasnippet
-			    ac-source-abbrev
-			    ac-source-words-in-same-mode-buffers
-			    ac-source-dictionary)
-			   )))
+;; (add-hook 'python-mode-hook
+;; 	  (lambda () (setq ac-sources 
+;; 			   '(ac-source-filename
+;; 			    ac-source-yasnippet
+;; 			    ac-source-abbrev
+;; 			    ac-source-words-in-same-mode-buffers
+;; 			    ac-source-dictionary)
+;; 			   )))
 
 
 ;; Auto-fill-mode for python-mode only for comments
@@ -104,6 +104,7 @@
 ;; Flymake for python configuration
 (require 'python-flymake)
 
+(require 'smart-operator)
 ;;=====================
 ;; Keybindings Section
 ;;=====================

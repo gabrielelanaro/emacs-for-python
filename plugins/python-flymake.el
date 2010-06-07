@@ -13,6 +13,7 @@
   (add-to-list 'flymake-allowed-file-name-masks 
                '("\\.py\\'" flymake-pyflakes-init))) 
 
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+;; Not on all modes, please
+(add-hook 'python-mode-hook 'flymake-find-file-hook)
 
 (provide 'python-flymake)
