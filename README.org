@@ -1,31 +1,31 @@
-= Welcome to the best collection of emacs extensions ever =
+Welcome to the best collection of emacs extensions ever
 
 I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
 
-== Packages Enabled ==
+* Packages Enabled
 
-* auto-complete (ext)
-* ido
-* virtualenv (mine)
-* flymake-pyflakes (ext)
-* org-mode
-* ibuffer
-* eshell
-* yasnippet (ext)
-* open-next-line
+- auto-complete (ext)
+- ido
+- virtualenv (mine)
+- flymake-pyflakes (ext)
+- org-mode
+- ibuffer
+- eshell
+- yasnippet (ext)
+- open-next-line
+- cython-mode
 
-* cython-mode
-
-== Configurations ==
+* Configurations
 
 skeleton-pair (autoclosing brackets)
 X11 fonts
 calc-dispatch remapped
 automatic auto-fill-mode
 
-== Keybindings ==
+* Keybindings
+
 s-c clipboard-copy
 s-x clipboard-cut
 s-v clipboard-yank
