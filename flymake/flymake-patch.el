@@ -118,6 +118,26 @@ Zero-length substrings at the beginning and end of the list are omitted."
       'line-end-position
     (lambda (&optional arg) (save-excursion (end-of-line arg) (point)))))
 
+
+;;; Personalized functions to be used in general
+(defun string-match-multi (reglist str)
+  "Matches STR with each of the regex in REGLIST, return the results of string-match"
+  (mapcar 
+   (lambda (reg) (string-match reg str)) 
+   reglist)
+  )
+
+(defun one-true (mylist)
+  "Return t if one element of the list MYLIST return t, else it return nil"
+  (let ((mylist mylist) (ret nil))
+    (while mylist
+      (if (car mylist)
+	  (setq ret t))
+      (setq mylist (cdr mylist)))
+    ret
+  ))
+
+
 (defun flymake-posn-at-point-as-event (&optional position window dx dy)
   "Return pixel position of top left corner of glyph at POSITION,
 relative to top left corner of WINDOW, as a mouse-1 click
@@ -1768,23 +1788,6 @@ Use CREATE-TEMP-F for creating temp copy."
 (defun flymake-xml-init ()
   (list "xml" (list "val" (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))))
 
-;;; Function personalized
-(defun string-match-multi (reglist str)
-  "Matches STR with each of the regex in REGLIST, return the results of string-match"
-  (mapcar 
-   (lambda (reg) (string-match reg str)) 
-   reglist)
-  )
-
-(defun one-true (mylist)
-  "Return t if one element of the list MYLIST return t, else it return nil"
-  (let ((mylist mylist) (ret nil))
-    (while mylist
-      (if (car mylist)
-	  (setq ret t))
-      (setq mylist (cdr mylist)))
-    ret
-  ))
 
 
 (provide 'flymake)
