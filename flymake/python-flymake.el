@@ -3,6 +3,7 @@
 
 (when (load "flymake-patch" t) 
   (defun flymake-pyflakes-init () 
+    ;; Pyflakes stuff
      ; Make sure it's not a remote buffer or flymake would not work
      (when (not (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
       (let* ((temp-file (flymake-init-create-temp-buffer-copy 
@@ -11,6 +12,7 @@
                           temp-file 
                           (file-name-directory buffer-file-name)))) 
         (list "pyflakes" (list local-file)))))
+
   (add-to-list 'flymake-allowed-file-name-masks 
                '("\\.py\\'" flymake-pyflakes-init)))
 
