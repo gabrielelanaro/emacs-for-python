@@ -942,6 +942,13 @@ from compile.el")
 ;;   :type '(repeat (string number number number))
 ;;)
 
+(defvar flymake-warn-line-regex
+  '( "^[wW]arning" )
+  "Patterns for recognizing if the line is a warning")
+
+(one-true (string-match-multi flymake-warn-line-regex "Warning") )
+;; The info would be added here
+;; (defvar flymake-info-line-regex)
 (defun flymake-parse-line (line)
   "Parse LINE to see if it is an error or warning.
 Return its components if so, nil otherwise."
@@ -962,7 +969,7 @@ Return its components if so, nil otherwise."
 				  (match-string (nth 4 (car patterns)) line)
 				(flymake-patch-err-text (substring line (match-end 0)))))
 	  (or err-text (setq err-text "<no error text>"))
-	  (if (and err-text (string-match "^[wW]arning" err-text))
+	  (if (and err-text (one-true (string-match-multi flymake-warn-line-regex err-text)))
 	      (setq err-type "w")
 	    )
 	  (flymake-log 3 "parse line: file-idx=%s line-idx=%s file=%s line=%s text=%s" file-idx line-idx
@@ -1760,6 +1767,25 @@ Use CREATE-TEMP-F for creating temp copy."
 ;;;; xml-specific init-cleanup routines
 (defun flymake-xml-init ()
   (list "xml" (list "val" (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))))
+
+;;; Function personalized
+(defun string-match-multi (reglist str)
+  "Matches STR with each of the regex in REGLIST, return the results of string-match"
+  (mapcar 
+   (lambda (reg) (string-match reg str)) 
+   reglist)
+  )
+
+(defun one-true (mylist)
+  "Return t if one element of the list MYLIST return t, else it return nil"
+  (let ((mylist mylist) (ret nil))
+    (while mylist
+      (if (car mylist)
+	  (setq ret t))
+      (setq mylist (cdr mylist)))
+    ret
+  ))
+
 
 (provide 'flymake)
 

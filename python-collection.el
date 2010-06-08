@@ -19,6 +19,8 @@
 	     (concat python-collection-install-dir "plugins"))
 (add-to-list 'load-path
 	     (concat python-collection-install-dir "auto-complete"))
+(add-to-list 'load-path
+	     (concat python-collection-install-dir "flymake"))
 
 ;;============
 ;; Extensions 
