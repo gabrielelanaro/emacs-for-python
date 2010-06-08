@@ -1,3 +1,0 @@
-[submodule "flymake-python"]
-	path = flymake-python
-	url = git@github.com:gabrielelanaro/flymake-python.git
