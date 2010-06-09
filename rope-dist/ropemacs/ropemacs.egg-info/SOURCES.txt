@@ -1,0 +1,15 @@
+CONTRIBUTORS
+COPYING
+MANIFEST.in
+README.txt
+setup.py
+docs/done.txt
+docs/pymacs_signalrecursion.patch
+docs/ropemacs.txt
+docs/todo.txt
+ropemacs/__init__.py
+ropemacs.egg-info/PKG-INFO
+ropemacs.egg-info/SOURCES.txt
+ropemacs.egg-info/dependency_links.txt
+ropemacs.egg-info/requires.txt
+ropemacs.egg-info/top_level.txt

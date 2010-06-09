@@ -1,0 +1,27 @@
+# It can be applied on Pymacs 0.23 or 0.24-beta1.  The problem is
+# signal.signal() is called twice for signal.SIGINT.  You can use
+# ``patch -p1 < signal_recursion.patch`` in the extracted directory.
+
+--- a/Pymacs/pymacs.py
++++ b/Pymacs/pymacs.py
+@@ -69,20 +69,6 @@
+         import signal
+         self.original_handler = signal.signal(
+                 signal.SIGINT, self.interrupt_handler)
+-        for counter in range(1, signal.NSIG):
+-            if counter == signal.SIGINT:
+-                self.original_handler = signal.signal(counter,
+-                                                      self.interrupt_handler)
+-
+-            # The following few lines of code are reported to create IO
+-            # problems within the Pymacs helper itself, so I merely comment
+-            # them for now, until we know better.
+-
+-            #else:
+-            #    try:
+-            #        signal.signal(counter, self.generic_handler)
+-            #    except RuntimeError:
+-            #        pass
+         self.inhibit_quit = True
+         # Start protocol and services.
+         from Pymacs import __version__
