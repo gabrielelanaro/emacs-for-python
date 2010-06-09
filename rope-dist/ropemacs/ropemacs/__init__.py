@@ -293,6 +293,11 @@ class LispUtils(ropemode.environment.Environment):
         globals()[name] = callback
         lisp.add_hook(lisp[mapping[hook]], lisp[_lisp_name(name)])
 
+    # Hooks for connecting other stuff
+    def project_opened(self):
+        #lisp.message("project opened!!!")
+        lisp.run_hooks(lisp["rope-open-project-hook"])
+    
     @property
     @utils.saveit
     def global_prefix(self):

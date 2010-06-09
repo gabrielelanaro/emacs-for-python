@@ -59,7 +59,18 @@
 	 (concat epy-install-dir "rope-dist/ropemacs/")))
   (pymacs-load "ropemacs" "rope-")
   (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
-  (add-hook 'rope-mode-open-hook 'ac-nropemacs-setup)
+  
+  ;; Pretty custom, I've patched ropemode and ropemacs to add this
+  ;; hook.
+  ;;
+  ;; There is also a custom hook to find if there is a project and if
+  ;; there is activate it. In this way the project is automatically opened.
+  (add-hook 'rope-open-project-hook 'ac-nropemacs-setup)
+  ;; (add-hook 'python-mode-hook 
+  ;; 	    (lambda () (when (buffer-file-name)
+  ;; 			 (rope-open-project (file-name-directory (buffer-file-name)) nil)
+  ;; 			 )))
+  (setq ropemacs-guess-project t)
   )
 
 ;; ibuffer by default
