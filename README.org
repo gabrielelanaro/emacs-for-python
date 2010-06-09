@@ -4,7 +4,15 @@ I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
 
-For further information check emacs-for-python/wiki/Usage.rst
+** Installation
+
+Put the emacs-for-python directory where you want (you may want to put it in .emacs.d directory), the add this line in your .emacs
+
+: (load-file "/path/to/emacs-for-python/python-collection.el")
+
+If the startup is too slow you can compile the emacs lisp files typing make inside the emacs-for-python directory
+
+For further information and usage suggestions check http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow
 
 ** Packages Enabled
 

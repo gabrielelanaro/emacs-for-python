@@ -20,6 +20,8 @@
 	     (concat epy-install-dir "plugins"))
 (add-to-list 'load-path
 	     (concat epy-install-dir "auto-complete"))
+(add-to-list 'load-path
+	     (concat epy-install-dir "flymake"))
 
 ;;============
 ;; Extensions 
