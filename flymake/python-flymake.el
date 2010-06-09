@@ -18,7 +18,7 @@
 
 ;; Adding to the variable the regexps that matches warning messages
 (setq flymake-warn-line-regex 
-      (append flymake-warn-line-regex '("unused$" "^redefinition"))
+      (append flymake-warn-line-regex '("unused$" "^redefinition" "used$"))
       )
 
 
