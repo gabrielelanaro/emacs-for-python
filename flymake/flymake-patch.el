@@ -34,7 +34,6 @@
 ;; - Only uses "Makefile", not "makefile" or "GNUmakefile"
 ;;   (from http://bugs.debian.org/337339).
 
-;; - Adding regex for matching warnings!!
 ;; - Adding info messages
 ;;; Code:
 
@@ -259,9 +258,10 @@ are the string substitutions (see `format')."
   (if (<= level flymake-log-level)
       (let* ((msg (apply 'format text args)))
 	(message "%s" msg)
-	;;(with-temp-buffer
-	;;    (insert msg)
-	;;   (insert "\n")
+	;;XXX
+	(with-temp-buffer
+	  (insert msg)
+	  (insert "\n"))
 	;;   (flymake-save-buffer-in-file "d:/flymake.log" t)  ; make log file name customizable
 	;;)
 	)))
@@ -652,22 +652,24 @@ It's flymake process filter."
          flymake-err-info 1 (flymake-count-lines)))
   (flymake-delete-own-overlays)
   (flymake-highlight-err-lines flymake-err-info)
-  (let (err-count warn-count)
+  (let (err-count warn-count info-count)
     (setq err-count (flymake-get-err-count flymake-err-info "e"))
     (setq warn-count  (flymake-get-err-count flymake-err-info "w"))
-    (flymake-log 2 "%s: %d error(s), %d warning(s) in %.2f second(s)"
-		 (buffer-name) err-count warn-count
+    (setq info-count  (flymake-get-err-count flymake-err-info "i"))
+    
+    (flymake-log 2 "%s: %d error(s), %d warning(s), %d info in %.2f second(s)"
+		 (buffer-name) err-count warn-count info-count
 		 (- (flymake-float-time) flymake-check-start-time))
     (setq flymake-check-start-time nil)
 
-    (if (and (equal 0 err-count) (equal 0 warn-count))
+    (if (and (equal 0 err-count) (equal 0 warn-count) (equal 0 info-count))
 	(if (equal 0 exit-status)
 	    (flymake-report-status "" "")	; PASSED
 	  (if (not flymake-check-was-interrupted)
 	      (flymake-report-fatal-status "CFGERR"
 					   (format "Configuration error has occured while running %s" command))
 	    (flymake-report-status nil ""))) ; "STOPPED"
-      (flymake-report-status (format "%d/%d" err-count warn-count) ""))))
+      (flymake-report-status (format "%d/%d/%d" err-count warn-count info-count) ""))))
 
 (defun flymake-parse-output-and-residual (output)
   "Split OUTPUT into lines, merge in residual if necessary."
@@ -727,7 +729,7 @@ It's flymake process filter."
 
 (defun flymake-get-line-err-count (line-err-info-list type)
   "Return number of errors of specified TYPE.
-Value of TYPE is either \"e\" or \"w\"."
+Value of TYPE is \"e\", \"w\" or \"i\"."
   (let* ((idx        0)
 	 (count      (length line-err-info-list))
 	 (err-count  0))
@@ -824,6 +826,14 @@ Return t if it has at least one flymake overlay, nil if no overlay."
   "Face used for marking warning lines."
   :group 'flymake)
 
+(defface flymake-infoline
+  '((((class color) (background dark)) (:background "DarkGreen"))
+    (((class color) (background light)) (:background "LightGreen"))
+    (t (:bold t)))
+  "Face used for marking warning lines."
+  :group 'flymake)
+
+
 (defun flymake-highlight-line (line-no line-err-info-list)
   "Highlight line LINE-NO in current buffer.
 Perhaps use text from LINE-ERR-INFO-LIST to enhance highlighting."
@@ -859,7 +869,9 @@ Perhaps use text from LINE-ERR-INFO-LIST to enhance highlighting."
 
     (if (> (flymake-get-line-err-count line-err-info-list "e") 0)
 	(setq face 'flymake-errline)
-      (setq face 'flymake-warnline))
+      (if (> (flymake-get-line-err-count line-err-info-list "w") 0)
+	  (setq face 'flymake-warnline)
+	(setq face 'flymake-infoline)))
 
     (flymake-make-overlay beg end tooltip-text face nil)))
 
@@ -949,26 +961,15 @@ Convert it to flymake internal format."
 Use `flymake-reformat-err-line-patterns-from-compile-el' to add patterns
 from compile.el")
 
-;;(defcustom flymake-err-line-patterns
-;;  '(
-;;    ; MS Visual C++ 6.0
-;;    ("\\(\\([a-zA-Z]:\\)?[^:(\t\n]+\\)(\\([0-9]+\\)) \: \\(\\(error\\|warning\\|fatal error\\) \\(C[0-9]+\\):[ \t\n]*\\(.+\\)\\)"
-;;       1 3 4)
-;;   ; jikes
-;;   ("\\(\\([a-zA-Z]:\\)?[^:(\t\n]+\\)\:\\([0-9]+\\)\:[0-9]+\:[0-9]+\:[0-9]+\: \\(\\(Error\\|Warning\\|Caution\\):[ \t\n]*\\(.+\\)\\)"
-;;       1 3 4))
-;;    "patterns for matching error/warning lines, (regexp file-idx line-idx err-text-idx)"
-;;   :group 'flymake
-;;   :type '(repeat (string number number number))
-;;)
 
 (defvar flymake-warn-line-regex
   '( "^[wW]arning" )
   "Patterns for recognizing if the line is a warning")
 
-(one-true (string-match-multi flymake-warn-line-regex "Warning") )
-;; The info would be added here
-;; (defvar flymake-info-line-regex)
+(defvar flymake-info-line-regex
+  '( "^[iI]nfo" )
+  "Patterns for recognizing if the line is an info message")
+
 (defun flymake-parse-line (line)
   "Parse LINE to see if it is an error or warning.
 Return its components if so, nil otherwise."
@@ -989,10 +990,14 @@ Return its components if so, nil otherwise."
 				  (match-string (nth 4 (car patterns)) line)
 				(flymake-patch-err-text (substring line (match-end 0)))))
 	  (or err-text (setq err-text "<no error text>"))
-	  (if (and err-text (one-true (string-match-multi flymake-warn-line-regex err-text)))
-	      (setq err-type "w")
-	    )
-	  (flymake-log 3 "parse line: file-idx=%s line-idx=%s file=%s line=%s text=%s" file-idx line-idx
+	  ;; Matching for warnings
+	  (when (and err-text (one-true (string-match-multi flymake-warn-line-regex err-text)))
+	    (setq err-type "w"))
+	  ;; Matching for info messages
+	  (when (and err-text (one-true (string-match-multi flymake-info-line-regex err-text)))
+	    (setq err-type "i"))
+	  
+	  (flymake-log 3 "parse line: type=%s file-idx=%s line-idx=%s file=%s line=%s text=%s" err-type file-idx line-idx
 		       raw-file-name line-no err-text)
 	  (setq matched t)))
       (setq patterns (cdr patterns)))
@@ -1786,9 +1791,7 @@ Use CREATE-TEMP-F for creating temp copy."
 
 ;;;; xml-specific init-cleanup routines
 (defun flymake-xml-init ()
-  (list "xml" (list "val" (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))))
-
-
+  (list "xmlstarlet" (list "val" (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))))
 
 (provide 'flymake)
 

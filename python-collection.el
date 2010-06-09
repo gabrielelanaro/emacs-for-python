@@ -47,7 +47,6 @@
 
 ;; Rope, this one is more contrived, we have to check if we have
 ;; pymacs.
-
 (setenv "PYTHONPATH"
 	(concat 
 	 (getenv "PYTHONPATH") ":"
@@ -68,10 +67,6 @@
   ;; There is also a custom hook to find if there is a project and if
   ;; there is activate it. In this way the project is automatically opened.
   (add-hook 'rope-open-project-hook 'ac-nropemacs-setup)
-  ;; (add-hook 'python-mode-hook 
-  ;; 	    (lambda () (when (buffer-file-name)
-  ;; 			 (rope-open-project (file-name-directory (buffer-file-name)) nil)
-  ;; 			 )))
   (setq ropemacs-guess-project t)
   )
 
