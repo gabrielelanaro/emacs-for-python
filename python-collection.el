@@ -1,66 +1,66 @@
 ;; This file initializate all the extensions contained in this package
 
 ;; Trick to get the filename of the installation directory
-(defconst python-collection-install-dir
+(defconst epy-install-dir
   (file-name-directory (or load-file-name
                            (when (boundp 'bytecomp-filename) bytecomp-filename)
                            buffer-file-name))
   "Installation directory of python-collection"
 )
 
+;;
 ;; Adjust load path to add the following paths
 ;; yasnippet/
 ;; plugins/
 ;; auto-complete
 
 (add-to-list 'load-path
-	     (concat python-collection-install-dir "yasnippet"))
+	     (concat epy-install-dir "yasnippet"))
 (add-to-list 'load-path
-	     (concat python-collection-install-dir "plugins"))
+	     (concat epy-install-dir "plugins"))
 (add-to-list 'load-path
-	     (concat python-collection-install-dir "auto-complete"))
+	     (concat epy-install-dir "auto-complete"))
 
 ;;============
 ;; Extensions 
 ;;============
 
+;(setq pymacs-available
+; (require 'pymacs "pymacs" t))
+
 ;; Yasnippet
 (require 'yasnippet)
 
 (yas/initialize)
-(yas/load-directory (concat python-collection-install-dir "yasnippet/snippets"))
+(yas/load-directory (concat epy-install-dir "yasnippet/snippets"))
 
 (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
 
 ;; Auto-completion
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories 
-	     (concat python-collection-install-dir "auto-complete/ac-dict"))
+	     (concat epy-install-dir "auto-complete/ac-dict"))
 (ac-config-default)
-(define-key ac-mode-map (kbd "M-TAB") 'auto-complete) ;; To use
-						      ;; fuzzy-completion,
-						      ;; maybe it's
-						      ;; too much slow
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
-;; Auto-completion lightening for python-mode
-;; (add-hook 'python-mode-hook
-;; 	  (lambda () (setq ac-sources 
-;; 			   '(ac-source-filename
-;; 			    ac-source-yasnippet
-;; 			    ac-source-abbrev
-;; 			    ac-source-words-in-same-mode-buffers
-;; 			    ac-source-dictionary)
-;; 			   )))
+;; Rope, this one is more contrived, we have to check if we have
+;; pymacs.
 
+(setenv "PYTHONPATH"
+	(concat 
+	 (getenv "PYTHONPATH") ":"
+	 (concat epy-install-dir "rope-dist/rope/") ":"
+	 (concat epy-install-dir "rope-dist/ropemode/"))
+	)
 
-;; Auto-fill-mode for python-mode only for comments
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (auto-fill-mode 1)
-	    (set (make-local-variable 'fill-nobreak-predicate)
-		 (lambda ()
-		   (not (eq (get-text-property (point) 'face)
-			    'font-lock-comment-face))))))
+(when (require 'pymacs) 
+  (setq pymacs-load-path 
+	(list 
+	 (concat epy-install-dir "rope-dist/ropemacs/")))
+  (pymacs-load "ropemacs" "rope-")
+  (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
+  (add-hook 'rope-mode-open-hook 'ac-nropemacs-setup)
+  )
 
 ;; ibuffer by default
 (global-set-key (kbd "C-x C-b") 'ibuffer)

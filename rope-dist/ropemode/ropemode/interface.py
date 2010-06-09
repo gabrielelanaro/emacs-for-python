@@ -77,7 +77,7 @@ class RopeMode(object):
     def exiting_actions(self):
         if self.project is not None:
             self.close_project()
-
+    
     @decorators.global_command('o')
     def open_project(self, root=None):
         if not root:

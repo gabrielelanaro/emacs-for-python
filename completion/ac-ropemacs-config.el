@@ -41,12 +41,12 @@
 
 (ac-define-source extended-ropemacs
   '((candidates . ac-eropemacs-candidates)
-    (document   . ac-eropemacs-document)
+;;    (document   . ac-eropemacs-document)
     (symbol     . ac-eropemacs-symbol)))
 
 (ac-define-source extended-ropemacs-dot
   '((candidates . ac-eropemacs-candidates)
-    (document   . ac-eropemacs-document)
+;;    (document   . ac-eropemacs-document)
     (symbol     . ac-eropemacs-symbol)
     (prefix     . c-dot)
     (requires   . 0)))
