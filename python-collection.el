@@ -47,12 +47,12 @@
 
 ;; Rope, this one is more contrived, we have to check if we have
 ;; pymacs.
+
+;; First adding to python path custom rope extensions
 (setenv "PYTHONPATH"
 	(concat 
 	 (getenv "PYTHONPATH") ":"
-	 (concat epy-install-dir "rope-dist/rope/") ":"
-	 (concat epy-install-dir "rope-dist/ropemode/"))
-	)
+	 (concat epy-install-dir "rope-dist")))
 
 (when (require 'pymacs) 
   (setq pymacs-load-path 
