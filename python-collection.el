@@ -68,6 +68,7 @@
   ;; there is activate it. In this way the project is automatically opened.
   (add-hook 'rope-open-project-hook 'ac-nropemacs-setup)
   (setq ropemacs-guess-project t)
+  (setq ropemacs-enable-autoimport t)
   )
 
 ;; ibuffer by default
