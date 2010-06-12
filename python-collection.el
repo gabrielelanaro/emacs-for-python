@@ -78,7 +78,7 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; enable fuzzy matching
 
-; Parentheses Pairing
+;; Parentheses Pairing
 (setq skeleton-pair t)
 
 (global-set-key "(" 'skeleton-pair-insert-maybe)
