@@ -127,3 +127,5 @@
 
 ; Ctrl+tab mapped to Alt+tab
 (define-key function-key-map [(control tab)] [?\M-\t])
+
+(provide 'epy-init)
