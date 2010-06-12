@@ -1,2 +1,0 @@
-rope >= 0.9.3
-ropemode
