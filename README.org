@@ -6,11 +6,9 @@ really modern and exciting (yet stable) way to edit text files.
 
 ** Installation
 
-Put the emacs-for-python directory where you want (you may want to put it in .emacs.d directory), the add this line in your .emacs
+Put the emacs-for-python directory in .emacs.d directory), the add this line in your .emacs
 
-: (load-file "/path/to/emacs-for-python/python-collection.el")
-
-If the startup is too slow you can compile the emacs lisp files typing make inside the emacs-for-python directory
+: (load-file "/path/to/emacs-for-python/epy-init.el")
 
 For further information and usage suggestions check http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow
 

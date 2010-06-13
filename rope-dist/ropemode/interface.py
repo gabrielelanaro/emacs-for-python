@@ -77,9 +77,9 @@ class RopeMode(object):
     def exiting_actions(self):
         if self.project is not None:
             self.close_project()
-    
+
     @decorators.global_command('o')
-    def open_project(self, root=None, create=True):
+    def open_project(self, root=None):
         if not root:
             root = self.env.ask_directory('Rope project root folder: ')
         if self.project is not None:
@@ -87,16 +87,10 @@ class RopeMode(object):
         address = rope.base.project._realpath(os.path.join(root,
                                                            '.ropeproject'))
         if not os.path.exists(address):
-            if create:
-                res = self.env.y_or_n('Project not exists in %s, ' \
-                                          'create one?' % root)
-                if res:
-                    self.env.message("Project creation aborted")
-                else:
-                    return
-            else:
+            if not self.env.y_or_n('Project not exists in %s, ' \
+                                   'create one?' % root):
+                self.env.message("Project creation aborted")
                 return
-
         progress = self.env.create_progress('Opening [%s] project' % root)
         self.project = rope.base.project.Project(root)
         if self.env.get('enable_autoimport'):
@@ -104,7 +98,7 @@ class RopeMode(object):
             self.autoimport = autoimport.AutoImport(self.project,
                                                     underlined=underlined)
         progress.done()
-        self.env.project_opened() # Added this little hook to be nice
+        self.env.project_opened()
 
     @decorators.global_command('k')
     def close_project(self):
