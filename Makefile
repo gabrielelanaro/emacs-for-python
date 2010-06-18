@@ -1,6 +1,9 @@
 VERSION=0.1
 PACKAGE=emacs-for-python-${VERSION}
 
+batch-compile:
+	find . -name \*.el | xargs emacs -Q -l epy-init.el -batch -f batch-byte-compile
+
 clean:
 	find . -name \*.elc | xargs rm -f
 	rm -rf ${PACKAGE}

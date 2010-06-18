@@ -1,6 +1,6 @@
 ;; Cython mode
 
-(require 'python-mode)
+(require 'python)
 
 (add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
