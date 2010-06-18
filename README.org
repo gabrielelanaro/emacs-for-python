@@ -40,3 +40,12 @@ s-v clipboard-yank
 
 C-TAB dabbrev-expand
 F5 compile
+** License
+
+This is mostly a distribution with some little tweaks, with respect of
+the licenses, my tweaks are distributed according to the term of the
+GNU GPL license, described in the file COPYING.
+
+Generally each file has its own license and copyright notice (most, if
+not all of packages are GPL), the license of rope (GPL) is in
+rope-dist/COPYING.
