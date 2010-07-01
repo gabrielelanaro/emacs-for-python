@@ -56,6 +56,8 @@
 	(list 
 	 (concat epy-install-dir "rope-dist/ropemacs/")))
   (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-codeassist-maxfixes 3) ;; Stops from erroring if
+					;; there's a syntax err
   (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
   
   ;; Pretty custom, I've patched ropemode and ropemacs to add this
