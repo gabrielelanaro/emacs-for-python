@@ -38,25 +38,47 @@
                       (getenv "PATH")))))
 
 (defun virtualenv-name-buffer (buffer name)
-  "Adds the virtualenv NAME to the BUFFER, as like in the prompt"
+  "Assign the virtualenv NAME to the BUFFER, you can fetch the
+name with the virtualenv-name local variable"
   (with-current-buffer buffer
     (rename-buffer (concat (buffer-name) "(" name ")"))    
+    (make-local-variable 'virtualenv-name)
+    (setq 'virtualenv-name name)
     )
   )
 
-(defun virtualenv-unname-buffer (buffer name)
-  "Remove the NAME between parentheses to the end of the BUFFER
-name that represents the buffer virtualenv"
+(defun virtualenv-unname-buffer (buffer)
+  "Remove the assignment of the virtualenv name from the BUFFER"
   (with-current-buffer buffer
-    (string-match (format "(%s)$" name) (buffer-name))
+    (string-match (format "(%s)$" virtualenv-name) (buffer-name))
     (rename-buffer (replace-match "" nil t (buffer-name)))
+    (kill-local-variable 'virtualenv-name)
     )
   )
+
 
 (defun virtualenv-activate (dir)
+  "Activate the virtualenv located in DIR"
+  (interactive "dVirtualenv Directory: ")
+  
+  ;; This is definitively a risky operation
+  (make-local-variable 'process-environment)
+  (make-local-variable 'exec-path)
+  
   (setenv "VIRTUAL_ENV" dir)
   (virtualenv-add-to-path (concat dir "/bin"))
   (add-to-list 'exec-path (concat dir "/bin"))
+
+  (virtualenv-name-buffer (current-buffer) (file-name-nondirectory dir))
+  )
+
+(defun virtualenv-deactivate ()
+  "Deactivate the current virtual enviroment"
+  (interactive)
+  (kill-local-variable 'process-environment)
+  (kill-local-variable 'exec-path)
+  
+  (virtualenv-unname-buffer (current-buffer))
   )
 
 (defun is_virtualenv (dir)
