@@ -31,46 +31,36 @@
 (defun virtualenv-add-to-path (dir)
   "Add the specified path element to the Emacs PATH"
   (interactive "DEnter directory to be added to PATH: ")
-  (if (file-directory-p dir)
-      (setenv "PATH"
-              (concat (expand-file-name dir)
-                      path-separator
-                      (getenv "PATH")))))
+  (setenv "PATH"
+	  (concat (expand-file-name dir)
+		  path-separator
+		  (getenv "PATH"))))
 
-(defun virtualenv-name-buffer (buffer name)
-  "Assign the virtualenv NAME to the BUFFER, you can fetch the
+(defun virtualenv-name-buffer (name)
+  "Assign the virtualenv NAME to the current, you can fetch the
 name with the virtualenv-name local variable"
-  (with-current-buffer buffer
-    (rename-buffer (concat (buffer-name) "(" name ")"))    
-    (make-local-variable 'virtualenv-name)
-    (setq 'virtualenv-name name)
-    )
+  (rename-buffer (concat (buffer-name) "(" name ")"))    
+  (make-variable-buffer-local 'virtualenv-name)
+  (setq virtualenv-name name)
   )
 
-(defun virtualenv-unname-buffer (buffer)
-  "Remove the assignment of the virtualenv name from the BUFFER"
-  (with-current-buffer buffer
-    (string-match (format "(%s)$" virtualenv-name) (buffer-name))
-    (rename-buffer (replace-match "" nil t (buffer-name)))
-    (kill-local-variable 'virtualenv-name)
-    )
+(defun virtualenv-unname-buffer ()
+  "Remove the assignment of the virtualenv name from the current buffer"
+  (string-match (format "(%s)$" virtualenv-name) (buffer-name))
+  (rename-buffer (replace-match "" nil t (buffer-name)))
+  (kill-local-variable 'virtualenv-name)
   )
-
 
 (defun virtualenv-activate (dir)
   "Activate the virtualenv located in DIR"
-  (interactive "dVirtualenv Directory: ")
-  
-  ;; This is definitively a risky operation
-  (make-local-variable 'process-environment)
-  (make-local-variable 'exec-path)
+  (interactive "DVirtualenv Directory: ")
   
   (setenv "VIRTUAL_ENV" dir)
   (virtualenv-add-to-path (concat dir "/bin"))
   (add-to-list 'exec-path (concat dir "/bin"))
 
-  (virtualenv-name-buffer (current-buffer) (file-name-nondirectory dir))
-  )
+  (virtualenv-name-buffer (file-name-nondirectory dir))
+ )
 
 (defun virtualenv-deactivate ()
   "Deactivate the current virtual enviroment"
@@ -78,7 +68,7 @@ name with the virtualenv-name local variable"
   (kill-local-variable 'process-environment)
   (kill-local-variable 'exec-path)
   
-  (virtualenv-unname-buffer (current-buffer))
+  (virtualenv-unname-buffer)
   )
 
 (defun is_virtualenv (dir)
