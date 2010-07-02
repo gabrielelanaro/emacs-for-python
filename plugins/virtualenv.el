@@ -37,14 +37,19 @@
                       path-separator
                       (getenv "PATH")))))
 
-(defun virtualenv-name-buffer (buffer)
-  "Adds the virtualenv name to the buffer, as like in the prompt"
+(defun virtualenv-name-buffer (buffer name)
+  "Adds the virtualenv NAME to the BUFFER, as like in the prompt"
   (with-current-buffer buffer
-    (unless (string-match (buffer-name) 
-			  (concat "^(" (buffer-local-value 'virtualenv-name) ")"))
-      
-      (rename-buffer (concat "(" (buffer-local-value 'virtualenv-name) ")"))
-      )
+    (rename-buffer (concat (buffer-name) "(" name ")"))    
+    )
+  )
+
+(defun virtualenv-unname-buffer (buffer name)
+  "Remove the NAME between parentheses to the end of the BUFFER
+name that represents the buffer virtualenv"
+  (with-current-buffer buffer
+    (string-match (format "(%s)$" name) (buffer-name))
+    (rename-buffer (replace-match "" nil t (buffer-name)))
     )
   )
 
@@ -52,7 +57,6 @@
   (setenv "VIRTUAL_ENV" dir)
   (virtualenv-add-to-path (concat dir "/bin"))
   (add-to-list 'exec-path (concat dir "/bin"))
-  
   )
 
 (defun is_virtualenv (dir)
