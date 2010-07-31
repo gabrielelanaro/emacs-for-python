@@ -5,7 +5,7 @@
   (file-name-directory (or load-file-name
                            (when (boundp 'bytecomp-filename) bytecomp-filename)
                            buffer-file-name))
-  "Installation directory of python-collection"
+  "Installation directory of emacs-for-python"
 )
 
 ;;
@@ -66,7 +66,7 @@
   (add-hook 'rope-open-project-hook 'ac-nropemacs-setup)
   (setq ropemacs-guess-project t)
   (setq ropemacs-enable-autoimport t)
-
+  (setq ropemacs-codeassist-maxfixes 3)
   ;; Adding hook to automatically open a rope project if there is one
   ;; in the current or in the upper level directory
   (add-hook 'python-mode-hook 
