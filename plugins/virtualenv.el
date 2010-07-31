@@ -36,39 +36,35 @@
 		  path-separator
 		  (getenv "PATH"))))
 
-(defun virtualenv-name-buffer (name)
-  "Assign the virtualenv NAME to the current, you can fetch the
-name with the virtualenv-name local variable"
-  (rename-buffer (concat (buffer-name) "(" name ")"))    
-  (make-variable-buffer-local 'virtualenv-name)
-  (setq virtualenv-name name)
-  )
-
-(defun virtualenv-unname-buffer ()
-  "Remove the assignment of the virtualenv name from the current buffer"
-  (string-match (format "(%s)$" virtualenv-name) (buffer-name))
-  (rename-buffer (replace-match "" nil t (buffer-name)))
-  (kill-local-variable 'virtualenv-name)
+(defun virtualenv-current ()
+  "barfs the current activated virtualenv"
+  (message 'virtualenv-name)
   )
 
 (defun virtualenv-activate (dir)
   "Activate the virtualenv located in DIR"
   (interactive "DVirtualenv Directory: ")
   
+  ;; Storing old variables
+  (setq virtualenv-old-path (getenv "PATH"))
+  (setq virtualenv-old-exec-path exec-path)
+  
   (setenv "VIRTUAL_ENV" dir)
   (virtualenv-add-to-path (concat dir "/bin"))
   (add-to-list 'exec-path (concat dir "/bin"))
-
-  (virtualenv-name-buffer (file-name-nondirectory dir))
- )
+  
+  (setq virtualenv-name (file-name-nondirectory dir))
+  )
 
 (defun virtualenv-deactivate ()
   "Deactivate the current virtual enviroment"
   (interactive)
-  (kill-local-variable 'process-environment)
-  (kill-local-variable 'exec-path)
   
-  (virtualenv-unname-buffer)
+  ;; Restoring old variables
+  (setenv "PATH" virtualenv-old-path)
+  (setq exec-path virtualenv-old-exec-path)
+
+  (setq virtualenv-name nil)
   )
 
 (defun is_virtualenv (dir)
