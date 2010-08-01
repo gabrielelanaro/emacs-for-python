@@ -4,6 +4,51 @@ I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
 
+In the package are included also a lot of other packages and
+configurations, it's an upstart for clean emacs installations, these
+configuration however are very similar to emacs-starter-kit and I
+suggest you to give it a try, emacs-for-python is designed to work
+with it (instruction below).
+
+** Features 
+The package is splitted in various files, in this way it's very easy
+to include what you really need.
+
+*** Python Related
+
+    - Ropemacs (Custom) : A refactoring library
+    - Auto Completion with rope (Custom) : Tested to work well with Rope
+    - Flymake + pyflakes (Custom): Highlight errors on the fly, improved
+      from the standard version
+    - Virtualenv : Original, In-development tool for using virtualenv in
+      emacs.
+    - Custom Yasnippet Snippets
+    - Cython Mode: a mode for highlighting cython files
+
+*** Editing Packages
+    
+    - Open Next Line: C-o will open a line under the cursor (very
+      similar to vim o)
+    - Auto Completion: Wonderful package for auto complete anything in
+      emacs
+    - Yasnippet: Snippets on steroids
+    - Parentheses pairing (Custom): Bug-free parentheses pairing using
+      skeletons.
+    - smart-operator: Automatically adds spaces around arithmetic operators.
+
+*** Configurations
+
+    - ido activation
+    - ibuffer instead of buffer menu
+    - eshell configuration
+
+*** Keybindings
+
+    - Copy-Cut-Paste from clipboard with Super-C Super-X Super-V    
+    - Calc Mode remapping to M-c
+    - M-Tab remapped to C-Tab to avoid collisions with the desktop
+      manager
+
 ** Installation
 
 Put the emacs-for-python directory in .emacs.d directory), the add this line in your .emacs
@@ -12,34 +57,7 @@ Put the emacs-for-python directory in .emacs.d directory), the add this line in 
 
 For further information and usage suggestions check http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow
 
-** Packages Enabled
-
-- auto-complete (ext)
-- ido
-- virtualenv (mine)
-- flymake-pyflakes (ext)
-- org-mode
-- ibuffer
-- eshell
-- yasnippet (ext)
-- open-next-line
-- cython-mode
-
-** Configurations
-
-skeleton-pair (autoclosing brackets)
-X11 fonts
-calc-dispatch remapped
-automatic auto-fill-mode
-
-** Keybindings
-
-s-c clipboard-copy
-s-x clipboard-cut
-s-v clipboard-yank
-
-C-TAB dabbrev-expand
-F5 compile
+** Installation with emacs-starter-kit
 ** License
 
 This is mostly a distribution with some little tweaks, with respect of
