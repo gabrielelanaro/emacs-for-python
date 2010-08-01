@@ -58,10 +58,3 @@
 ;; Flymake for python configuration
 (require 'python-flymake)
 
-(require 'smart-operator)
-
-;;=====================
-;; Keybindings Section
-;;=====================
-
-(provide 'epy-init)
