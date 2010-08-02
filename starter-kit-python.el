@@ -1,12 +1,11 @@
 ;; Starterkitted emacs-for-python
-
 ;; Trick to get the filename of the installation directory
 (defconst epy-install-dir
   (file-name-directory (or load-file-name
                            (when (boundp 'bytecomp-filename) bytecomp-filename)
                            buffer-file-name))
   "Installation directory of emacs-for-python"
-)
+  )
 
 ;;
 ;; Adjust load path to add the following paths
@@ -15,46 +14,71 @@
 ;; auto-complete
 
 (add-to-list 'load-path
-	     (concat epy-install-dir "yasnippet"))
+             (concat epy-install-dir "yasnippet"))
 (add-to-list 'load-path
-	     (concat epy-install-dir "plugins"))
+             (concat epy-install-dir "plugins"))
 (add-to-list 'load-path
-	     (concat epy-install-dir "auto-complete"))
+             (concat epy-install-dir "auto-complete"))
 (add-to-list 'load-path
-	     (concat epy-install-dir "flymake"))
+             (concat epy-install-dir "flymake"))
 
-;;============
-;; Extensions 
-;;============
+(defun setup-ropemacs ()
+  "Setup the ropemacs harness"
+  (setenv "PYTHONPATH"
+          (concat
+           (getenv "PYTHONPATH") ":"
+           (concat epy-install-dir "rope-dist")))
 
-;; Yasnippet
-(autoload 'yas/initialize "yasnippet" "Start Yasnippet" t)
-(eval-after-load 'yasnippet
-  (yas/initialize)
-  (yas/load-directory (concat epy-install-dir "yasnippet/snippets"))
-  (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
+  (setq pymacs-load-path
+        (list
+         (concat epy-install-dir "rope-dist/ropemacs/")))
+
+  (pymacs-load "ropemacs" "rope-")
+
+  ;; Stops from erroring if there's a syntax err
+  (setq ropemacs-codeassist-maxfixes 3)
+  (setq ropemacs-guess-project t)
+  (setq ropemacs-enable-autoimport t)
+
+  ;; Adding hook to automatically open a rope project if there is one
+  ;; in the current or in the upper level directory
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (cond ((file-exists-p ".ropeproject")
+                     (rope-open-project default-directory))
+                    ((file-exists-p "../.ropeproject")
+                     (rope-open-project (concat default-directory "..")))
+                    )))
   )
 
-;; Auto-completion
-(autoload ac-config-default "auto-complete-config")
-(eval-after-load 'auto-complete-config
-  (ac-config-default)
-  (add-to-list 'ac-dictionary-directories 
-               (concat epy-install-dir "auto-complete/ac-dict"))
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  )
+(defun setup-ropemacs-completion ()
+  "Setup the ropemacs integration with the auto-complete package"
+  ;; Pretty custom, I've patched ropemode and ropemacs to add this
+  ;; hook.
+  ;;
+  ;; There is also a custom hook to find if there is a project and if
+  ;; there is activate it. In this way the project is automatically opened.
+  (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
+  (add-hook 'rope-open-project-hook 'ac-nropemacs-setup))
 
-;; Parentheses Pairing
-(setq skeleton-pair t)
 
-(global-set-key "(" 'skeleton-pair-insert-maybe)
-(global-set-key "[" 'skeleton-pair-insert-maybe)
-(global-set-key "{" 'skeleton-pair-insert-maybe)
-(global-set-key "\"" 'skeleton-pair-insert-maybe)
 
-;; Virtualenv workon command
-(require 'virtualenv)
 
-;; Flymake for python configuration
-(require 'python-flymake)
+(eval-after-load 'python
+  ;; Ropemacs
+  (setup-ropemacs)
+  (add-hook auto-complete-mode-hook 'setup-ropemacs-completion)
 
+  ;; Virtualenv Commands
+  (autoload 'activate-virtualenv "virtualenv" "Activate a Virtual Environment specified by PATH")
+  (autoload 'workon "virtualenv" "Activate a Virtual Environment present using virtualenvwrapper")
+
+  ;; Flymake for python configuration
+  (require 'python-flymake))
+
+;; Cython Mode
+(autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")
+
+(add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
+(add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
+(add-to-list 'auto-mode-alist '("\\.pxi\\'" . cython-mode))
