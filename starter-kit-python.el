@@ -61,20 +61,19 @@
   (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
   (add-hook 'rope-open-project-hook 'ac-nropemacs-setup))
 
-
-
-
 (eval-after-load 'python
-  ;; Ropemacs
-  (setup-ropemacs)
-  (add-hook auto-complete-mode-hook 'setup-ropemacs-completion)
+  '(progn
+     ;; Ropemacs
+     (setup-ropemacs)
+     (add-hook 'auto-complete-mode-hook 'setup-ropemacs-completion)
 
-  ;; Virtualenv Commands
-  (autoload 'activate-virtualenv "virtualenv" "Activate a Virtual Environment specified by PATH")
-  (autoload 'workon "virtualenv" "Activate a Virtual Environment present using virtualenvwrapper")
+     ;; Virtualenv Commands
+     (autoload 'activate-virtualenv "virtualenv" "Activate a Virtual Environment specified by PATH")
+     (autoload 'workon "virtualenv" "Activate a Virtual Environment present using virtualenvwrapper")
 
-  ;; Flymake for python configuration
-  (require 'python-flymake))
+     ;; Flymake for python configuration
+     (require 'python-flymake))
+  )
 
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")
