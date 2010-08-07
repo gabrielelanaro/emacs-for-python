@@ -58,6 +58,14 @@ Put the emacs-for-python directory in .emacs.d directory), the add this line in 
 For further information and usage suggestions check http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow
 
 ** Installation with emacs-starter-kit
+I've built up a little fork of emacs starter kit that is greatly
+integrated with emacs-for-python, it seems the best solution to me!
+
+The repo is at this address: http://github.com/gabrielelanaro/emacs-starter-kit
+
+Remember that customization to emacs-starter-kit are done to a
+custom.el file, and so you can substitute your distribution of
+emacs-starter-kit and you have to copy just your customization file.
 ** License
 
 This is mostly a distribution with some little tweaks, with respect of
