@@ -1,48 +1,118 @@
-;; This module defines the workon command for using virtualenv inside
-;; emacs
-(setq workon-home (getenv "WORKON_HOME"))
+;;; virtualenv.el --- Switching virtual python enviroments seamlessly
 
-(defun add-to-PATH (dir)
+;; Copyright (C) 2010 Gabriele Lanaro
+
+;; Author: Gabriele Lanaro <gabriele.lanaro@gmail.com>
+;; Version: 0.1
+;; Url: http://github.com/gabrielelanaro/emacs-starter-kit
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+
+;; This program is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with EMMS; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;; The installation is fairly easy, you have the load option, put this
+;; in your .emacs:
+
+;; (load-file "/path/to/virtualenv.el")
+;;
+;; Otherwise you can do it with the load path:
+
+;; (add-to-list 'load-path "Path/to/virtualenv.el/containing/directory/"
+;; (require 'virtualenv)
+
+;; The usage is very intuitive, to activate a virtualenv use
+
+;; M-x virtualenv-activate
+
+;; It will prompt you for the virtual environment path.
+;; If you want to deactivate a virtual environment, use:
+
+;; M-x virtualenv-deactivate
+
+
+(setq virtualenv-workon-home (getenv "WORKON_HOME"))
+
+(defun virtualenv-append-path (dir var)
+  "Append DIR to a path-like varibale VAR, for example:
+ (virtualenv-append-path /usr/bin:/bin /home/test/bin) -> /home/test/bin:/usr/bin:/bin"
+  (concat (expand-file-name dir)
+          path-separator
+          var)
+  )
+
+  (defun virtualenv-add-to-path (dir)
   "Add the specified path element to the Emacs PATH"
   (interactive "DEnter directory to be added to PATH: ")
-  (if (file-directory-p dir)
-      (setenv "PATH"
-              (concat (expand-file-name dir)
-                      path-separator
-                      (getenv "PATH")))))
+  (setenv "PATH"
+	  (virtualenv-append-path dir
+                                  (getenv "PATH"))))
 
-(defun activate-virtualenv (dir)
+(defun virtualenv-current ()
+  "barfs the current activated virtualenv"
+  (message 'virtualenv-name)
+  )
+
+(defun virtualenv-activate (dir)
+  "Activate the virtualenv located in DIR"
+  (interactive "DVirtualenv Directory: ")
+  
+  ;; Storing old variables
+  (setq virtualenv-old-path (getenv "PATH"))
+  (setq virtualenv-old-exec-path exec-path)
+  
   (setenv "VIRTUAL_ENV" dir)
-  (add-to-PATH (concat dir "/bin"))
-  (add-to-list 'exec-path (concat dir "/bin")))
+  (virtualenv-add-to-path (concat dir "/bin"))
+  (add-to-list 'exec-path (concat dir "/bin"))
+  
+  (setq virtualenv-name (file-name-nondirectory dir))
+  )
 
-(defun is_virtualenv (dir)
+(defun virtualenv-deactivate ()
+  "Deactivate the current virtual enviroment"
+  (interactive)
+  
+  ;; Restoring old variables
+  (setenv "PATH" virtualenv-old-path)
+  (setq exec-path virtualenv-old-exec-path)
+
+  (setq virtualenv-name nil)
+  )
+
+(defun virtualenvp (dir)
   "Check if a directory is a virtualenv"
   (file-exists-p (concat dir "/bin/activate"))
   )
 
-(defun filter (condp lst)
-  (delq nil
-	(mapcar (lambda (x) (and (funcall condp x) x)) lst)))
 
-
-(defun workon-complete ()
-  "return available completions for workon"
+(defun virtualenv-workon-complete ()
+  "return available completions for virtualenv-workon"
   (let 
       ;;Varlist				
-      ((filelist (directory-files workon-home t))) ;; List directory
+      ((filelist (directory-files virtualenv-workon-home t))) ;; List directory
        ;; Let Body
     (mapcar 'file-name-nondirectory
-       (filter 'is_virtualenv ;; select virtualenvs
-	(filter 'file-directory-p filelist))) ;; select  directories
+       (remove nil 'virtualenvp ;; select virtualenvs
+	(remove nil 'file-directory-p filelist))) ;; select  directories
     )
   )
 
-(defun workon (name)
-  "Issue a virtualenvwrapper-like workon command"
-  (interactive (list (completing-read "Virtualenv: " (workon-complete))))
-  (activate-virtualenv (concat (getenv "WORKON_HOME") "/" name))
+(defun virtualenv-workon (name)
+  "Issue a virtualenvwrapper-like virtualenv-workon command"
+  (interactive (list (completing-read "Virtualenv: " (virtualenv-workon-complete))))
+  (virtualenv-activate (concat (getenv "WORKON_HOME") "/" name))
   )
-
 
 (provide 'virtualenv)
