@@ -114,7 +114,7 @@
 	"ssh")
        eshell-visual-commands))))
 
-;; Virtualenv workon command
+;; Virtualenv commands
 (require 'virtualenv)
 
 ;; Flymake for python configuration
