@@ -4,7 +4,7 @@
 
 ;; Author: Gabriele Lanaro <gabriele.lanaro@gmail.com>
 ;; Version: 0.1
-;; Url: 
+;; Url: http://github.com/gabrielelanaro/emacs-starter-kit
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -23,18 +23,42 @@
 
 ;;; Commentary:
 
-;; 
+;; The installation is fairly easy, you have the load option, put this
+;; in your .emacs:
+
+;; (load-file "/path/to/virtualenv.el")
+;;
+;; Otherwise you can do it with the load path:
+
+;; (add-to-list 'load-path "Path/to/virtualenv.el/containing/directory/"
+;; (require 'virtualenv)
+
+;; The usage is very intuitive, to activate a virtualenv use
+
+;; M-x virtualenv-activate
+
+;; It will prompt you for the virtual environment path.
+;; If you want to deactivate a virtual environment, use:
+
+;; M-x virtualenv-deactivate
 
 
-(setq workon-home (getenv "WORKON_HOME"))
+(setq virtualenv-workon-home (getenv "WORKON_HOME"))
 
-(defun virtualenv-add-to-path (dir)
+(defun virtualenv-append-path (dir var)
+  "Append DIR to a path-like varibale VAR, for example:
+ (virtualenv-append-path /usr/bin:/bin /home/test/bin) -> /home/test/bin:/usr/bin:/bin"
+  (concat (expand-file-name dir)
+          path-separator
+          var)
+  )
+
+  (defun virtualenv-add-to-path (dir)
   "Add the specified path element to the Emacs PATH"
   (interactive "DEnter directory to be added to PATH: ")
   (setenv "PATH"
-	  (concat (expand-file-name dir)
-		  path-separator
-		  (getenv "PATH"))))
+	  (virtualenv-append-path dir
+                                  (getenv "PATH"))))
 
 (defun virtualenv-current ()
   "barfs the current activated virtualenv"
@@ -67,33 +91,28 @@
   (setq virtualenv-name nil)
   )
 
-(defun is_virtualenv (dir)
+(defun virtualenvp (dir)
   "Check if a directory is a virtualenv"
   (file-exists-p (concat dir "/bin/activate"))
   )
 
-(defun filter (condp lst)
-  (delq nil
-	(mapcar (lambda (x) (and (funcall condp x) x)) lst)))
 
-
-(defun workon-complete ()
-  "return available completions for workon"
+(defun virtualenv-workon-complete ()
+  "return available completions for virtualenv-workon"
   (let 
       ;;Varlist				
-      ((filelist (directory-files workon-home t))) ;; List directory
+      ((filelist (directory-files virtualenv-workon-home t))) ;; List directory
        ;; Let Body
     (mapcar 'file-name-nondirectory
-       (filter 'is_virtualenv ;; select virtualenvs
-	(filter 'file-directory-p filelist))) ;; select  directories
+       (remove nil 'virtualenvp ;; select virtualenvs
+	(remove nil 'file-directory-p filelist))) ;; select  directories
     )
   )
 
-(defun workon (name)
-  "Issue a virtualenvwrapper-like workon command"
-  (interactive (list (completing-read "Virtualenv: " (workon-complete))))
+(defun virtualenv-workon (name)
+  "Issue a virtualenvwrapper-like virtualenv-workon command"
+  (interactive (list (completing-read "Virtualenv: " (virtualenv-workon-complete))))
   (virtualenv-activate (concat (getenv "WORKON_HOME") "/" name))
   )
-
 
 (provide 'virtualenv)
