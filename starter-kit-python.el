@@ -1,26 +1,4 @@
 ;; Starterkitted emacs-for-python
-;; Trick to get the filename of the installation directory
-(defconst epy-install-dir
-  (file-name-directory (or load-file-name
-                           (when (boundp 'bytecomp-filename) bytecomp-filename)
-                           buffer-file-name))
-  "Installation directory of emacs-for-python"
-  )
-
-;;
-;; Adjust load path to add the following paths
-;; yasnippet/
-;; plugins/
-;; auto-complete
-
-(add-to-list 'load-path
-             (concat epy-install-dir "yasnippet"))
-(add-to-list 'load-path
-             (concat epy-install-dir "plugins"))
-(add-to-list 'load-path
-             (concat epy-install-dir "auto-complete"))
-(add-to-list 'load-path
-             (concat epy-install-dir "flymake"))
 
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
@@ -43,7 +21,7 @@
   ;; Adding hook to automatically open a rope project if there is one
   ;; in the current or in the upper level directory
   (add-hook 'python-mode-hook
-            (lambda ()
+           (lambda ()
               (cond ((file-exists-p ".ropeproject")
                      (rope-open-project default-directory))
                     ((file-exists-p "../.ropeproject")
@@ -51,6 +29,7 @@
                     )))
   )
 
+;;TODO: Moving this to starter-kit-completion?
 (defun setup-ropemacs-completion ()
   "Setup the ropemacs integration with the auto-complete package"
   ;; Pretty custom, I've patched ropemode and ropemacs to add this
@@ -81,3 +60,5 @@
 (add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("\\.pxi\\'" . cython-mode))
+
+(provide 'starter-kit-python)

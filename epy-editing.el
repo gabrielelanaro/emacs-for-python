@@ -1,5 +1,3 @@
-
-
 (require 'smart-operator)
 ;; Parentheses Pairing
 (setq skeleton-pair t)
@@ -26,3 +24,5 @@
 (yas/load-directory (concat epy-install-dir "yasnippet/snippets"))
 
 (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
+
+(provide 'epy-editing)
