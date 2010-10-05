@@ -28,22 +28,11 @@
                     )))
   )
 
-;;TODO: Moving this to starter-kit-completion?
-(defun setup-ropemacs-completion ()
-  "Setup the ropemacs integration with the auto-complete package"
-  ;; Pretty custom, I've patched ropemode and ropemacs to add this
-  ;; hook.
-  ;;
-  ;; There is also a custom hook to find if there is a project and if
-  ;; there is activate it. In this way the project is automatically opened.
-  (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
-  (add-hook 'rope-open-project-hook 'ac-nropemacs-setup))
 
 (eval-after-load 'python
   '(progn
      ;; Ropemacs
      (setup-ropemacs)
-     (add-hook 'auto-complete-mode-hook 'setup-ropemacs-completion)
 
      ;; Virtualenv Commands
      (autoload 'activate-virtualenv "virtualenv" "Activate a Virtual Environment specified by PATH")

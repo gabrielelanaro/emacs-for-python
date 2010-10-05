@@ -31,22 +31,30 @@
 (define-key ac-complete-mode-map "\M-n" 'ac-next)
 (define-key ac-complete-mode-map "\M-p" 'ac-previous)
 
-(defun turn-on-auto-complete-mode ()
-  (auto-complete-mode))
+;; ropemacs Integration with auto-completion
+(defun ac-ropemacs-candidates ()
+  (mapcar (lambda (completion)
+      (concat ac-prefix completion))
+    (rope-completions)))
 
+(ac-define-source nropemacs
+  '((candidates . ac-ropemacs-candidates)
+    (symbol     . "p")))
+
+(ac-define-source nropemacs-dot
+  '((candidates . ac-ropemacs-candidates)
+    (symbol     . "p")
+    (prefix     . c-dot)
+    (requires   . 0)))
+
+(defun ac-nropemacs-setup ()
+  (setq ac-sources (append '(ac-source-nropemacs
+                             ac-source-nropemacs-dot) ac-sources)))
 (defun ac-python-mode-setup ()
-  (message "In ac-python-mode-setup")
-  (load (concat epy-install-dir "completion/ac-ropemacs-config.el"))
-  
-  (add-to-list 'ac-sources 'ac-source-yasnippet)
-  (add-hook 'rope-open-project-hook 'ac-nropemacs-setup))
+  (add-to-list 'ac-sources 'ac-source-yasnippet))
 
-(defun setup-python-completion ()
-  (setq-default ac-sources
-                '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-  (add-hook 'python-mode-hook 'turn-on-auto-complete-mode)
-  (add-hook 'python-mode-hook 'ac-python-mode-setup)
-  )
+(add-hook 'python-mode-hook 'ac-python-mode-setup)
+(add-hook 'rope-open-project-hook 'ac-nropemacs-setup)
 
 (provide 'epy-completion)
 ;;; epy-completion.el ends here
