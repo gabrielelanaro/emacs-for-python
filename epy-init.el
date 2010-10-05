@@ -1,6 +1,5 @@
 ;; This file initializate all the extensions contained in this package
-
-
+(require 'epy-setup)
 (require 'starter-kit-python)
 (require 'starter-kit-completion)
 (require 'epy-editing)

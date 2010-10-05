@@ -25,3 +25,5 @@
 	     (concat epy-install-dir "auto-complete"))
 (add-to-list 'load-path
 	     (concat epy-install-dir "flymake"))
+
+(provide 'epy-setup)
