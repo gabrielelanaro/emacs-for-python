@@ -1,3 +1,11 @@
+;; ibuffer by default
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; Ido mode with fuzzy matching
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t) ;; enable fuzzy matching
+
 (require 'smart-operator)
 ;; Parentheses Pairing
 (setq skeleton-pair t)
