@@ -1,5 +1,4 @@
-;; Starterkitted emacs-for-python
-
+;; epy-python.el - setup of python stuff
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
   (setenv "PYTHONPATH"
@@ -61,4 +60,4 @@
 (add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("\\.pxi\\'" . cython-mode))
 
-(provide 'starter-kit-python)
+(provide 'epy-python)

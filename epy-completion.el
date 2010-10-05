@@ -1,5 +1,4 @@
-;;; starter-kit-completion.el --- A few common completion tricks
-;;
+;;; epy-completion.el --- A few common completion tricks
 
 ;; -----------------------------------------------------------------------------
 ;; AUTO INSERTION OF MATCHING SYMBOLS
@@ -49,5 +48,5 @@
   (add-hook 'python-mode-hook 'ac-python-mode-setup)
   )
 
-(provide 'starter-kit-completion)
-;;; starter-kit-completion.el ends here
+(provide 'epy-completion)
+;;; epy-completion.el ends here
