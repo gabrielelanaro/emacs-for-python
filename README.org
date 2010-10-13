@@ -4,41 +4,87 @@ I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
 
+In the package are included also a lot of other packages and
+configurations, it's an upstart for clean emacs installations, these
+configuration however are very similar to emacs-starter-kit and I
+suggest you to give it a try, emacs-for-python is designed to work
+with it (instruction below).
+
+** Features 
+The package is splitted in various files, in this way it's very easy
+to include what you really need.
+
+*** Python Related
+
+    - Ropemacs (Custom) : A refactoring library
+    - Auto Completion with rope (Custom) : Tested to work well with Rope
+    - Flymake + pyflakes (Custom): Highlight errors on the fly, improved
+      from the standard version
+    - Virtualenv : Original, In-development tool for using virtualenv in
+      emacs.
+    - Custom Yasnippet Snippets
+    - Cython Mode: a mode for highlighting cython files
+
+*** Editing Packages
+    
+    - Open Next Line: C-o will open a line under the cursor (very
+      similar to vim o)
+    - Auto Completion: Wonderful package for auto complete anything in
+      emacs
+    - Yasnippet: Snippets on steroids
+    - Parentheses pairing (Custom): Bug-free parentheses pairing using
+      skeletons.
+    - smart-operator: Automatically adds spaces around arithmetic operators.
+
+*** Configurations
+
+    - ido activation
+    - ibuffer instead of buffer menu
+    - eshell configuration
+
+*** Keybindings
+
+    - Copy-Cut-Paste from clipboard with Super-C Super-X Super-V    
+    - Calc Mode remapping to M-c
+    - M-Tab remapped to C-Tab to avoid collisions with the desktop
+      manager
+
 ** Installation
 
-Put the emacs-for-python directory where you want (you may want to put it in .emacs.d directory), the add this line in your .emacs
+Put the emacs-for-python directory in .emacs.d directory (or any
+other), the add this line in your .emacs, it will enable all the
+features of emacs-for-python package (editing configuration,
+keybindings, python stuff etc...)
 
-: (load-file "/path/to/emacs-for-python/python-collection.el")
+: (load-file "/path/to/emacs-for-python/epy-init.el")
 
-If the startup is too slow you can compile the emacs lisp files typing make inside the emacs-for-python directory
+You may want to enable only some of the features provided by
+emacs-for-python, in this case just enable some of them:
+
+: (add-to-list 'load-path "path/to/emacs-for-python/") ;; tell where to load the various files
+: (require 'epy-setup) ;; It will setup other loads, it is required!
+: (require 'epy-python) ;; If you want the python facilities [optional]
+: (require 'epy-completion) ;; If you want the autocompletion settings [optional]
+: (require 'epy-editing) ;; For configurations related to editing [optional]
+: (require 'epy-bindings) ;; For my suggested keybindings [optional]
 
 For further information and usage suggestions check http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow
 
-** Packages Enabled
+** Installation with emacs-starter-kit
+I've built up a little fork of emacs starter kit that is greatly
+integrated with emacs-for-python, it seems the best solution to me!
 
-- auto-complete (ext)
-- ido
-- virtualenv (mine)
-- flymake-pyflakes (ext)
-- org-mode
-- ibuffer
-- eshell
-- yasnippet (ext)
-- open-next-line
-- cython-mode
+The repo is at this address: http://github.com/gabrielelanaro/emacs-starter-kit
 
-** Configurations
+Remember that customization to emacs-starter-kit are done to a
+custom.el file, and so you can substitute your distribution of
+emacs-starter-kit and you have to copy just your customization file.
+** License
 
-skeleton-pair (autoclosing brackets)
-X11 fonts
-calc-dispatch remapped
-automatic auto-fill-mode
+This is mostly a distribution with some little tweaks, with respect of
+the licenses, my tweaks are distributed according to the term of the
+GNU GPL license, described in the file COPYING.
 
-** Keybindings
-
-s-c clipboard-copy
-s-x clipboard-cut
-s-v clipboard-yank
-
-C-TAB dabbrev-expand
-F5 compile
+Generally each file has its own license and copyright notice (most, if
+not all of packages are GPL), the license of rope (GPL) is in
+rope-dist/COPYING.
