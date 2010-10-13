@@ -55,7 +55,6 @@
 
   (defun virtualenv-add-to-path (dir)
   "Add the specified path element to the Emacs PATH"
-  (interactive "DEnter directory to be added to PATH: ")
   (setenv "PATH"
 	  (virtualenv-append-path dir
                                   (getenv "PATH"))))
