@@ -1,65 +1,50 @@
 ;; Flymake configuration with python
-;; TODO: Refactorings!
 (require 'tramp)
 
-(when (load "flymake-patch" t) 
-  (defun flymake-pyflakes-init () 
-    ;; Pyflakes stuff
-     ; Make sure it's not a remote buffer or flymake would not work
-     (when (not (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy 
-                         'flymake-create-temp-inplace)) 
-             (local-file (file-relative-name 
-                          temp-file 
-                          (file-name-directory buffer-file-name)))) 
-        (list "pyflakes" (list local-file)))))
+(when (load "flymake-patch" t)
+  
+  ;; Utilities that increase legibility and reduce code duplication
+  (defun current-file-remotep ()
+    "Tell if the file is remote"
+    (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
 
+  (defun flymake-create-copy-file ()
+    "Create a copy local file"
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy 
+                       'flymake-create-temp-inplace)))
+      (file-relative-name 
+       temp-file 
+       (file-name-directory buffer-file-name))))  
 
-  (defun flymake-pep8-init () 
-    ;; Pyflakes stuff
+  (defun flymake-command-setup (command &optional options)
+    "Setup the command to be used with flymake, the command will be called in this way:
+COMMAND OPTIONS FILE
+The FILE varible is passed after the options."
     ;; Make sure it's not a remote buffer or flymake would not work
-     (when (not (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy 
-                         'flymake-create-temp-inplace)) 
-             (local-file (file-relative-name 
-                          temp-file 
-                          (file-name-directory buffer-file-name)))) 
-        (list "pep8" (list local-file)))))
+    (when (not (current-file-remotep)) 
+      (list command
+            (append options (list (flymake-create-copy-file))))))
 
+  (defun flymake-pyflakes-init ()
+    (flymake-command-setup "pyflakes"))
 
-  (add-to-list 'flymake-allowed-file-name-masks 
-               '("\\.py\\'" flymake-pyflakes-init))
+  (defun flymake-pep8-init ()
+    (flymake-command-setup "pep8"))
 
+  (defun flymake-pylint-init ()
+    (flymake-command-setup "python" (list (concat epy-install-dir "scripts/pylint-mod.py"))))
 
-  ;; We need additional scripts!! TODO: Moving this in an appropriate
-  ;; place like epy-setup.el
   
-  (add-to-list 'exec-path (concat epy-install-dir "scripts"))
-  (defun flymake-pylint-init () 
-    ;; Pyflakes stuff
-    ;; Make sure it's not a remote buffer or flymake would not work
-    (when (not (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy 
-                         'flymake-create-temp-inplace)) 
-             (local-file (file-relative-name 
-                          temp-file 
-                          (file-name-directory buffer-file-name)))) 
-        (list "python" (list (concat epy-install-dir "scripts/pylint-mod.py") local-file)))))
-  
-  
+  ;; Adding the selected one
   (add-to-list 'flymake-allowed-file-name-masks 
                '("\\.py\\'" flymake-pylint-init))
+  
+  (setq flymake-info-line-regex
+        (append flymake-info-line-regex '("unused$" "^redefinition" "used$")))
+
+  ;; Not on all modes, please
+  (add-hook 'python-mode-hook 'flymake-find-file-hook)
+
   )
-
-;; Adding to the variable the regexps that matches warning messages
-;;(setq flymake-log-level 3)
-
-(setq flymake-info-line-regex
-      (append flymake-info-line-regex '("unused$" "^redefinition" "used$")))
-
-
-
-;; Not on all modes, please
-(add-hook 'python-mode-hook 'flymake-find-file-hook)
 
 (provide 'python-flymake)
