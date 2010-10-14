@@ -85,6 +85,8 @@ The FILE varible is passed after the options."
 ;;;;;;;;;;
 
 (flymake-enable-pyflakes)
+;;(flymake-enable-pylint)
+
 ;; Not on all modes, please
 (add-hook 'python-mode-hook 'flymake-find-file-hook)
 
