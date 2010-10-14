@@ -28,7 +28,7 @@
                     )))
   )
 
-
+;; Python or python mode?
 (eval-after-load 'python
   '(progn
      ;; Ropemacs
