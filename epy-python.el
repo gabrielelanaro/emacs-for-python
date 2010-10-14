@@ -39,8 +39,22 @@
      (autoload 'workon "virtualenv" "Activate a Virtual Environment present using virtualenvwrapper")
 
      ;; Flymake for python configuration
-     (require 'python-flymake))
+     (require 'python-flymake)
+
+     (when flymake-enable-pyflakes
+       (flymake-add-checker 'flymake-pyflakes-init))
+
+     (when flymake-enable-pylint
+       (flymake-add-checker 'flymake-pylint-init))
+
+     (when flymake-enable-pep8
+       (flymake-add-checker 'flymake-pep8-init)))
   )
+
+;; Customizing
+(setq flymake-enable-pyflakes nil)
+(setq flymake-enable-pylint nil)
+(setq flymake-enable-pep8 nil)
 
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")

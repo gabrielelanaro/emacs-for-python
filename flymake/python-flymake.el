@@ -68,25 +68,6 @@ The FILE varible is passed after the options."
   (add-to-list 'flymake-allowed-file-name-masks
                (list "\\.py\\'" command)))
 
-;;; Enable functions!
-(defun flymake-enable-pyflakes ()
-  "Setup flymake for working using pyflakes syntax checker"
-  (flymake-disable-python-checkers)
-  (flymake-add-checker 'flymake-pyflakes-init))
-
-(defun flymake-enable-pylint ()
-  (flymake-disable-python-checkers)
-  (flymake-add-checker 'flymake-pylint-init))
-
-(defun flymake-enable-pep8 ()
-  (flymake-disable-python-checkers)
-  (flymake-add-checker 'flymake-pep8-init))
-
-;;;;;;;;;;
-
-(flymake-enable-pyflakes)
-;;(flymake-enable-pylint)
-
 ;; Not on all modes, please
 (add-hook 'python-mode-hook 'flymake-find-file-hook)
 
