@@ -6,6 +6,7 @@
            (getenv "PYTHONPATH") ":"
            (concat epy-install-dir "rope-dist")))
 
+  ;; TODO: We need something like add-to-list?
   (setq pymacs-load-path
         (list
          (concat epy-install-dir "rope-dist/ropemacs/")))
