@@ -12,7 +12,7 @@
          (concat epy-install-dir "rope-dist/ropemacs/")))
 
   (pymacs-load "ropemacs" "rope-")
-
+  
   ;; Stops from erroring if there's a syntax err
   (setq ropemacs-codeassist-maxfixes 3)
   (setq ropemacs-guess-project t)
