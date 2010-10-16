@@ -52,36 +52,7 @@
        (flymake-add-checker 'flymake-pep8-init)))
   )
 
-;; Debugger section
-;; Load all the python libraries
-
-
-;; TODO: This is copied from virtualenv package, I must split  in a
-;; library to do this sort of things!
-(defun virtualenv-append-path (dir var)
-  "Append DIR to a path-like varibale VAR, for example:
- (virtualenv-append-path /usr/bin:/bin /home/test/bin) -> /home/test/bin:/usr/bin:/bin"
-  (concat (expand-file-name dir)
-          path-separator
-          var)
-  )
-
- (defun virtualenv-add-to-pythonpath (dir)
-  "Add the specified path element to the Emacs PATH"
-  (interactive "DEnter directory to be added to PATH: ")
-  (setenv "PYTHONPATH"
-	  (virtualenv-append-path dir
-                                  (getenv "PYTHONPATH"))))
-
-(dolist (package
-         '("columnize-0.3.2-py2.6.egg"
-           "import_relative-0.1.0-py2.6.egg"
-           "pydbgr-0.1.4-py2.6.egg"
-           "pyficache-0.1.3-py2.6.egg"
-           "tracer-0.2.3-py2.6.egg"))
-  (virtualenv-add-to-pythonpath (concat epy-install-dir "pydbgr-bundle/" package)))
-
-;; Load the emacs-dbgr package and dependencies (they are included)
+;; Debugger section, for now I don't bundle it
 (add-to-list 'load-path (concat epy-install-dir "emacs-dbgr"))
 (require 'dbgr)
 
