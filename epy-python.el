@@ -29,6 +29,11 @@
                     )))
   )
 
+;; Customizing
+(setq flymake-enable-pyflakes t)
+(setq flymake-enable-pylint nil)
+(setq flymake-enable-pep8 nil)
+
 ;; Python or python mode?
 (eval-after-load 'python
   '(progn
@@ -55,11 +60,6 @@
 ;; Debugger section, for now I don't bundle it
 (add-to-list 'load-path (concat epy-install-dir "emacs-dbgr"))
 (require 'dbgr)
-
-;; Customizing
-(setq flymake-enable-pyflakes nil)
-(setq flymake-enable-pylint nil)
-(setq flymake-enable-pep8 nil)
 
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")
