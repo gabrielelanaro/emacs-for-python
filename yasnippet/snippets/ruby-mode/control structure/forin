@@ -1,5 +1,0 @@
-#name : for ... in ...; ... end
-# --
-for ${1:element} in ${2:collection}
-  $0
-end

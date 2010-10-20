@@ -1,3 +1,0 @@
-#name : inject(...) { |...| ... }
-# --
-inject(${1:0}) { |${2:injection}, ${3:element}| $0 }

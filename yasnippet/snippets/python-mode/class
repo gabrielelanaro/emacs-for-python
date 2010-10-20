@@ -1,8 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: class
-# contributor: Orestis Markou
-# contributor: Nishio Hirokazu
-# contributor: Yasser González Fernández <yglez@uh.cu>
-# --
-class ${1:ClassName}(${2:object}):
-    $0
