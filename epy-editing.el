@@ -29,7 +29,7 @@
 (require 'yasnippet)
 
 (yas/initialize)
-(yas/load-directory (concat epy-install-dir "yasnippet/snippets"))
+(yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
 
 (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
 
