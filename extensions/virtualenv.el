@@ -65,7 +65,7 @@
           var)
   )
 
-  (defun virtualenv-add-to-path (dir)
+(defun virtualenv-add-to-path (dir)
   "Add the specified path element to the Emacs PATH"
   (setenv "PATH"
 	  (virtualenv-append-path dir
@@ -73,9 +73,11 @@
 
 (defun virtualenv-current ()
   "barfs the current activated virtualenv"
-  (message 'virtualenv-name)
+  (interactive)
+  (message virtualenv-name)
   )
 
+;;TODO: Deactivating previous virtualenv?
 (defun virtualenv-activate (dir)
   "Activate the virtualenv located in DIR"
   (interactive "DVirtualenv Directory: ")
@@ -89,6 +91,8 @@
   (add-to-list 'exec-path (concat dir "/bin"))
   
   (setq virtualenv-name (file-name-nondirectory dir))
+
+  (message (concat "Virtualenv '" virtualenv-name "' activated."))
   )
 
 (defun virtualenv-deactivate ()
@@ -98,6 +102,8 @@
   ;; Restoring old variables
   (setenv "PATH" virtualenv-old-path)
   (setq exec-path virtualenv-old-exec-path)
+  
+  (message (concat "Virtualenv '" virtualenv-name "' deactivated."))
 
   (setq virtualenv-name nil)
   )
