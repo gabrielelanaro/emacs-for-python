@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: def
+# contributor: Orestis Markou
+# contributor: Yasser González Fernández <yglez@uh.cu>
+# --
+def ${1:name}($2):
+    $0

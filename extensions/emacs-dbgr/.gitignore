@@ -1,0 +1,16 @@
+/*.elc
+/*.tar.gz
+/*~
+/COPYING
+/Makefile
+/Makefile.in
+/README
+/aclocal.m4
+/autom4te.cache
+/config.log
+/config.status
+/configure
+/elc-stamp
+/elc-temp
+/install-sh
+/missing

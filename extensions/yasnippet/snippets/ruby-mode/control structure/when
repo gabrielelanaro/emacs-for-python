@@ -1,0 +1,5 @@
+#name : when ... end
+# --
+when ${condition}
+  $0
+end

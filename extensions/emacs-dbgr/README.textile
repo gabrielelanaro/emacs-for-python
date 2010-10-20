@@ -1,0 +1,19 @@
+h1. Introduction
+
+Towards a modular framework for interacting with external debuggers.
+
+Debuggers we currently support are:
+
+ * bashdb  (BASH)
+ * gdb  
+ * kshdb (Korn Shell)
+ * pydb (Python)
+ * pydbgr (Python)
+ * trepanning (Ruby 1.9)
+ * remake (GNU Make)
+ * ruby-debug (Ruby)
+ * zshdb (Zsh)
+
+The debugger is run out of a comint process buffer, or you can use a "track-mode" inside an existing shell.
+
+To install you'll need a couple of other Emacs packages installed. See "the installation instructions":http://wiki.github.com/rocky/emacs-dbgr/how-to-install for details.

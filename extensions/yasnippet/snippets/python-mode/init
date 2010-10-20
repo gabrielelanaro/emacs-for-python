@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+# name: init
+# contributor: Gabriele Lanaro <gabriele.lanaro@gmail.com>
+# --
+def __init__(self$1):
+    $0
