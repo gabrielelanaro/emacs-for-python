@@ -45,6 +45,18 @@
 
 (setq virtualenv-workon-home (getenv "WORKON_HOME"))
 
+;;TODO: Move to a generic UTILITY or TOOL package
+(defun virtualenv-filter (predicate sequence)
+  "Apply to each element of SEQUENCE the PREDICATE, if FUNCTION
+  returns non-nil append the element to the return value of
+  virtualenv-filter: a list"
+  (let ((retlist '()))
+    (dolist (element sequence)
+      (when (funcall predicate element)
+        (push element retlist)))
+    (nreverse retlist))
+  )
+
 (defun virtualenv-append-path (dir var)
   "Append DIR to a path-like varibale VAR, for example:
  (virtualenv-append-path /usr/bin:/bin /home/test/bin) -> /home/test/bin:/usr/bin:/bin"
@@ -95,16 +107,17 @@
   (file-exists-p (concat dir "/bin/activate"))
   )
 
-
 (defun virtualenv-workon-complete ()
   "return available completions for virtualenv-workon"
   (let 
       ;;Varlist				
-      ((filelist (directory-files virtualenv-workon-home t))) ;; List directory
-       ;; Let Body
+      ((filelist (directory-files virtualenv-workon-home t)))
+    ;; Get only the basename from the list of the virtual environments
+    ;; paths
     (mapcar 'file-name-nondirectory
-            (remove nil 'virtualenvp ;; select virtualenvs
-	(remove nil 'file-directory-p filelist))) ;; select  directories
+            ;; Filter the directories and then the virtual environments
+            (virtualenv-filter 'virtualenvp
+                               (virtualenv-filter 'file-directory-p filelist)))
     )
   )
 
