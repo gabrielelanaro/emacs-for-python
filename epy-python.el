@@ -134,7 +134,7 @@ is passed after the options."
        (flymake-add-checker 'flymake-pep8-init)))
   )
 
-;; Debugger section, for now I don't bundle it
+;; Debugger section
 (require 'dbgr)
 
 ;; Cython Mode
