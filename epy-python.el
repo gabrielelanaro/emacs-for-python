@@ -1,16 +1,12 @@
 ;; epy-python.el - setup of python stuff
+(require 'pymacs (concat epy-install-dir "elpa-to-submit/pymacs.el"))
+
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
   (setenv "PYTHONPATH"
           (concat
-           (getenv "PYTHONPATH") ":"
-           (concat epy-install-dir "rope-dist")))
-
-  ;; TODO: We need something like add-to-list?
-  (setq pymacs-load-path
-        (list
-         (concat epy-install-dir "python-libs/")))
-
+           (getenv "PYTHONPATH") path-separator
+           (concat epy-install-dir "python-libs/")))
   (pymacs-load "ropemacs" "rope-")
   
   ;; Stops from erroring if there's a syntax err
@@ -133,10 +129,6 @@ is passed after the options."
      (when flymake-enable-pep8
        (flymake-add-checker 'flymake-pep8-init)))
   )
-
-;; Debugger section, for now I don't bundle it
-(require 'dbgr)
-
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")
 
