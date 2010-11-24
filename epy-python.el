@@ -1,5 +1,5 @@
 ;; epy-python.el - setup of python stuff
-(require 'pymacs (concat epy-install-dir "elpa-to-submit/pymacs.el"))
+(require 'pymacs (concat epy-install-dir "extensions/pymacs.el"))
 
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
