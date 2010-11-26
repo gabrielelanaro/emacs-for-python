@@ -30,7 +30,7 @@
 
 (yas/initialize)
 (yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
-
-(setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
+(setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
+(setq yas/wrap-around-region 'cua)
 
 (provide 'epy-editing)
