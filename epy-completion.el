@@ -1,6 +1,5 @@
 ;;; epy-completion.el --- A few common completion tricks
 
-
 ;; Matching parentheses for all languages and so on
 (require 'autopair)
 (autopair-global-mode t)
@@ -17,14 +16,8 @@
 
 ;; Live completion with auto-complete
 ;; (see http://cx4a.org/software/auto-complete/)
-(require 'auto-complete-config nil t)
-;; (require 'ac-dabbrev)
-
-;;(setq ac-auto-start .5)
-;;(setq ac-quick-help-delay 0.5)
-
-;; Do What I Mean mode
-(setq ac-dwim t)
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories (concat epy-install-dir "extensions/auto-complete/dict/"))
 (ac-config-default)
 
 ;; set also the completion for eshell
