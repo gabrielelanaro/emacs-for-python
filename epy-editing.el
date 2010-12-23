@@ -7,14 +7,6 @@
 (setq ido-enable-flex-matching t) ;; enable fuzzy matching
 
 (require 'smart-operator)
-;; Parentheses Pairing
-(setq skeleton-pair t)
-
-(global-set-key "(" 'skeleton-pair-insert-maybe)
-(global-set-key "[" 'skeleton-pair-insert-maybe)
-(global-set-key "{" 'skeleton-pair-insert-maybe)
-(global-set-key "\"" 'skeleton-pair-insert-maybe)
-
 
 ;; Open Next Line
 (require 'open-next-line)
