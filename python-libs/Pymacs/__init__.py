@@ -23,9 +23,12 @@ Interface between Emacs Lisp and Python - Module initialisation.
 A few symbols are moved in here so they appear to be defined at this level.
 """
 
+
+
+
 from pymacs import Let, lisp
 
 # Identification of version.
 
 __package__ = 'Pymacs'
-__version__ = '0.23'
+__version__ = '0.24-beta2'
