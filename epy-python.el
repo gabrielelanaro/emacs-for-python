@@ -84,16 +84,19 @@
                              )))
        )
      
-     (defun epy-setup-checker (command &optional options)
-       "Setup specifically a python checker"
-       (flymake-setup-command command options "\\.py\\'"))
-     
      (defun flymake-setup-multiple-commands (commandlst pattern)
        "TODO Multiple checker on the same python buffers")
      ;; Not on all modes, please
      (add-hook 'python-mode-hook 'flymake-find-file-hook)
      )
   )
+
+(defun epy-setup-checker (command &optional options)
+  "Setup specifically a python checker"
+  (eval-after-load 'python
+    `(progn (flymake-setup-command ,command ,options "\\.py\\'")))
+  )
+
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")
 
