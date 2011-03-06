@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: param
+# key: param
+# condition: 'force-in-comment
+# --
+:param $1: $0
