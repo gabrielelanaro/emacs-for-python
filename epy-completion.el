@@ -17,7 +17,7 @@
 ;; Live completion with auto-complete
 ;; (see http://cx4a.org/software/auto-complete/)
 (require 'auto-complete-config nil t)
-(add-to-list 'ac-dictionary-directories (concat dotfiles-dir "elpa-to-submit/auto-complete/dict/"))
+(add-to-list 'ac-dictionary-directories (concat epy-install-dir "elpa-to-submit/auto-complete/dict/"))
 ;; Do What I Mean mode
 (setq ac-dwim t)
 (ac-config-default)
@@ -44,6 +44,7 @@
       )))
 
 (defun epy-get-all-snips ()
+  (require 'yasnippet) ;; FIXME: find a way to conditionally load it
   (let (candidates)
     (maphash
      (lambda (kk vv) (push (epy-snips-from-table vv) candidates)) yas/tables)
