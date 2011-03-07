@@ -13,7 +13,6 @@
                    "extensions/"
                    "extensions/yasnippet"
                    "extensions/auto-complete"
-                   "extensions/emacs-dbgr"
                    )
                  )
   (add-to-list 'load-path (concat epy-install-dir relpath)))
