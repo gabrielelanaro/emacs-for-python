@@ -3,14 +3,16 @@ import itertools
 import os
 from scripting.commands import rm,cp,mkdir,sh_cmdln, sh_args, archive,find
 from scripting.runner import command, run
+from glob import glob
 
 VERSION = "0.2"
-def compile_el(fn, load='epy-init.el'):
+def compile_el(fn, load=None):
     """
     Compile a set of .el files using emacs
     """
     cmdlist = ['emacs', '-Q']
     if load:
+        cmdlist.append('-l')
         cmdlist.append(load)
     cmdlist += ['-batch', '-f', 'batch-byte-compile']
     cmdlist.extend(fn)
@@ -18,7 +20,10 @@ def compile_el(fn, load='epy-init.el'):
 
 @command
 def compile():
-    compile_el(find('*.el'))
+    """byte compile .el files
+    """
+    compile_el(find('*.el'), 'epy-init.el')
+    
 
 @command
 def clean():
