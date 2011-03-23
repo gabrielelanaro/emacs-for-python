@@ -1,0 +1,3 @@
+# This was cloned from a TextMate bundle for yasnippet.
+# --
+${1:FIELDNAME} = models.ImageField(upload_to="${2:/dir/path}"${3:, height_field=$4}${5:, width_field=$6})
