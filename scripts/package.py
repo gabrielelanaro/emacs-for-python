@@ -1,11 +1,23 @@
 import glob
 import itertools
 import os
-from scripting.commands import rm,cp,mkdir,sh_cmdln, sh_args, archive,find
+from scripting.commands import rm,cp,mkdir,sh_cmdln, sh_args, archive,find, unpack, basename
 from scripting.runner import command, run
-from glob import glob
 
 VERSION = "0.2"
+
+# Globs that represents the file included in the distribution
+MANIFEST = """
+COPYING 
+README.org
+CONTRIBUTORS
+epy-*.el
+extensions
+doc
+python-libs
+scripts
+"""
+
 def compile_el(fn, load=None):
     """
     Compile a set of .el files using emacs
@@ -41,13 +53,11 @@ def package(VERSION):
     """Package the emacs-for-python distribution
     """
     clean()
-    GLOBS = "COPYING README.org epy-*.el extensions\
- doc python-libs scripts".split()
-    
+    globs = MANIFEST.split()
     # Concatenating lists
-    FILES = itertools.chain(*(glob.glob(g) for g in GLOBS))
+    files = itertools.chain(*(glob.glob(g) for g in globs))
     mkdir("dist/emacs-for-python-"+VERSION,parent=True)
-    cp(FILES,"dist/emacs-for-python-"+VERSION)
+    cp(files,"dist/emacs-for-python-"+VERSION)
     archive("dist/emacs-for-python-"+VERSION, 
             "dist/emacs-for-python-%s.tar.gz"%VERSION,format="gzip")
 
@@ -55,6 +65,20 @@ def package(VERSION):
 def test_run():
     sh_cmdln('emacs -Q -l epy-init.el', [])
 
+@command
+def test_pkg(package):
+    """Test running the package
+    """
+    mkdir('dist/test', parent=True)
+    unpack(package, 'dist/test/')
+    dirname = basename( ".".join(package.split(".")[:-2]))
+    sh_cmdln('emacs -Q -l dist/test/'+dirname+'/epy-init.el', [])
+
+@command
+def test_02():
+    clean()
+    package("0.2")
+    test_pkg("dist/emacs-for-python-0.2.tar.gz")
 
 if __name__ == '__main__':
     run()
