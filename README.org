@@ -68,7 +68,10 @@ emacs-for-python, in this case just enable some of them:
 : (require 'epy-editing) ;; For configurations related to editing [optional]
 : (require 'epy-bindings) ;; For my suggested keybindings [optional]
 
-For further information and usage suggestions check [[http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow]]
+For further information and usage suggestions check:
+
+- [[https://github.com/gabrielelanaro/emacs-for-python/wiki]]
+- [[http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow]]
 
 There is another nice tutorial on how to install emacs-for-python
 here: [[http://maddemcode.com/python/emacs-and-python-the-definitive-answer/]] 
