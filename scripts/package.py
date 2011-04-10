@@ -60,6 +60,8 @@ def package(VERSION):
     cp(files,"dist/emacs-for-python-"+VERSION)
     archive("dist/emacs-for-python-"+VERSION, 
             "dist/emacs-for-python-%s.tar.gz"%VERSION,format="gzip")
+    archive("dist/emacs-for-python-"+VERSION, 
+            "dist/emacs-for-python-%s.zip"%VERSION,format="zip")
 
 @command
 def test_run():
