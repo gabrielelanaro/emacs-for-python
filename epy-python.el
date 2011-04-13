@@ -26,9 +26,18 @@
   )
 
 ;; Customizing
-(setq flymake-enable-pyflakes t)
-(setq flymake-enable-pylint nil)
-(setq flymake-enable-pep8 nil)
+(defcustom flymake-enable-pyflakes nil
+  "Enable the pyflakes syntax checking, requires pyflakes command in path"
+  :type 'boolean
+  :options '(t nil))
+(defcustom flymake-enable-pylint nil
+  "Enable the pylint syntax checking, requires pylint command in path"
+  :type 'boolean
+  :options '(t nil))
+(defcustom flymake-enable-pep8 nil
+  "Enable the pep8 syntax checking, requires pep8 command in path"
+  :type 'boolean
+  :options '(t nil))
 
 ;; Python or python mode?
 (eval-after-load 'python
