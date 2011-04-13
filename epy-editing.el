@@ -17,8 +17,8 @@
 	     (concat epy-install-dir "auto-complete/ac-dict"))
 (ac-config-default)
 
-;; Yasnippet
-(require 'yasnippet)
+;; Yasnippet - force the loading of the custom version of yasnippet
+(require 'yasnippet (concat epy-install-dir "extensions/yasnippet/yasnippet"))
 
 (yas/initialize)
 (yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
