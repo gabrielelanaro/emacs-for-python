@@ -74,7 +74,25 @@ For further information and usage suggestions check:
 - [[http://wiki.github.com/gabrielelanaro/emacs-for-python/workflow]]
 
 There is another nice tutorial on how to install emacs-for-python
-here: [[http://maddemcode.com/python/emacs-and-python-the-definitive-answer/]] 
+here:
+[[http://maddemcode.com/python/emacs-and-python-the-definitive-answer/]] 
+*** Configuring the _flymake_ checkers
+I've not setup a default checker because it depends on which one is
+installed in your system. There are however some choices and you can
+set your preferred method using the customize interface. Once you've
+installed emacs-for-python you can use alternatively:
+
+: M-x customize-variable flymake-enable-pyflakes
+: M-x customize-variable flymake-enable-pylint
+: M-x customize-variable flymake-enable-pep8
+
+The flymake configuration is a bit clunky, so you should customize the
+variable before loading a python file (or you can customize and then
+restart emacs). There's an
+[[https://github.com/gabrielelanaro/emacs-for-python/issues/29]
+[issue]] in the github repo that address this problem, so I'll solve
+this.
+
 ** Installation with emacs-starter-kit
 I've built up a little fork of emacs starter kit that is greatly
 integrated with emacs-for-python, it seems the best solution to me!
