@@ -25,7 +25,10 @@
                     )))
   )
 
+
 ;; Customizing
+
+;; Deprecated
 (defcustom flymake-enable-pyflakes nil
   "Enable the pyflakes syntax checking, requires pyflakes command in path"
   :type 'boolean
@@ -89,14 +92,23 @@
           temp-file 
           (file-name-directory buffer-file-name))))
 
-     (defun flymake-command-setup (command &optional options)
-       "Setup the command to be used with flymake, the command
-will be called in this way: COMMAND OPTIONS FILE The FILE varible
-is passed after the options."
-       ;; Make sure it's not a remote buffer or flymake would not work
-       (when (not (current-file-remotep)) 
-         (list command
-               (append options (list (flymake-create-copy-file))))))
+
+     
+
+;; Regex to be used to parse quoted strings -> ("[^"]*")|([^\s]+)
+     (defun flymake-command-parse (cmdline)
+       "Parses the command line CMDLINE in a format compatible with flymake, as:(list cmd-name arg-list)
+
+The CMDLINE should be something like:
+flymake %f
+python custom.py %f
+
+%f will be substituted with a temporary copy of the file that is currently being checked.
+"
+       (let ((cmdline-subst (replace-regexp-in-string "%f" (flymake-create-copy-file) cmdline)))
+         (setq cmdline-subst (split-string cmdline-subst))
+         (list (first cmdline-subst) (rest cmdline-subst))
+       ))
 
      (when (require 'flymake "flymake-patch" t)
        (setq flymake-info-line-regex
@@ -105,6 +117,9 @@ is passed after the options."
      ;; I'm using individual well-defined names to be able to remove them
      ;; in some way
 
+
+
+     
      ;; Init functions!
      (defun flymake-pyflakes-init ()
        (flymake-command-setup "pyflakes"))
@@ -115,10 +130,6 @@ is passed after the options."
      (defun flymake-pylint-init ()
        (flymake-command-setup "python" (list (concat epy-install-dir "scripts/pylint-mod.py"))))
 
-     (defun flymake-disable-python-checkers ()
-       "Disable all python checkers"
-       (dolist (flymake-checker-init '(flymake-pyflakes-init flymake-pep8-init flymake-pylint-init))
-         (remove '("\\.py\\'" flymake-checker-init) 'flymake-allowed-file-name-masks)))
 
      (defun flymake-add-checker (command)
        "Add the checker specified by the COMMAND list"
@@ -136,7 +147,7 @@ is passed after the options."
        (flymake-add-checker 'flymake-pylint-init))
 
      (when flymake-enable-pep8
-       (flymake-add-checker 'flymake-pep8-init)))
+       (flymake-add-checker 'flymake-pep8-init))
   )
 ;; Cython Mode
 (autoload 'cython-mode "cython-mode" "Mode for editing Cython source files")

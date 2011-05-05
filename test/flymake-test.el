@@ -6,3 +6,6 @@
 ;; shlex-split, then pass to flymake
 (epy-setup-checker "flymake %f")
 (epy-setup-checker "python mycustom.py %f")
+
+(flymake-command-parse "flymake %f")
+(flymake-command-parse "python mycustom.py %f")
