@@ -7,5 +7,5 @@
 (epy-setup-checker "flymake %f")
 (epy-setup-checker "python mycustom.py %f")
 
-(flymake-command-parse "flymake %f")
-(flymake-command-parse "python mycustom.py %f")
+(flymake-command-parse "flymake \"%f\"")
+(flymake-command-parse "python C:\\Home\\mycustom1.py %f")

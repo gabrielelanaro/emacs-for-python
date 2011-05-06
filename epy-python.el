@@ -95,7 +95,6 @@
 
      
 
-;; Regex to be used to parse quoted strings -> ("[^"]*")|([^\s]+)
      (defun flymake-command-parse (cmdline)
        "Parses the command line CMDLINE in a format compatible with flymake, as:(list cmd-name arg-list)
 
@@ -106,7 +105,7 @@ python custom.py %f
 %f will be substituted with a temporary copy of the file that is currently being checked.
 "
        (let ((cmdline-subst (replace-regexp-in-string "%f" (flymake-create-copy-file) cmdline)))
-         (setq cmdline-subst (split-string cmdline-subst))
+         (setq cmdline-subst (split-string-and-unquote cmdline-subst))
          (list (first cmdline-subst) (rest cmdline-subst))
        ))
 
