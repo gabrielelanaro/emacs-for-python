@@ -71,7 +71,7 @@
     ;; (define-key keymap "!" 'smart-operator-self-insert-command)
     (define-key keymap ":" 'smart-operator-:)
     (define-key keymap "?" 'smart-operator-?)
-    (define-key keymap "," 'smart-operator-,)
+    ;; (define-key keymap "," 'smart-operator-,)
     (define-key keymap "." 'smart-operator-.)
     keymap)
   "Keymap used my `smart-operator-mode'.")
