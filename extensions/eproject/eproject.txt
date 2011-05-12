@@ -1,0 +1,179 @@
+
+                           eproject
+                           ========
+
+               -- project workspaces for emacs --
+
+  A project in this sense is:
+  * A set of files that you wish to operate with, and
+  * A set of commands bound to key shorcuts and menu entries
+
+  In particular eproject lets you switch between projects as easily as
+  between files.
+
+
+  New in version 0.4:
+  -------------------
+
+  - Project configuration file (eproject.cfg) may exist under a different
+    name and/or directory (Allows multiple projects in the same directory)
+
+  - Optional support for multi-isearch in the project files
+
+
+
+                             Keys
+                             ====
+
+  Global:
+
+                           F5 : Toggle project setup
+                      Ctrl-F5 : Browse project directory in dired
+                     Alt-Left : Previous file
+                    Alt-Right : Next file
+
+  In the project setup:
+
+                   Arrow keys : Navigate
+                       Return : Open project, file, tool
+                     <letter> : Quick search
+                 Alt-<letter> : Activate link
+                     Spacebar : Enter edit mode
+                       Escape : Quit edit mode
+
+  In dired:
+
+                            a : Add file(s) to the project
+
+
+
+                             Setup
+                             =====
+
+  Projects:
+  ---------
+
+  This is the global project list. You can open and close projects,
+  and add new or already existing ones to the list.
+
+
+  Files:
+  ------
+
+  Files are added to the project simply when they are first visited.
+  Similar they are removed then they get killed.  New files are
+  inserted after the one that was last viewed.
+
+
+  Tools:
+  ------
+
+  Here you can enter some shell command lines with tools that you wish
+  to have at hand, and optionally bind them to key shortcuts.  The
+  tools will show up in the menu also.
+
+  There are two options that can be put in front of commands:
+
+    -e <emacs-command>           run lisp command or sexp
+    -in <directory> <command>    run command in specified directory.
+
+  A trailing '&' enables asynchronous execution without redirection.
+  Relative paths refer to the project directory.
+
+  A new project is initialized with default tool commands.
+
+
+  Settings:
+  ---------
+
+  Currently there is only:
+    project-name - name of the project
+
+
+  Edit Mode:
+  ----------
+
+  In the project setup, hit the the spacebar to enter edit mode.  You
+  can edit pretty much everything except it has little effect to
+  change the name of a project other than the current one.
+
+  Hit escape to quit the edit mode. Any changes to the configuration
+  are saved automatically when the project is closed.
+
+
+
+                             Usage
+                             =====
+
+  To load eproject, add this line to your ~/.emacs:
+
+      (load-file "/path/to/eproject.el")
+
+  eproject will automatically start up with the last recently used
+  project. It will also restore the frame size and position.  You can
+  start emacs with a specific project from the command line using:
+
+      emacs -project <projectname>
+
+
+  Configuration:
+  --------------
+
+  There are some variables at top of eproject.el that you might want
+  to edit.
+
+
+  eproject commands:
+  ------------------
+
+  projects:
+
+    eproject-add
+    eproject-remove
+    eproject-open
+    eproject-close
+    eproject-help
+
+  files:
+
+    eproject-addfile
+    eproject-removefile
+    eproject-visitfile
+    eproject-prevfile (M-left)
+    eproject-nextfile (M-right)
+
+  setup:
+
+    eproject-setup
+    eproject-setup-toggle (f5)
+    eproject-setup-quit
+    eproject-edit
+    eproject-edit-quit
+    eproject-save
+    eproject-revert
+
+  other:
+
+    eproject-grep              : run grep on the project files)
+    eproject-dired (C-F5)      : dired project (add files with 'a')
+    eproject-killtool          : kill compiler etc.
+    eproject-killbuffers       : kill all buffers except project files
+
+
+
+                            License
+                            =======
+
+  eproject 0.4
+
+  Copyright (C) 2008-2010 grischka@users.sourceforge.net
+
+  This program is free software, released under the GNU General Public
+  License (GPL), Version 2.  For details see:
+
+      http://www.fsf.org/licenses/gpl.html
+
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
