@@ -13,6 +13,7 @@
                    "extensions/"
                    "extensions/yasnippet"
                    "extensions/auto-complete"
+		   "extensions/eproject"
                    )
                  )
   (add-to-list 'load-path (concat epy-install-dir relpath)))
