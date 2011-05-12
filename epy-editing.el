@@ -25,4 +25,7 @@
 (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
 (setq yas/wrap-around-region 'cua)
 
+;; Eproject project management with emacs
+(require 'eproject)
+
 (provide 'epy-editing)
