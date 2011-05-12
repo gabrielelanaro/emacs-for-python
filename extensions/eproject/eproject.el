@@ -991,7 +991,7 @@ for all project files (nil/t).")
   (funcall fun)
   (virtualenv-deactivate))
 
-(devar prj-run-options '(("in" prj-option-in) ("virt" prj-option-virt) ("workon" prj-option-workon)))
+;;(devar prj-run-options '(("in" prj-option-in) ("virt" prj-option-virt) ("workon" prj-option-workon)))
 
 ;; Defining prj-run-new
 ;; special case of the -e
