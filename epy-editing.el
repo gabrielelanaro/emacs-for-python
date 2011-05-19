@@ -20,6 +20,14 @@
 ;; Yasnippet - force the loading of the custom version of yasnippet
 (require 'yasnippet (concat epy-install-dir "extensions/yasnippet/yasnippet"))
 
+;; this one is to activate django snippets
+(defun epy-django-snippets ()
+  "Load django snippets"
+  (interactive)
+  (yas/load-directory (concat epy-install-dir "snippets/django"))
+  )
+
+
 (yas/initialize)
 (yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
 (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
