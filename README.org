@@ -76,6 +76,7 @@ For further information and usage suggestions check:
 There is another nice tutorial on how to install emacs-for-python
 here:
 [[http://maddemcode.com/python/emacs-and-python-the-definitive-answer/]] 
+
 *** Configuring the _flymake_ checker
 New in version 0.3:
 I changed the way you configure your checkers, now there is no
@@ -90,6 +91,13 @@ Obviously you can substitute the ``"flymake %f"`` with wathever you
 want, you just have to keep in mind that ``%f`` will be substituted
 with the file which is being checked.
 
+*** Adding the django snippets
+The django snippets comes as an option, you can load them using:
+
+: (epy-django-snippets)
+
+As a command using M-x or putting it in your .emacs.
+ 
 ** Installation with emacs-starter-kit
 I've built up a little fork of emacs starter kit that is greatly
 integrated with emacs-for-python, it seems the best solution to me!
@@ -99,6 +107,7 @@ The repo is at this address: [[http://github.com/gabrielelanaro/emacs-starter-ki
 Remember that customization to emacs-starter-kit are done to a
 custom.el file, and so you can substitute your distribution of
 emacs-starter-kit and you have to copy just your customization file.
+
 ** License
 
 This is mostly a distribution with some little tweaks, with respect of
