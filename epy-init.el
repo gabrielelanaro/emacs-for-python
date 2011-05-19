@@ -14,6 +14,5 @@
 (require 'epy-completion)
 (require 'epy-editing)
 (require 'epy-bindings)
-;;TODO: adding epy-patches?
 
 (provide 'epy-init)
