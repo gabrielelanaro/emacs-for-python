@@ -54,8 +54,18 @@ original" (interactive)
 (global-set-key (kbd "C-c y") 'djcb-duplicate-line)
 
 ;; duplicate a line and comment the first
-(global-set-key (kbd "C-c c")
-(lambda()(interactive)(djcb-duplicate-line t)))
+(global-set-key (kbd "C-c c")(lambda()(interactive)(djcb-duplicate-line t)))
+
+;; Mark whole line
+(defun mark-line (&optional arg)
+  "Marks a line"
+  (interactive "p")
+  (beginning-of-line)
+  (push-mark (point) nil t)
+  (end-of-line))
+
+(global-set-key (kbd "C-c l") 'mark-line)
+
 
 ; code copied from http://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs
 (defun move-text-internal (arg)
@@ -146,5 +156,6 @@ original" (interactive)
 ;; Highlight indentation
 (require 'highlight-indentation)
 (add-hook 'python-mode-hook 'highlight-indentation)
+
 
 (provide 'epy-editing)

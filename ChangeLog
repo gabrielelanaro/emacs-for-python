@@ -1,4 +1,5 @@
 0.3 -
+	added mark-line command
 	added highlight-indentation
 	removed autopair, welcome skeleton-pair
 	C-c y duplicate line C-c c duplicate and comment line
