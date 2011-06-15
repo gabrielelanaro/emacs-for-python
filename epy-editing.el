@@ -132,4 +132,16 @@ original" (interactive)
 	      'balle-python-shift-left))
 	  )
 
+;; Other useful stuff
+
+; delete seleted text when typing
+(delete-selection-mode 1)
+
+; highlight current line
+(global-hl-line-mode 1)
+
+; highlight brackets
+(show-paren-mode t)
+
+
 (provide 'epy-editing)
