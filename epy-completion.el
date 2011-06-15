@@ -1,18 +1,18 @@
 ;;; epy-completion.el --- A few common completion tricks
 
-;; Matching parentheses for all languages and so on
-(require 'autopair)
-(autopair-global-mode t)
-(setq autopair-autowrap t)
-;; Fix for triple quotes in python
-(add-hook 'python-mode-hook
-          #'(lambda ()
-              (setq autopair-handle-action-fns
-                    (list #'autopair-default-handle-action
-                          #'autopair-python-triple-quote-action))))
+;; Pairing parentheses
 
-(defun ac-eshell-mode-setup ()
-  (add-to-list 'ac-sources 'ac-source-files-in-current-dir))
+;; All languages:
+(setq skeleton-pair t)
+(global-set-key "(" 'skeleton-pair-insert-maybe)
+(global-set-key "[" 'skeleton-pair-insert-maybe)
+(global-set-key "{" 'skeleton-pair-insert-maybe)
+(global-set-key "\"" 'skeleton-pair-insert-maybe)
+
+;; Just python
+(add-hook 'python-mode-hook 
+	  (lambda () 
+	    (define-key python-mode-map "'" 'skeleton-pair-insert-maybe)))
 
 ;; Live completion with auto-complete
 ;; (see http://cx4a.org/software/auto-complete/)
