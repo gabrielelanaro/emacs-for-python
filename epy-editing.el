@@ -143,5 +143,7 @@ original" (interactive)
 ; highlight brackets
 (show-paren-mode t)
 
+(require highlight-indentation)
+(add-hook 'python-mode-hook 'highlight-indentation)
 
 (provide 'epy-editing)
