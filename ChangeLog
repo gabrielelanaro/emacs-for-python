@@ -1,4 +1,6 @@
 0.3 -
+	C-c y duplicate line C-c c duplicate and comment line
+	block-shifting functions
 	new flymake configuration with epy-setup-checker
 	datetime django snippet renamed to dtime
 
