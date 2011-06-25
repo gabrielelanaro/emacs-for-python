@@ -43,7 +43,7 @@ indent-width will be guessed from current major-mode"
            (cond ((eq major-mode 'python-mode)
                   (if (boundp 'python-indent)
                       python-indent
-                    py-indent-offset))
+                    python-indent-offset))
                  ((eq major-mode 'ruby-mode)
                   ruby-indent-level)
                  ((eq major-mode 'nxml-mode)
