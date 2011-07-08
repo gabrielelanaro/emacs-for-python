@@ -56,7 +56,7 @@ The CMDLINE should be something like:
     ))
 
 
-(when (require 'flymake "flymake-patch" t)
+(when (load-file (concat epy-install-dir "extensions/flymake-patch.el"))
   (setq flymake-info-line-regex
         (append flymake-info-line-regex '("unused$" "^redefinition" "used$"))))
 

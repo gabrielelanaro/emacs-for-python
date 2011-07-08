@@ -51,7 +51,7 @@
     (apply 'append candidates))
   )
 
-(setq ac-ignores (concatenate 'list ac-ignores (epy-get-all-snips)))
+;;(setq ac-ignores (concatenate 'list ac-ignores (epy-get-all-snips)))
 
 ;; ropemacs Integration with auto-completion
 (defun ac-ropemacs-candidates ()
