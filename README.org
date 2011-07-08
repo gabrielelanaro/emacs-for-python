@@ -83,11 +83,12 @@ I changed the way you configure your checkers, now there is no
 predefined checker and you have to configure it by your own.
 
 The good news is that it is extremely simple to configure your own
-command, put in your customization file (.emacs): 
+command, for example to configure the pyflakes checker install it and
+put in your customization file (.emacs):
 
-: (epy-setup-checker "flymake %f")
+: (epy-setup-checker "pyflakes %f")
 
-Obviously you can substitute the ``"flymake %f"`` with wathever you
+Obviously you can substitute the ``"pyflakes %f"`` with wathever you
 want, you just have to keep in mind that ``%f`` will be substituted
 with the file which is being checked.
 
