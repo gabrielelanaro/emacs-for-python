@@ -11,8 +11,16 @@
   
   ;; Stops from erroring if there's a syntax err
   (setq ropemacs-codeassist-maxfixes 3)
+
+  ;; Configurations
   (setq ropemacs-guess-project t)
   (setq ropemacs-enable-autoimport t)
+
+
+  (setq ropemacs-autoimport-modules '("os" "shutil" "sys" "logging"
+				      "django.*"))
+
+ 
 
   ;; Adding hook to automatically open a rope project if there is one
   ;; in the current or in the upper level directory
@@ -59,7 +67,7 @@ The CMDLINE should be something like:
 (when (load-file (concat epy-install-dir "extensions/flymake-patch.el"))
   (setq flymake-info-line-regex
         (append flymake-info-line-regex '("unused$" "^redefinition" "used$")))
-  (require 'flymake-cursor))
+  (load-library "flymake-cursor"))
 
 (defun epy-setup-checker (cmdline)
   (add-to-list 'flymake-allowed-file-name-masks
