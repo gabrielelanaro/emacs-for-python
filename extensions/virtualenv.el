@@ -43,9 +43,9 @@
 ;; M-x virtualenv-deactivate
 
 
-(unless (setq virtualenv-workon-home (getenv "WORKON_HOME"))
-  (setq virtualenv-workon-home "~/.virtualenvs")
-  )
+(if (getenv "WORKON_HOME")
+    (setq virtualenv-workon-home (getenv "WORKON_HOME"))
+  (setq virtualenv-workon-home "~/.virtualenvs"))
 
 (setq virtualenv-name nil)
 
