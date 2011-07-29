@@ -24,6 +24,7 @@ to include what you really need.
       emacs.
     - Custom Yasnippet Snippets
     - Cython Mode: a mode for highlighting cython files
+    - latest python.el (fgallina/python.el)
 
 *** Editing Packages
     
