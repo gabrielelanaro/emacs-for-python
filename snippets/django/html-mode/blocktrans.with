@@ -1,0 +1,4 @@
+#contributor : Fidel Ramos <fidelramos@gmail.com>
+#name : {% blocktrans with ... %}...{% endblocktrans %}
+# --
+{% blocktrans with $1 %}$2{% endblocktrans %}
