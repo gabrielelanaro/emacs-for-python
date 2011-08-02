@@ -157,5 +157,8 @@ original" (interactive)
 (require 'highlight-indentation)
 (add-hook 'python-mode-hook 'highlight-indentation)
 
+;; Line numbering
+(setq linum-format "%4d")
+(global-linum-mode 1)
 
 (provide 'epy-editing)
