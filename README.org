@@ -99,7 +99,13 @@ The django snippets comes as an option, you can load them using:
 : (epy-django-snippets)
 
 As a command using M-x or putting it in your .emacs.
- 
+*** ipython integration 
+Ipython can be integrated with python-mode. Clicking on the
+Python->Start interpreter menu entry will spawn an ipython shell
+instead of a python one. To enable the feature put this line in your .emacs:
+
+: (epy-setup-ipython)
+
 ** Installation with emacs-starter-kit
 I've built up a little fork of emacs starter kit that is greatly
 integrated with emacs-for-python, it seems the best solution to me!
