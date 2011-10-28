@@ -121,6 +121,9 @@ The CMDLINE should be something like:
 (add-to-list 'auto-mode-alist '("\\.pxd\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("\\.pxi\\'" . cython-mode))
 
+;; Py3 files
+(add-to-list 'auto-mode-alist '("\\.py3\\'" . python-mode))
+
 (add-hook 'python-mode-hook '(lambda () 
      (define-key python-mode-map "\C-m" 'newline-and-indent)))
 
