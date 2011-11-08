@@ -106,6 +106,17 @@ instead of a python one. To enable the feature put this line in your .emacs:
 
 : (epy-setup-ipython)
 
+*** line highlighting
+You may wanto to disable this feature or to set another color, to do
+so, drop one of the following lines in your .emacs
+: (global-hl-line-mode nil) ;; To disable
+: (set-face-background 'hl-line "black") ;; change with the color that you like
+:                                        ;; for a list of colors: http://raebear.net/comp/emacscolors.html
+
+*** disabling the auto-pairing of parenthesis
+To disable the auto-pairing, drop the following line:
+: (setq skeleton-pair nil) 
+
 ** Installation with emacs-starter-kit
 I've built up a little fork of emacs starter kit that is greatly
 integrated with emacs-for-python, it seems the best solution to me!
