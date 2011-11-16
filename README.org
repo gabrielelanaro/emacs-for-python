@@ -1,5 +1,4 @@
 * Welcome to the best collection of emacs extensions ever
-
 I'm collecting and customizing the perfect environment for python
 developement, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
@@ -9,6 +8,16 @@ configurations, it's an upstart for clean emacs installations, these
 configuration however are very similar to emacs-starter-kit and I
 suggest you to give it a try, emacs-for-python is designed to work
 with it (instruction below).
+
+** Nota Bene
+emacs-for-python is cool and all but in collaboration with Andreas
+Roehler we are creating a new package aided to python emacs
+development. PDEE (python development emacs environment) is osted here
+on github at the address https://github.com/pdee/pdee .
+
+The starting point is emacs-for-python itself and I'm developing new
+features mostly there. So, for old/curent users I'm always there for
+you, but if you want the package of the future go for PDEE!!!
 
 ** Features 
 The package is splitted in various files, in this way it's very easy
