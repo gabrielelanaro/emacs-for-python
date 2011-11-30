@@ -2,5 +2,5 @@
 # name: defm
 # contributor: Yasser Gonz¨¢lez Fern¨¢ndez <yglez@uh.cu>
 # --
-def ${1:name}(self, $2):
+def ${1:name}(self):
     $0
