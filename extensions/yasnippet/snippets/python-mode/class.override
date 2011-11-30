@@ -3,9 +3,10 @@
 # contributor: Orestis Markou
 # contributor: Nishio Hirokazu
 # contributor: Yasser González Fernández <yglez@uh.cu>
+# expand-env: ((strip-comma  (lambda (text) (if (string-match ", *\\(.*\\)" text) (match-string 1 text) text))))
 # --
 class ${1:ClassName}(${2:object}):
 
-    def __init__(self${3:, }$4):
-        super($1,self).__init__($4)
+    def __init__(self${3:}):
+        super($1,self).__init__(${3:$(strip-comma text)})
         $0
