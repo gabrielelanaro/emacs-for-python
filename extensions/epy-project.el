@@ -14,12 +14,25 @@
     (cons "Tests" (make-sparse-keymap "Tests"))
     )
   
-  (let ((tests '("hello.ok" "hello.no" "hello.maybe")))
+  (let ((tests (epy-unittest-discover default-directory)))
     (dolist (test tests)
+      
       (define-key global-map (vector 'menu-bar 'pyproject 'tests (make-symbol test))
 	(cons test (make-sparse-keymap test)))
       )
     )
   )
+
+(defun epy-proj-run-test (test)
+  "Take a TEST data structure and run the test"
+  (shell-command "python -munittest2")
+  )
+
+
+
+
+
+
+
 
 
