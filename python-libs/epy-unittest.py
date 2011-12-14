@@ -17,9 +17,9 @@ def discover(root_dir):
             for test in suite2:
                 name = ".".join((test.__class__.__name__, test._testMethodName))
                 module = test.__module__
-                ret.append((symbol(":name"), name,
+                ret.append([symbol(":name"), name,
                             symbol(":module"), module,
-                            symbol(":root"), root_dir))
+                            symbol(":root"), root_dir])
     return ret
 
 if __name__ == '__main__':
