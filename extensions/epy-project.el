@@ -1,6 +1,4 @@
 ;; Project-related functions for emacs-for-python
-
-
 (defun epy-proj-build-menu ()
   "Build the menu for epy-proj"
   (define-key-after global-map [menu-bar pyproject]
@@ -12,12 +10,12 @@
 ;; :name   the dotted name of the test
 ;; :module the dotted name of the module
 ;; :root   the directory whose module dotted name is relative
+(pymacs-load "epy-unittest" "epy-unittest-")
 
 (defun epy-proj-build-test-menu ()
   "Build the sub-menu related to test discovery"
   (interactive)
   
-  (pymacs-load "epy-unittest" "epy-unittest-")
   
   (define-key global-map [menu-bar pytests]
     (cons "PyTests" (make-sparse-keymap "PyTests"))
@@ -33,7 +31,12 @@
   )
 
 (defun epy-proj-run-test (test)
-  "Take a TEST data structure and run the test"
-  ;;(shell-command "python -munittest2")
-  (shell-command (concat "echo Running Test " (plist-get test ':name)))
+  "Take a TEST plist that represents a test and run it using the 
+unittest (Python 2.7) utility"
+  (let ((default-directory (plist-get test ':root)))
+    (shell-command (concat "python -munittest " 
+			   (plist-get test ':module)
+			   "."
+			   (plist-get test ':name)))
+    )
   )
