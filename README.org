@@ -114,7 +114,7 @@ so, drop one of the following lines in your .emacs
 *** Highlight Indentation
 Interesting way to have a visual clue on how the code is indented:
 
-.. image:: https://github.com/gabrielelanaro/emacs-for-python/raw/master/doc/highlight_line_ind.png
+[[https://github.com/gabrielelanaro/emacs-for-python/raw/master/doc/highlight_line_ind.png]]
 
 : (require 'highlight-indentation)
 : (add-hook 'python-mode-hook 'highlight-indentation)
