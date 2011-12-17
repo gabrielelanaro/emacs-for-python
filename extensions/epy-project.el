@@ -30,15 +30,19 @@
   (let ((newmap (make-sparse-keymap))
         (tests (epy-unittest-discover (epy-proj-find-root-dir))) 
 	testname)
-    
-    ;; I'm doing this to have the menu for only this buffer
-    (set-keymap-parent newmap (current-local-map))    
+
+    ;; I'm doing this instead of simply giving (current-local-map)to
+    ;; have the menu for only this buffer, don't know why though.
+    (set-keymap-parent newmap (current-local-map))
     (define-key newmap [menu-bar pytests]
       (cons "PyTests" (make-sparse-keymap "PyTests")))
+    
+    ;; Add each test to the menu
     (dolist (test tests)
       (setq testname (plist-get test ':name))
       (define-key newmap (vector 'menu-bar 'pytests (make-symbol testname))
-    	(cons testname `(lambda () (interactive) (epy-proj-run-test ',test)))) ;; It took me all night to write this hackish closure!!!
+	;; It took me all night to write this hackish closure!!! 
+    	(cons testname `(lambda () (interactive) (epy-proj-run-test ',test)))) ;
       ) 
     (use-local-map newmap))
   )
