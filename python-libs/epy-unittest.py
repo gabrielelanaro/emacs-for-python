@@ -1,5 +1,6 @@
 from Pymacs import Let, lisp
 from unittest import TestLoader
+
 import os
 
 def symbol(sym):
@@ -14,6 +15,8 @@ def discover(root_dir):
     ret = []
     for suite in tests:
         for suite2 in suite:
+            if suite2.__class__.__name__ == 'ModuleImportFailure':
+                continue
             for test in suite2:
                 name = ".".join((test.__class__.__name__, test._testMethodName))
                 module = test.__module__
@@ -23,4 +26,4 @@ def discover(root_dir):
     return ret
 
 if __name__ == '__main__':
-    print discover("/home/galois/workspace/example/")
+    print discover("/home/galois/workspace/scripting/")

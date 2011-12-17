@@ -1,11 +1,6 @@
 ;; Project-related functions for emacs-for-python
-(defun epy-proj-build-menu ()
-  "Build the menu for epy-proj"
-  (define-key-after global-map [menu-bar pyproject]
-    (cons "Epy"(make-sparse-keymap "Epy"))
-    'tools)
-  )
 
+;; This is an utility
 (defun epy-proj-find-root-dir (&optional startdir)
   "Find the root dir of this file, it's a previous directory that
   has a setup.py file in it"
@@ -31,17 +26,21 @@
 (defun epy-proj-build-test-menu ()
   "Build the sub-menu related to test discovery"
   (interactive)
-  
-  (define-key global-map [menu-bar pytests]
-    (cons "PyTests" (make-sparse-keymap "PyTests")))
 
-  (let ((tests (epy-unittest-discover (epy-proj-find-root-dir))) testname)
+  (let ((newmap (make-sparse-keymap))
+        (tests (epy-unittest-discover (epy-proj-find-root-dir))) 
+	testname)
+    
+    ;; I'm doing this to have the menu for only this buffer
+    (set-keymap-parent newmap (current-local-map))    
+    (define-key newmap [menu-bar pytests]
+      (cons "PyTests" (make-sparse-keymap "PyTests")))
     (dolist (test tests)
       (setq testname (plist-get test ':name))
-      (define-key global-map (vector 'menu-bar 'pytests (make-symbol testname))
+      (define-key newmap (vector 'menu-bar 'pytests (make-symbol testname))
     	(cons testname `(lambda () (interactive) (epy-proj-run-test ',test)))) ;; It took me all night to write this hackish closure!!!
-      )
-    )
+      ) 
+    (use-local-map newmap))
   )
 
 (defun epy-proj-run-test (test)
@@ -56,7 +55,7 @@ unittest (Python 2.7) utility"
     )
   )
 
-
+(provide 'epy-project)
 
 
 
