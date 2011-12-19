@@ -9,6 +9,14 @@ configuration however are very similar to emacs-starter-kit and I
 suggest you to give it a try, emacs-for-python is designed to work
 with it (instruction below).
 
+To get in contact or ask for help you have many possibilities:
+
+github issue tracker: https://github.com/gabrielelanaro/emacs-for-python/issues
+
+google+ page: https://plus.google.com/u/0/b/108723367526390492977/
+
+email me: mailto:gabriele.lanaro@gmail.com
+
 ** Features 
 The package is splitted in various files, in this way it's very easy
 to include what you really need.
