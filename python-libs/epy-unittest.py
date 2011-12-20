@@ -1,5 +1,6 @@
 from Pymacs import Let, lisp
 from unittest import TestLoader
+from itertools import groupby
 
 import os
 
@@ -23,7 +24,11 @@ def discover(root_dir):
                 ret.append([symbol(":name"), name,
                             symbol(":module"), module,
                             symbol(":root"), root_dir])
-    return ret
+    
+    modkey = lambda x: x[3]
+    ret.sort(key=modkey)
+    
+    return [[k, list(g)] for k,g in groupby(ret, key=modkey)] # Converting to a list of lists
 
 if __name__ == '__main__':
     print discover("/home/galois/workspace/scripting/")
