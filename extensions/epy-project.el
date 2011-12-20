@@ -42,13 +42,21 @@
       (define-key newmap [menu-bar pytests]
 	(cons "PyTests" (make-sparse-keymap "PyTests")))
       
-      
+
       ;; Add each test to the menu
       (dolist (testentry tests)
 
 	(setq module (first testentry))
+	
 	(define-key newmap (vector 'menu-bar 'pytests (make-symbol module))
 	  (cons module (make-sparse-keymap module)))
+	
+	(define-key newmap (vector 'menu-bar 'pytests (make-symbol module)
+				   'runall)
+	  (cons "Run All" `(lambda () 
+			     (interactive)
+			     (epy-proj-run-testmodule ,module ,rootdir)))
+	  )
 
 	(dolist (test (car (last testentry)))
 	  (setq testname (plist-get test ':name))
@@ -72,6 +80,14 @@ unittest (Python 2.7) utility"
 		     (plist-get test ':name)))
     )
   )
+
+(defun epy-proj-run-testmodule (module rootdir)
+  "Take the MODULE as a string and run all the tests defined in it"
+  (let (default-directory)
+    (cd rootdir)
+    (compile (concat "python -munittest " module))
+    )
+  )  
 
 (provide 'epy-project)
 
