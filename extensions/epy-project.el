@@ -3,7 +3,8 @@
 ;; This is an utility
 (defun epy-proj-find-root-dir (&optional startdir)
   "Find the root dir of this file, it's a previous directory that
-  has a setup.py file in it"
+  has a setup.py file in it, if it doesn't find nothing return
+  the startdir"
   
   (unless startdir
     (setq startdir default-directory))
@@ -11,7 +12,7 @@
   (if (member "setup.py" (directory-files startdir))
       (expand-file-name startdir)
     (if (equal startdir "/")
-	nil
+	startdir
       (epy-proj-find-root-dir  (expand-file-name (concat startdir "../")))
       )
     )
@@ -33,9 +34,12 @@
 	test
 	module)
     
+    ;; rootdir is needed to define tests
     (when rootdir
-      (setq tests (epy-unittest-discover rootdir))
-      
+      (setq tests (epy-unittest-discover rootdir))) 
+    
+    ;; There should be tests otherwise don't make the menu
+    (when tests
       ;; I'm doing this instead of simply giving (current-local-map)to
       ;; have the menu for only this buffer, don't know why though.
       (set-keymap-parent newmap (current-local-map))
