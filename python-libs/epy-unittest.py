@@ -1,4 +1,4 @@
-pfrom Pymacs import Let, lisp
+from Pymacs import Let, lisp
 from unittest import TestLoader
 from itertools import groupby
 
