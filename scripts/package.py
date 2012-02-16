@@ -16,6 +16,7 @@ extensions
 doc
 python-libs
 scripts
+snippets
 """
 
 def compile_el(fn, load=None):
