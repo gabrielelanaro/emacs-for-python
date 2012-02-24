@@ -22,8 +22,6 @@
 (setq ac-dwim t)
 (ac-config-default)
 
-;; set also the completion for eshell
-(add-hook 'eshell-mode-hook 'ac-eshell-mode-setup)
 ;; custom keybindings to use tab, enter and up and down arrows
 (define-key ac-complete-mode-map "\t" 'ac-expand)
 (define-key ac-complete-mode-map "\r" 'ac-complete)
