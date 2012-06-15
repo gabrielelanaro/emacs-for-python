@@ -120,7 +120,9 @@ def _object_attributes(obj, parent):
     for name in dir(obj):
         if name == 'None':
             continue
-        child = getattr(obj, name)
+        child = getattr(obj, name, None)
+        if child is None:
+        	continue
         pyobject = None
         if inspect.isclass(child):
             pyobject = BuiltinClass(child, {}, parent=parent)
