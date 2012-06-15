@@ -16,8 +16,9 @@
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (define-key python-mode-map "\C-ci" 'rope-auto-import)
-	    (define-key python-mode-map "\C-c\C-d" 'rope-show-calltip))
-	  )
+	    (define-key python-mode-map "\C-c\C-d" 'rope-show-calltip)
+	    )
+
 
 
 (provide 'epy-bindings)
