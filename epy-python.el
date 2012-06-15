@@ -111,6 +111,14 @@ The CMDLINE should be something like:
      ;; Not on all modes, please
      (add-hook 'python-mode-hook 'flymake-find-file-hook)
 
+
+     ;; when we swich on the command line, switch in Emacs
+     (desktop-save-mode 1)
+     (defun workon-postactivate (virtualenv)
+       (require 'virtualenv)
+       (virtualenv-activate virtualenv)
+       (desktop-change-dir virtualenv))
+
      
      )
   )
