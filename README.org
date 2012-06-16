@@ -32,6 +32,7 @@ to include what you really need.
     - Custom Yasnippet Snippets
     - Cython Mode: a mode for highlighting cython files
     - latest python.el (fgallina/python.el)
+    - nosetests integration (nose.el)
 
 *** Editing Packages
     
@@ -56,6 +57,7 @@ to include what you really need.
     - Calc Mode remapping to M-c
     - M-Tab remapped to C-Tab to avoid collisions with the desktop
       manager
+    - nose keybindings
 
 ** Installation
 
@@ -70,11 +72,12 @@ You may want to enable only some of the features provided by
 emacs-for-python, in this case just enable some of them:
 
 : (add-to-list 'load-path "path/to/emacs-for-python/") ;; tell where to load the various files
-: (require 'epy-setup) ;; It will setup other loads, it is required!
-: (require 'epy-python) ;; If you want the python facilities [optional]
+: (require 'epy-setup)      ;; It will setup other loads, it is required!
+: (require 'epy-python)     ;; If you want the python facilities [optional]
 : (require 'epy-completion) ;; If you want the autocompletion settings [optional]
-: (require 'epy-editing) ;; For configurations related to editing [optional]
-: (require 'epy-bindings) ;; For my suggested keybindings [optional]
+: (require 'epy-editing)    ;; For configurations related to editing [optional]
+: (require 'epy-bindings)   ;; For my suggested keybindings [optional]
+: (require 'epy-nose)       ;; For nose integration
 
 For further information and usage suggestions check:
 
@@ -131,6 +134,14 @@ Interesting way to have a visual clue on how the code is indented:
 *** disabling the auto-pairing of parenthesis
 To disable the auto-pairing, drop the following line:
 : (setq skeleton-pair nil) 
+
+*** Nosetests keybindings
+First of all, install nosetests. Then open a python file in your project and:
+``C-c a``: run all test
+``C-c m``: run tests in the module
+``C-c .``: run test under cursor
+
+``C-c p a``, ``C-c p m``, ``C-c p .``: same as above but drop in pdb when there's an error (Very useful!)
 
 ** Installation with emacs-starter-kit
 I've built up a little fork of emacs starter kit that is greatly
