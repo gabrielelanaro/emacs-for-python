@@ -8,10 +8,23 @@
 
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
-  (setenv "PYTHONPATH"
-          (concat
-           (getenv "PYTHONPATH") path-separator
-           (concat epy-install-dir "python-libs/")))
+  (message "****************************")
+  (if (and (getenv "PYTHONPATH") (not (string= (getenv "PYTHONPATH") "")))
+      (message "true")
+    (message "false"))
+  (message "****************************")
+  ;; If PYTHONPATH is set and not an empty string
+  (if (and (getenv "PYTHONPATH") (not (string= (getenv "PYTHONPATH") "")))
+      ;; append at the end with separator
+      (setenv "PYTHONPATH"
+	      (concat
+	       (getenv "PYTHONPATH") path-separator
+	       (concat epy-install-dir "python-libs/")))
+    ;; else set it without separator
+    (setenv "PYTHONPATH"
+	    (concat epy-install-dir "python-libs/"))
+    )
+  
   (pymacs-load "ropemacs" "rope-")
   
   ;; Stops from erroring if there's a syntax err
