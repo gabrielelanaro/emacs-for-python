@@ -1,3 +1,5 @@
 *~
 *.elc
 *.pyc
+.emacs.desktop*
+ac-comphist.dat
