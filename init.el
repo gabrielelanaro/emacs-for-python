@@ -24,6 +24,18 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
+;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
+(add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
+
+(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+(setq prolog-system 'gnu)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+
 ;;Setting up tabbar
 (require 'tabbar)
 (tabbar-mode)
@@ -52,6 +64,17 @@
 (window-numbering-mode 1)
 (setq window-numbering-assign-func
       (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+
+;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
+;(setq py-install-directory "~/.emacs.d/user/python-mode/")
+;(require 'python-mode)
+;(require 'ipython)
+
+(add-to-list 'load-path ".")
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+(add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 
 ;;;;; key bindings
 
@@ -134,12 +157,31 @@
 (global-set-key [C-f1] 'bookmark-set)
 (global-set-key [f1] 'bookmark-jump)
 
-;; Strange colous
+;;; lets you use Ido with imenu.
+(require 'imenu+)
+(add-hook 'python-mode-hook 'imenu-add-defs-to-menubar)
+(global-set-key [S-mouse-3] 'imenu)
+
+;;; Set some more
 
 (setq default-frame-alist (append (list 
   '(width  . 81)  ; Width set to 81 characters 
   '(height . 40)) ; Height set to 60 lines 
   default-frame-alist)) 
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun annotate-pdb ()
+  (interactive)
+  (highlight-lines-matching-regexp "import pdb")
+  (highlight-lines-matching-regexp "pdb.set_trace()"))
+(add-hook 'python-mode-hook 'annotate-pdb)
+
+(defun python-add-breakpoint ()
+  (interactive)
+  (newline-and-indent)
+  (insert "import pdb; pdb.set_trace()")
+  (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
 (setq inhibit-startup-message   t)   ; Don't want any startup message 
 ;(setq make-backup-files         nil) ; Don't want any backup files 
