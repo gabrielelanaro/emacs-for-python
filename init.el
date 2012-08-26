@@ -21,7 +21,7 @@
                                            'fullboth)))))
     (global-set-key [f11] 'toggle-fullscreen)
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
-(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
 ;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -102,7 +102,7 @@
 (global-set-key (kbd "C-x M-m") 'shell)
 (global-set-key [f7] 'split-window-vertically)
 (global-set-key [f8] 'delete-other-windows)
-(global-set-key [f9] 'split-window-horizontally) 
+(global-set-key [f9] 'split-window-horizontally)
 
 (setq visible-bell nil)
 
@@ -164,10 +164,10 @@
 
 ;;; Set some more
 
-(setq default-frame-alist (append (list 
-  '(width  . 81)  ; Width set to 81 characters 
-  '(height . 40)) ; Height set to 60 lines 
-  default-frame-alist)) 
+(setq default-frame-alist (append (list
+  '(width  . 81)  ; Width set to 81 characters
+  '(height . 40)) ; Height set to 60 lines
+  default-frame-alist))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -183,14 +183,16 @@
   (insert "import pdb; pdb.set_trace()")
   (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
-(setq inhibit-startup-message   t)   ; Don't want any startup message 
-;(setq make-backup-files         nil) ; Don't want any backup files 
-;(setq auto-save-list-file-name  nil) ; Don't want any .saves files 
-;(setq auto-save-default         nil) ; Don't want any auto saving 
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
 
-(setq search-highlight           t) ; Highlight search object 
-(setq query-replace-highlight    t) ; Highlight query object 
-(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening 
+(setq inhibit-startup-message   t)   ; Don't want any startup message
+;(setq make-backup-files         nil) ; Don't want any backup files
+;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
+;(setq auto-save-default         nil) ; Don't want any auto saving
+
+(setq search-highlight           t) ; Highlight search object
+(setq query-replace-highlight    t) ; Highlight query object
+(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -199,5 +201,5 @@
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "wheat3" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 158 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
 
-(set-face-background 'region "yellow") ; Set region background color 
-(set-background-color        "wheat3") ; Set emacs bg color 
+(set-face-background 'region "yellow") ; Set region background color
+(set-background-color        "wheat3") ; Set emacs bg color
