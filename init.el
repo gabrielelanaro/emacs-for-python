@@ -5,6 +5,7 @@
 (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
 (setq prolog-system 'gnu)
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode))
                                auto-mode-alist))
 
@@ -20,8 +21,20 @@
                                            'fullboth)))))
     (global-set-key [f11] 'toggle-fullscreen)
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
-(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
+
+;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
+(add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
+
+(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+(setq prolog-system 'gnu)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
 
 ;;Setting up tabbar
 (require 'tabbar)
@@ -52,6 +65,17 @@
 (setq window-numbering-assign-func
       (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 
+;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
+;(setq py-install-directory "~/.emacs.d/user/python-mode/")
+;(require 'python-mode)
+;(require 'ipython)
+
+(add-to-list 'load-path ".")
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+(add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+
 ;;;;; key bindings
 
 (global-set-key (kbd "C-q") 'undo)
@@ -78,7 +102,7 @@
 (global-set-key (kbd "C-x M-m") 'shell)
 (global-set-key [f7] 'split-window-vertically)
 (global-set-key [f8] 'delete-other-windows)
-(global-set-key [f9] 'split-window-horizontally) 
+(global-set-key [f9] 'split-window-horizontally)
 
 (setq visible-bell nil)
 
@@ -149,13 +173,49 @@
 (setq query-replace-highlight    t) ; Highlight query object 
 (setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening 
 
+;;; lets you use Ido with imenu.
+(require 'imenu+)
+(add-hook 'python-mode-hook 'imenu-add-defs-to-menubar)
+(global-set-key [S-mouse-3] 'imenu)
+
+;;; Set some more
+
+(setq default-frame-alist (append (list
+  '(width  . 81)  ; Width set to 81 characters
+  '(height . 40)) ; Height set to 60 lines
+  default-frame-alist))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun annotate-pdb ()
+  (interactive)
+  (highlight-lines-matching-regexp "import pdb")
+  (highlight-lines-matching-regexp "pdb.set_trace()"))
+(add-hook 'python-mode-hook 'annotate-pdb)
+
+(defun python-add-breakpoint ()
+  (interactive)
+  (newline-and-indent)
+  (insert "import pdb; pdb.set_trace()")
+  (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
+
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
+
+(setq inhibit-startup-message   t)   ; Don't want any startup message
+;(setq make-backup-files         nil) ; Don't want any backup files
+;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
+;(setq auto-save-default         nil) ; Don't want any auto saving
+
+(setq search-highlight           t) ; Highlight search object
+(setq query-replace-highlight    t) ; Highlight query object
+(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
+
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
+ '(default ((t (:inherit nil :stipple nil :background "wheat3" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 158 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
 
-(set-face-background 'region "yellow") ; Set region background color 
-(set-background-color        "wheat3") ; Set emacs bg color 
-
+(set-face-background 'region "yellow") ; Set region background color
+(set-background-color        "wheat3") ; Set emacs bg color
