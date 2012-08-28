@@ -157,6 +157,22 @@
 (global-set-key [C-f1] 'bookmark-set)
 (global-set-key [f1] 'bookmark-jump)
 
+;; Strange colous
+
+(setq default-frame-alist (append (list 
+  '(width  . 81)  ; Width set to 81 characters 
+  '(height . 40)) ; Height set to 60 lines 
+  default-frame-alist)) 
+
+(setq inhibit-startup-message   t)   ; Don't want any startup message 
+;(setq make-backup-files         nil) ; Don't want any backup files 
+;(setq auto-save-list-file-name  nil) ; Don't want any .saves files 
+;(setq auto-save-default         nil) ; Don't want any auto saving 
+
+(setq search-highlight           t) ; Highlight search object 
+(setq query-replace-highlight    t) ; Highlight query object 
+(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening 
+
 ;;; lets you use Ido with imenu.
 (require 'imenu+)
 (add-hook 'python-mode-hook 'imenu-add-defs-to-menubar)
