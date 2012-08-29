@@ -196,7 +196,7 @@
 
 
 ;; This script is set for a `text-scale-mode-step` of `1.04`
-(setq text-scale-mode-step 1.04)
+(setq text-scale-mode-step 1.2)
 ;;
 ;; List: `Sub-Zoom Font Heights per text-scale-mode-step`
 ;;   eg.  For a default font-height of 120 just remove the leading `160 150 140 130`
@@ -208,10 +208,10 @@
 
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(recentf-max-menu-items 20)
  '(recentf-max-saved-items 50)
  '(recentf-menu-path (quote ("File")))
@@ -220,11 +220,11 @@
  '(tool-bar-mode nil))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "CMU Typewriter Text"))))
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
  '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
 (set-face-background 'region "wheat3") ; Set region background color
@@ -262,7 +262,8 @@
 (define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
 (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
-(define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
-(define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<M-mouse-5>") 'text-scale-increase-zAp)
+(define-key global-map (kbd "<M-mouse-4>") 'text-scale-decrease-zAp)
 
 (setq linum-format "%4d ")
+(set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
