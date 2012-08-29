@@ -264,3 +264,5 @@
 (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
 (define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+
+(setq linum-format "%4d ")
