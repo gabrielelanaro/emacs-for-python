@@ -3,7 +3,7 @@
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
-(setq prolog-system 'gnu)
+(setq prolog-system 'swi)
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode))
@@ -112,7 +112,7 @@
 
 (set-default 'indent-tabs-mode nil)
 (set-default 'indicate-empty-lines t)
-(set-default 'imenu-auto-rescan t)
+(set-default 'imenu-auto-rescan nil)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
@@ -224,7 +224,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "CMU Typewriter Text"))))
+ '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
 (set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
@@ -233,42 +234,24 @@
 
 ;; Adjust line number fonts.
 
+(setq my-def-linum-text-height 100)
+
 (defun text-scale-adjust-zAp ()
    (interactive)
    (text-scale-adjust 0)
-   (set-face-attribute 'linum nil :height def-zoom-ht)
+   (set-face-attribute 'linum nil :height my-def-linum-text-height)
  )
 
 (defun text-scale-decrease-zAp ()
    (interactive)
-   (if (not (boundp 'text-scale-mode-amount)) ;; first-time init
-              (setq  text-scale-mode-amount 0))
-   (setq text-scale (round (/ (* 1 text-scale-mode-amount)
-                                   text-scale-mode-step)))
-   (if (> text-scale (- 1 sub-zoom-len))
-       (progn
-         (text-scale-decrease text-scale-mode-step)
-         (if (<= 0 text-scale-mode-amount)
-             (set-face-attribute 'linum nil :height def-zoom-ht)
-           (if (> 0 text-scale-mode-amount)
-               (set-face-attribute 'linum nil :height
-                                     (elt sub-zoom-ht (- 0 text-scale)))))))
+   (text-scale-increase 1)
+   (set-face-attribute 'linum nil :height my-def-linum-text-height)
 )
 
 (defun text-scale-increase-zAp ()
    (interactive)
-   (if (not (boundp 'text-scale-mode-amount)) ;; first-time init
-              (setq  text-scale-mode-amount 0))
-   (setq text-scale (round (/ (* 1 text-scale-mode-amount)
-                                   text-scale-mode-step)))
-   (if (< text-scale 85)
-       (progn
-         (text-scale-increase text-scale-mode-step)
-         (if (< (- 0 text-scale-mode-step) text-scale-mode-amount)
-             (set-face-attribute 'linum nil :height def-zoom-ht)
-           (if (> 0 text-scale-mode-amount)
-               (set-face-attribute 'linum nil :height
-                                     (elt sub-zoom-ht (- 0 text-scale)))))))
+   (text-scale-decrease 1)
+   (set-face-attribute 'linum nil :height my-def-linum-text-height)
 )
 
 ;; Zoom font via Numeric Keypad
