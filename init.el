@@ -41,22 +41,11 @@
 (tabbar-mode)
 
 (menu-bar-mode 1)
-;;(tool-bar-mode 1)
-;;(scroll-bar-mode 1)
+(tool-bar-mode 0)
+(scroll-bar-mode 1)
 (require 'ido)
 (require 'recentf)
 (recentf-mode 1)
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(show-paren-mode t)
- '(tabbar-background-color "blue"))
 
 ;;(require 'dired+)
 (require 'highlight-80+)
@@ -89,14 +78,6 @@
   (kill-buffer (current-buffer)))
 
 (global-set-key (kbd "C-x C-k") 'kill-current-buffer)
-
-(define-key global-map (kbd "C-+") 'text-scale-increase)
-(define-key global-map (kbd "C-=") 'text-scale-increase)
-(define-key global-map (kbd "C--") 'text-scale-decrease)
-(define-key global-map (kbd "<C-kp-add>") 'text-scale-increase)
-(define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease)
-(define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase)
-(define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease)
 
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
@@ -159,19 +140,19 @@
 
 ;; Strange colous
 
-(setq default-frame-alist (append (list 
-  '(width  . 81)  ; Width set to 81 characters 
-  '(height . 40)) ; Height set to 60 lines 
-  default-frame-alist)) 
+(setq default-frame-alist (append (list
+  '(width  . 81)  ; Width set to 81 characters
+  '(height . 40)) ; Height set to 60 lines
+  default-frame-alist))
 
-(setq inhibit-startup-message   t)   ; Don't want any startup message 
-;(setq make-backup-files         nil) ; Don't want any backup files 
-;(setq auto-save-list-file-name  nil) ; Don't want any .saves files 
-;(setq auto-save-default         nil) ; Don't want any auto saving 
+(setq inhibit-startup-message   t)   ; Don't want any startup message
+;(setq make-backup-files         nil) ; Don't want any backup files
+;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
+;(setq auto-save-default         nil) ; Don't want any auto saving
 
-(setq search-highlight           t) ; Highlight search object 
-(setq query-replace-highlight    t) ; Highlight query object 
-(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening 
+(setq search-highlight           t) ; Highlight search object
+(setq query-replace-highlight    t) ; Highlight query object
+(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
 
 ;;; lets you use Ido with imenu.
 (require 'imenu+)
@@ -210,12 +191,93 @@
 (setq query-replace-highlight    t) ; Highlight query object
 (setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
 
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "wheat3" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 158 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
 
-(set-face-background 'region "yellow") ; Set region background color
-(set-background-color        "wheat3") ; Set emacs bg color
+;; (setq linum-format "%4d \u2502 ")
+
+
+;; This script is set for a `text-scale-mode-step` of `1.04`
+(setq text-scale-mode-step 1.04)
+;;
+;; List: `Sub-Zoom Font Heights per text-scale-mode-step`
+;;   eg.  For a default font-height of 120 just remove the leading `160 150 140 130`
+(defvar sub-zoom-ht (list 160 150 140 130 120 120 110 100 100  90  80  80  80  80  70  70  60  60  50  50  50  40  40  40  30  20  20  20  20  20  20  10  10  10  10  10  10  10  10  10  10   5   5   5   5   5   2   2   2   2   2   2   2   2   1   1   1   1   1   1   1   1   1   1   1   1))
+(defvar sub-zoom-len (safe-length sub-zoom-ht))
+(defvar def-zoom-ht (car sub-zoom-ht))
+(set-face-attribute 'default nil :height def-zoom-ht)
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(recentf-max-menu-items 20)
+ '(recentf-max-saved-items 50)
+ '(recentf-menu-path (quote ("File")))
+ '(show-paren-mode t)
+ '(tabbar-background-color "blue")
+ '(tool-bar-mode nil))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "CMU Typewriter Text")))))
+
+(set-face-background 'region "wheat3") ; Set region background color
+;; (set-background-color        "wheat3") ; Set emacs bg color
+
+(toggle-fullscreen)
+
+;; Adjust line number fonts.
+
+(defun text-scale-adjust-zAp ()
+   (interactive)
+   (text-scale-adjust 0)
+   (set-face-attribute 'linum nil :height def-zoom-ht)
+ )
+
+(defun text-scale-decrease-zAp ()
+   (interactive)
+   (if (not (boundp 'text-scale-mode-amount)) ;; first-time init
+              (setq  text-scale-mode-amount 0))
+   (setq text-scale (round (/ (* 1 text-scale-mode-amount)
+                                   text-scale-mode-step)))
+   (if (> text-scale (- 1 sub-zoom-len))
+       (progn
+         (text-scale-decrease text-scale-mode-step)
+         (if (<= 0 text-scale-mode-amount)
+             (set-face-attribute 'linum nil :height def-zoom-ht)
+           (if (> 0 text-scale-mode-amount)
+               (set-face-attribute 'linum nil :height
+                                     (elt sub-zoom-ht (- 0 text-scale)))))))
+)
+
+(defun text-scale-increase-zAp ()
+   (interactive)
+   (if (not (boundp 'text-scale-mode-amount)) ;; first-time init
+              (setq  text-scale-mode-amount 0))
+   (setq text-scale (round (/ (* 1 text-scale-mode-amount)
+                                   text-scale-mode-step)))
+   (if (< text-scale 85)
+       (progn
+         (text-scale-increase text-scale-mode-step)
+         (if (< (- 0 text-scale-mode-step) text-scale-mode-amount)
+             (set-face-attribute 'linum nil :height def-zoom-ht)
+           (if (> 0 text-scale-mode-amount)
+               (set-face-attribute 'linum nil :height
+                                     (elt sub-zoom-ht (- 0 text-scale)))))))
+)
+
+;; Zoom font via Numeric Keypad
+
+(define-key global-map (kbd "C-+") 'text-scale-increase-zAp)
+(define-key global-map (kbd "C-=") 'text-scale-increase-zAp)
+(define-key global-map (kbd "C--") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
+(define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
+(define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
+(define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
