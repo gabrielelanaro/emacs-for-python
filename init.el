@@ -200,22 +200,23 @@
 
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(recentf-max-menu-items 20)
  '(recentf-max-saved-items 50)
  '(recentf-menu-path (quote ("File")))
+ '(safe-local-variable-values (quote ((py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(show-paren-mode t)
  '(tabbar-background-color "blue")
  '(tool-bar-mode nil))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
  '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
@@ -259,3 +260,6 @@
 
 (setq linum-format "%4d ")
 (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
+(setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
+;; (ac-fuzzy-complete)
+;; (ac-use-fuzzy)
