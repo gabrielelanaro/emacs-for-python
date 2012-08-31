@@ -1,3 +1,4 @@
+(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file "/home/eugeneai/.emacs.d/epy-init.el")
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
@@ -183,6 +184,12 @@
 (setq query-replace-highlight    t) ; Highlight query object
 (setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
 
+;; vala
+(autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
+(add-to-list 'auto-mode-alist '("\\.vala$" . vala-mode))
+(add-to-list 'auto-mode-alist '("\\.vapi$" . vala-mode))
+(add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
+(add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
 ;; (setq linum-format "%4d \u2502 ")
 
