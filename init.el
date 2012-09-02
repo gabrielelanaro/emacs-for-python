@@ -1,5 +1,5 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(load-file "/home/eugeneai/.emacs.d/epy-init.el")
+(load-file (expand-file-name "~/.emacs.d/epy-init.el"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -9,6 +9,8 @@
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode))
                                auto-mode-alist))
+(add-hook 'prolog-mode-hook 'auto-complete-mode)
+
 
 (global-set-key (kbd "C-c f") 'fullscreen-toggle)
 (add-hook 'after-make-frame-functions 'fullscreen-toggle)
