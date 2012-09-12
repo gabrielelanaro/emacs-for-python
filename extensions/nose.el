@@ -59,13 +59,15 @@
 (defvar nose-global-name "nosetests")
 (defvar nose-use-verbose t)
 
-(defun run-nose (&optional tests debug failed)
+(defun run-nose (&optional tests debug failed stop)
   "run nosetests"
   (let* ((nose (nose-find-test-runner))
          (where (nose-find-project-root))
          (args (concat (if debug "--pdb" "")
                        " "
-                       (if failed "--failed" "")))
+                       (if failed "--failed" "")
+                       " "
+                       (if stop "--stop" "")))
          (tnames (if tests tests "")))
     (if (not where)
         (error
@@ -84,10 +86,10 @@
               (nose-find-test-runner) args where where tnames)))
   )
 
-(defun nosetests-all (&optional debug failed)
+(defun nosetests-all (&optional debug failed stop)
   "run all tests"
   (interactive)
-  (run-nose nil debug failed))
+  (run-nose nil debug failed stop))
 
 (defun nosetests-failed (&optional debug)
   (interactive)
@@ -96,6 +98,10 @@
 (defun nosetests-pdb-all ()
   (interactive)
   (nosetests-all t))
+
+(defun nosetests-stop ()
+  (interactive)
+  (nosetests-all nil nil t))
 
 (defun nosetests-module (&optional debug)
   "run nosetests (via eggs/bin/test) on current buffer"
