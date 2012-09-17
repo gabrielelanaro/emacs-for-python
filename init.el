@@ -6,7 +6,8 @@
 (setq prolog-system 'gnu) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
+                                ("\\.m$" . mercury-mode)
+                                ("\\.P$" . prolog-mode))
                                auto-mode-alist))
 
 (global-set-key (kbd "C-c f") 'fullscreen-toggle)
@@ -29,8 +30,8 @@
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
 ;;Setting up tabbar
-(require 'tabbar)
-(tabbar-mode)
+;;(require 'tabbar)
+;;(tabbar-mode)
 
 (menu-bar-mode 1)
 (tool-bar-mode 0)
@@ -207,7 +208,7 @@
  '(recentf-max-menu-items 20)
  '(recentf-max-saved-items 50)
  '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(show-paren-mode t)
  '(tabbar-background-color "blue")
  '(tool-bar-mode nil))
