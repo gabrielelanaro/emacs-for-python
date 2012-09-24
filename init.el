@@ -27,7 +27,7 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
@@ -177,15 +177,6 @@
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
 
-(setq inhibit-startup-message   t)   ; Don't want any startup message
-;(setq make-backup-files         nil) ; Don't want any backup files
-;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
-;(setq auto-save-default         nil) ; Don't want any auto saving
-
-(setq search-highlight           t) ; Highlight search object
-(setq query-replace-highlight    t) ; Highlight query object
-(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
-
 ;; vala
 (autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
 (add-to-list 'auto-mode-alist '("\\.vala$" . vala-mode))
@@ -272,3 +263,24 @@
 (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
 ;; (ac-fuzzy-complete)
 ;; (ac-use-fuzzy)
+
+(defun python-shell-get-or-create-process ()
+  "Get or create an inferior Python process for current buffer and return it."
+  (let* ((old-buffer (current-buffer))
+         (dedicated-proc-name (python-shell-get-process-name t))
+         (dedicated-proc-buffer-name (format "*%s*" dedicated-proc-name))
+         (global-proc-name  (python-shell-get-process-name nil))
+         (global-proc-buffer-name (format "*%s*" global-proc-name))
+         (dedicated-running (comint-check-proc dedicated-proc-buffer-name))
+         (global-running (comint-check-proc global-proc-buffer-name))
+         (current-prefix-arg 4))
+    (when (and (not dedicated-running) (not global-running))
+      (if (run-python t (python-shell-parse-command))
+          (setq dedicated-running t)
+        (setq global-running t)))
+    ;; Always prefer dedicated
+    (switch-to-buffer old-buffer)
+    (get-buffer-process (if dedicated-running
+                            dedicated-proc-buffer-name
+                          global-proc-buffer-name))))
+
