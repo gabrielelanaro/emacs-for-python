@@ -12,42 +12,31 @@
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
 
-(global-set-key (kbd "C-c f") 'fullscreen-toggle)
-(add-hook 'after-make-frame-functions 'fullscreen-toggle)
-    (defun toggle-fullscreen (&optional f)
-      (interactive)
-      (let ((current-value (frame-parameter nil 'fullscreen)))
-           (set-frame-parameter nil 'fullscreen
-                                (if (equal 'fullboth current-value)
-                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
-                                    (progn (setq old-fullscreen current-value)
-                                           'fullboth)))))
-    (global-set-key [f11] 'toggle-fullscreen)
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
 ;;Setting up tabbar
-(require 'tabbar)
-(tabbar-mode)
+;;(require 'tabbar)
+;;(tabbar-mode)
 
-(menu-bar-mode 1)
-(tool-bar-mode 0)
-(scroll-bar-mode 1)
+(menu-bar-mode 0)
+;;(tool-bar-mode 0)
+;;(scroll-bar-mode 1)
 (require 'ido)
 (require 'recentf)
 (recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
-(require 'window-numbering)
-(window-numbering-mode 1)
-(setq window-numbering-assign-func
-      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+;;(require 'window-numbering)
+;;(window-numbering-mode 1)
+;;(setq window-numbering-assign-func
+;;      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 
 ;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
 ;(setq py-install-directory "~/.emacs.d/user/python-mode/")
@@ -55,8 +44,8 @@
 ;(require 'ipython)
 
 (add-to-list 'load-path ".")
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
+;;(global-font-lock-mode t)
+;;(setq font-lock-maximum-decoration t)
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 
@@ -115,7 +104,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
 
-(setq x-select-enable-clipboard t)
+;;(setq x-select-enable-clipboard t)
 
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -135,10 +124,10 @@
 
 ;; Strange colous
 
-(setq default-frame-alist (append (list
-  '(width  . 81)  ; Width set to 81 characters
-  '(height . 40)) ; Height set to 60 lines
-  default-frame-alist))
+;;(setq default-frame-alist (append (list
+;;  '(width  . 81)  ; Width set to 81 characters
+;;  '(height . 40)) ; Height set to 60 lines
+;;  default-frame-alist))
 
 (setq inhibit-startup-message   t)   ; Don't want any startup message
 ;(setq make-backup-files         nil) ; Don't want any backup files
@@ -156,10 +145,10 @@
 
 ;;; Set some more
 
-(setq default-frame-alist (append (list
-  '(width  . 81)  ; Width set to 81 characters
-  '(height . 40)) ; Height set to 60 lines
-  default-frame-alist))
+;(setq default-frame-alist (append (list
+;  '(width  . 81)  ; Width set to 81 characters
+;  '(height . 40)) ; Height set to 60 lines
+;  default-frame-alist))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -177,15 +166,6 @@
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
 
-(setq inhibit-startup-message   t)   ; Don't want any startup message
-;(setq make-backup-files         nil) ; Don't want any backup files
-;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
-;(setq auto-save-default         nil) ; Don't want any auto saving
-
-(setq search-highlight           t) ; Highlight search object
-(setq query-replace-highlight    t) ; Highlight query object
-(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
-
 ;; vala
 (autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
 (add-to-list 'auto-mode-alist '("\\.vala$" . vala-mode))
@@ -196,79 +176,29 @@
 ;; (setq linum-format "%4d \u2502 ")
 
 
-;; This script is set for a `text-scale-mode-step` of `1.04`
-(setq text-scale-mode-step 1.2)
-;;
-;; List: `Sub-Zoom Font Heights per text-scale-mode-step`
-;;   eg.  For a default font-height of 120 just remove the leading `160 150 140 130`
-(defvar sub-zoom-ht (list 160 150 140 130 120 120 110 100 100  90  80  80  80  80  70  70  60  60  50  50  50  40  40  40  30  20  20  20  20  20  20  10  10  10  10  10  10  10  10  10  10   5   5   5   5   5   2   2   2   2   2   2   2   2   1   1   1   1   1   1   1   1   1   1   1   1))
-(defvar sub-zoom-len (safe-length sub-zoom-ht))
-(defvar def-zoom-ht (car sub-zoom-ht))
-(set-face-attribute 'default nil :height def-zoom-ht)
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
- '(show-paren-mode t)
- '(tabbar-background-color "blue")
- '(tool-bar-mode nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
- '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
-
 (set-face-background 'region "wheat3") ; Set region background color
-;; (set-background-color        "wheat3") ; Set emacs bg color
-
-(toggle-fullscreen)
-
-;; Adjust line number fonts.
-
-(setq my-def-linum-text-height 100)
-
-(defun text-scale-adjust-zAp ()
-   (interactive)
-   (text-scale-adjust 0)
-   (set-face-attribute 'linum nil :height my-def-linum-text-height)
- )
-
-(defun text-scale-decrease-zAp ()
-   (interactive)
-   (text-scale-increase 1)
-   (set-face-attribute 'linum nil :height my-def-linum-text-height)
-)
-
-(defun text-scale-increase-zAp ()
-   (interactive)
-   (text-scale-decrease 1)
-   (set-face-attribute 'linum nil :height my-def-linum-text-height)
-)
-
-;; Zoom font via Numeric Keypad
-
-(define-key global-map (kbd "C-+") 'text-scale-increase-zAp)
-(define-key global-map (kbd "C-=") 'text-scale-increase-zAp)
-(define-key global-map (kbd "C--") 'text-scale-decrease-zAp)
-(define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
-(define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
-(define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
-(define-key global-map (kbd "<M-mouse-5>") 'text-scale-increase-zAp)
-(define-key global-map (kbd "<M-mouse-4>") 'text-scale-decrease-zAp)
 
 (setq linum-format "%4d ")
-(set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
-(setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
 ;; (ac-fuzzy-complete)
 ;; (ac-use-fuzzy)
+
+(defun python-shell-get-or-create-process ()
+  "Get or create an inferior Python process for current buffer and return it."
+  (let* ((old-buffer (current-buffer))
+         (dedicated-proc-name (python-shell-get-process-name t))
+         (dedicated-proc-buffer-name (format "*%s*" dedicated-proc-name))
+         (global-proc-name  (python-shell-get-process-name nil))
+         (global-proc-buffer-name (format "*%s*" global-proc-name))
+         (dedicated-running (comint-check-proc dedicated-proc-buffer-name))
+         (global-running (comint-check-proc global-proc-buffer-name))
+         (current-prefix-arg 4))
+    (when (and (not dedicated-running) (not global-running))
+      (if (run-python t (python-shell-parse-command))
+          (setq dedicated-running t)
+        (setq global-running t)))
+    ;; Always prefer dedicated
+    (switch-to-buffer old-buffer)
+    (get-buffer-process (if dedicated-running
+                            dedicated-proc-buffer-name
+                          global-proc-buffer-name))))
+
