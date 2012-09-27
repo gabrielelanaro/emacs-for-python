@@ -1,4 +1,5 @@
-#name : -include("...").
+# name: -include("...").
+# key: inc
 # --
 -include("$1").
 $0
