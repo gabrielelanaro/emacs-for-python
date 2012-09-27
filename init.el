@@ -39,8 +39,8 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 1)
 (require 'ido)
-(require 'recentf)
-(recentf-mode 1)
+;(require 'recentf)
+;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
@@ -257,6 +257,8 @@
 (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
 (define-key global-map (kbd "<M-mouse-5>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<M-mouse-4>") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<M-wheel-down>") 'text-scale-increase-zAp)
+(define-key global-map (kbd "<M-wheel-up>") 'text-scale-decrease-zAp)
 
 (setq linum-format "%4d ")
 (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
