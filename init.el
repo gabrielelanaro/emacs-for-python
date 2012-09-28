@@ -1,6 +1,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
-(linum-mode)
+(setq custom-file "~/.emacs.d/custom.el")
+
+(global-linum-mode 1)
+(setq linum-format "%4d ")
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
