@@ -42,7 +42,7 @@
 
   ;; Adding hook to automatically open a rope project if there is one
   ;; in the current or in the upper level directory
-  (add-hook 'python-mode-hook
+   (add-hook 'python-mode-hook
             (lambda ()
               (cond ((file-exists-p ".ropeproject")
                      (rope-open-project default-directory))
@@ -55,6 +55,7 @@
 (defun epy-setup-ipython ()
   "Setup ipython integration with python-mode"
   (interactive)
+
   (setq
    python-shell-interpreter "ipython"
    python-shell-interpreter-args ""
@@ -122,11 +123,12 @@ The CMDLINE should be something like:
      
      
      ;; Not on all modes, please
-     (add-hook 'python-mode-hook 'flymake-find-file-hook)
-
+     ;; Be careful of mumamo, buffer file name nil
+     (add-hook 'python-mode-hook (lambda () (if (buffer-file-name)
+						(flymake-mode))))
 
      ;; when we swich on the command line, switch in Emacs
-     (desktop-save-mode 1)
+     ;;(desktop-save-mode 1)
      (defun workon-postactivate (virtualenv)
        (require 'virtualenv)
        (virtualenv-activate virtualenv)
@@ -147,5 +149,7 @@ The CMDLINE should be something like:
 
 (add-hook 'python-mode-hook '(lambda () 
      (define-key python-mode-map "\C-m" 'newline-and-indent)))
-
+(add-hook 'ein:notebook-python-mode-hook 
+	  (lambda ()
+	    (define-key python-mode-map "\C-m" 'newline)))
 (provide 'epy-python)
