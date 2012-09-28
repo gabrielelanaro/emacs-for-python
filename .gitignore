@@ -5,3 +5,4 @@
 .emacs.desktop*
 ac-comphist.dat
 tramp
+/eproject.lst
