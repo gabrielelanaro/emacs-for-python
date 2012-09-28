@@ -8,12 +8,8 @@
 (setq prolog-system 'gnu) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
-<<<<<<< HEAD
-                                ("\\.m$" . mercury-mode))
-=======
                                 ("\\.m$" . mercury-mode)
                                 ("\\.P$" . prolog-mode))
->>>>>>> inca
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
@@ -48,20 +44,6 @@
 (require 'recentf)
 (recentf-mode 1)
 
-<<<<<<< HEAD
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(show-paren-mode t)
- '(tabbar-background-color "blue"))
-
-=======
->>>>>>> inca
 ;;(require 'dired+)
 (require 'highlight-80+)
 (require 'window-numbering)
@@ -237,11 +219,6 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-<<<<<<< HEAD
-
-(set-face-background 'region "yellow") ; Set region background color 
-(set-background-color        "wheat3") ; Set emacs bg color 
-=======
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 126 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
  '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
@@ -308,4 +285,3 @@
     (get-buffer-process (if dedicated-running
                             dedicated-proc-buffer-name
                           global-proc-buffer-name))))
->>>>>>> inca
