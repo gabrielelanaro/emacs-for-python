@@ -1,5 +1,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
+(setq custom-file "~/.emacs.d/custom.el")
 
 (global-linum-mode 1)
 (setq linum-format "%4d ")
@@ -45,17 +46,6 @@
 (require 'ido)
 (require 'recentf)
 (recentf-mode 1)
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(show-paren-mode t)
- '(tabbar-background-color "blue"))
 
 ;;(require 'dired+)
 (require 'highlight-80+)
@@ -209,29 +199,6 @@
 (defvar sub-zoom-len (safe-length sub-zoom-ht))
 (defvar def-zoom-ht (car sub-zoom-ht))
 (set-face-attribute 'default nil :height def-zoom-ht)
-
-
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
- '(show-paren-mode t)
- '(tabbar-background-color "blue")
- '(tool-bar-mode nil))
-
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 126 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
- '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
 (set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
