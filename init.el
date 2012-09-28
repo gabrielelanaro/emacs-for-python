@@ -1,6 +1,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
-(linum-mode)
+
+(global-linum-mode 1)
+(setq linum-format "%4d ")
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -197,8 +199,6 @@
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
-;; (setq linum-format "%4d \u2502 ")
-
 
 ;; This script is set for a `text-scale-mode-step` of `1.04`
 (setq text-scale-mode-step 1.2)
@@ -271,7 +271,6 @@
 (define-key global-map (kbd "<M-mouse-5>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<M-mouse-4>") 'text-scale-decrease-zAp)
 
-(setq linum-format "%4d ")
 (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
 (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
 ;; (ac-fuzzy-complete)
