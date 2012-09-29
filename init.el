@@ -1,5 +1,10 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
+(setq custom-file "~/.emacs.d/custom.el")
+(load-file (expand-file-name "~/.emacs.d/custom.el"))
+
+(global-linum-mode 1)
+(setq linum-format "%4d ")
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -7,7 +12,8 @@
 (setq prolog-system 'gnu) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
+                                ("\\.m$" . mercury-mode)
+                                ("\\.P$" . prolog-mode))
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
@@ -184,8 +190,6 @@
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
-;; (setq linum-format "%4d \u2502 ")
-
 
 ;; This script is set for a `text-scale-mode-step` of `1.04`
 (setq text-scale-mode-step 1.2)
@@ -196,29 +200,6 @@
 (defvar sub-zoom-len (safe-length sub-zoom-ht))
 (defvar def-zoom-ht (car sub-zoom-ht))
 (set-face-attribute 'default nil :height def-zoom-ht)
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
- '(show-paren-mode t)
- '(tabbar-background-color "blue")
- '(tool-bar-mode nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 90 :width normal :foundry "outline" :family "Courier New"))))
- '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
 (set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
@@ -260,7 +241,6 @@
 (define-key global-map (kbd "<M-wheel-down>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<M-wheel-up>") 'text-scale-decrease-zAp)
 
-(setq linum-format "%4d ")
 (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
 (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
 ;; (ac-fuzzy-complete)
