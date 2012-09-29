@@ -35,7 +35,7 @@
 (setq yas/wrap-around-region 'cua)
 
 ;; Eproject project management with emacs
-;; (require 'eproject)
+(require 'eproject)
 
 ;; code borrowed from http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)
@@ -160,7 +160,7 @@ original" (interactive)
 ;;(add-hook 'python-mode-hook 'highlight-indentation)
 
 ;; Line numbering
-(setq linum-format "%4d")
-(global-linum-mode 1)
+;;(setq linum-format "%4d")
+;;(global-linum-mode 1)
 
 (provide 'epy-editing)

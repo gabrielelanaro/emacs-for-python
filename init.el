@@ -1,5 +1,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
+(setq custom-file "~/.emacs.d/custom.el")
+
+(global-linum-mode 1)
+(setq linum-format "%4d ")
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -7,7 +11,8 @@
 (setq prolog-system 'gnu) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
+                                ("\\.m$" . mercury-mode)
+                                ("\\.P$" . prolog-mode))
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
@@ -20,23 +25,13 @@
 (add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
-;;Setting up tabbar
-;;(require 'tabbar)
-;;(tabbar-mode)
-
 (menu-bar-mode 0)
-;;(tool-bar-mode 0)
-;;(scroll-bar-mode 1)
 (require 'ido)
 ;;(require 'recentf)
 ;;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
-;;(require 'window-numbering)
-;;(window-numbering-mode 1)
-;;(setq window-numbering-assign-func
-;;      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 
 ;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
 ;(setq py-install-directory "~/.emacs.d/user/python-mode/")
@@ -44,8 +39,6 @@
 ;(require 'ipython)
 
 (add-to-list 'load-path ".")
-;;(global-font-lock-mode t)
-;;(setq font-lock-maximum-decoration t)
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 
@@ -104,8 +97,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
 
-;;(setq x-select-enable-clipboard t)
-
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -124,11 +115,6 @@
 
 ;; Strange colous
 
-;;(setq default-frame-alist (append (list
-;;  '(width  . 81)  ; Width set to 81 characters
-;;  '(height . 40)) ; Height set to 60 lines
-;;  default-frame-alist))
-
 (setq inhibit-startup-message   t)   ; Don't want any startup message
 ;(setq make-backup-files         nil) ; Don't want any backup files
 ;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
@@ -144,11 +130,6 @@
 (global-set-key [S-mouse-3] 'imenu)
 
 ;;; Set some more
-
-;(setq default-frame-alist (append (list
-;  '(width  . 81)  ; Width set to 81 characters
-;  '(height . 40)) ; Height set to 60 lines
-;  default-frame-alist))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -173,15 +154,6 @@
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
-;; (setq linum-format "%4d \u2502 ")
-
-
-(set-face-background 'region "wheat3") ; Set region background color
-
-(setq linum-format "%4d ")
-;; (ac-fuzzy-complete)
-;; (ac-use-fuzzy)
-
 (defun python-shell-get-or-create-process ()
   "Get or create an inferior Python process for current buffer and return it."
   (let* ((old-buffer (current-buffer))
@@ -201,4 +173,3 @@
     (get-buffer-process (if dedicated-running
                             dedicated-proc-buffer-name
                           global-proc-buffer-name))))
-
