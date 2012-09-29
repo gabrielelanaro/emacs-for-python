@@ -1,7 +1,9 @@
 *~
 *.elc
 *.pyc
-/ac-comphist.dat
+ac-comphist.dat
 .emacs.desktop*
 ac-comphist.dat
 tramp
+eproject.lst
+custom.el
