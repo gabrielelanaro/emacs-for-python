@@ -27,16 +27,9 @@
 
 (menu-bar-mode 0)
 (require 'ido)
-;;(require 'recentf)
-;;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
-
-;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
-;(setq py-install-directory "~/.emacs.d/user/python-mode/")
-;(require 'python-mode)
-;(require 'ipython)
 
 (add-to-list 'load-path ".")
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
