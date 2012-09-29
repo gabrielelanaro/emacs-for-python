@@ -1,6 +1,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (load-file (expand-file-name "~/.emacs.d/epy-init.el"))
 (setq custom-file "~/.emacs.d/custom.el")
+(load-file (expand-file-name "~/.emacs.d/custom.el"))
 
 (global-linum-mode 1)
 (setq linum-format "%4d ")
