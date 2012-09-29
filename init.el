@@ -1,4 +1,5 @@
-(load-file "/home/eugeneai/.emacs.d/epy-init.el")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+(load-file (expand-file-name "~/.emacs.d/epy-init.el"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -8,6 +9,8 @@
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode))
                                auto-mode-alist))
+(add-hook 'prolog-mode-hook 'auto-complete-mode)
+
 
 (global-set-key (kbd "C-c f") 'fullscreen-toggle)
 (add-hook 'after-make-frame-functions 'fullscreen-toggle)
@@ -24,7 +27,7 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
@@ -174,15 +177,12 @@
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
 
-(setq inhibit-startup-message   t)   ; Don't want any startup message
-;(setq make-backup-files         nil) ; Don't want any backup files
-;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
-;(setq auto-save-default         nil) ; Don't want any auto saving
-
-(setq search-highlight           t) ; Highlight search object
-(setq query-replace-highlight    t) ; Highlight query object
-(setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
-
+;; vala
+(autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
+(add-to-list 'auto-mode-alist '("\\.vala$" . vala-mode))
+(add-to-list 'auto-mode-alist '("\\.vapi$" . vala-mode))
+(add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
+(add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
 ;; (setq linum-format "%4d \u2502 ")
 
@@ -200,24 +200,24 @@
 
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(recentf-max-menu-items 20)
  '(recentf-max-saved-items 50)
  '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(show-paren-mode t)
  '(tabbar-background-color "blue")
  '(tool-bar-mode nil))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 126 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
  '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
 
 (set-face-background 'region "wheat3") ; Set region background color
@@ -263,3 +263,24 @@
 (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
 ;; (ac-fuzzy-complete)
 ;; (ac-use-fuzzy)
+
+(defun python-shell-get-or-create-process ()
+  "Get or create an inferior Python process for current buffer and return it."
+  (let* ((old-buffer (current-buffer))
+         (dedicated-proc-name (python-shell-get-process-name t))
+         (dedicated-proc-buffer-name (format "*%s*" dedicated-proc-name))
+         (global-proc-name  (python-shell-get-process-name nil))
+         (global-proc-buffer-name (format "*%s*" global-proc-name))
+         (dedicated-running (comint-check-proc dedicated-proc-buffer-name))
+         (global-running (comint-check-proc global-proc-buffer-name))
+         (current-prefix-arg 4))
+    (when (and (not dedicated-running) (not global-running))
+      (if (run-python t (python-shell-parse-command))
+          (setq dedicated-running t)
+        (setq global-running t)))
+    ;; Always prefer dedicated
+    (switch-to-buffer old-buffer)
+    (get-buffer-process (if dedicated-running
+                            dedicated-proc-buffer-name
+                          global-proc-buffer-name))))
+
