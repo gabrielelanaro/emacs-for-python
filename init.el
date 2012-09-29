@@ -28,8 +28,8 @@
 ;;(tool-bar-mode 0)
 ;;(scroll-bar-mode 1)
 (require 'ido)
-(require 'recentf)
-(recentf-mode 1)
+;;(require 'recentf)
+;;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
