@@ -54,17 +54,6 @@
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
 
-(global-set-key (kbd "C-c f") 'fullscreen-toggle)
-(add-hook 'after-make-frame-functions 'fullscreen-toggle)
-    (defun toggle-fullscreen (&optional f)
-      (interactive)
-      (let ((current-value (frame-parameter nil 'fullscreen)))
-           (set-frame-parameter nil 'fullscreen
-                                (if (equal 'fullboth current-value)
-                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
-                                    (progn (setq old-fullscreen current-value)
-                                           'fullboth)))))
-    (global-set-key [f11] 'toggle-fullscreen)
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
@@ -86,6 +75,8 @@
       (window-numbering-mode 1)
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+      (global-font-lock-mode t)
+      (setq font-lock-maximum-decoration t)
       )
   (progn
       (menu-bar-mode 0)
@@ -94,6 +85,7 @@
 
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+
 (require 'ido)
 
 ;;(require 'dired+)
@@ -102,8 +94,7 @@
 ;(require 'python-mode)
 ;(require 'ipython)
 
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
+
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 
@@ -162,8 +153,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
 
-(setq x-select-enable-clipboard t)
-
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -182,11 +171,6 @@
 
 ;; Strange colous
 
-(setq default-frame-alist (append (list
-  '(width  . 81)  ; Width set to 81 characters
-  '(height . 40)) ; Height set to 60 lines
-  default-frame-alist))
-
 (setq inhibit-startup-message   t)   ; Don't want any startup message
 ;(setq make-backup-files         nil) ; Don't want any backup files
 ;(setq auto-save-list-file-name  nil) ; Don't want any .saves files
@@ -202,11 +186,6 @@
 (global-set-key [S-mouse-3] 'imenu)
 
 ;;; Set some more
-
-(setq default-frame-alist (append (list
-  '(width  . 81)  ; Width set to 81 characters
-  '(height . 40)) ; Height set to 60 lines
-  default-frame-alist))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -305,5 +284,6 @@
 
 
 (require 'jump-char)
+
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
