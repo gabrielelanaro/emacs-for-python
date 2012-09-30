@@ -29,6 +29,7 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
 (setq linum-format "%4d ")
