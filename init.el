@@ -269,7 +269,12 @@
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
       (toggle-fullscreen)
-      ))
+      )
+  (progn
+    (set-face-background 'region "blue") ; Set region background color
+    (set-face-foreground 'region "wheat1") ; Set region background color
+    )
+  )
 
 (defun python-shell-get-or-create-process ()
   "Get or create an inferior Python process for current buffer and return it."
