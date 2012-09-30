@@ -1,6 +1,35 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(load-file (expand-file-name "~/.emacs.d/epy-init.el"))
-(setq custom-file "~/.emacs.d/custom.el")
+
+;; magnars cool setup
+;; Set path to .emacs.d
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+
+;; Set path to dependencies
+(setq site-lisp-dir (expand-file-name "site-lisp" dotfiles-dir))
+
+;; Set up load path
+(add-to-list 'load-path dotfiles-dir)
+(add-to-list 'load-path site-lisp-dir)
+
+;; Settings for currently logged in user
+(setq user-settings-dir (concat user-emacs-directory "users/" user-login-name))
+(add-to-list 'load-path user-settings-dir)
+
+;; Add external projects to load path
+(dolist (project (directory-files site-lisp-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
+;; Keep emacs Custom-settings in separate file
+(setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+(load custom-file)
+
+;; Write backup files to own directory
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                        (concat dotfiles-dir "backups")))))
+
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
 (setq linum-format "%4d ")
@@ -166,3 +195,11 @@
     (get-buffer-process (if dedicated-running
                             dedicated-proc-buffer-name
                           global-proc-buffer-name))))
+
+
+(require 'jump-char)
+
+(global-set-key [(meta m)] 'jump-char-forward)
+(global-set-key [(shift meta m)] 'jump-char-backward)
+
+

@@ -6,4 +6,6 @@ ac-comphist.dat
 ac-comphist.dat
 tramp
 eproject.lst
+eproject.cfg
 custom.el
+abbrev_defs
