@@ -1,7 +1,34 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(load-file (expand-file-name "~/.emacs.d/epy-init.el"))
-(setq custom-file "~/.emacs.d/custom.el")
-(load-file (expand-file-name "~/.emacs.d/custom.el"))
+
+;; magnars cool setup
+;; Set path to .emacs.d
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+
+;; Set path to dependencies
+(setq site-lisp-dir (expand-file-name "site-lisp" dotfiles-dir))
+
+;; Set up load path
+(add-to-list 'load-path dotfiles-dir)
+(add-to-list 'load-path site-lisp-dir)
+
+;; Settings for currently logged in user
+(setq user-settings-dir (concat user-emacs-directory "users/" user-login-name))
+(add-to-list 'load-path user-settings-dir)
+
+;; Add external projects to load path
+(dolist (project (directory-files site-lisp-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
+;; Keep emacs Custom-settings in separate file
+(setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+(load custom-file)
+
+;; Write backup files to own directory
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                        (concat dotfiles-dir "backups")))))
+
 
 (global-linum-mode 1)
 (setq linum-format "%4d ")
@@ -202,7 +229,7 @@
 (set-face-attribute 'default nil :height def-zoom-ht)
 
 (set-face-background 'region "wheat3") ; Set region background color
-;; (set-background-color        "wheat3") ; Set emacs bg color
+(set-background-color        "wheat4") ; Set emacs bg color
 
 (toggle-fullscreen)
 
@@ -218,26 +245,23 @@
 
 (defun text-scale-decrease-zAp ()
    (interactive)
-   (text-scale-increase 1)
+   (text-scale-decrease 1)
    (set-face-attribute 'linum nil :height my-def-linum-text-height)
 )
 
 (defun text-scale-increase-zAp ()
    (interactive)
-   (text-scale-decrease 1)
+   (text-scale-increase 1)
    (set-face-attribute 'linum nil :height my-def-linum-text-height)
 )
 
 ;; Zoom font via Numeric Keypad
 
-(define-key global-map (kbd "C-+") 'text-scale-increase-zAp)
-(define-key global-map (kbd "C-=") 'text-scale-increase-zAp)
-(define-key global-map (kbd "C--") 'text-scale-decrease-zAp)
 (define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
 (define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
 (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
-(define-key global-map (kbd "<M-mouse-5>") 'text-scale-increase-zAp)
-(define-key global-map (kbd "<M-mouse-4>") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+(define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
 
 (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
 (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
@@ -263,3 +287,6 @@
     (get-buffer-process (if dedicated-running
                             dedicated-proc-buffer-name
                           global-proc-buffer-name))))
+
+
+(require 'jump-char)
