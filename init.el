@@ -21,6 +21,11 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
+(add-to-list 'load-path ".")
+
+(set-face-background 'region "wheat3") ; Set region background color
+(set-background-color        "wheat4") ; Set emacs bg color
+
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
 (load custom-file)
@@ -32,7 +37,10 @@
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
-(setq linum-format "%4d ")
+(if
+    (eq window-system 'X)
+    (setq linum-format "%3d")
+    (setq linum-format "%2d "))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -54,13 +62,39 @@
 (add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
 (add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
 
-(menu-bar-mode 0)
+;;Setting up tabbar
+(if
+    (eq window-system 'X)
+    (progn
+      (require 'tabbar)
+      (tabbar-mode)
+      (menu-bar-mode 1)
+      (require 'recentf)
+      (recentf-mode 1)
+      (require 'window-numbering)
+      (window-numbering-mode 1)
+      (setq window-numbering-assign-func
+            (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+      (global-font-lock-mode t)
+      (setq font-lock-maximum-decoration t)
+      )
+  (progn
+      (menu-bar-mode 0)
+    )
+)
+
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+
 (require 'ido)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
 
-(add-to-list 'load-path ".")
+;(require 'python-mode)
+;(require 'ipython)
+
+
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 
@@ -176,6 +210,58 @@
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
+(if
+    (eq window-system 'X)
+    (progn
+      ;; This script is set for a `text-scale-mode-step` of `1.04`
+      (setq text-scale-mode-step 1.2)
+      ;;
+      ;; List: `Sub-Zoom Font Heights per text-scale-mode-step`
+      ;;   eg.  For a default font-height of 120 just remove the leading `160 150 140 130`
+      (defvar sub-zoom-ht (list 160 150 140 130 120 120 110 100 100  90  80  80  80  80  70  70  60  60  50  50  50  40  40  40  30  20  20  20  20  20  20  10  10  10  10  10  10  10  10  10  10   5   5   5   5   5   2   2   2   2   2   2   2   2   1   1   1   1   1   1   1   1   1   1   1   1))
+      (defvar sub-zoom-len (safe-length sub-zoom-ht))
+      (defvar def-zoom-ht (car sub-zoom-ht))
+      (set-face-attribute 'default nil :height def-zoom-ht)
+      (toggle-fullscreen)
+
+
+
+      ;; Adjust line number fonts.
+
+      (setq my-def-linum-text-height 100)
+
+      (defun text-scale-adjust-zAp ()
+        (interactive)
+        (text-scale-adjust 0)
+        (set-face-attribute 'linum nil :height my-def-linum-text-height)
+        )
+
+      (defun text-scale-decrease-zAp ()
+        (interactive)
+        (text-scale-decrease 1)
+        (set-face-attribute 'linum nil :height my-def-linum-text-height)
+        )
+
+      (defun text-scale-increase-zAp ()
+        (interactive)
+        (text-scale-increase 1)
+        (set-face-attribute 'linum nil :height my-def-linum-text-height)
+        )
+
+      ;; Zoom font via Numeric Keypad
+
+      (define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
+      (define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
+      (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
+      (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+      (define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
+
+      (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
+      (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
+      ;; (ac-fuzzy-complete)
+      ;; (ac-use-fuzzy)
+      ))
+
 (defun python-shell-get-or-create-process ()
   "Get or create an inferior Python process for current buffer and return it."
   (let* ((old-buffer (current-buffer))
@@ -201,4 +287,3 @@
 
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
-
