@@ -23,8 +23,6 @@
 
 (add-to-list 'load-path ".")
 
-(set-face-background 'region "wheat3") ; Set region background color
-(set-background-color        "wheat4") ; Set emacs bg color
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
@@ -38,7 +36,7 @@
 
 (global-linum-mode 1)
 (if
-    (eq window-system 'X)
+    (eq window-system 'x)
     (setq linum-format "%3d")
     (setq linum-format "%2d "))
 
@@ -64,7 +62,7 @@
 
 ;;Setting up tabbar
 (if
-    (eq window-system 'X)
+    (eq window-system 'x)
     (progn
       (require 'tabbar)
       (tabbar-mode)
@@ -211,7 +209,7 @@
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
 (if
-    (eq window-system 'X)
+    (eq window-system 'x)
     (progn
       ;; This script is set for a `text-scale-mode-step` of `1.04`
       (setq text-scale-mode-step 1.2)
@@ -222,7 +220,6 @@
       (defvar sub-zoom-len (safe-length sub-zoom-ht))
       (defvar def-zoom-ht (car sub-zoom-ht))
       (set-face-attribute 'default nil :height def-zoom-ht)
-      (toggle-fullscreen)
 
 
 
@@ -260,6 +257,18 @@
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
+      (global-set-key (kbd "C-c f") 'fullscreen-toggle)
+      (add-hook 'after-make-frame-functions 'fullscreen-toggle)
+      (defun toggle-fullscreen (&optional f)
+        (interactive)
+        (let ((current-value (frame-parameter nil 'fullscreen)))
+          (set-frame-parameter nil 'fullscreen
+                               (if (equal 'fullboth current-value)
+                                   (if (boundp 'old-fullscreen) old-fullscreen nil)
+                                 (progn (setq old-fullscreen current-value)
+                                        'fullboth)))))
+      (global-set-key [f11] 'toggle-fullscreen)
+      (toggle-fullscreen)
       ))
 
 (defun python-shell-get-or-create-process ()
