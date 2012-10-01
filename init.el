@@ -273,6 +273,8 @@
   (progn
     (set-face-background 'region "blue") ; Set region background color
     (set-face-foreground 'region "wheat1") ; Set region background color
+    (set-face-background 'linum "blue") ; Set region background color
+    (set-face-foreground 'linum "yellow") ; Set region background color
     )
   )
 
