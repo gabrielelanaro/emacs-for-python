@@ -38,7 +38,7 @@
 (if
     (eq window-system 'x)
     (setq linum-format "%3d")
-    (setq linum-format "%2d "))
+    (setq linum-format "%3d"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
