@@ -3,7 +3,7 @@
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
-(setq prolog-system 'gnu) ;; swi
+(setq prolog-system 'swi) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
@@ -33,19 +33,19 @@
 ;;(require 'tabbar)
 ;;(tabbar-mode)
 
-(menu-bar-mode 1)
+(menu-bar-mode 0)
 (tool-bar-mode 0)
-(scroll-bar-mode 1)
+(scroll-bar-mode 0)
 (require 'ido)
 (require 'recentf)
 (recentf-mode 1)
 
 ;;(require 'dired+)
-(require 'highlight-80+)
-(require 'window-numbering)
-(window-numbering-mode 1)
-(setq window-numbering-assign-func
-      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+;;(require 'highlight-80+)
+;;(require 'window-numbering)
+;;(window-numbering-mode 1)
+;;(setq window-numbering-assign-func
+;;      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 
 ;(add-to-list 'load-path "~/.emacs.d/user/python-mode/")
 ;(setq py-install-directory "~/.emacs.d/user/python-mode/")
