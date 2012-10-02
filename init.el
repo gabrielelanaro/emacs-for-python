@@ -35,6 +35,7 @@
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
+(global-auto-complete-mode 1)
 (if
     (eq window-system 'x)
     (setq linum-format "%3d")
@@ -56,9 +57,15 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
-(add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
+(defun turn-off-auto-fill-my ()
+  (interactive)
+  (auto-fill-mode -1))
+
+(defun turn-on-auto-fill ()
+  (interactive)
+  (auto-fill-mode 1))
+
+(global-set-key (kbd "C-c q") 'auto-fill-mode)
 
 ;;Setting up tabbar
 (if
@@ -144,9 +151,6 @@
 (set-default 'indent-tabs-mode nil)
 (set-default 'indicate-empty-lines t)
 (set-default 'imenu-auto-rescan nil)
-
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'turn-on-flyspell)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
@@ -301,3 +305,39 @@
 
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
+
+(defun set-input-method-english ()
+  (interactive)
+  (if current-input-method (toggle-input-method))
+  )
+
+(defun latex-b-slash ()
+  (interactive)
+  (set-input-method-english)
+  (insert "\\")
+)
+
+(defun ask-user-latex-command (cmd)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-string "LaTeX Command:")) )
+  ;; (message "String is 「%s」." cmd)
+  (insert "\\")
+  (insert cmd)
+  (insert "{}")(backward-char)
+  )
+
+(defun latex-set-b-slash-hack ()
+  (interactive)
+  (local-set-key (kbd "\\") 'ask-user-latex-command)
+  )
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-flyspell)
+
+(add-hook 'latex-mode-hook 'turn-off-auto-fill-my)
+(add-hook 'latex-mode-hook 'turn-on-flyspell)
+(add-hook 'latex-mode-hook 'highlight-changes-mode)
+(add-hook 'latex-mode-hook 'latex-set-b-slash-hack)
+
+(global-set-key (kbd "C-<menu>") 'toggle-input-method)
+
