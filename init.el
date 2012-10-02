@@ -39,7 +39,7 @@
 (if
     (eq window-system 'x)
     (setq linum-format "%3d")
-    (setq linum-format "%2d "))
+    (setq linum-format "%3d"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -277,6 +277,8 @@
   (progn
     (set-face-background 'region "blue") ; Set region background color
     (set-face-foreground 'region "wheat1") ; Set region background color
+    (set-face-background 'linum "blue") ; Set region background color
+    (set-face-foreground 'linum "yellow") ; Set region background color
     )
   )
 
