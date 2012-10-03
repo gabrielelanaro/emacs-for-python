@@ -92,6 +92,8 @@
 (scroll-bar-mode 0)
 
 (require 'ido)
+;(require 'recentf)
+;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
@@ -280,6 +282,7 @@
     )
   )
 
+
 (defun python-shell-get-or-create-process ()
   "Get or create an inferior Python process for current buffer and return it."
   (let* ((old-buffer (current-buffer))
@@ -341,3 +344,5 @@
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
 
+(global-set-key [(meta m)] 'jump-char-forward)
+(global-set-key [(shift meta m)] 'jump-char-backward)

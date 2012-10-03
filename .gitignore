@@ -3,10 +3,9 @@
 *.pyc
 ac-comphist.dat
 .emacs.desktop*
-ac-comphist.dat
 tramp
 eproject.lst
 eproject.cfg
 abbrev_defs
 ede-projects.el
-
+custom.el
