@@ -7,6 +7,7 @@
 
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" dotfiles-dir))
+(setq ext-lisp-dir (expand-file-name "extensions" dotfiles-dir))
 
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
@@ -21,6 +22,10 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
+(dolist (project (directory-files ext-lisp-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
 (add-to-list 'load-path ".")
 
 
@@ -32,12 +37,19 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+(require 'auto-complete)
+;;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
+
+(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
+(setq win32-system (eq window-system 'w32))
+
+(if windowed-system (message "TTT"))
+
 (if
-    (eq window-system 'x)
+    windowed-system
     (setq linum-format "%3d")
     (setq linum-format "%2d "))
 
@@ -57,25 +69,24 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-(defun turn-off-auto-fill-my ()
-  (interactive)
-  (auto-fill-mode -1))
-
-(defun turn-on-auto-fill ()
-  (interactive)
-  (auto-fill-mode 1))
-
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 
 ;;Setting up tabbar
 (if
-    (eq window-system 'x)
+    windowed-system
     (progn
       (require 'tabbar)
       (tabbar-mode)
       (menu-bar-mode 1)
       (require 'recentf)
       (recentf-mode 1)
+      (setq
+       recentf-menu-path '("File")
+       recentf-menu-title        "Recent"
+ recentf-max-saved-items 100
+ recentf-max-menu-items 20
+             )
+      (recentf-update-menu-hook)
       (require 'window-numbering)
       (window-numbering-mode 1)
       (setq window-numbering-assign-func
@@ -92,8 +103,6 @@
 (scroll-bar-mode 0)
 
 (require 'ido)
-;(require 'recentf)
-;(recentf-mode 1)
 
 ;;(require 'dired+)
 (require 'highlight-80+)
@@ -215,7 +224,7 @@
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
 (if
-    (eq window-system 'x)
+    windowed-system
     (progn
       ;; This script is set for a `text-scale-mode-step` of `1.04`
       (setq text-scale-mode-step 1.2)
@@ -256,14 +265,15 @@
       (define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
       (define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
       (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
-      (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
       (define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
+      (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+      (define-key global-map (kbd "<M-wheel-up>") 'text-scale-increase-zAp)
+      (define-key global-map (kbd "<M-wheel-down>") 'text-scale-decrease-zAp)
 
       (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
-      (global-set-key (kbd "C-c f") 'fullscreen-toggle)
       (add-hook 'after-make-frame-functions 'fullscreen-toggle)
       (defun toggle-fullscreen (&optional f)
         (interactive)
@@ -274,6 +284,7 @@
                                  (progn (setq old-fullscreen current-value)
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
+      (global-set-key (kbd "C-c f") 'toggle-fullscreen)
       (toggle-fullscreen)
       )
   (progn
@@ -334,15 +345,29 @@
   (local-set-key (kbd "\\") 'ask-user-latex-command)
   )
 
+(defun dollar-equation ()
+  (interactive)
+  (set-input-method-english)
+  (insert "$$")
+  (backward-char)
+)
+
+(defun latex-dollar-hack ()
+  (interactive)
+  (local-set-key (kbd "C-4") 'dollar-equation)
+  )
+
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
-(add-hook 'latex-mode-hook 'turn-off-auto-fill-my)
+(add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 (add-hook 'latex-mode-hook 'highlight-changes-mode)
 (add-hook 'latex-mode-hook 'latex-set-b-slash-hack)
+(add-hook 'latex-mode-hook 'latex-dollar-hack)
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
+(global-set-key (kbd "<C-apps>") 'toggle-input-method) ;; for windows.
 
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
