@@ -8,4 +8,5 @@ tramp
 eproject.lst
 eproject.cfg
 abbrev_defs
-/ede-projects.el
+ede-projects.el
+
