@@ -1,5 +1,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
+(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
+(setq win32-system (eq window-system 'w32))
+
 ;; magnars cool setup
 ;; Set path to .emacs.d
 (setq dotfiles-dir (file-name-directory
@@ -30,8 +33,16 @@
 
 
 ;; Keep emacs Custom-settings in separate file
-(setq custom-file (expand-file-name "custom.el" dotfiles-dir))
-(load custom-file)
+(if win32-system
+    (progn
+      (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+      (load custom-file)
+      )
+    (progn
+      (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+      (load custom-file)
+      )
+    )
 
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
@@ -43,9 +54,6 @@
 (global-auto-complete-mode 1)
 
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
-
-(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
-(setq win32-system (eq window-system 'w32))
 
 (if
     windowed-system
