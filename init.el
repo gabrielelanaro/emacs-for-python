@@ -38,15 +38,14 @@
                                         (concat dotfiles-dir "backups")))))
 
 (require 'auto-complete)
-;;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
 
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
 (setq win32-system (eq window-system 'w32))
-
-(if windowed-system (message "TTT"))
 
 (if
     windowed-system
