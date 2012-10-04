@@ -269,7 +269,7 @@
       (define-key global-map (kbd "<M-wheel-up>") 'text-scale-increase-zAp)
       (define-key global-map (kbd "<M-wheel-down>") 'text-scale-decrease-zAp)
 
-      (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
+      ;; (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
@@ -363,7 +363,7 @@
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
-(add-hook 'latex-mode-hook 'highlight-changes-mode)
+;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 (add-hook 'latex-mode-hook 'latex-set-b-slash-hack)
 (add-hook 'latex-mode-hook 'latex-dollar-hack)
 
@@ -372,3 +372,4 @@
 
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
+(global-set-key (kbd "<Scroll_Lock>") 'scroll-lock-mode)
