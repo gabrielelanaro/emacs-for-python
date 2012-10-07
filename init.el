@@ -368,18 +368,12 @@
   (local-set-key (kbd "C-4") 'dollar-equation)
   )
 
-(defun latex-12-hacks ()
-  (latex-dollar-hack)
-  (latex-set-b-slash-hack)
-  )
-
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
-(add-hook 'latex-mode-hook 'latex-12-hacks)
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
 (global-set-key (kbd "<C-apps>") 'toggle-input-method) ;; for windows.
@@ -388,3 +382,132 @@
 (global-set-key [(shift meta m)] 'jump-char-backward)
 (global-set-key (kbd "<Scroll_Lock>") 'scroll-lock-mode)
 (put 'downcase-region 'disabled nil)
+
+
+;; auto-language
+
+(defun my-char-lang-guess (arg)
+  (let (
+        (ch-cat
+         (get-char-code-property
+          arg
+          'general-category)
+         )
+        )
+    (cond
+     ((eq ch-cat 'Ll)
+      (car
+       (split-string
+        (get-char-code-property
+         arg
+         'name
+         )))
+
+      )
+     (t "LATIN")
+     )
+    )
+  )
+
+(defun my-point-lang-guess ()
+  (list
+   (my-char-lang-guess (preceding-char))
+   (my-char-lang-guess (following-char))
+  )
+)
+
+(defun my-l-r-props ()
+  (list
+   (get-char-code-property
+    (preceding-char)
+    'general-category
+    )
+   (get-char-code-property
+    (following-char)
+    'general-category
+    )
+   )
+  )
+
+(defun my-scan-to-word ()
+  (save-excursion
+    (while
+        (and
+         (not (bobp))
+         (or
+          (equal
+           (my-l-r-props)
+           (list 'Cc 'Cc)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Zs 'Cc)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Cc 'Zs)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Zs 'Zs)
+           )
+          )
+         )
+      (backward-char)
+      )
+    (my-point-lang-guess)
+    )
+  )
+
+(defun auto-language-environment ()
+  (interactive)
+  (cond
+   (
+    (and
+     (eq this-command 'self-insert-command)
+     (or
+      (eq  last-command 'toggle-input-method)
+      (eq  last-command 'set-input-method)
+      )
+     )
+    t
+    )
+   (
+    (or
+     (eq this-command 'toggle-input-method)
+     (eq this-command 'set-input-method)
+     )
+    t
+    )
+   (
+    (and
+     (eq this-command 'self-insert-command)
+     (eq last-command 'self-insert-command))
+    t
+    )
+   (
+    (equal
+     (my-scan-to-word)
+     (list "LATIN" "LATIN")
+     )
+    (set-input-method-english)
+    t
+    )
+   (
+    t
+    (set-input-method "russian-computer")
+    t
+    )
+   (t
+    (set-input-method-english)
+    )
+   )
+  )
+
+(defun latex-12-hacks ()
+  (latex-dollar-hack)
+  ;(latex-set-b-slash-hack)
+  (add-hook 'post-command-hook 'auto-language-environment)
+  )
+
+(add-hook 'latex-mode-hook 'latex-12-hacks)
