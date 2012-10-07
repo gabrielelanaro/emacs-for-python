@@ -247,7 +247,9 @@
 
       ;; Adjust line number fonts.
 
-      (setq my-def-linum-text-height 100)
+      (setq my-def-linum-text-height
+            (face-attribute 'default :height)
+            )
 
       (defun text-scale-adjust-zAp ()
         (interactive)
@@ -366,14 +368,18 @@
   (local-set-key (kbd "C-4") 'dollar-equation)
   )
 
+(defun latex-12-hacks ()
+  (latex-dollar-hack)
+  (latex-set-b-slash-hack)
+  )
+
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
-(add-hook 'latex-mode-hook 'latex-set-b-slash-hack)
-(add-hook 'latex-mode-hook 'latex-dollar-hack)
+(add-hook 'latex-mode-hook 'latex-12-hacks)
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
 (global-set-key (kbd "<C-apps>") 'toggle-input-method) ;; for windows.
@@ -381,3 +387,4 @@
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
 (global-set-key (kbd "<Scroll_Lock>") 'scroll-lock-mode)
+(put 'downcase-region 'disabled nil)
