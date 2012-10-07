@@ -455,6 +455,7 @@
          )
       (backward-char)
       )
+    ;()
     (my-point-lang-guess)
     )
   )
@@ -511,3 +512,4 @@
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
+(global-set-key (kbd "C-`") 'linum-mode)
