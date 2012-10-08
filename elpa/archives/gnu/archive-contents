@@ -1,0 +1,142 @@
+(1
+ (adaptive-wrap .
+		[(0 1)
+		 nil "Smart line-wrapping with wrap-prefix" single])
+ (all .
+      [(1 0)
+       nil "Edit all lines matching a given regexp" single])
+ (ampc .
+       [(0 2)
+	nil "Asynchronous Music Player Controller" single])
+ (auctex .
+	 [(11 86)
+	  nil "Integrated environment for *TeX*" tar])
+ (coffee-mode .
+	      [(0 4 1)
+	       nil "Major mode for CoffeeScript files" tar])
+ (company .
+	  [(0 5)
+	   nil "Flexible inline text and code completion" tar])
+ (csv-mode .
+	   [(1 0)
+	    nil "Major mode for editing comma/char separated values" single])
+ (debbugs .
+	  [(0 3)
+	   nil "SOAP library to access debbugs servers" tar])
+ (dict-tree .
+	    [(0 12 8)
+	     ((trie
+	       (0 2 5))
+	      (tNFA
+	       (0 1 1))
+	      (heap
+	       (0 3)))
+	     "Dictionary data structure" single])
+ (djvu .
+       [(0 5)
+	nil "Edit and view Djvu files via djvused" single])
+ (ediprolog .
+	    [(1 0)
+	     nil "Emacs Does Interactive Prolog" single])
+ (eldoc-eval .
+	     [(0 1)
+	      nil "Enable eldoc support when minibuffer is in use." single])
+ (epoch-view .
+	     [(0 0 1)
+	      nil "Minor mode to visualize epoch timestamps" single])
+ (f90-interface-browser .
+			[(1 1)
+			 nil "Parse and browse f90 interfaces" single])
+ (heap .
+       [(0 3)
+	nil "Heap (a.k.a. priority queue) data structure" single])
+ (ioccur .
+	 [(2 4)
+	  nil "Incremental occur" single])
+ (jgraph-mode .
+	      [(0 0)
+	       nil "Major mode for Jgraph files" single])
+ (js2-mode .
+	   [(20090814)
+	    nil "Improved JavaScript editing mode" single])
+ (lmc .
+      [(1 0)
+       nil "Little Man Computer in Elisp" single])
+ (load-dir .
+	   [(0 0 3)
+	    nil "Load all Emacs Lisp files in a given directory" single])
+ (markchars .
+	    [(0 2 0)
+	     nil "Mark chars fitting certain characteristics" single])
+ (memory-usage .
+	       [(0 1)
+		nil "Analyze the memory usage of Emacs in various ways" single])
+ (minimap .
+	  [(1 0)
+	   nil "Sidebar showing a \"mini-map\" of a buffer" single])
+ (muse .
+       [(3 20)
+	nil "Authoring and publishing tool" tar])
+ (nhexl-mode .
+	     [(0 1)
+	      nil "Minor mode to edit files via hex-dump format" single])
+ (nlinum .
+	 [(1 0)
+	  nil "Show line numbers in the margin" single])
+ (num3-mode .
+	    [(1 0)
+	     nil "highlight groups of digits in long numbers" single])
+ (oauth2 .
+	 [(0 8)
+	  nil "OAuth 2.0 Authorization Protocol" single])
+ (quarter-plane .
+		[(0 1)
+		 nil "Minor mode for quarter-plane style editing" single])
+ (queue .
+	[(0 1)
+	 nil "Queue data structure" single])
+ (rainbow-mode .
+	       [(0 2)
+		nil "Colorize color names in buffers" single])
+ (register-list .
+		[(0 1)
+		 nil "Interactively list/edit registers" single])
+ (shen-mode .
+	    [(0 1)
+	     nil "Utilities for working with Shen code." tar])
+ (sisu-mode .
+	    [(3 0 3)
+	     nil "Major mode for SiSU markup text" single])
+ (svg-clock .
+	    [(0 4)
+	     nil "Analog clock using Scalable Vector Graphics" single])
+ (tNFA .
+       [(0 1 1)
+	((queue
+	  (0 1)))
+	"Tagged non-deterministic finite-state automata" single])
+ (trie .
+       [(0 2 6)
+	((tNFA
+	  (0 1 1))
+	 (heap
+	  (0 3)))
+	"Trie data structure" single])
+ (undo-tree .
+	    [(0 5 5)
+	     nil "Treat undo history as a tree" single])
+ (uni-confusables .
+		  [(0 1)
+		   nil "Unicode confusables table" tar])
+ (vlf .
+      [(0 2)
+       nil "View Large Files" single])
+ (windresize .
+	     [(0 1)
+	      nil "Resize windows interactively" single])
+ (xclip .
+	[(1 0)
+	 nil "Emacs Interface to XClip" single])
+ (yasnippet .
+	    [(0 8 0)
+	     nil "A template system for Emacs" tar]))

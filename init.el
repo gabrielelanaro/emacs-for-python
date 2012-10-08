@@ -1,5 +1,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
+(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
+(setq win32-system (eq window-system 'w32))
+
 ;; magnars cool setup
 ;; Set path to .emacs.d
 (setq dotfiles-dir (file-name-directory
@@ -7,6 +10,7 @@
 
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" dotfiles-dir))
+(setq ext-lisp-dir (expand-file-name "extensions" dotfiles-dir))
 
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
@@ -21,22 +25,38 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
+(dolist (project (directory-files ext-lisp-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
 (add-to-list 'load-path ".")
 
 
 ;; Keep emacs Custom-settings in separate file
-(setq custom-file (expand-file-name "custom.el" dotfiles-dir))
-(load custom-file)
+(if win32-system
+    (progn
+      (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+      (load custom-file)
+      )
+    (progn
+      (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+      (load custom-file)
+      )
+    )
 
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+(require 'auto-complete)
 
 (global-linum-mode 1)
+(global-auto-complete-mode 1)
+
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+
 (if
-    (eq window-system 'x)
+    windowed-system
     (setq linum-format "%3d")
     (setq linum-format "%3d"))
 
@@ -56,19 +76,24 @@
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t)
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
-(add-hook 'LaTeX-mode-hook 'highlight-changes-mode)
+(global-set-key (kbd "C-c q") 'auto-fill-mode)
 
 ;;Setting up tabbar
 (if
-    (eq window-system 'x)
+    windowed-system
     (progn
       (require 'tabbar)
       (tabbar-mode)
       (menu-bar-mode 1)
       (require 'recentf)
       (recentf-mode 1)
+      (setq
+       recentf-menu-path '("File")
+       recentf-menu-title        "Recent"
+ recentf-max-saved-items 100
+ recentf-max-menu-items 20
+             )
+      (recentf-update-menu-hook)
       (require 'window-numbering)
       (window-numbering-mode 1)
       (setq window-numbering-assign-func
@@ -145,9 +170,6 @@
 (set-default 'indicate-empty-lines t)
 (set-default 'imenu-auto-rescan nil)
 
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'turn-on-flyspell)
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
 
@@ -209,7 +231,7 @@
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
 (if
-    (eq window-system 'x)
+    windowed-system
     (progn
       ;; This script is set for a `text-scale-mode-step` of `1.04`
       (setq text-scale-mode-step 1.2)
@@ -225,7 +247,9 @@
 
       ;; Adjust line number fonts.
 
-      (setq my-def-linum-text-height 100)
+      (setq my-def-linum-text-height
+            (face-attribute 'default :height)
+            )
 
       (defun text-scale-adjust-zAp ()
         (interactive)
@@ -250,14 +274,15 @@
       (define-key global-map (kbd "<C-kp-add>") 'text-scale-increase-zAp)
       (define-key global-map (kbd "<C-kp-subtract>") 'text-scale-decrease-zAp)
       (define-key global-map (kbd "<C-kp-multiply>") 'text-scale-adjust-zAp)
-      (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
       (define-key global-map (kbd "<M-mouse-4>") 'text-scale-increase-zAp)
+      (define-key global-map (kbd "<M-mouse-5>") 'text-scale-decrease-zAp)
+      (define-key global-map (kbd "<M-wheel-up>") 'text-scale-increase-zAp)
+      (define-key global-map (kbd "<M-wheel-down>") 'text-scale-decrease-zAp)
 
-      (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
+      ;; (set-scroll-bar-mode 'right)   ; replace 'right with 'left to place it to the left
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
-      (global-set-key (kbd "C-c f") 'fullscreen-toggle)
       (add-hook 'after-make-frame-functions 'fullscreen-toggle)
       (defun toggle-fullscreen (&optional f)
         (interactive)
@@ -268,15 +293,17 @@
                                  (progn (setq old-fullscreen current-value)
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
+      (global-set-key (kbd "C-c f") 'toggle-fullscreen)
       (toggle-fullscreen)
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color
     (set-face-foreground 'region "wheat1") ; Set region background color
-    (set-face-background 'linum "blue") ; Set region background color
-    (set-face-foreground 'linum "yellow") ; Set region background color
+    (set-face-background 'linum "cyan") ; Set region background color
+    (set-face-foreground 'linum "black") ; Set region background color
     )
   )
+
 
 (defun python-shell-get-or-create-process ()
   "Get or create an inferior Python process for current buffer and return it."
@@ -303,3 +330,186 @@
 
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
+
+(defun set-input-method-english ()
+  (interactive)
+  (if current-input-method (toggle-input-method))
+  )
+
+(defun latex-b-slash ()
+  (interactive)
+  (set-input-method-english)
+  (insert "\\")
+)
+
+(defun ask-user-latex-command (cmd)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-string "LaTeX Command:")) )
+  ;; (message "String is 「%s」." cmd)
+  (insert "\\")
+  (insert cmd)
+  (insert "{}")(backward-char)
+  )
+
+(defun latex-set-b-slash-hack ()
+  (interactive)
+  (local-set-key (kbd "\\") 'ask-user-latex-command)
+  )
+
+(defun dollar-equation ()
+  (interactive)
+  (set-input-method-english)
+  (insert "$$")
+  (backward-char)
+)
+
+(defun latex-dollar-hack ()
+  (interactive)
+  (local-set-key (kbd "C-4") 'dollar-equation)
+  )
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-flyspell)
+
+(add-hook 'latex-mode-hook 'turn-off-auto-fill)
+(add-hook 'latex-mode-hook 'turn-on-flyspell)
+;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
+
+(global-set-key (kbd "C-<menu>") 'toggle-input-method)
+(global-set-key (kbd "<C-apps>") 'toggle-input-method) ;; for windows.
+
+(global-set-key [(meta m)] 'jump-char-forward)
+(global-set-key [(shift meta m)] 'jump-char-backward)
+(global-set-key (kbd "<Scroll_Lock>") 'scroll-lock-mode)
+(put 'downcase-region 'disabled nil)
+
+
+;; auto-language
+
+(defun my-char-lang-guess (arg)
+  (let (
+        (ch-cat
+         (get-char-code-property
+          arg
+          'general-category)
+         )
+        )
+    (cond
+     ((eq ch-cat 'Ll)
+      (car
+       (split-string
+        (get-char-code-property
+         arg
+         'name
+         )))
+
+      )
+     (t "LATIN")
+     )
+    )
+  )
+
+(defun my-point-lang-guess ()
+  (list
+   (my-char-lang-guess (preceding-char))
+   (my-char-lang-guess (following-char))
+  )
+)
+
+(defun my-l-r-props ()
+  (list
+   (get-char-code-property
+    (preceding-char)
+    'general-category
+    )
+   (get-char-code-property
+    (following-char)
+    'general-category
+    )
+   )
+  )
+
+(defun my-scan-to-word ()
+  (save-excursion
+    (while
+        (and
+         (not (bobp))
+         (or
+          (equal
+           (my-l-r-props)
+           (list 'Cc 'Cc)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Zs 'Cc)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Cc 'Zs)
+           )
+          (equal
+           (my-l-r-props)
+           (list 'Zs 'Zs)
+           )
+          )
+         )
+      (backward-char)
+      )
+    ;()
+    (my-point-lang-guess)
+    )
+  )
+
+(defun auto-language-environment ()
+  (interactive)
+  (cond
+   (
+    (and
+     (eq this-command 'self-insert-command)
+     (or
+      (eq  last-command 'toggle-input-method)
+      (eq  last-command 'set-input-method)
+      )
+     )
+    t
+    )
+   (
+    (or
+     (eq this-command 'toggle-input-method)
+     (eq this-command 'set-input-method)
+     )
+    t
+    )
+   (
+    (and
+     (eq this-command 'self-insert-command)
+     (eq last-command 'self-insert-command))
+    t
+    )
+   (
+    (equal
+     (my-scan-to-word)
+     (list "LATIN" "LATIN")
+     )
+    (set-input-method-english)
+    t
+    )
+   (
+    t
+    (set-input-method "russian-computer")
+    t
+    )
+   (t
+    (set-input-method-english)
+    )
+   )
+  )
+
+(defun latex-12-hacks ()
+  (latex-dollar-hack)
+  ;(latex-set-b-slash-hack)
+  (add-hook 'post-command-hook 'auto-language-environment)
+  )
+
+(add-hook 'latex-mode-hook 'latex-12-hacks)
+(global-set-key (kbd "C-`") 'linum-mode)
