@@ -53,6 +53,9 @@
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
 
+(if win32-system
+    (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
+)
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
@@ -513,3 +516,8 @@
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+
+(setq-default ispell-program-name "aspell")
+;(setq ispell-dictionary "english")
+;(setq ispell-local-dictionary "russian")
+;(setq flyspell-default-dictionary "russian")
