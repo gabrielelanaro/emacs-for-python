@@ -513,3 +513,26 @@
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+
+
+;; Patching wrong scrolllock behaviour
+(defun scroll-lock-next-line (&optional arg)
+  "Scroll up ARG lines keeping point fixed."
+  (interactive "p")
+  (or arg (setq arg 1))
+  (scroll-lock-update-goal-column)
+  (if (pos-visible-in-window-p (point-max))
+      (progn
+        (next-line arg)
+        (print "vis-p")
+        (print arg)
+      )
+    (progn
+      (scroll-up arg)
+      (next-line (- arg))
+      (print arg)
+      (print "not-vis-p")
+      )
+    )
+  (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
+  )
