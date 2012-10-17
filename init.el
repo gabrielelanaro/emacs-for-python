@@ -60,7 +60,7 @@
 
 (if
     windowed-system
-    (setq linum-format "%3d")
+    (setq linum-format "%4d")
     (setq linum-format "%3d"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
