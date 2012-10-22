@@ -53,11 +53,14 @@
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
 
+(if win32-system
+    (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
+)
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
-    (setq linum-format "%3d")
+    (setq linum-format "%4d")
     (setq linum-format "%3d"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
@@ -513,3 +516,30 @@
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+
+;; Patching wrong scrolllock behaviour
+(defun scroll-lock-next-line (&optional arg)
+  "Scroll up ARG lines keeping point fixed."
+  (interactive "p")
+  (or arg (setq arg 1))
+  (scroll-lock-update-goal-column)
+  (if (pos-visible-in-window-p (point-max))
+      (progn
+        (next-line arg)
+        (print "vis-p")
+        (print arg)
+      )
+    (progn
+      (scroll-up arg)
+      (next-line (- arg))
+      (print arg)
+      (print "not-vis-p")
+      )
+    )
+  (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
+  )
+
+(setq-default ispell-program-name "aspell")
+(setq ispell-dictionary "english")
+(setq ispell-local-dictionary "russian")
+(setq flyspell-default-dictionary "russian")
