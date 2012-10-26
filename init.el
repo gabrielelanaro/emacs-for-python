@@ -398,7 +398,11 @@
          )
         )
     (cond
-     ((eq ch-cat 'Ll)
+     (
+      (or
+       (eq ch-cat 'Ll)
+       (eq ch-cat 'Lu)
+       )
       (car
        (split-string
         (get-char-code-property
@@ -407,28 +411,30 @@
          )))
 
       )
-     (t "LATIN")
+     (t "NONE")
      )
     )
   )
 
-(defun my-point-lang-guess ()
-  (list
-   (my-char-lang-guess (preceding-char))
-   (my-char-lang-guess (following-char))
+(defun my-map (arg)
+  (cond
+   ((equal arg "NONE")
+   "LATIN"
+   )
+   (t
+    arg
+    )
+   )
   )
+
+(defun my-point-lang-guess ()
+  (mapcar #'my-map (my-l-r-props))
 )
 
 (defun my-l-r-props ()
   (list
-   (get-char-code-property
-    (preceding-char)
-    'general-category
-    )
-   (get-char-code-property
-    (following-char)
-    'general-category
-    )
+   (my-char-lang-guess (preceding-char))
+   (my-char-lang-guess (following-char))
    )
   )
 
@@ -440,19 +446,7 @@
          (or
           (equal
            (my-l-r-props)
-           (list 'Cc 'Cc)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Zs 'Cc)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Cc 'Zs)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Zs 'Zs)
+           (list "NONE" "NONE")
            )
           )
          )
@@ -510,7 +504,7 @@
 
 (defun latex-12-hacks ()
   (latex-dollar-hack)
-  ;(latex-set-b-slash-hack)
+  (latex-set-b-slash-hack)
   (add-hook 'post-command-hook 'auto-language-environment)
   )
 
