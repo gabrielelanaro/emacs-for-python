@@ -70,7 +70,9 @@
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
-                                ("\\.P$" . prolog-mode))
+                                ("\\.P$" . prolog-mode)
+                                ("\\.tex$" . latex-mode)
+                                )
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
