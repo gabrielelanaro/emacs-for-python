@@ -53,7 +53,7 @@
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
 
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+;;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
