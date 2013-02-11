@@ -53,11 +53,14 @@
 (global-linum-mode 1)
 (global-auto-complete-mode 1)
 
+(if win32-system
+    (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
+)
 ;;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
-    (setq linum-format "%3d")
+    (setq linum-format "%4d")
     (setq linum-format "%3d"))
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
@@ -67,7 +70,9 @@
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
-                                ("\\.P$" . prolog-mode))
+                                ("\\.P$" . prolog-mode)
+                                ("\\.tex$" . latex-mode)
+                                )
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
@@ -395,7 +400,11 @@
          )
         )
     (cond
-     ((eq ch-cat 'Ll)
+     (
+      (or
+       (eq ch-cat 'Ll)
+       (eq ch-cat 'Lu)
+       )
       (car
        (split-string
         (get-char-code-property
@@ -404,28 +413,30 @@
          )))
 
       )
-     (t "LATIN")
+     (t "NONE")
      )
     )
   )
 
-(defun my-point-lang-guess ()
-  (list
-   (my-char-lang-guess (preceding-char))
-   (my-char-lang-guess (following-char))
+(defun my-map (arg)
+  (cond
+   ((equal arg "NONE")
+   "LATIN"
+   )
+   (t
+    arg
+    )
+   )
   )
+
+(defun my-point-lang-guess ()
+  (mapcar #'my-map (my-l-r-props))
 )
 
 (defun my-l-r-props ()
   (list
-   (get-char-code-property
-    (preceding-char)
-    'general-category
-    )
-   (get-char-code-property
-    (following-char)
-    'general-category
-    )
+   (my-char-lang-guess (preceding-char))
+   (my-char-lang-guess (following-char))
    )
   )
 
@@ -437,19 +448,7 @@
          (or
           (equal
            (my-l-r-props)
-           (list 'Cc 'Cc)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Zs 'Cc)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Cc 'Zs)
-           )
-          (equal
-           (my-l-r-props)
-           (list 'Zs 'Zs)
+           (list "NONE" "NONE")
            )
           )
          )
@@ -507,9 +506,36 @@
 
 (defun latex-12-hacks ()
   (latex-dollar-hack)
-  ;(latex-set-b-slash-hack)
+  (latex-set-b-slash-hack)
   (add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+
+;; Patching wrong scrolllock behaviour
+(defun scroll-lock-next-line (&optional arg)
+  "Scroll up ARG lines keeping point fixed."
+  (interactive "p")
+  (or arg (setq arg 1))
+  (scroll-lock-update-goal-column)
+  (if (pos-visible-in-window-p (point-max))
+      (progn
+        (next-line arg)
+        (print "vis-p")
+        (print arg)
+      )
+    (progn
+      (scroll-up arg)
+      (next-line (- arg))
+      (print arg)
+      (print "not-vis-p")
+      )
+    )
+  (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
+  )
+
+(setq-default ispell-program-name "aspell")
+(setq ispell-dictionary "english")
+(setq ispell-local-dictionary "russian")
+(setq flyspell-default-dictionary "russian")
