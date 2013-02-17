@@ -6,6 +6,13 @@
 ;; pymacs
 (require 'pymacs (concat epy-install-dir "extensions/pymacs.el"))
 
+;; Jedi
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(custom-set-variables '(jedi:complete-on-dot t))
+
+(defcustom epy-ropemacs nil "Enable ropemacs integration")
+
 (defun setup-ropemacs ()
   "Setup the ropemacs harness"
   (message "****************************")
@@ -114,7 +121,8 @@ The CMDLINE should be something like:
      ;;==================================================
      ;; Ropemacs Configuration
      ;;==================================================
-     (setup-ropemacs)
+     (when epy-ropemacs
+       (setup-ropemacs))
 
      ;;==================================================
      ;; Virtualenv Commands

@@ -14,6 +14,10 @@
                    "extensions/yasnippet"
                    "extensions/auto-complete"
 		   "extensions/eproject"
+		   "extensions/emacs-epc"
+                   "extensions/emacs-jedi"
+		   "extensions/emacs-deferred"
+		   "extensions/emacs-ctable"
                    )
                  )
   (add-to-list 'load-path (concat epy-install-dir relpath)))
