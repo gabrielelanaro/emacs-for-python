@@ -544,7 +544,7 @@ def _started_from_pymacs():
     while frame:
         # checking frame.f_code.co_name == 'pymacs_load_helper' might
         # be very fragile.
-        if inspect.getfile(frame).rstrip('c').endswith('pymacs.py'):
+        if inspect.getfile(frame).rstrip('c').endswith('Pymacs.py'):
             return True
         frame = frame.f_back
 
