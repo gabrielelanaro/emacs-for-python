@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright © 2001, 2002, 2003 Progiciels Bourbeau-Pinard inc.
+# Copyright © 2001, 2002, 2003, 2012 Progiciels Bourbeau-Pinard inc.
 # François Pinard <pinard@iro.umontreal.ca>, 2001.
 
 # This program is free software; you can redistribute it and/or modify
@@ -29,6 +29,14 @@ This module may also be usefully imported by other Python modules.
 See the Pymacs documentation (check `README') for more information.
 """
 
+# Identification of version.
+
+package = 'Pymacs'
+version = '0.25'
+
+import os
+import sys
+
 
 
 
@@ -39,11 +47,11 @@ See the Pymacs documentation (check `README') for more information.
 
 
 __metaclass__ = type
-import os, sys
+
 
 def fixup_icanon():
-    # otherwise sys.stdin.read hangs for large inputs in emacs 24
-    # see comment in emacs source code sysdep.c
+    # Otherwise sys.stdin.read hangs for large inputs in emacs 24.
+    # See comment in emacs source code sysdep.c.
     import termios
     a = termios.tcgetattr(1)
     a[3] &= ~termios.ICANON
@@ -56,6 +64,7 @@ except ImportError:
     signal = None
 
 ## Python services for Emacs applications.
+
 
 class Main:
     debug_file = None
@@ -119,7 +128,7 @@ Arguments are added to the search path for Python modules.
         sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb')
 
         # Start protocol and services.
-        lisp._protocol.send('version', '"0.24-beta2"')
+        lisp._protocol.send('version', '"%s"' % version)
         lisp._protocol.loop()
 
     def generic_handler(self, number, frame):
@@ -144,9 +153,15 @@ main = run.main
 
 
 
-class error(Exception): pass
-class ProtocolError(error): pass
-class ZombieError(error): pass
+class error(Exception):
+    pass
+
+class ProtocolError(error):
+    pass
+
+class ZombieError(error):
+    pass
+
 
 class Protocol:
 
@@ -160,6 +175,9 @@ class Protocol:
 
     def __init__(self):
         self.freed = []
+
+
+
 
 
 
@@ -255,7 +273,7 @@ class Protocol:
                     value = None
                     try:
                         run.inhibit_quit = False
-                        exec text
+                        exec(text)
                     finally:
                         run.inhibit_quit = True
                 elif action == 'return':
@@ -281,11 +299,14 @@ class Protocol:
             except ProtocolError, exception:
                 sys.exit("Protocol error: %s\n" % exception)
             except:
-                import StringIO, traceback
-                buffer = StringIO.StringIO()
-                traceback.print_exc(file=buffer)
+                import traceback
                 action = 'raise'
-                value = buffer.getvalue()
+                if lisp.debug_on_error.value() is None:
+                    value = traceback.format_exception_only(
+                        sys.exc_type, sys.exc_value)
+                    value = ''.join(value).rstrip()
+                else:
+                    value = traceback.format_exc()
             if not done:
                 fragments = []
                 print_lisp(value, fragments.append, True)
@@ -381,7 +402,8 @@ class Protocol:
         sys.stdout.write(prefix + text)
         sys.stdout.flush()
 
-def pymacs_load_helper(file_without_extension, prefix):
+
+def pymacs_load_helper(file_without_extension, prefix, noerror=None):
     # This function imports a Python module, then returns a Lisp expression
     # which, when later evaluated, will install trampoline definitions
     # in Emacs for accessing the Python module facilities.  Module, given
@@ -413,7 +435,10 @@ def pymacs_load_helper(file_without_extension, prefix):
             for component in module_components[1:]:
                 module = getattr(module, component)
     except ImportError:
-        return None
+        if noerror:
+            return None
+        else:
+            raise
     load_hook = module.__dict__.get('pymacs_load_hook')
     if load_hook:
         load_hook()
@@ -439,9 +464,10 @@ def pymacs_load_helper(file_without_extension, prefix):
                 module]
     return [lisp.quote, module]
 
+
 def doc_string(function):
-    if hasattr(function, '__doc__'):
-        return function.__doc__
+    import inspect
+    return inspect.getdoc(function)
 
 ## Garbage collection matters.
 
@@ -453,6 +479,7 @@ def doc_string(function):
 
 python = []
 freed_list = []
+
 
 def allocate_python(value):
     assert not isinstance(value, str), (type(value), repr(value))
@@ -466,13 +493,15 @@ def allocate_python(value):
         python.append(value)
     return index
 
-def free_python(*indices):
+
+def free_python(indices):
     # Return many handles to the pool.
     for index in indices:
         python[index] = None
         freed_list.append(index)
 
-def zombie_python(*indices):
+
+def zombie_python(indices):
     # Ensure that some handles are _not_ in the pool.
     for index in indices:
         while index >= len(python):
@@ -482,6 +511,7 @@ def zombie_python(*indices):
         freed_list.remove(index)
     # Merely to make `*Pymacs*' a bit more readable.
     freed_list.sort()
+
 
 def zombie(*arguments):
     # This catch-all function is set as the value for any function which
@@ -496,6 +526,7 @@ def zombie(*arguments):
     lisp.message(diagnostic)
 
 ## Emacs services for Python applications.
+
 
 class Let:
 
@@ -595,6 +626,7 @@ class Let:
         assert method == Let.pop_window_excursion, (method, data)
         lisp.set_window_configuration(data)
 
+
 class Symbol:
 
     def __init__(self, text):
@@ -633,6 +665,7 @@ class Symbol:
         write(')')
         return lisp._eval(''.join(fragments))
 
+
 class Lisp:
 
     def __init__(self, index):
@@ -653,6 +686,7 @@ class Lisp:
     def copy(self):
         return lisp._expand(str(self))
 
+
 class Buffer(Lisp):
     pass
 
@@ -663,6 +697,7 @@ class Buffer(Lisp):
 
     #def point(self):
     #    return lisp.point(self)
+
 
 class List(Lisp):
 
@@ -696,6 +731,7 @@ class List(Lisp):
         write(')')
         lisp._eval(''.join(fragments))
 
+
 class Table(Lisp):
 
     def __getitem__(self, key):
@@ -716,6 +752,7 @@ class Table(Lisp):
         write(' %s)' % self)
         lisp._eval(''.join(fragments))
 
+
 class Vector(Lisp):
 
     def __len__(self):
@@ -731,6 +768,7 @@ class Vector(Lisp):
         print_lisp(value, write, True)
         write(')')
         lisp._eval(''.join(fragments))
+
 
 class Lisp_Interface:
 
