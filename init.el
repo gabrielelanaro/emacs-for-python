@@ -83,6 +83,11 @@
 
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\.md" . markdown-mode) auto-mode-alist))
+
 ;;Setting up tabbar
 (if
     windowed-system
@@ -288,7 +293,7 @@
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
-      (add-hook 'after-make-frame-functions 'fullscreen-toggle)
+      ;; (add-hook 'after-make-frame-functions 'fullscreen-toggle)
       (defun toggle-fullscreen (&optional f)
         (interactive)
         (let ((current-value (frame-parameter nil 'fullscreen)))
@@ -507,7 +512,7 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
-  (add-hook 'post-command-hook 'auto-language-environment)
+  ;(add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
