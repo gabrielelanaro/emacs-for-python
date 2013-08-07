@@ -56,6 +56,7 @@
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
+    # (setenv "PYMACS_PYTHON" "/usr/bin/python2")
 )
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
@@ -83,6 +84,17 @@
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
+
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\.md" . markdown-mode) auto-mode-alist))
+
+(autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
+(add-to-list 'auto-mode-alist '("\.vala$" . vala-mode))
+(add-to-list 'auto-mode-alist '("\.vapi$" . vala-mode))
+(add-to-list 'file-coding-system-alist '("\.vala$" . utf-8))
+(add-to-list 'file-coding-system-alist '("\.vapi$" . utf-8))
 
 ;;Setting up tabbar
 (if
@@ -289,7 +301,7 @@
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
-      (add-hook 'after-make-frame-functions 'fullscreen-toggle)
+      ;; (add-hook 'after-make-frame-functions 'fullscreen-toggle)
       (defun toggle-fullscreen (&optional f)
         (interactive)
         (let ((current-value (frame-parameter nil 'fullscreen)))
@@ -508,7 +520,11 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
+<<<<<<< HEAD
   ;; (add-hook 'post-command-hook 'auto-language-environment)
+=======
+  ;(add-hook 'post-command-hook 'auto-language-environment)
+>>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
@@ -537,6 +553,15 @@
   )
 
 (setq-default ispell-program-name "aspell")
+<<<<<<< HEAD
 ;(setq ispell-dictionary "english")
 ;(setq ispell-local-dictionary "russian")
 ;(setq flyspell-default-dictionary "russian")
+=======
+(setq ispell-dictionary "english")
+(setq ispell-local-dictionary "russian")
+(setq flyspell-default-dictionary "russian")
+
+(load "server")
+(unless (server-running-p) (server-start))
+>>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
