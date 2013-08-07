@@ -300,7 +300,7 @@
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
-      (toggle-fullscreen)
+      ;;; (toggle-fullscreen)
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color
