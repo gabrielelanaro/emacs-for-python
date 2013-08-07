@@ -508,7 +508,7 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
-  (add-hook 'post-command-hook 'auto-language-environment)
+  ;; (add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
