@@ -56,7 +56,7 @@
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
-    # (setenv "PYMACS_PYTHON" "/usr/bin/python2")
+    ;; (setenv "PYMACS_PYTHON" "/usr/bin/python2")
 )
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
