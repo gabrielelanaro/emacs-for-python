@@ -9,3 +9,4 @@ eproject.cfg
 abbrev_defs
 ede-projects.el
 custom.el
+site-lisp/
