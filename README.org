@@ -142,8 +142,12 @@ First of all, install nosetests. Then open a python file in your project and:
 ``C-c .``: run test under cursor
 
 ``C-c p a``, ``C-c p m``, ``C-c p .``: same as above but drop in pdb when there's an error (Very useful!)
+*** Disabling ropemacs
+Just add the line to your .emacs
+: (setq epy-enable-ropemacs nil)
 
 ** Installation with emacs-starter-kit
+
 I've built up a little fork of emacs starter kit that is greatly
 integrated with emacs-for-python, it seems the best solution to me!
 
