@@ -1,3 +1,0 @@
-[submodule "site-lisp/jump-char"]
-	path = site-lisp/jump-char
-	url = https://github.com/lewang/jump-char.git
