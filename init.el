@@ -520,11 +520,7 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
-<<<<<<< HEAD
   ;; (add-hook 'post-command-hook 'auto-language-environment)
-=======
-  ;(add-hook 'post-command-hook 'auto-language-environment)
->>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
@@ -553,15 +549,10 @@
   )
 
 (setq-default ispell-program-name "aspell")
-<<<<<<< HEAD
-;(setq ispell-dictionary "english")
-;(setq ispell-local-dictionary "russian")
-;(setq flyspell-default-dictionary "russian")
-=======
+
 (setq ispell-dictionary "english")
 (setq ispell-local-dictionary "russian")
 (setq flyspell-default-dictionary "russian")
 
 (load "server")
 (unless (server-running-p) (server-start))
->>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
