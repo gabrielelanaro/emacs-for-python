@@ -567,3 +567,5 @@
 (unless (server-running-p) (server-start))
 
 
+(require 'eclim)
+(global-eclim-mode)
