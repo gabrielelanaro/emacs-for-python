@@ -59,7 +59,8 @@
     (setenv "PYMACS_PYTHON" "python2")
     ;; (setenv "PYMACS_PYTHON" "/usr/bin/python2")
 )
-;; (load-file (expand-file-name "epy-init.el" dotfiles-dir))
+
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
