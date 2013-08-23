@@ -56,7 +56,7 @@
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
-    # (setenv "PYMACS_PYTHON" "/usr/bin/python2")
+    ;; (setenv "PYMACS_PYTHON" "/usr/bin/python2")
 )
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
@@ -312,7 +312,15 @@
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
+      (defun maximize-window (&optional f)
+	(interactive)
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+      
       ;;; (toggle-fullscreen)
+      (maximize-window)
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color
@@ -520,11 +528,7 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
-<<<<<<< HEAD
   ;; (add-hook 'post-command-hook 'auto-language-environment)
-=======
-  ;(add-hook 'post-command-hook 'auto-language-environment)
->>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
@@ -553,15 +557,10 @@
   )
 
 (setq-default ispell-program-name "aspell")
-<<<<<<< HEAD
-;(setq ispell-dictionary "english")
-;(setq ispell-local-dictionary "russian")
-;(setq flyspell-default-dictionary "russian")
-=======
+
 (setq ispell-dictionary "english")
 (setq ispell-local-dictionary "russian")
 (setq flyspell-default-dictionary "russian")
 
 (load "server")
 (unless (server-running-p) (server-start))
->>>>>>> cbe7e32bab44c465c69280ea19441f4b6bbbc25b
