@@ -15,6 +15,7 @@
 ;; Set up load path
 (add-to-list 'load-path dotfiles-dir)
 (add-to-list 'load-path site-lisp-dir)
+(add-to-list 'load-path (expand-file-name "emacs-eclim" dotfiles-dir))
 
 ;; Settings for currently logged in user
 (setq user-settings-dir (concat user-emacs-directory "users/" user-login-name))
@@ -58,7 +59,7 @@
     (setenv "PYMACS_PYTHON" "python2")
     ;; (setenv "PYMACS_PYTHON" "/usr/bin/python2")
 )
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+;; (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
