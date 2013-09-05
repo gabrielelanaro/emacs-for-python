@@ -1,27 +1,30 @@
 (1
  (ack .
-      [(0 9)
-       nil "Interface to ack, a source code search tool" tar])
+      [(1 3)
+       nil "Interface to ack-like source code search tools" tar])
  (adaptive-wrap .
-		[(0 2)
+		[(0 5)
 		 nil "Smart line-wrapping with wrap-prefix" single])
+ (adjust-parens .
+		[(1 0)
+		 nil "Indent and dedent Lisp code, automatically adjust close parens" single])
  (all .
       [(1 0)
        nil "Edit all lines matching a given regexp" single])
  (auctex .
-	 [(11 86)
+	 [(11 86 1)
 	  nil "Integrated environment for *TeX*" tar])
  (cl-lib .
-	 [(0 2)
+	 [(0 3)
 	  nil "Properly prefixed CL functions and macros" single])
  (coffee-mode .
 	      [(0 4 1)
-	       nil "Major mode for CoffeeScript files" tar])
+	       nil "Major mode for CoffeeScript files" single])
  (company .
-	  [(0 6 2)
+	  [(0 6 10)
 	   nil "Modular in-buffer completion framework" tar])
  (csv-mode .
-	   [(1 1)
+	   [(1 2)
 	    nil "Major mode for editing comma/char separated values" single])
  (debbugs .
 	  [(0 4)
@@ -35,6 +38,11 @@
 	      (heap
 	       (0 3)))
 	     "Dictionary data structure" single])
+ (dismal .
+	 [(1 5)
+	  ((cl-lib
+	    (0)))
+	  "Dis Mode Ain't Lotus: Spreadsheet program Emacs" tar])
  (djvu .
        [(0 5)
 	nil "Edit and view Djvu files via djvused" single])
@@ -47,6 +55,9 @@
  (eldoc-eval .
 	     [(0 1)
 	      nil "Enable eldoc support when minibuffer is in use." single])
+ (enwc .
+       [(1 0)
+	nil "The Emacs Network Client" tar])
  (epoch-view .
 	     [(0 0 1)
 	      nil "Minor mode to visualize epoch timestamps" single])
@@ -54,7 +65,7 @@
 			[(1 1)
 			 nil "Parse and browse f90 interfaces" single])
  (ggtags .
-	 [(0 6 3)
+	 [(0 6 7)
 	  nil "GNU Global source code tagging system" single])
  (heap .
        [(0 3)
@@ -66,15 +77,18 @@
 	      [(1 0)
 	       nil "Major mode for Jgraph files" single])
  (js2-mode .
-	   [(20130307)
+	   [(20130619)
 	    ((emacs
 	      (24 1)))
-	    "Improved JavaScript editing mode" single])
+	    "Improved JavaScript editing mode" tar])
+ (jumpc .
+	[(3 0)
+	 nil "jump to previous insertion points" single])
  (lex .
-      [(1 0)
-       nil "Lexical analyser construction" single])
- (lmc .
       [(1 1)
+       nil "Lexical analyser construction" tar])
+ (lmc .
+      [(1 2)
        nil "Little Man Computer in Elisp" single])
  (load-dir .
 	   [(0 0 3)
@@ -90,7 +104,7 @@
 	   nil "Sidebar showing a \"mini-map\" of a buffer" single])
  (muse .
        [(3 20)
-	nil "Authoring and publishing tool" tar])
+	nil "Authoring and publishing tool for Emacs" tar])
  (nhexl-mode .
 	     [(0 1)
 	      nil "Minor mode to edit files via hex-dump format" single])
@@ -99,15 +113,18 @@
 	  nil "Show line numbers in the margin" single])
  (notes-mode .
 	     [(1 30)
-	      nil "Organizing on-line note-taking" tar])
+	      nil "Indexing system for on-line note-taking" tar])
  (num3-mode .
 	    [(1 1)
 	     nil "highlight groups of digits in long numbers" single])
  (oauth2 .
-	 [(0 8)
+	 [(0 9)
 	  nil "OAuth 2.0 Authorization Protocol" single])
+ (omn-mode .
+	   [(1 0)
+	    nil "Support for OWL Manchester Notation" single])
  (org .
-      [(20130325)
+      [(20130902)
        nil "Outline-based notes management and organizer" tar])
  (quarter-plane .
 		[(0 1)
@@ -116,14 +133,14 @@
 	[(0 1)
 	 nil "Queue data structure" single])
  (rainbow-mode .
-	       [(0 7)
+	       [(0 9)
 		nil "Colorize color names in buffers" single])
  (register-list .
 		[(0 1)
 		 nil "Interactively list/edit registers" single])
  (shen-mode .
 	    [(0 1)
-	     nil "Utilities for working with Shen code." tar])
+	     nil "A major mode for editing shen source code" tar])
  (sisu-mode .
 	    [(3 0 3)
 	     nil "Major mode for SiSU markup text" single])
@@ -137,13 +154,16 @@
 	  [(1 0 4)
 	   nil "Sokoban game for emacs" tar])
  (svg-clock .
-	    [(0 4)
+	    [(0 5)
 	     nil "Analog clock using Scalable Vector Graphics" single])
  (tNFA .
        [(0 1 1)
 	((queue
 	  (0 1)))
 	"Tagged non-deterministic finite-state automata" single])
+ (temp-buffer-browse .
+		     [(1 0)
+		      nil "temp buffer browse mode" single])
  (trie .
        [(0 2 6)
 	((tNFA
@@ -158,14 +178,20 @@
 		  [(0 1)
 		   nil "Unicode confusables table" tar])
  (vlf .
-      [(0 2)
+      [(0 9 1)
        nil "View Large Files" single])
+ (w3 .
+     [(4 0 49)
+      nil "Fully customizable, largely undocumented web browser for Emacs" tar])
+ (websocket .
+	    [(1 1)
+	     nil "Emacs WebSocket client and server" tar])
  (windresize .
 	     [(0 1)
 	      nil "Resize windows interactively" single])
  (xclip .
-	[(1 0)
-	 nil "Emacs Interface to XClip" single])
+	[(1 1)
+	 nil "use xclip to copy&paste" single])
  (yasnippet .
 	    [(0 8 0)
-	     nil "A template system for Emacs" tar]))
+	     nil "Yet another snippet extension for Emacs." tar]))
