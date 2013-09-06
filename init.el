@@ -312,7 +312,15 @@
                                         'fullboth)))))
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
+      (defun maximize-window (&optional f)
+	(interactive)
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+
       ;;; (toggle-fullscreen)
+      (maximize-window)
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color
