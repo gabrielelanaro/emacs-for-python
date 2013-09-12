@@ -46,6 +46,8 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
+(setq visible-bell 1)
+
 (require 'auto-complete)
 
 ;;(global-linum-mode 1)
@@ -139,6 +141,7 @@
 
 ;;;;; key bindings
 
+(global-set-key (kbd "C-x e") 'erase-buffer)
 (global-set-key (kbd "C-<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "<escape>-<escape>-<escape>"))
 (global-set-key (kbd "C-q") 'undo)
