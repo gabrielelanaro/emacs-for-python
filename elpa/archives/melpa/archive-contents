@@ -190,7 +190,7 @@
 	       (1 6 8)))
 	     "Weblog maintenance via XML-RPC APIs [bzr]" single])
  (web-mode .
-	   [(20130904 2310)
+	   [(20130906 9)
 	    nil "major mode for editing html templates [github]" tar])
  (web .
       [(20130827 1312)
@@ -1236,7 +1236,7 @@
 	     [(20120709 2122)
 	      nil "run powershell as an inferior shell in emacs [wiki]" single])
  (powerline .
-	    [(20130813 2346)
+	    [(20130905 1627)
 	     ((cl-lib
 	       (0 2)))
 	     "Rewrite of Powerline [github]" tar])
@@ -1325,7 +1325,7 @@
 	    [(20121129 1452)
 	     nil "A better PHP mode with Zend Framework 1 support. [github]" tar])
  (phoenix-dark-pink-theme .
-			  [(20130306 1513)
+			  [(20130905 1241)
 			   nil "Port of the Sublime Text 2 theme of the same name [github]" single])
  (phoenix-dark-mono-theme .
 			  [(20130306 1515)
@@ -1527,7 +1527,7 @@
 	      (0 1)))
 	    "Blog from Org mode to wordpress [github]" tar])
  (org-trello .
-	     [(20130902 2305)
+	     [(20130905 2133)
 	      ((org
 		(8 0 7))
 	       (dash
@@ -1677,7 +1677,7 @@
 	    [(20130901 1542)
 	     nil "guide your eyes while scrolling [github]" single])
  (omnisharp .
-	    [(20130903 2305)
+	    [(20130905 2218)
 	     ((json
 	       (1 2))
 	      (dash
@@ -1775,7 +1775,7 @@
 	   (0 1)))
 	 "Client for Clojure nREPL [github]" single])
  (notmuch .
-	  [(20130827 753)
+	  [(20130905 638)
 	   nil "No description available. [git]" tar])
  (nose .
        [(20110804 819)
@@ -2335,6 +2335,9 @@
 	 (inflections
 	  (1 1)))
 	"build functions which contextually jump between files [github]" single])
+ (jsx-mode .
+	   [(20130905 1059)
+	    nil "major mode for JSX [github]" single])
  (jss .
       [(20130508 1623)
        ((emacs
@@ -2445,7 +2448,7 @@
 	     [(20130104 2221)
 	      nil "add URLs to instapaper from emacs [hg]" single])
  (insert-shebang .
-		 [(20130904 1340)
+		 [(20130905 1233)
 		  nil "Inserts shebang line automatically [github]" tar])
  (inlineR .
 	  [(20120520 2332)
@@ -2522,8 +2525,10 @@
 		    [(20130422 1226)
 		     nil "Makes ido-mode display vertically. [github]" single])
  (ido-ubiquitous .
-		 [(20130904 1515)
-		  nil "Use ido (nearly) everywhere. [github]" single])
+		 [(20130905 1034)
+		  ((emacs
+		    (24 1)))
+		  "Use ido (nearly) everywhere. [github]" single])
  (ido-sort-mtime .
 		 [(20130427 1211)
 		  nil "Sort Ido's file list by modification time [github]" single])
@@ -2667,7 +2672,7 @@
 	       [(20130508 2044)
 		nil "Hemisu for Emacs. [github]" tar])
  (helm-themes .
-	      [(20130904 2348)
+	      [(20130905 2331)
 	       ((helm
 		 (1 0)))
 	       "Color theme selection with helm interface [github]" single])
@@ -2822,7 +2827,7 @@
 	    (20120509)))
 	  "helm-sources and some utilities for GNU R. [github]" single])
  (helm .
-       [(20130904 1907)
+       [(20130905 1309)
 	nil "Helm is an Emacs incremental and narrowing framework [github]" tar])
  (header2 .
 	  [(20130723 2321)
@@ -3542,7 +3547,7 @@
 		     (20130225 1754)))
 		   "Data viewer for GNU R [github]" single])
  (ess .
-      [(20130823 950)
+      [(20130905 548)
        nil "No description available. [github]" tar])
  (espuds .
 	 [(20130904 2012)
@@ -3571,7 +3576,7 @@
 	    (1 0)))
 	  "A collection of emacs utilities [github]" tar])
  (ert-runner .
-	     [(20130904 2140)
+	     [(20130905 1137)
 	      ((s
 		(1 6 1))
 	       (dash
@@ -3590,7 +3595,7 @@
 	 [(20130827 1016)
 	  nil "Erlang major mode [github]" tar])
  (ergoemacs-mode .
-		 [(20130904 2004)
+		 [(20130905 1021)
 		  ((org-cua-dwim
 		    (0 5)))
 		  "Emacs mode based on common modern software interface and ergonomics. [github]" tar])
@@ -4041,7 +4046,7 @@
 	   [(20091203 1912)
 	    nil "Diminished modes are minor modes with no modeline display [github]" single])
  (diff-hl .
-	  [(20130905 446)
+	  [(20130905 1153)
 	   ((cl-lib
 	     (0 2)))
 	   "Highlight uncommitted changes [github]" tar])
