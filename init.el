@@ -46,15 +46,18 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
+(setq visible-bell 1)
+
 (require 'auto-complete)
 
-(global-linum-mode 1)
+;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
 )
+
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
@@ -138,6 +141,9 @@
 
 ;;;;; key bindings
 
+(global-set-key (kbd "C-x e") 'erase-buffer)
+(global-set-key (kbd "C-<escape>") 'keyboard-escape-quit)
+(global-unset-key (kbd "<escape>-<escape>-<escape>"))
 (global-set-key (kbd "C-q") 'undo)
 (global-set-key (kbd "C-z") 'quoted-insert)
 
