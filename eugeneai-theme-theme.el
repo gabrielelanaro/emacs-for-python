@@ -3,7 +3,6 @@
 
 (custom-theme-set-variables
  'eugeneai-theme
- '(current-language-environment "Russian")
  '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(tool-bar-mode nil)
  '(show-paren-mode t))

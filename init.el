@@ -48,14 +48,14 @@
 
 (require 'auto-complete)
 
-(global-linum-mode 1)
+;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
 )
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+; (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
