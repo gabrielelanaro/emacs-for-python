@@ -139,6 +139,8 @@
 
 ;;;;; key bindings
 
+(global-set-key (kbd "C-<escape>") 'keyboard-escape-quit)
+(global-unset-key (kbd "<escape>-<escape>-<escape>"))
 (global-set-key (kbd "C-q") 'undo)
 (global-set-key (kbd "C-z") 'quoted-insert)
 

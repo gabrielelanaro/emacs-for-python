@@ -9,6 +9,7 @@
  '(safe-local-variable-values (quote ((py-indent-offset . 4) (TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(show-paren-mode t)
  '(text-mode-hook (quote (turn-on-flyspell text-mode-hook-identify)))
+ '(tool-bar-mode nil)
  '(which-function-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
