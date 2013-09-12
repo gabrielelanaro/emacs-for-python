@@ -631,7 +631,7 @@
 	    [(20130907 1824)
 	     nil "smooth-scrolling and minimap, like sublime editor [github]" tar])
  (sublime-themes .
-		 [(20130910 1100)
+		 [(20130911 1404)
 		  nil "A collection of themes based on Sublime Text [github]" tar])
  (subatomic256-theme .
 		     [(20130621 1210)
@@ -768,7 +768,7 @@
 		  [(20130904 2135)
 		   nil "The Solarized color theme, ported to Emacs. [github]" tar])
  (soft-charcoal-theme .
-		      [(20130909 2037)
+		      [(20130911 1257)
 		       nil "Dark charcoal theme with soft colors [github]" single])
  (snippet .
 	  [(20130210 1815)
@@ -2489,7 +2489,7 @@
 			  [(20130728 952)
 			   nil "Use isearch to search for the symbol at point [github]" single])
  (isearch+ .
-	   [(20130910 2150)
+	   [(20130911 459)
 	    nil "Extensions to `isearch.el' (incremental search). [wiki]" single])
  (irfc .
        [(20120824 1735)
@@ -3554,7 +3554,7 @@
 	     (0 0 2)))
 	   "Alternatives to `message' [github]" single])
  (expand-region .
-		[(20130904 1525)
+		[(20130911 319)
 		 nil "Increase selected region by semantic units. [github]" tar])
  (exec-path-from-shell .
 		       [(20130806 925)
@@ -3677,7 +3677,7 @@
 	 [(20130827 1016)
 	  nil "Erlang major mode [github]" tar])
  (ergoemacs-mode .
-		 [(20130910 812)
+		 [(20130910 2354)
 		  ((org-cua-dwim
 		    (0 5)))
 		  "Emacs mode based on common modern software interface and ergonomics. [github]" tar])
@@ -3978,7 +3978,7 @@
       [(20130826 1941)
        nil "a code browser for Emacs [github]" tar])
  (ebib .
-       [(20130910 2250)
+       [(20130911 452)
 	nil "a BibTeX database manager [github]" tar])
  (easy-after-load .
 		  [(20121224 2049)
@@ -4450,9 +4450,6 @@
 	   ((inf-ruby
 	     (2 1)))
 	   "Interact with Bundler from Emacs [github]" single])
- (bug-reference-github .
-		       [(20130904 2238)
-			nil "Automatically set `bug-reference-url-format' in Github repositories. [github]" single])
  (bufshow .
 	  [(20130711 1139)
 	   ((emacs
@@ -4825,6 +4822,9 @@
  (abc-mode .
 	   [(20130607 917)
 	    nil "Major mode for editing abc music files [github]" single])
+ (bug-reference-github .
+		       [(20130904 2238)
+			nil "Automatically set `bug-reference-url-format' in Github repositories. [github]" single])
  (org-mac-link-grabber .
 		       [(20130514 1519)
 			nil "Grab links and url from various mac [git]" single])
