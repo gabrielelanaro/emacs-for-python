@@ -1,0 +1,4911 @@
+\input texinfo
+@c
+@c Please note that this file uses some constructs not supported by earlier 
+@c versions of TeX-info.  You must be running one of the newer TeX-info 
+@c releases (I currently use version 3.9 from ftp://prep.ai.mit.edu/pub/gnu/)
+@c
+@c Please do not send in bug reports about not being able to format the
+@c document with 'makeinfo' or 'tex', just upgrade your installation.
+@c
+@c Info formatted files are provided in the distribution, and you can
+@c retrieve dvi, postscript, and PDF versions from the web site or FTP 
+@c site: http://www.cs.indiana.edu/elisp/w3/docs.html
+@c
+@setfilename w3.info
+@settitle Emacs/W3 $State: Exp $ User's Manual
+@iftex
+@c @finalout
+@end iftex
+@c @setchapternewpage odd
+@c @smallbook
+@tex
+\overfullrule=0pt
+%\global\baselineskip 30pt      % for printing in double space
+@end tex
+@synindex cp fn
+@synindex vr fn
+@dircategory World Wide Web
+@dircategory GNU Emacs Lisp
+@direntry
+* Emacs/W3: (w3).                 Emacs/W3 World Wide Web browser.
+@end direntry
+
+@copying
+@end copying
+Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1999, 2000
+Free Software Foundation, Inc.
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover texts being ``A GNU
+Manual''.  A copy of the
+license is included in the section entitled ``GNU Free Documentation
+License'' in the Emacs manual.
+@end quotation
+@c
+@titlepage
+@sp 6
+@center @titlefont{Emacs/W3}
+@center @titlefont{User's Manual}
+@sp 4
+@center Third Edition, Emacs/W3 Version 4.0
+@sp 1
+@center November 1999
+@sp 5
+@center William M. Perry
+@center @i{wmperry@@cs.indiana.edu}
+@end titlepage
+@page
+@node Top, Getting Started, (dir), (dir)
+@top W3
+
+Users can browse the World Wide Web from within Emacs by using Emacs/W3.
+All of the widely used (and even some not very widely used) @sc{url}
+schemes are supported, and it is very easy to add new methods as the
+need arises.
+
+Emacs/W3 provides some core functionality that can be readily re-used
+from any program in Emacs.  Users and other package writers are
+encouraged to @i{Web-enable} their applications and daily work routines
+with the library.
+
+Emacs/W3 is completely customizable, both from Emacs-Lisp and from
+stylesheets @xref{Stylesheets}.  If there is any aspect of Emacs/W3 that
+cannot be modified to your satisfaction, please send mail to the
+@t{w3-beta@@xemacs.org} mailing list with any suggestions.
+@xref{Reporting Bugs}.
+
+This manual corresponds to Emacs/W3 $State: Exp $
+
+@menu
+* Getting Started::             Getting up and running with Emacs/W3
+* Basic Usage::                 Basic movement and usage of Emacs/W3.
+* Compatibility::               Explanation of compatibility with
+                                other browsers.
+* Display Variables::           How to control Emacs/W3's look.
+* Stylesheets::                 How to control the look of web pages
+* Supported URLs::              What @sc{url} schemes are supported.
+* MIME Support::                Support for @sc{mime}
+* Security::                    Various security methods supported
+* Cookies::                     Emacs/W3 and cookies.
+* Non-Unix Operating Systems::  Special considerations necessary to get
+                                up and running correctly under non-unix
+                                OS's.
+* Speech Integration::          Outputting to a speech synthesizer.
+* Advanced Features::           Some of the more arcane features.
+* More Help::                   How to get more help---mailing lists,
+                                newsgroups, etc.
+* Future Directions::           Plans for future revisions
+
+Appendices:
+* Reporting Bugs::              How to report a bug in Emacs/W3.
+* Dealing with Firewalls::      How to get around your firewall.
+* Proxy Gateways::              Using a proxy gateway with Emacs/W3.
+* Installing SSL::              Turning on @sc{ssl} support.
+* Mailcap Files::               An explanation of Mailcap files.
+* Temporary::
+
+Indices:
+* General Index::               General Index.
+* Key Index::                   Menus of command keys and their references.
+@end menu
+
+@node Getting Started, Basic Usage, Top, Top
+@chapter Getting Started
+@cindex Clueless in Seattle
+@cindex Getting Started
+@kindex M-x w3
+@vindex w3-default-homepage
+@findex w3
+If installed correctly, starting Emacs/W3 is quite painless.  Just type
+@kbd{M-x w3} in a running Emacs session.  This will retrieve the default
+page that has been configured --- by default the documentation for
+Emacs/W3 at Indiana University.  The default homepage is specified by
+the @code{w3-default-homepage} variable.
+
+If the default page is not retrieved correctly at startup, you will have
+to do some customization.
+
+Once started, you can use the mouse and the menu or use the following
+key commands (for more commands and more detail, @pxref{Basic Usage, ,
+Basic Usage}).
+
+@table @asis
+@item move forward 
+press the space bar, 
+
+@item move backwards
+press the backspace key, 
+
+@item move to the next HTML reference on the page
+press the @kbd{TAB} key,
+
+@item move to the previous HTML reference on the page
+press the @kbd{SHIFT} and @kbd{TAB} keys at the same time.  If this does
+not work (some text terminals cannot distinguish between @kbd{TAB} and
+@kbd{SHIFT-TAB}, pressing the @kbd{ALT} and @kbd{TAB} keys should also
+work.
+
+@item follow a link 
+put the cursor over it
+and press the @kbd{RETURN} key, or @*
+click the left mouse button on it,
+
+@item fetch a @sc{url}
+press the @kbd{Control} and @kbd{o} keys at the same time,@*
+type the @sc{url}, and then press the @kbd{RETURN} key,
+
+@item return to the last URL you were at 
+press the @kbd{l} key,
+
+@item quit W3 mode 
+press the @kbd{q} key.
+@end table
+
+@menu
+* Downloading::                 Where to download Emacs/W3.
+* Building and Installing::     Compiling and installing from source.
+* Startup Files::               What is where, and why.
+@end menu
+
+@node Downloading, Building and Installing, Getting Started, Getting Started
+@section Downloading
+
+Emacs/W3 will work with Emacs 19.29 and later and XEmacs 19.14 and later,
+but if you're using a 19.x Emacs then you will need to get the
+latest custom and widget libraries.
+
+@table @asis
+@item Emacs
+Available from the GNU archive @uref{ftp://prep.ai.mit.edu/pub/gnu} or
+one of it's many mirrors.
+
+@item XEmacs
+Available from the XEmacs archive @uref{http://www.xemacs.org/} or one
+of it's many mirrors.
+
+@item Emacs/W3
+@uref{http://www.cs.indiana.edu/elisp/w3/docs.html} is the main
+distribution point for Emacs/W3.
+
+@item Emacspeak
+A speech synthesizer package for Emacs and XEmacs.  More information is
+available at
+@uref{http://www.cs.cornell.edu/Info/People/raman/emacspeak/}
+
+@end table
+
+@node Building and Installing, Startup Files, Downloading, Getting Started
+@section Building and Installing
+
+Emacs/W3 uses GNU @samp{configure} (@pxref{Top, , ,configure}) to
+control installation.  configure will attempt to find what version of
+Emacs you have and where it is installed.  If it finds both Emacs and
+XEmacs, then XEmacs is used (but see below for how to change this).
+Apart from the usual options, the following options are accepted:
+
+@table @samp
+@item --with-xemacs
+Use XEmacs.
+@item --with-emacs
+Use Emacs.
+@item --with-lispdir=@var{dir}
+Put lisp files (*.el and *.elc) in @var{dir}.  If this is not specified,
+and neither is @samp{--with-package-dir}, then the lisp files go into
+@file{@var{EMACS}/site-lisp}.
+@item --with-package-dir=@var{dir}
+If using XEmacs, install Emacs/W3 as a package in @var{dir}.  Please
+note that this and the @samp{--prefix} argument are mutually exclusive.
+@item --with-makeinfo=@var{makeinfo}
+Use @var{makeinfo} to build info files from Texinfo files.
+@samp{configure} will normally find makeinfo if it's available, you
+should only need to specify this if it's not called makeinfo or if it
+isn't in a directory in your @samp{PATH}.
+@item --with-custom=@var{dir}
+Use the custom package in @var{dir}.  @samp{configure} will attempt to
+find a suitable custom package, you should not need to specify this
+yourself if the custom package is in Emacs's @code{load-path}.
+@item --enable-site-install
+Install Emacs/W3 for the site, rather than just yourself.  This only
+affects whether @samp{make dotemacs} affects @file{~/.emacs} or
+@file{site-lisp/default.el}.
+
+@end table
+
+These are the most useful of the normal @samp{configure} options.
+
+@table @samp
+@item --prefix=@var{dir}
+This is the top level directory and by default everything is installed
+somewhere below this.  This is @file{/usr/local} by default.
+@item --infodir=@var{dir}
+Where to put the info files.  This is @file{@var{prefix}/info} by
+default.
+@item --data-dir=@var{dir}
+Where to put date files (default stylesheets).  This is @file{@var{prefix}/share} by
+default unless @samp{--with-package-dir=@var{pack-dir}} was given in
+which case they go into @file{@var{pack-dir}/etc/w3}.
+@end table
+
+The directory that the byte-compiled lisp files will be installed into
+is controlled by the @samp{--prefix}, @samp{--with-package-dir} and
+@samp{--with-lispdir} options.  The directory for the info and data files is
+likewise controlled by the @samp{--prefix}, @samp{--with-package-dir}
+and @samp{--infodir} or @samp{--data-dir} options.
+
+Normally these are the only things that need to be installed, they can
+by compiled by @samp{make all}, or @samp{make w3} and @samp{make info}.
+@samp{make install} will install the lisp, info and data files.
+@samp{make all} in the @file{texi} directory will create the info files
+and also dvi files.  @sc{html} and postscript can be generated by @samp{make
+html} and @samp{make ps} respectively.
+
+@c gdj1: document the other targets, fast etc.?
+
+@node Startup Files,  , Building and Installing, Getting Started
+@section Startup Files
+@cindex Startup files
+@cindex .w3
+
+@vindex w3-configuration-directory
+Emacs/W3 needs a directory for each user to store options, history and
+the cache.  @code{w3-configuration-directory} controls this directory,
+which is @file{~/.w3} by default.
+
+@subsection Emacs/W3 profile
+@cindex profile
+@vindex w3-default-configuration-file
+Emacs/W3 keeps a file called @file{profile} in your configuration
+directory that sets many variables.  @strong{Warning}: this file will
+overide any options that you set in your @file{.emacs}.  You @emph{must} either
+edit @file{profile} directly or use @code{w3-menu-save-options} to save
+your settings.
+
+If you prefer, you can set @code{w3-default-configuration-file} to
+specify a different configuration file.  This file does not need to be
+dedicated to Emacs/W3 because Emacs/W3 will delimit its part of the file
+so you can set this to @file{.emacs} if you want.  However, while
+Emacs/W3 will save it's options to the correct part of the file, it will
+read (and execute) the entire file when starting.
+
+@subsection Default stylesheets
+@cindex Default stylesheet
+@vindex w3-default-stylesheet
+Emacs/W3 will look for style-sheets in @code{w3-configuration-directory}
+as well as the site-wide directories.  In particular it will look for
+@file{dark.css} or @file{stylesheet-dark} if you're using a dark
+background and @file{light.css} or @file{stylesheet-light} if you're
+using a light background as well as @file{stylesheet} and
+@file{default.css}.  If @code{w3-default-stylesheet} is not @code{nil}
+then the file that it names will be used as well.  For more information,
+@xref{Stylesheets}.
+
+@subsection History
+@cindex history
+@vindex url-global-history-file
+@vindex url-global-history-save-interval
+@vindex url-keep-history
+Emacs/W3 keeps a file called @file{history} in the configuration
+directory.  This is a list of all the links you have visited.  You can
+change the file where the history is stored by setting
+@code{url-global-history-file} to the name of the file you'd prefer.
+@xref{Global History}.
+
+@subsection Hotlists
+@vindex w3-hotlist-file
+@dfn{Hotlists} (sometimes called bookmarks, but not to be confused with
+Emacs's bookmarks) are a list of @sc{url}s.  Emacs/W3 supports mosaic's
+hotlist format which associates an alias with each @sc{url} ---
+@xref{Hotlist Handling}.
+@c gdj1:
+@c --- and also the @sc{html} style hotlists used by
+@c lynx and netscape.
+@c And others?
+The @code{w3-hotlist-file} variable specifies
+the hotlist file.  It defaults to @file{.mosaic-hotlist-default}.
+
+@node Basic Usage, Compatibility, Getting Started, Top
+@chapter Basic Usage
+@cindex Basic Usage
+@kindex space
+@kindex backspace
+@kindex return
+@kindex tab
+@kindex M-tab
+Emacs/W3 is similar to the Info package all Emacs users hold near and
+dear to their hearts (@xref{Top,,Info,info, The Info Manual}, for a
+description of Info).  Basically, @kbd{space} and @kbd{backspace}
+control scrolling, and @kbd{return} or the middle mouse button follows a
+hypertext link.  The @kbd{tab} and @kbd{Meta-tab} keys maneuver around the
+various links on the page.
+
+@b{NOTE:} Starting with Emacs/W3 4.0, form entry areas in a page can be
+typed directly into.  This is one of the main differences in navigation
+from version 2.0.  If you are used to using the @kbd{f} and @kbd{b} keys
+to navigate around a buffer, I suggest training yourself to always use
+@kbd{tab} and @kbd{M-tab} --- it will save time and frustration on pages
+with lots of form fields.
+
+By default, hypertext links are surrounded by '[[' and ']]' on
+non-graphic terminals (VT100, DOS window, etc.).  On a graphics
+terminal, the links are in shown in different colors.
+For information on how to change this, @xref{Stylesheets}.
+
+There are approximately 50 keys bound to special Emacs/W3 functions.
+The basic rule of thumb regarding keybindings in Emacs/W3 is that a
+lowercase key takes an action on the @b{current document}, and an
+uppercase key takes an action on the document pointed to by the
+hypertext link @b{under the cursor}.
+
+There are several areas that the keybindings fall into: movement,
+information, action, and miscellaneous.
+
+@menu
+* Movement::                    Moving around in the buffer.
+* Information::                 Getting information about a document.
+* Action::                      Following links, printing, etc.
+* Miscellaneous::               Everything else.
+@end menu
+
+@node Movement, Information, Basic Usage, Basic Usage
+@section Movement
+
+All the standard Emacs bindings for movement are still in effect, with a
+few additions for convenience.
+
+@table @kbd
+@findex w3-scroll-up
+@kindex space
+@item space
+Scroll downward in the buffer.  With prefix arg, scroll down that many
+screenfuls (@code{w3-scroll-up}).
+@item M-space
+@kindex M-space
+@findex w3-next-document
+Goes to next document.
+@c gdj1: check
+
+@item M-del
+@kindex M-del
+@findex w3-prev-document
+Goes to previous document.
+@c gdj1: check
+
+@kindex backspace
+@kindex C-?
+@findex scroll-down
+@item backspace, C-?
+Scroll upward in the buffer.  With prefix arg, scroll up that many
+screenfuls (@code{scroll-down}).
+@kindex <
+@findex w3-start-of-document
+@item <
+Goes to the start of document (@code{w3-start-of-document}).
+@kindex >
+@findex w3-end-of-document
+@item >
+Goes to the end of document (@code{w3-end-of-document}).
+@kindex b
+@kindex Meta-tab
+@findex w3-widget-backward
+@item Meta-tab, Shift-tab, b
+Attempts to move backward one link area in the current document
+(@code{w3-widget-backward}).  Signals an error if no previous links are
+found.
+@kindex f
+@kindex tab
+@kindex n
+@findex w3-widget-forward
+@item tab, f, n
+Attempts to move forward one link area in the current document
+(@code{w3-widget-forward}).  Signals an error if no more links are
+found.
+@kindex B
+@kindex HB
+@findex w3-backward-in-history
+@findex w3-history-backward
+@item B, HB
+Takes one step back along the path in the current history
+(@code{w3-history-backward}).  Has no effect if at the beginning of the
+session history.
+@kindex F
+@kindex H F
+@findex w3-forward-in-history
+@findex w3-history-forward
+@item F, HF
+Takes one step forward along the path in the current history
+(@code{w3-history-forward}).  Has no effect if at the end of the session
+history.
+@kindex l
+@findex w3-goto-last-buffer
+@item l
+Return to the last buffer shown before this buffer
+(@code{w3-goto-last-buffer}).
+@kindex q
+@findex w3-quit
+@item q
+Kill this buffer (@code{w3-quit}).
+@kindex Q, u
+@findex w3-leave-buffer
+@item Q, u
+Bury this buffer, but don't kill it (@code{w3-leave-buffer}).
+@end table
+
+@node Information, Action, Movement, Basic Usage
+@section Information
+
+These functions relate information about one or more links on the
+current document.
+
+@table @kbd
+@kindex v
+@findex url-view-url
+@item v
+This shows the @sc{url} of the current document in the minibuffer
+(@code{url-view-url}).
+@kindex V
+@findex w3-view-this-url
+@item V
+This shows the @sc{url} of the hypertext link under point in the
+minibuffer (@code{w3-view-this-url}).
+@kindex i
+@findex w3-document-information
+@item i
+Shows miscellaneous information about the currently displayed document
+(@code{w3-document-information}).  This includes the @sc{url}, the last
+modified date, @sc{mime} headers, the @sc{http} response code, and any
+relationships to other documents.  Any security information is also
+displayed.
+@kindex I
+@findex w3-popup-info
+@item I
+Shows information about the @sc{url} at point (@code{w3-popup-info}).
+@kindex s
+@findex w3-source-document
+@item s
+This shows the @sc{html} source of the current document in a separate
+buffer (@code{w3-source-document}).  The buffer's name is based on the
+document's @sc{url}.
+@kindex S
+@findex w3-source-document-at-point
+@item S
+Shows the @sc{html} source of the hypertext link under point in a
+separate buffer (@code{w3-source-document-at-point}).  The buffer's name
+is based on the document's @sc{url}.
+@kindex k
+@findex w3-save-url
+@item k
+This stores the current document's @sc{url} in the kill ring, and also in the
+current window-system's clipboard, if possible (@code{w3-save-url}).
+@kindex K
+@findex w3-save-this-url
+@item K
+Stores the @sc{url} of the document under point in the kill ring, and also in
+the current window-system's clipboard, if possible (@code{w3-save-this-url}).
+@end table
+
+@node Action, Miscellaneous, Information, Basic Usage
+@section Action
+
+First, here are the keys and functions that bring up a new hypertext
+page, usually creating a new buffer.
+@table @kbd
+@kindex m
+@findex w3-complete-link
+@item m
+Choose a link from the current buffer and follow it
+(@code{w3-complete-link}).  A completing-read is done on all the links,
+so @kbd{space} and @kbd{TAB} can be used for completion.
+@kindex return
+@findex w3-follow-link
+@item return 
+Pressing return when over a hyperlink attempts to follow the link
+under the cursor (@code{w3-follow-link}).
+
+Pressing return when over a form input field can cause auto-submission
+of the form.  This is for Mosaic and Netscape compatibility.  If there
+is only one item in the form other than submit or reset buttons, then
+the form will be submitted.
+
+@kindex Middle Mouse Button
+@findex w3-follow-mouse
+@item Middle Mouse Button
+Attempt to follow a hypertext link under the mouse cursor
+(@code{w3-follow-mouse}).  Clicking on a form input field will prompt in
+the minibuffer for the data to insert into the input field.  Type
+checking is done, and the data is only entered into the form when data
+of the correct type is entered (ie: cannot enter 44 for 'date' field,
+etc).
+
+@kindex Control Middle Mouse Button
+@kindex Meta return
+@findex w3-follow-inlined-image
+@item Control Middle Mouse Button, Meta return
+Tries to retrieve the inlined image that is under point
+(@code{w3-follow-inlined-image}).  It ignores any form entry areas or
+hyperlinks, and blindly follows any inlined image.  Useful for seeing
+images that are meant to be used as hyperlinks when not on a terminal
+capable of displaying graphics.
+
+@kindex D
+@findex w3-download-url-at-point
+@item D
+Download the @sc{url} at point (@code{w3-download-url-at-point}).
+@kindex d
+@findex w3-download-this-url
+@item d
+Download the current @sc{url} (@code{w3-download-this-url}).
+@c @kindex G
+@c @findex w3-show-graphics
+@c @c @item G
+@c gdj1: Bound to w3-show-graphics which isn't defined.
+@c @kindex p
+@kindex m
+@findex w3-complete-link
+@item m
+Selects a destination from a list of all the hyperlinks in the current
+buffer (@code{w3-complete-link}).  Use @kbd{space} and @kbd{tab} to
+complete on the links.
+
+@kindex r
+@kindex g
+@findex w3-reload-document
+@item r, g
+Reloads the current document (@code{w3-reload-document}).  The position
+within the buffer remains the same (unless the document has changed
+since it was last retrieved, in which case it should be relatively
+close).  This causes an unconditional reload from the remote server ---
+the locally cached copy is not consulted.
+@kindex R
+@findex w3-refresh-buffer
+@item R
+Redraws the buffer without reloading document (@code{w3-refresh-buffer}).
+@kindex C-o
+@findex w3-fetch
+@item C-o
+Prompts for a @sc{url} in the minibuffer, and attempts to fetch it
+(@code{w3-fetch}).  If there are any errors, or Emacs/W3 cannot
+understand the type of link requested, the errors are displayed in a
+hypertext buffer.
+@kindex o
+@findex w3-open-local
+@vindex url-use-hypertext-dired
+@item o
+Opens a local file, interactively (@code{w3-open-local}).  This prompts
+for a local file name to open.  The file must exist, and may be a
+directory.  If the requested file is a directory and
+@code{url-use-hypertext-dired} is @code{nil}, then a dired-mode buffer
+is displayed.  If non@code{nil}, then Emacs/W3 automatically generates a
+hypertext listing of the directory.  The hypertext mode is the default,
+so that all the keys and functions remain the same.
+
+@kindex M-s
+@findex w3-save-as
+@item M-s
+Save a document to the local disk as HTML Source, Formatted Text, LaTeX
+Source, or Binary (@code{w3-save-as}).
+
+@kindex Hv
+@kindex C-c C-b
+@findex w3-show-history-list
+@item Hv, C-c C-b
+Show the current session's history list (@code{w3-show-history-list}).
+This takes all the links that are in that internal list, and formats
+them as hypertext links in a list, @ref{Global History}
+@end table
+
+@cindex Buffer movement
+And here are the commands to move around between Emacs/W3 buffers:
+
+@table @kbd
+@kindex l
+@findex w3-goto-last-buffer
+@item l
+Goes to the last WWW buffer seen (@code{w3-goto-last-buffer}).
+@kindex p
+@findex w3-print-this-url
+@item p
+Prints the current document (@code{w3-print-this-url}).  Choose from several different formats to
+print: formatted text, @sc{html} source, PostScript (with ps-print), or by using
+LaTeX and dvips).  @ref{Printing}.
+@kindex P
+@findex w3-print-url-under-point
+@item P
+Prints out the @sc{url} under point in a variety of formats
+(@code{w3-print-url-under-point}).  @ref{Printing}.
+@kindex q
+@findex w3-quit
+@item q
+Quits WWW mode (@code{w3-quit}).  This kills the current buffer and goes
+to the most recently visited buffer.
+@kindex Q
+@kindex u
+@findex w3-leave-buffer
+@item u, Q
+This (@code{w3-leave-buffer}) is similar to @code{w3-quit}, but the
+buffer is not killed, it is moved to the bottom of the buffer list (so
+it is the least likely to show up as the default with switch-to-buffer).
+This is different from @code{w3-goto-last-buffer} in that it does not
+return to the last @sc{www} page visited --- it is the same as using
+@code{switch-to-buffer} --- the buffer left in the window is fairly
+random.
+@end table
+
+@node Miscellaneous,  , Action, Basic Usage
+@section Miscellaneous
+
+@table @kbd
+@kindex ?
+@findex w3-help
+@item ?
+Shows help for Emacs/W3 (@code{w3-help}).
+@kindex C-c C-v
+@findex w3-version
+@item C-c C-v
+Show what version of Emacs/W3 you're running (@code{w3-version}).
+@kindex M-m
+@findex w3-mail-current-document
+@item M-m
+Mails the current document to someone (@code{w3-mail-current-document}).
+Choose from several different formats to mail: formatted text, @sc{html}
+source, PostScript, or LaTeX source.  When the @sc{html} source is
+mailed, then an appropriate <base> tag is inserted at the beginning of
+the document so that relative links may be followed correctly by whoever
+receives the mail.
+@kindex M-M
+@findex w3-mail-document-under-point
+@item M-M
+Mails the document pointed to by the hypertext link under point to
+someone (@code{w3-mail-document-under-point}).  Choose from several
+different formats to mail: formatted text, @sc{html} source, PostScript,
+or LaTeX source.  When the @sc{html} source is mailed, then an
+appropriate <base> tag is inserted at the beginning of the document so
+that relative links may be followed correctly by whoever receives the
+mail.
+@kindex A-t
+@kindex M-t
+@findex url-list-processes
+@item M-t, A-t
+gdj1: bound to url-list-processes.  What does this do?
+@kindex c
+@findex w3-mail-document-author
+@item c
+Send a mail to the author of the current document
+(@code{w3-mail-document-author}).
+
+@kindex M-x w3-insert-formatted-url
+@findex w3-insert-formatted-url
+@item M-x w3-insert-formatted-url
+Insert a fully formatted @sc{html} link into another buffer
+(@code{w3-insert-formatted-url}).  This gets the name and @sc{url} of
+either the current buffer, or, with a prefix arg, of the link under
+point, and construct the appropriate <a...>...</a> markup and insert it
+into the desired buffer.
+@kindex M-tab
+@findex w3-insert-this-url
+@item M-tab
+Inserts the @sc{url} of the current document into another buffer
+(@code{w3-insert-this-url'}).  Buffer is prompted for in the minibuffer.
+With prefix arg, uses the @sc{url} of the link under point.
+@kindex U
+@findex w3-use-links
+@item U
+Selects one of the <LINK> tags from this document and fetch it
+(@code{w3-use-links}).  Links are attributes of a specific document, and
+can tell such things as who made the document, where a table of contents
+is located, etc.
+
+Link tags specify relationships between documents in two ways.  Normal
+(forward) relationships (where the link has a REL="xxx" attribute), and
+reverse relationships (where the link has a REV="xxx" attribute).  This
+first asks what type of link to follow (Normal or Reverse), then does
+a @code{completing-read} on only the links that have that type of
+relationship.
+@end table
+
+@node Compatibility, Display Variables, Basic Usage, Top
+@chapter Compatibility with other Browsers
+Due to the popularity of several other browsers, Emacs/W3 offers an easy
+transition to its much better way of life.  This ranges from being able
+to share the same preferences files and disk cache to actually emulating
+the keybindings used in other browsers.
+
+@menu
+* Emulation::                   Emacs/W3 can emulate the keybindings and
+				other behaviours of other browsers.
+* Hotlist Handling::            A hotlist is an easy way to keep track of
+				interesting Web pages without having to
+				remember the exact path to get there.
+* Session History::             Keeping a history of documents visited
+				in one Emacs sessions allows the use of
+				'forward' and 'back' buttons easily.
+* Global History::              Keeping a history of all the places ever
+				visited on the web.
+@end menu
+
+@node Emulation, Hotlist Handling, Compatibility, Compatibility
+@section Emulation
+
+@cindex Browser emulation
+@cindex Emulation of other browsers
+@vindex w3-mode-hook
+Emacs/W3 can emulate the keybindings of lynx and netscape, but only one
+at a time.  If you want emulation permanantly turned on, then you should
+add @code{turn-on-lynx-emulation} or @code{turn-on-netscape-emulation}
+to @code{w3-mode-hook}.
+
+@menu
+* lynx::                        Emulate lynx.
+* netscape::                    Emulate netscape.
+* Masquerading::                Emacs/W3 can masquerade as another
+                                browser.
+@end menu
+
+@node lynx, netscape, Emulation, Emulation
+@section Lynx emulation
+@cindex Lynx emulation
+@findex turn-on-lynx-emulation
+@findex w3-lynx-emulation-minor-mode
+
+@code{turn-on-lynx-emulation} turns on lynx emulation and turns off
+netscape emulation.  lynx emulation is handled by the
+@code{w3-lynx-emulation-minor-mode} minor mode.  For more information
+about lynx style hotlists, @xref{Hotlist Handling}.
+
+:: work :: Document lynx emulation@*
+@table @kbd
+@kindex down
+@item Down arrow
+Highlight next topic
+@kindex up
+@item Up arrow
+Highlight previous topic
+@kindex right
+@kindex return
+@item Right arrow, Return, Enter
+Jump to highlighted topic
+@kindex left
+@item Left arrow
+Return to previous topic.  gdj1: actually, this doesn't seem to work
+quite right.
+@kindex +
+@item +
+Scroll down to next page (Page-Down)
+@kindex -
+@item -
+Scroll up to previous page (Page-Up)
+@kindex space
+@item SPACE
+Scroll down to next page (Page-Down)
+@kindex b
+@item b
+Scroll up to previous page (Page-Up)
+@kindex C-a
+@item C-a
+Go to first page of the current document (Home)
+@kindex C-b
+@item C-e
+Go to last page of the current document (End)
+@kindex C-b
+@item C-b
+Scroll up to previous page (Page-Up)
+@kindex C-f
+@item C-f
+Scroll down to next page (Page-Down)
+@kindex C-n
+@item C-n
+Go forward two lines in the current document
+@kindex C-p
+@item C-p
+Go back two lines in the current document
+@kindex )
+@item )
+Go forward half a page in the current document (ignored)
+@kindex (
+@item (
+Go back half a page in the current document (ignored)
+@kindex #
+@item #
+Go to Toolbar or Banner in the current document, only works in XEmacs.
+gdj1: is this what is meant by toolbar?
+@kindex ?
+@kindex h
+@item ?, h
+Help (this screen)
+@kindex a
+@item a
+Add the current link to a bookmark file
+@kindex c
+@item c
+Send a comment to the document owner 
+@kindex d
+@item d
+Download the current link
+@kindex e
+@item e
+Edit the current file (ignored)
+@kindex g
+@item g
+Goto a user specified @sc{url} or file
+@kindex i
+@item i
+Show an index of documents (ignored)
+@kindex j
+@item j
+Execute a jump operation (using hotlist)
+@kindex k
+@item k
+Show a list of key mappings
+@kindex l
+@item l
+List references (links) in current document
+@kindex m
+@item m
+Return to main screen
+@kindex n
+@item n
+Go to the next search string
+@kindex o
+@item o
+Set your options
+@kindex p
+@item p
+Print the current document
+@kindex q
+@item q
+Quit
+@kindex r
+@item r
+Delete hotlist entry
+@kindex s
+@item s
+Enter a search string for an external search gdj1: really?
+@kindex u
+@item u
+Go backwards in history
+@kindex /
+@item /
+Search for a string within the current document
+@kindex v
+@item v
+View a bookmark file
+@kindex V
+@item V
+Go to the Visited Links Page
+@kindex x
+@item x
+Force submission of form or link with no-cache
+@kindex z
+@item z
+Cancel transfer in progress
+@kindex backspace
+@item [backspace]
+Go to the history Page gdj1: really?
+@kindex =
+@item =
+Show file and link info
+@kindex \
+@item \
+Toggle document source/rendered view
+@kindex !
+@item !
+Spawn your default shell
+@kindex *
+@item *
+Toggle image_links mode on and off (ignored)
+@kindex [
+@item [
+Toggle pseudo_inlines mode on and off (ignorged)
+@kindex ]
+@item ]
+Send an @sc{http} @sc{head} request for the current doc or link (ignored)
+@kindex C-r
+@item C-r
+Reload current file and refresh the screen
+@kindex C-w
+@item C-w
+Refresh the screen
+@kindex C-u
+@item C-u
+Erase input line (ignored)
+@kindex C-g
+@item C-g
+Cancel input or transfer
+@kindex C-t
+@item C-t
+Toggle trace mode on and off (ignored)
+@kindex C-k
+@item C-k
+Invoke the Cookie Jar Page (ignored)
+@end table
+
+@node netscape, Masquerading, lynx, Emulation
+@section Netscape emulation
+@cindex Netscape emulation
+@findex turn-on-netscape-emulation
+@findex w3-netscape-emulation-minor-mode
+
+@code{turn-on-netscape-emulation} turns on netscape emulation and turns
+off lynx emulation.  netscape emulation is handled by the
+@code{w3-netscape-emulation-minor-mode} minor mode.  For more
+information about netscape style hotlists, @xref{Hotlist Handling}.
+
+
+@table @kbd
+@kindex M-a
+@item M-a
+Add the current link to a bookmark file
+
+@kindex M-b
+@item M-b
+Show hotlist file.
+
+@kindex M-f
+@item M-f
+Search forward in document
+
+@kindex M-g
+@item M-g
+Reapeat last search
+
+@kindex M-h
+@item M-h
+Show history window
+
+@kindex M-i
+@item M-i
+Load images
+
+@kindex M-l
+@item M-l
+Goto a user specified @sc{url} or file
+
+@kindex M-m
+@item M-m
+Send mail
+
+@kindex M-n
+@item M-n
+Open new frame
+
+@kindex M-o
+@item M-o
+Open a local file
+
+@kindex M-p
+@item M-p
+Print current document
+
+@kindex M-q
+@item M-q
+Quit current document
+
+@kindex M-r
+@item M-r
+Reload document and redraw
+
+@kindex M-s
+@item M-s
+Save current document
+
+@kindex M-left
+@item M-[left]
+Go back in history list
+
+@kindex M-right
+@item M-[right]
+Go forward in history list
+
+@kindex left
+@item [left]
+Scroll left
+
+@kindex right
+@item [right]
+Scroll right
+
+@kindex up
+@item [up]
+Scroll up
+
+@kindex down
+@item [down]
+Scroll down
+@end table
+
+@node Masquerading, , netscape, Emulation
+@section Masquerading
+@cindex Browser masquerading
+@cindex Masquerading as other browsers
+@findex turn-on-lynx-masquerade-mode
+@findex turn-on-netscape-masquerade-mode
+@findex turn-on-ie-masquerade-mode
+@findex turn-on-arena-masquerade-mode
+@findex turn-off-lynx-masquerade-mode
+@findex turn-off-netscape-masquerade-mode
+@findex turn-off-ie-masquerade-mode
+@findex turn-off-arena-masquerade-mode
+@findex w3-arena-masquerade-mode
+@findex w3-ie-masquerade-mode
+@findex w3-netscape-masquerade-mode
+@findex w3-lynx-masquerade-mode
+@sc{http} allows servers to ask browsers what browser they are, and what
+version they are.  Emacs/W3 allows you to choose the reply.  There are
+functions to masquerade as lynx, netscape, @sc{ie} or arena.  For each
+@var{browser} there are three functions,
+@code{turn-on-@var{browser}-masquerade-mode},
+@code{turn-off-@var{browser}-masquerade-mode} and
+@code{w3-@var{browser}-masquerade-mode}.  The purpose of the first two
+is clear, @code{w3-@var{browser}-masquerade-mode} takes an optional
+argument which toggles the mode if it's @code{nil}, turns off the mode
+if it's 0 and turns the mode on otherwise.
+
+If you'd prefer to masquerade as another browser, then you should call
+@code{w3-masquerade-stub} with three arguments: @var{arg}, @var{app} and
+@var{version}.  @var{arg} has the same function as for
+@code{w3-@var{browser}-masquerade-mode}, @var{app} is the name of the
+browser to masquerade as and @var{version} is the version.
+
+Why would you want to masquerade as another browser when you could be
+advertising Emacs/W3?  Well, some servers will only let certain browsers
+connect with them.  This is cleary evil.  Also some servers may alter
+what they present depending on the browser, this is probably a Good
+Thing but they might not know about Emacs/W3.  Also one could argue that
+demanding the USER_AGENT field is a breach of privacy, Emacs/W3 doesn't
+have to send it (@pxref{Security}), but the server doesn't have
+to let you connect either.
+
+
+@node Hotlist Handling, Session History, Emulation, Compatibility
+@section Hotlist Handling
+
+Emacs/W3 supports two types of hotlist, mosaic hotlists and @sc{html} as
+used by lynx and netscape (which both call hotlists bookmarks).
+Unfortunately, not all hotlist operations are supported for @sc{html}
+files at the moment.
+
+In order to avoid having to traverse many documents to get to the same
+document over and over, Emacs/W3 supports a ``hotlist'' like Mosaic.  This is
+a file that contains @sc{url}s and aliases.  Hotlists allow quick access to any
+document in the Web, providing it has been visited and added to the hotlist.
+The variable @code{w3-hotlist-file} determines where this information
+is saved.  The structure of the file is compatible with Mosaic's
+hotlist file, so this defaults to @file{~/.mosaic-hotlist-default}.
+
+Hotlist commands are:
+@table @kbd
+@item ha
+@kindex ha
+@findex w3-hotlist-apropos
+Shows the hotlist entries matching a regular expression.
+
+@kindex hi
+@findex w3-hotlist-add-document
+@vindex w3-hotlist-file
+@item hi
+Adds the current document to the hotlist, with the buffer name as its
+identifier.  Modifies the file specified by @code{w3-hotlist-file}.  If
+this is given a prefix-argument (via @kbd{C-u}), the title is prompted
+for instead of automatically defaulting to the document title.
+
+@findex w3-hotlist-delete
+@vindex w3-hotlist-file
+@kindex hd
+@item hd
+Prompts for the alias of the entry to kill.  Pressing the spacebar or
+tab will list out partial completions.  The internal representation of
+the hotlist and the file specified by @code{w3-hotlist-file} are
+updated. 
+
+@item hr
+@kindex hr
+@findex w3-hotlist-rename-entry
+@vindex w3-hotlist-file
+Some hotlist item names can be very unwieldy (`Mosaic for X level 2 fill
+out form support'), or uninformative (`Index of /').  Prompts for the
+item to rename in the minibuffer---use the spacebar or tab key for
+completion.  After having chosen an item to rename, prompts for a new
+title until a unique title is entered.  Modifies the file specified by
+@code{w3-hotlist-file}.
+
+@item hu
+@kindex hu
+@findex w3-use-hotlist
+Prompts for the alias to jump to.  Pressing the @key{spacebar} or
+@key{tab} key shows partial completions.
+
+@item hv
+@kindex hv
+@findex w3-show-hotlist
+Converts the hotlist into @sc{html} and displays it.
+
+@item hA
+@kindex hA
+@findex w3-hotlist-append
+Appends another hotlist file to the one currently in memory.
+
+@item hI
+@kindex hI
+@findex w3-hotlist-add-document-at-point
+Add the document pointed to by the hyperlink under point to the hotlist.
+
+@findex w3-hotlist-refresh
+@vindex w3-hotlist-file
+@kindex hR
+@item hR
+This rereads the default hostlist file specified by
+@code{w3-hotlist-file}.
+
+@end table
+
+
+@node Session History, Global History, Hotlist Handling, Compatibility
+@section History
+@cindex History Lists
+
+Almost all web browsers keep track of the @sc{url}s followed from a page, so
+that it can provide @b{forward} and @b{back} buttons to keep a @i{path}
+of @sc{url}s that can be traversed easily.
+
+@vindex url-keep-history
+If @code{url-keep-history} is non-@code{nil}, then Emacs/W3 keeps track
+of all the @sc{url}s visited in an Emacs session.  If @code{t} then
+Emacs/W3 will save the history list at the end of each session to the
+@code{url-global-history-file} file.  The history list is simply a list
+of all the @sc{url}s visited in the session.
+
+@findex w3-show-history-list
+To view a listing of the history for this session of Emacs/W3, use
+@code{M-x w3-show-history-list} (@kbd{Hv}) from any buffer, and Emacs/W3
+generates an @sc{html} document showing every @sc{url} visited since
+Emacs started (or cleared the history list), and then format it.  Any of
+the links can be chosen and followed to the original document.  To clear
+the history list, choose 'Clear History' from the 'Options' menu.
+
+@findex w3-forward-in-history
+@findex w3-backward-in-history
+@findex w3-fetch
+Another twist on the history list mechanism is the fact that all
+Emacs/W3 buffers remember what @sc{url}, buffer, and buffer position of the
+last document, and also keeps track of the next location jumped @b{to}
+from that buffer.  This means that the user can go forwards and
+backwards very easily along the path taken to reach a particular
+document.  To go forward, use the function @code{w3-forward-in-history} (@kbd{F}),
+to go backward, use the function @code{w3-backward-in-history}
+(@kbd{B}).  To view the entire history, use @code{w3-show-history-list}
+(@kbd{Hv}).
+
+
+@node Global History,  , Session History, Compatibility
+@section Global History
+
+Most web browsers also support the idea of a ``history'' of @sc{url}s
+the user has visited, and it displays them in a different style than
+normal @sc{url}s.  Emacs/W3 will read and write history files generated
+by Emacs/W3, Mosaic v1 and v2 or netscape.  Emacs/W3 looks at the file
+contents to determine the type of history.
+
+@vindex url-keep-history
+@vindex url-global-history-file
+@vindex url-global-history-save-interval
+If the variable @code{url-keep-history} is @code{t}, then Emacs/W3 keeps
+a list of all the @sc{url}s visited in a session.  The file is
+automatically written to disk every
+@code{url-global-history-save-interval} seconds and when exiting emacs.
+The list is added to those already in the file specified by
+@code{url-global-history-file}, which defaults to @file{~/mosaic.hst}
+for MS operating systems, @file{~/mosaic.global-history} for @sc{vms} and
+@file{~/.w3/history} for everything else.
+
+If any @sc{url} in the list is found in the file, it is not saved, but new
+ones are added at the end of the file.
+
+The function that saves the global history list is smart enough to
+notice what style of history list is being used (Netscape, Emacs/W3, or
+XMosaic), and writes out the new additions appropriately.
+
+@cindex Completion of URLs
+@cindex Usefulness of global history
+One of the nice things about keeping a global history files is that Emacs/W3
+can use it as a completion table.  When doing @kbd{M-x w3-fetch}, pressing
+the @kbd{tab} or @kbd{space} key will show all completions for a
+partial @sc{url}.  This is very useful, especially for very long @sc{url}s that
+are not in a hotlist, or for seeing all the pages from a particular web
+site before choosing which to retrieve.
+
+@node Display Variables, Stylesheets, Compatibility, Top
+@section Display Variables
+
+Emacs/W3 has many variable for you to fiddle with to get the display
+just right.
+
+@table @code
+@item w3-display-frames
+@vindex w3-display-frames
+You can control what Emacs/W3 does with frame by setting
+@code{w3-display-frames}.  It can be
+@table @code
+@item nil
+Emacs/W3 will pretend not to understand frames at all.
+@item as-nil
+Emacs/W3 will show hyperlinks to frames but will not fetch them (the same
+behaviour as lynx).
+@item ask
+This is similar to @code{as-nil}, but Emacs/W3 will ask if you want to
+retrieve the frames.
+@item t
+Emacs/W3 will dispaly the hyperlinks and fetch the frames.
+@end table
+
+@item w3-bullets
+@vindex w3-bullets
+Emacs/W3 lets @emph{you} decide what characters to use for bullets in
+unordered lists by setting @code{w3-bullets}.  It is a association list,
+mapping list types to characters.  By default it is @code{((disc . ?*)
+(circle . ?o) (square . ?#) (none . ? ))}.
+
+@item w3-echo-link
+@vindex w3-echo-link
+You can decide what should be displayed when tabbing through links by
+setting the @code{w3-echo-link} variable.  It is a list and may contain
+the following symbols,
+@table @code
+@item url
+Display the @sc{url} of the target.
+@item text
+Display the text of the link.
+@item title
+Display the title attribute of the link.
+@item name
+Display the name or id attribute of the link.
+@end table
+
+The default is @code{(title url text name)}.
+
+@item w3-horizontal-rule-char
+@vindex w3-horizontal-rule-char
+Many @sc{html} pages use horizontal lines (rules) to seperate sections
+of the page.  You can control what character Emacs/W3 will use to draw
+these by setting @code{w3-horizontal-rule-char}.  If it is a character
+(@emph{not} a string) then Emacs/W3 will replicate that character across
+the screen, if it is @code{nil} then Emacs/W3 will use a terminal
+graphics character if possible.  It is @code{nil by default}.
+
+@item w3-use-terminal-characters
+@vindex w3-use-terminal-characters
+When Emacs/W3 draws table and rules, it needs to approximate line
+somehow.  If @code{w3-use-terminal-characters} it @code{non-nil} (the
+default) then Emacs/W3 will use terminal graphics characters if they are
+available.
+
+@item w3-use-terminal-characters-on-tty
+@vindex w3-use-terminal-characters-on-tty
+Using terminal graphics characters on ttys will trigger display bugs in
+both XEmacs and FSF Emacs, but the display is usually readable with FSF
+Emacs.  @code{w3-use-terminal-characters-on-tty} controls whether to use
+terminal graphics characters on ttys, it is @code{nil} by default.
+
+@item w3-use-terminal-glyphs
+@vindex w3-use-terminal-glyphs
+Emacs/W3 can use glyphs rather than text properties for terminal
+graphics characters.  Glyphs do not work with the most recent versions
+of XEmacs.  This is @code{t} by default.
+
+@item w3-defined-link-types
+@vindex w3-defined-link-types
+@code{w3-defined-link-types} is a list of names that have special
+significance as the values of @samp{REL} or @samp{REV} attributes of
+<link> elements.  All members should be in lowercase.
+
+@item w3-auto-image-alt
+@vindex w3-auto-image-alt
+Some people do not feel it's worth their time to add @code{alt} tags to
+their images, but Emacs/W3 can create @code{alt} tags on the fly for
+images that do not have them.  To control this you can set
+@code{w3-auto-image-alt} to one of the following:
+@table @asis
+@item @code{nil}
+Do not create @code{alt} tags
+@item string
+The string will be run through format with the filename of the image and
+so may have a single @code{%s}, for example @code{"[IMAGE(%s)]"} 
+@item function
+The function will be called with the filename of the images as the
+argument.  This is the default, with @code{w3-default-image-alt-func}
+being the function.
+@end table
+
+@item w3-min-img-size, w3-default-image-alt-func, w3-dummy-img-alt-repl
+@vindex w3-min-img-size
+@vindex w3-dummy-img-alt-repl
+@findex w3-default-image-alt-func
+@code{w3-default-image-alt-func} returns @code{w3-dummy-img-alt-repl}
+(@samp{*} by default) if the image's height and width are both less than
+@code{w3-min-img-size} pixels (15 by default) and if the filename
+matches the @code{w3-dummy-img-re} regular expression.  Otherwise,
+@code{w3-default-image-alt-func} returns the filename enclosed in a
+@samp{[]} pair.
+
+@item w3-icon-format
+@vindex w3-icon-format
+Emacs/W3 will expect the standard icons to be in the format specified by
+@code{w3-icon-format}.  This is @code{gif} by default, but could be
+@code{xpm}, @code{xbm} or any other format for that matter.  It is added
+as a file extension to the icon name, but the variable's value must be a
+symbol.  If @code{nil}, then the server decides.
+
+@item w3-delay-image-loads
+@vindex w3-delay-image-loads
+You can choose whether Emacs/W3 retrieves images with the document, or
+delays loading them by setting @code{w3-delay-image-loads}.  By default
+this is @code{t} if you compiled XEmacs with support for gifs, jpegs,
+pngs or imagick and @code{nil} otherwise.
+
+@item w3-image-mappings
+@vindex w3-image-mappings
+@code{w3-image-mappings} controls the mapping of @sc{mime} types to
+image types for the @samp{image} package.  Each entry is a cons cell of
+a @sc{mime} type string and an image-type symbol.
+
+@item w3-max-menu-length
+@vindex w3-max-menu-length
+Emacs/W3 will split menus into smaller submenus if they are longer than
+@code{w3-max-menu-length}.
+
+@item w3-max-menu-width
+@vindex w3-max-menu-width
+The maximum width of a pulldown menu choice.
+
+@item w3-right-margin
+@vindex w3-right-margin
+Emacs/W3's right margin is controlled by @code{w3-right-margin}.  This
+is subtracted from @code{(window-width)} for each Emacs/W3 buffer and
+used as the fill-column.  It is 2 by default.
+
+@item w3-maximum-line-length
+@vindex w3-maximum-line-length
+The maximum length of a line.  If @code{nil} (the default) then lines
+can extend to the window margin.
+
+@item w3-modeline-format
+@vindex w3-modeline-format
+You can specify the modeline to use in @samp{w3-mode} by setting this.
+
+@item w3-honor-stylesheets
+@vindex w3-honor-stylesheets
+If this is non-@code{nil} (the default) then Emacs/W3 will let a
+document specify a @sc{css} stylesheet.
+
+@item w3-user-colors-take-precedence
+@vindex w3-user-colors-take-precedence
+Emacs/W3 will ignore a document's attempts to define certain colours if
+@code{w3-user-colors-take-precedence} it non-@code{nil}.  The default is @code{nil}.
+
+@item w3-user-fonts-take-precedence
+@vindex w3-user-fonts-take-precedence
+Emacs/W3 will ignore attempts by stylesheets or font tags to change
+certain fonts if this is non-@code{nil}.
+
+@subsection Asynchronous behaviour
+
+@item url-be-asynchronous
+@vindex url-be-asynchronous
+If this is non-@code{nil} then document retrievals over @sc{http} will
+be down in the background.
+
+@item url-default-retrieval-proc
+@vindex url-default-retrieval-proc
+This controls what happens when an asynchronous retrievel completes.  It
+is @code{url-default-callback} by default but can be any function taking
+one argument.  The argument specifies the file that has been retrieved.
+If there is no buffer associated with the file, then
+@code{url-default-callback} just puts a message in the minibuffer saying
+that the retrieval is complete, otherwise the action depends on the
+buffer.
+
+@item w3-do-incremental-display
+@vindex w3-do-incremental-display
+Emacs/W3 can de incremental display of pages if
+@code{w3-do-incremental-display} is @code{t}.  It is @code{nil} by default.
+
+@item w3-notify
+@vindex w3-notify
+You might want Emacs/W3 to notify you discreetly when it has finished
+preparing a page for your reading pleasure.  You can control Emacs/W3's
+behaviour in this situation by way of the @code{w3-notify} variable.  It
+may take the following values:
+@table @code
+@item newframe
+Puts the Emacs/W3 page in its own frame.
+@item bully
+Make the Emacs/W3 page the current buffer and only window.
+@item semibully
+Make the Emacs/W3 page the current buffer in the same window.  This is
+the default.
+@item aggressive
+Make the Emacs/W3 page the current buffer in the other window.
+@item friendly
+Display the Emacs/W3 page in the other window, but don't make it the
+current buffer.
+@item polite
+Don't display Emacs/W3 page, but print a message when ready and beep.
+@item quiet
+The same as @code{polite}, but don't beep.
+@item meek
+Make no indication that the page is ready, in fact any other value is
+equivalent to meek.
+@end table
+
+@end table
+
+
+@node Stylesheets, Supported URLs, Display Variables, Top
+@chapter Stylesheets
+The way in which Emacs/W3 formats a document is very customizable.  All
+formatting is now controlled by a default stylesheet set by the user
+with the @code{w3-default-stylesheet} variable.  Emacs/W3 currently
+supports the @sc{W3C} recommendation for Cascading Style Sheets, Level 1
+(commonly known as @sc{CSS1}) with a few experimental items from other
+W3C proposals.  Wherever Emacs/W3 diverges from the specification, it
+will be clearly documented, and will be changed once a full standard is
+available.
+
+Support for @sc{dsssl} is progressing, but spare time is at an all-time
+low.  If anyone would like to help, please contact the author.
+
+The following sections closely parallel the @sc{css1} specification so
+it should be very easy to look up what Emacs/W3 supports when browsing
+through the @sc{css1} specification.  Please note that a lot of the text
+in the following sections comes directly from the specification as
+well.
+
+@menu
+* Terminology::                 Terms used in the rest of this chapter.
+* Basic Concepts::              Why are stylesheets useful?  Getting started.
+* Pseudo-Classes/Elements::     Special classes for elements.
+* The Cascade::                 How stylesheets are combined.
+* Properties::                  What properties you can set on elements.
+* Units::                       What you can set them to.
+@end menu
+
+@node Terminology, Basic Concepts, Stylesheets, Stylesheets
+@section Terminology
+
+@table @dfn
+@item attribute
+HTML attribute, ie: @samp{align=center} --- align is the attribute.
+@item author
+The author of an HTML document.
+@item block-level element
+An element which has a line break before and after (e.g.@: 'H1' in @sc{html}).
+@item canvas
+The part of the UA's drawing surface onto which documents are rendered.
+@item child element
+A subelement in @sc{sgml} terminology.
+@item contextual selector
+A selector that matches elements based on their position in the document
+structure. A contextual selector consists of several simple
+selectors. E.g., the contextual selector 'H1.initial B' consists of two
+simple selectors, 'H1.initial' and 'B'.
+@item @sc{css}
+Cascading Style Sheets.
+@item declaration
+A property (e.g. 'font-size') and a corresponding value (e.g. '12pt').
+@item designer
+The designer of a style sheet.
+@item document
+@sc{html} document.
+@item element
+@sc{html} element.
+@item element type
+A generic identifier in @sc{sgml} terminology.
+@item fictional tag sequence
+A tool for describing the behavior of pseudo-classes and pseudo-elements.
+@item font size
+The size for which a font is designed. Typically, the size of a font is
+approximately equal to the distance from the bottom of the lowest letter
+with a descender to the top of the tallest letter with an ascender and
+(optionally) with a diacritical mark.
+@item @sc{html} extension
+Markup introduced by UA vendors, most often to support certain visual
+effects. The @sc{font}, @sc{center} and @sc{blink} elements are examples
+of HTML extensions, as is the @sc{bgcolor} attribute. One of the goals
+of @sc{css} is to provide an alternative to @sc{html} extensions.
+@item inline element
+An element which does not have a line break before and after
+(e.g. '@sc{strong}' in @sc{html})
+@item intrinsic dimensions
+The width and height as defined by the element itself, not imposed by
+the surroundings. In this specification it is assumed that all replaced
+elements -- and only replaced elements -- come with intrinsic
+dimensions.
+@item parent element
+The containing element in @sc{sgml} terminology.
+@item pseudo-element
+Pseudo-elements are used in @sc{css} selectors to address typographical
+items (e.g. the first line of an element) rather than structural
+elements.
+@item pseudo-class
+Pseudo-classes are used in @sc{css} selectors to allow information
+external to the @sc{html} source (e.g. the fact that an anchor has been
+visited or not) to classify elements.
+@item property
+A stylistic parameter that can be influenced through @sc{css}.
+@item reader
+The person for whom the document is rendered.
+@item replaced element
+An element that the @sc{css} formatter only knows the intrinsic
+dimensions of. In @sc{html}, @sc{img}, @sc{input}, @sc{textarea},
+@sc{select} and @sc{object} elements can be examples of replaced
+elements. E.g., the content of the @sc{img} element is often replaced by
+the image that the @sc{src} attribute points to.  @sc{css1} does not
+define how the intrinsic dimensions are found.
+@item rule
+A declaration (e.g. 'font-family: helvetica') and its selector
+(e.g. @sc{'H1'}).
+@item selector
+A string that identifies what elements the corresponding rule applies
+to. A selector can either be a simple selector (e.g. 'H1') or a
+contextual selector (e.g. @sc{'h1 b'}) which consists of several simple
+selectors.
+@item @sc{sgml}
+Standard Generalized Markup Language, of which @sc{html} is an
+application.
+@item simple selector
+A selector that matches elements based on the element type and/or
+attributes, and not the element's position in the document
+structure. E.g., 'H1.initial' is a simple selector.
+@item style sheet
+A collection of rules.
+@item @sc{ua}
+User Agent, often a web browser or web client.
+@item user
+Synonymous with reader.
+@item weight
+The priority of a rule.
+@end table
+
+@node Basic Concepts, Pseudo-Classes/Elements, Terminology, Stylesheets
+@section Basic Concepts
+
+Designing simple style sheets is easy. One needs only to know a little
+HTML and some basic desktop publishing terminology. E.g., to set the
+text color of 'H1' elements to blue, one can say:
+
+@example 
+  H1 @{ color: blue @}
+@end example
+
+The example above is a simple CSS rule. A rule consists of two main
+parts: selector ('H1') and declaration ('color: blue'). The declaration
+has two parts: property ('color') and value ('blue'). While the example
+above tries to influence only one of the properties needed for rendering
+an HTML document, it qualifies as a style sheet on its own. Combined
+with other style sheets (one fundamental feature of CSS is that style
+sheets are combined) it will determine the final presentation of the
+document.
+
+The selector is the link between the HTML document and the style sheet, and
+all HTML element types are possible selectors.
+
+@node Pseudo-Classes/Elements, The Cascade, Basic Concepts, Stylesheets
+@section Pseudo-Classes/Elements
+
+In @sc{css1}, style is normally attached to an element based on its
+position in the document structure. This simple model is sufficient for
+a wide variety of styles, but doesn't cover some common effects. The
+concept of pseudo-classes and pseudo-elements extend addressing in
+@sc{css1} to allow external information to influence the formatting
+process.
+
+Pseudo-classes and pseudo-elements can be used in @sc{css} selectors,
+but do not exist in the @sc{html} source. Rather, they are "inserted" by
+the @sc{ua} under certain conditions to be used for addressing in style
+sheets. They are referred to as "classes" and "elements" since this is a
+convenient way of describing their behavior. More specifically, their
+behavior is defined by a fictional tag sequence.
+
+Pseudo-elements are used to address sub-parts of elements, while
+pseudo-classes allow style sheets to differentiate between different
+element types.
+
+The only support pseudo-classes in Emacs/W3 are on the anchor tag
+(<a>...</a>).
+
+User agents commonly display newly visited anchors differently from
+older ones. In @sc{css1}, this is handled through pseudo-classes on the
+'A' element:
+
+@example
+  A:link @{ color: red @}       /* unvisited link */
+  A:visited @{ color: blue @}   /* visited links */
+  A:active @{ color: lime @}    /* active links */
+@end example
+
+All 'A' elements with an 'HREF' attribute will be put into one and only
+one of these groups (i.e. target anchors are not affected). UAs may
+choose to move an element from 'visited' to 'link' after a certain
+time. An 'active' link is one that is currently being selected (e.g. by
+a mouse button press) by the reader.
+
+The formatting of an anchor pseudo-class is as if the class had been
+inserted manually. A @sc{ua} is not required to reformat a currently
+displayed document due to anchor pseudo-class transitions. E.g., a style
+sheet can legally specify that the 'font-size' of an 'active' link
+should be larger that a 'visited' link, but the UA is not required to
+dynamically reformat the document when the reader selects the 'visited'
+link.
+
+Pseudo-class selectors do not match normal classes, and vice versa. The
+style rule in the example below will therefore not have any influence:
+
+@example
+  A:link @{ color: red @}
+
+  <A CLASS=link NAME=target5> ... </A>
+@end example
+
+In @sc{css1}, anchor pseudo-classes have no effect on elements other
+than 'A'. Therefore, the element type can be omitted from the selector:
+
+@example
+  A:link @{ color: red @}
+  :link @{ color: red @}
+@end example
+
+The two selectors above will select the same elements in CSS1.
+
+Pseudo-class names are case-insensitive.
+
+Pseudo-classes can be used in contextual selectors:
+
+@example
+  A:link IMG @{ border: solid blue @}
+@end example
+
+Also, pseudo-classes can be combined with normal classes:
+
+@example
+  A.external:visited @{ color: blue @}
+
+  <A CLASS=external HREF="http://out.side/">external link</A>
+@end example
+
+If the link in the above example has been visited, it will be rendered
+in blue. Note that normal class names precede pseudo-classes in the
+selector.
+
+@node The Cascade, Properties, Pseudo-Classes/Elements, Stylesheets
+@section The Cascade
+
+In @sc{css}, more than one style sheet can influence the presentation
+simultaneously. There are two main reasons for this feature: modularity
+and author/reader balance.
+
+@table @i
+@item modularity
+A style sheet designer can combine several (partial) style sheets to
+reduce redundancy:
+
+@example
+  @@import url(http://www.style.org/pastoral);
+  @@import url(http://www.style.org/marine);
+
+  H1 @{ color: red @}     /* override imported sheets */
+@end example
+@item author/reader balance
+Both readers and authors can influence the presentation through style
+sheets. To do so, they use the same style sheet language thus reflecting
+a fundamental feature of the web: everyone can become a publisher. The
+@sc{ua} is free to choose the mechanism for referencing personal style
+sheets.
+@end table
+
+Sometimes conflicts will arise between the style sheets that influence
+the presentation. Conflict resolution is based on each style rule having
+a weight. By default, the weights of the reader's rules are less than
+the weights of rules in the author's documents. I.e., if there are
+conflicts between the style sheets of an incoming document and the
+reader's personal sheets, the author's rules will be used. Both reader
+and author rules override the @sc{ua}'s default values.
+
+The imported style sheets also cascade with each other, in the order
+they are imported, according to the cascading rules defined below. Any
+rules specified in the style sheet itself override rules in imported
+style sheets. That is, imported style sheets are lower in the cascading
+order than rules in the style sheet itself. Imported style sheets can
+themselves import and override other style sheets, recursively.
+
+In @sc{css1}, all '@@import' statements must occur at the start of a
+style sheet, before any declarations. This makes it easy to see that
+rules in the style sheet itself override rules in the imported style
+sheets.
+
+NOTE: The use of !important in @sc{css} stylesheets is unsupported at
+this time.
+
+Conflicting rules are intrinsic to the CSS mechanism. To find the value
+for an element/property combination, the following algorithm must be
+followed:
+
+@enumerate
+@item
+Find all declarations that apply to the element/property in
+question. Declarations apply if the selector matches the element in
+question. If no declarations apply, the inherited value is used. If
+there is no inherited value (this is the case for the 'HTML' element and
+for properties that do not inherit), the initial value is used.
+@item 
+Sort the declarations by explicit weight: declarations marked
+'!important' carry more weight than unmarked (normal) declarations.
+@item
+Sort by origin: the author's style sheets override the reader's style
+sheet which override the UA's default values. An imported style sheet
+has the same origin as the style sheet from which it is imported.
+@item
+Sort by specificity of selector: more specific selectors will override
+more general ones. To find the specificity, count the number of ID
+attributes in the selector (a), the number of CLASS attributes in the
+selector (b), and the number of tag names in the selector
+(c). Concatenating the three numbers (in a number system with a large
+base) gives the specificity. Some examples:
+@example
+  LI            @{...@}  /* a=0 b=0 c=1 -> specificity =   1 */
+  UL LI         @{...@}  /* a=0 b=0 c=2 -> specificity =   2 */
+  UL OL LI      @{...@}  /* a=0 b=0 c=3 -> specificity =   3 */
+  LI.red        @{...@}  /* a=0 b=1 c=1 -> specificity =  11 */
+  UL OL LI.red  @{...@}  /* a=0 b=1 c=3 -> specificity =  13 */ 
+  #x34y         @{...@}  /* a=1 b=0 c=0 -> specificity = 100 */ 
+@end example
+Pseudo-elements and pseudo-classes are counted as normal elements and
+classes, respectively.
+@item
+Sort by order specified: if two rules have the same weight, the latter
+specified wins. Rules in imported style sheets are considered to be
+before any rules in the style sheet itself.
+@end enumerate
+
+The search for the property value can be terminated whenever one rule
+has a higher weight than the other rules that apply to the same
+element/property combination.
+
+This strategy gives author's style sheets considerably higher weight
+than those of the reader. It is therefore important that the reader has
+the ability to turn off the influence of a certain style sheet,
+e.g. through a pull-down menu.
+
+A declaration in the 'STYLE' attribute of an element has the same weight
+as a declaration with an ID-based selector that is specified at the end
+of the style sheet:
+
+@example
+<STYLE TYPE="text/css">
+  #x97z @{ color: blue @}
+</STYLE>
+
+<P ID=x97z STYLE="color: red">
+@end example
+
+In the above example, the color of the 'P' element would be
+red. Although the specificity is the same for both declarations, the
+declaration in the 'STYLE' attribute will override the one in the
+'STYLE' element because of cascading rule number 5.
+
+The @sc{ua} may choose to honor other stylistic @sc{html} attributes,
+for example 'ALIGN'. If so, these attributes are translated to the
+corresponding @sc{css} rules with specificity equal to 1. The rules are
+assumed to be at the start of the author style sheet and may be
+overridden by subsequent style sheet rules. In a transition phase, this
+policy will make it easier for stylistic attributes to coexist with
+style sheets.
+
+@node Properties, Units, The Cascade, Stylesheets
+@section Properties
+
+In the text below, the allowed values for each property are listed
+with a syntax like the following:
+
+@example
+      Value: N | NW | NE
+      Value: [ <length> | thick | thin ]@{1,4@}
+      Value: <uri>? <color> [ / <color> ]?
+      Value: <uri> || <color>
+@end example
+
+The words between < and > give a type of value. The most common types
+are <length>, <percentage>, <url>, <number>and <color> these are
+described in the section on [[units]]. The more specialized types
+(e.g. <font-family>and <border-style>) are described under the property
+where they appear.
+
+Other words are keywords that must appear literally, without quotes. The
+slash (/) and the comma (,) must also appear literally.
+
+Several things juxtaposed mean that all of them must occur, in the given
+order. A bar (|) separates alternatives: one of them must occur. A
+double bar (A || B) means that either A or B or both must occur, in any
+order. Brackets ([]) are for grouping. Juxtaposition is stronger than
+the double bar, and the double bar is stronger than the bar. Thus "a b |
+c || d e" is equivalent to "[ a b ] | [ c || [ d e ]]".
+
+Every type, keyword, or bracketed group may be followed by one of the
+following modifiers:
+
+@itemize @bullet
+@item
+An asterisk (*) indicates that the preceding type, word or group is
+repeated zero or more times.
+@item
+A plus (+) indicates that the preceding type, word or group is repeated
+one or more times.
+@item
+A question mark (?) indicates that the preceding type, word or group is
+optional.
+@item
+A pair of numbers in curly braces (@{A,B@}) indicates that the preceding
+type, word or group is repeated at least A and at most B times.
+@end itemize
+
+Other than the value the following information is also shown.
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab If this is present, it lists the parts of
+the specification that Emacs/W3 currently supports.
+@item Unsupported Values: @tab If this is present, it represents the
+parts of the specifcation that Emacs/W3 does not support.
+@item Initial: @tab The default value for the property, unless
+explicitly set in a stylesheet.
+@item Applies to: @tab What type of elements this property can be attached to.
+@item Inherited: @tab Yes or no
+@item Percentage values: @tab What a percentage value applies to when given.
+@end multitable
+
+@menu
+* Font Properties::             Selecting fonts, styles, and sizes.
+* Colors and Backgrounds::      Controlling colors, front and back.
+* Text Properties::             Alignment, decoration, and more!
+* Box Properties::              Borders, padding, and margins, oh my!
+* Classification::              Changing whitespace and display policies.
+* Media Selection::             Conditionalize stylesheets on media-type.
+* Speech Properties::           Speech output controlled by stylesheets.
+@end menu
+
+@node Font Properties, Colors and Backgrounds, Properties, Properties
+@subsection Font Properties
+
+Setting font properties will be among the most common uses of style
+sheets.  Unfortunately, there exists no well-defined and universally
+accepted taxonomy for classifying fonts, and terms that apply to one
+font family may not be appropriate for others. E.g. 'italic' is commonly
+used to label slanted text, but slanted text may also be labeled as
+being @b{Oblique}, @b{Slanted}, @b{Incline}, @b{Cursive} or
+@b{Kursiv}. Therefore it is not a simple problem to map typical font
+selection properties to a specific font.
+
+The properties defined by CSS1 are described in the following sections.
+@menu
+* font-family::                 Groups of fonts.
+* font-style::                  Normal, italic, or oblique?
+* font-variant::                Small-caps, etc.
+* font-weight::                 How bold can you go?
+* font-size::                   How big is yours?
+* font::                        Shorthand for all of the above.
+@end menu
+
+@node font-family, font-style, Font Properties, Font Properties
+@subsubsection font-family
+
+@multitable @columnfractions .20 .8
+@item Supported Values: @tab [[<family-name> | <generic-family>],]* [<family-name> | <generic-family>]
+@item Initial: @tab User specific
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+The value is a prioritized list of font family names and/or generic
+family names. Unlike most other CSS1 properties, values are separated
+by a comma to indicate that they are alternatives:
+
+@example
+  BODY @{ font-family: gill, helvetica, sans-serif @}
+@end example
+
+There are two types of list values:
+
+@table @b
+@item <family-name>
+The name of a font family of choice. In the last example, "gill" and
+"helvetica" are font families.
+@item <generic-family>
+In the example above, the last value is a generic family name. The
+following generic families are defined:
+@itemize @bullet
+@item
+'serif' (e.g. Times)
+@item
+'sans-serif' (e.g. Helvetica)
+@item
+'cursive' (e.g. Zapf-Chancery)
+@item
+'fantasy' (e.g. Western)
+@item
+'monospace' (e.g. Courier)
+@end itemize
+@end table
+
+Style sheet designers are encouraged to offer a generic font family as a
+last alternative.
+
+Font names containing whitespace should be quoted:
+
+@example
+  BODY @{ font-family: "new century schoolbook", serif @}
+  
+  <BODY STYLE="font-family: 'My own font', fantasy">
+@end example
+
+If quoting is omitted, any whitespace characters before and after the
+font name are ignored and any sequence of whitespace characters inside
+the font name is converted to a single space.
+
+@node font-style, font-variant, font-family, Font Properties
+@subsubsection font-style
+
+@multitable @columnfractions .2 .8
+@item Supported Values: @tab normal | italic | oblique
+@item Initial: @tab normal
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The 'font-style' property selects between normal (sometimes referred to
+as "roman" or "upright"), italic and oblique faces within a font family.
+
+A value of 'normal' selects a font that is classified as 'normal' in the
+UA's font database, while 'oblique' selects a font that is labeled
+'oblique'. A value of 'italic' selects a font that is labeled 'italic',
+or, if that is not available, one labeled 'oblique'.
+
+The font that is labeled 'oblique' in the UA's font database may
+actually have been generated by electronically slanting a normal font.
+
+Fonts with Oblique, Slanted or Incline in their names will typically be
+labeled 'oblique' in the UA's font database. Fonts with Italic, Cursive
+or Kursiv in their names will typically be labeled 'italic'.
+
+@example
+  H1, H2, H3 @{ font-style: italic @}
+  H1 EM @{ font-style: normal @}
+@end example
+
+In the example above, emphasized text within 'H1' will appear in a
+normal face.
+
+@node font-variant, font-weight, font-style, Font Properties
+@subsubsection font-variant
+
+@multitable @columnfractions .2 .8
+@item Value:             @tab normal | small-caps
+@item Initial:           @tab normal
+@item Applies to:        @tab all elements
+@item Inherited:         @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+Another type of variation within a font family is the small-caps. In a
+small-caps font the lower case letters look similar to the uppercase
+ones, but in a smaller size and with slightly different proportions. The
+'font-variant' property selects that font.
+
+A value of 'normal' selects a font that is not a small-caps font,
+'small-caps' selects a small-caps font. It is acceptable (but not
+required) in CSS1 if the small-caps font is a created by taking a normal
+font and replacing the lower case letters by scaled uppercase
+characters. As a last resort, uppercase letters will be used as
+replacement for a small-caps font.
+
+The following example results in an 'H3' element in small-caps, with
+emphasized words in oblique small-caps:
+
+@example
+  H3 @{ font-variant: small-caps @}
+  EM @{ font-style: oblique @}
+@end example
+
+There may be other variants in the font family as well, such as fonts
+with old-style numerals, small-caps numerals, condensed or expanded
+letters, etc. CSS1 has no properties that select those.
+
+@node font-weight, font-size, font-variant, Font Properties
+@subsubsection font-weight
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab normal | bold | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+@item Unsupported Values: @tab bolder | lighter
+@item Initial: @tab normal
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The 'font-weight' property selects the weight of the font. The values
+'100' to '900' form an ordered sequence, where each number indicates a
+weight that is at least as dark as its predecessor. The keyword 'normal'
+is synonymous with '400', and 'bold' is synonymous with '700'. Keywords
+other than 'normal' and 'bold' have been shown to be often confused with
+font names and a numerical scale was therefore chosen for the 9-value
+list.
+
+@example
+  P @{ font-weight: normal @}   /* 400 */
+  H1 @{ font-weight: 700 @}     /* bold */
+@end example
+
+The 'bolder' and 'lighter' values select font weights that are relative
+to the weight inherited from the parent:
+
+@example
+  STRONG @{ font-weight: bolder @}
+@end example
+
+There is no guarantee that there will be a darker face for each of the
+'font-weight' values; for example, some fonts may have only a normal and
+a bold face, others may have eight different face weights. There is no
+guarantee on how a UA will map font faces within a family to weight
+values. The only guarantee is that a face of a given value will be no
+less dark than the faces of lighter values.
+
+@node font-size, font, font-weight, Font Properties
+@subsubsection font-size
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab <absolute-size> | <length>
+@item Unsupported Values: @tab <percentage> | <relative-size>
+@item Initial: @tab medium
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab relative to parent element's font size
+@end multitable
+
+@table @b
+@item <absolute-size>
+An <absolute-size> keyword is an index to a table of font sizes computed
+and kept by the UA. Possible values are:
+@itemize @bullet
+@item
+xx-small
+@item
+x-small
+@item
+small
+@item
+medium
+@item
+large
+@item
+x-large
+@item
+xx-large
+@end itemize
+
+On a computer screen a scaling factor of 1.5 is suggested between
+adjacent indexes; if the 'medium' font is 10pt, the 'large' font could
+be 15pt. Different media may need different scaling factors. Also, the
+UA should take the quality and availability of fonts into account when
+computing the table. The table may be different from one font family to
+another.
+@item <relative-size>
+A <relative-size> keyword is interpreted relative to the table of font
+sizes and the font size of the parent element. Possible values are
+@b{larger} or @b{smaller}. For example, if the parent element has a font
+size of 'medium', a value of 'larger' will make the font size of the
+current element be 'large'. If the parent element's size is not close to
+a table entry, the UA is free to interpolate between table entries or
+round off to the closest one. The UA may have to extrapolate table
+values if the numerical value goes beyond the keywords.
+@end table
+
+Length and percentage values should not take the font size table into
+account when calculating the font size of the element.
+
+Negative values are not allowed.
+
+On all other properties, 'em' and 'ex' length values refer to the font
+size of the current element. On the 'font-size' property, these length
+units refer to the font size of the parent element.
+
+Note that an application may reinterpret an explicit size, depending on
+the context. E.g., inside a VR scene a font may get a different size
+because of perspective distortion.
+
+Examples:
+
+@example
+  P @{ font-size: 12pt; @}
+  BLOCKQUOTE @{ font-size: larger @}
+  EM @{ font-size: 150% @}
+  EM @{ font-size: 1.5em @}
+@end example
+
+If the suggested scaling factor of 1.5 is used, the last three
+declarations are identical.
+
+@node font,  , font-size, Font Properties
+@subsubsection font
+
+@multitable @columnfractions .2 .8
+@item Value: @tab [ <font-style> || <font-variant> || <font-weight> ]? <font-size> [ / <line-height> ]? <font-family>
+@item Initial: @tab not defined for shorthand properties
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab allowed on <font-size> and <line-height>
+@end multitable
+The 'font' property is a shorthand property for setting 'font-style'
+'font-variant' 'font-weight' 'font-size', 'line-height' and
+'font-family' at the same place in the style sheet. The syntax of this
+property is based on a traditional typographical shorthand notation to
+set multiple properties related to fonts.
+
+For a definition of allowed and initial values, see the previously
+defined properties. Properties for which no values are given are set to
+their initial value.
+
+@example
+  P @{ font: 12pt/14pt sans-serif @}
+  P @{ font: 80% sans-serif @}
+  P @{ font: x-large/110% "new century schoolbook", serif @}
+  P @{ font: bold italic large Palatino, serif @}
+  P @{ font: normal small-caps 120%/120% fantasy @}
+@end example
+
+In the second rule, the font size percentage value ('80%') refers to the
+font size of the parent element. In the third rule, the line height
+percentage refers to the font size of the element itself.
+
+In the first three rules above, the 'font-style', 'font-variant' and
+'font-weight' are not explicitly mentioned, which means they are all
+three set to their initial value ('normal'). The fourth rule sets the
+'font-weight' to 'bold', the 'font-style' to 'italic' and implicitly
+sets 'font-variant' to 'normal'.
+
+The fifth rule sets the 'font-variant' ('small-caps'), the 'font-size'
+(120% of the parent's font), the 'line-height' (120% times the font
+size) and the 'font-family' ('fantasy'). It follows that the keyword
+'normal' applies to the two remaining properties: 'font-style' and
+'font-weight'.
+
+@node Colors and Backgrounds, Text Properties, Font Properties, Properties
+@subsection Colors and Backgrounds
+
+These properties describe the color (often called foreground color) and
+background of an element (i.e. the surface onto which the content is
+rendered). One can set a background color and/or a background image. The
+position of the image, if/how it is repeated, and whether it is fixed or
+scrolled relative to the canvas can also be set.
+
+The 'color' property inherits normally. The background properties do not
+inherit, but the parent element's background will shine through by
+default because of the initial 'transparent' value on
+'background-color'.
+
+NOTE: Currently, Emacs/W3 can only show background images under XEmacs.
+Emacs 19 doesn't have the support in its display code yet.
+
+@menu
+* color::                       Foreground colors.
+* background-color::            Background colors.
+* background-image::            Background images.
+* background-repeat::           Controlling repeating of background images.
+* background-attachment::       Where background images are drawn.
+* background-position::         Where background images are drawn.
+* background::                  Shorthand for all background properties.
+@end menu
+
+@node color, background-color, Colors and Backgrounds, Colors and Backgrounds
+@subsubsection color
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <color>
+@item Initial: @tab User specific
+@item Applies to: @tab  all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+This property describes the text color of  an element (often referred to
+as the foreground color). There are different ways to specify red:
+
+@example
+  EM @{ color: red @}              /* natural language */
+  EM @{ color: rgb(255,0,0) @}     /* RGB range 0-255   */
+@end example
+
+See @ref{Color Units} for a description of possible color values.
+
+@node background-color, background-image, color, Colors and Backgrounds
+@subsubsection background-color
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <color> | transparent
+@item Initial: @tab transparent
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab N/A
+@end multitable
+
+This property sets the background color of an element.
+
+@example
+  H1 @{ background-color: #F00 @}
+@end example
+
+@node background-image, background-repeat, background-color, Colors and Backgrounds
+@subsubsection background-image
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <url> | none
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab N/A
+@end multitable
+
+This property sets the background image of an element. When setting a
+background image, one should also set a background color that will be
+used when the image is unavailable. When the image is available, it is
+overlaid on top of the background color.
+
+@example
+  BODY @{ background-image: url(marble.png) @}
+  P @{ background-image: none @}
+@end example
+
+@node background-repeat, background-attachment, background-image, Colors and Backgrounds
+@subsubsection background-repeat
+
+This property is not supported at all under Emacs/W3.
+
+@node background-attachment, background-position, background-repeat, Colors and Backgrounds
+@subsubsection background-attachment
+
+This property is not supported at all under Emacs/W3.
+
+@node background-position, background, background-attachment, Colors and Backgrounds
+@subsubsection background-position
+
+This property is not supported at all under Emacs/W3.
+
+@node background,  , background-position, Colors and Backgrounds
+@subsubsection background
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <background-color> || <background-image> || <background-repeat> || <background-attachment> || <background-position>
+@item Initial: @tab not defined for shorthand properties
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab allowed on <background-position>
+@end multitable
+
+The 'background' property is a shorthand property for setting the
+individual background properties (i.e., 'background-color',
+'background-image', 'background-repeat', 'background-attachment' and
+'background-position') at the same place in the style sheet.
+
+Possible values on the 'background' properties are the set of all
+possible values on the individual properties.
+
+@example 
+  BODY @{ background: red @}
+  P @{ background: url(chess.png) gray 50% repeat fixed @}
+@end example
+
+The 'background' property always sets all the individual background
+properties. In the first rule of the above example, only a value for
+'background-color' has been given and the other individual properties
+are set to their initial value. In the second rule, all individual
+properties have been specified.
+
+@node Text Properties, Box Properties, Colors and Backgrounds, Properties
+@subsection Text Properties
+
+@menu
+* word-spacing::                
+* letter-spacing::              
+* text-decoration::             
+* vertical-align::              
+* text-transform::              
+* text-align::                  
+* text-indent::                 
+* line-height::                 
+@end menu
+
+@node word-spacing, letter-spacing, Text Properties, Text Properties
+@subsubsection word-spacing
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab normal
+@item Unsupported Values: @tab <length>
+@item Initial: @tab normal
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The length unit indicates an addition to the default space between
+words. Values can be negative, but there may be implementation-specific
+limits. The UA is free to select the exact spacing algorithm. The word
+spacing may also be influenced by justification (which is a value of the
+'align' property).
+
+@example
+  H1 @{ word-spacing: 0.4em @}
+@end example
+
+Here, the word-spacing between each word in 'H1' elements would be
+increased by '1em'.
+
+NOTE: Emacs/W3 cannot currently support this, due to limitations in
+Emacs.  It may  be implemented in the future.
+
+@node letter-spacing, text-decoration, word-spacing, Text Properties
+@subsubsection letter-spacing
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab normal
+@item Unsupported Values: @tab <length>
+@item Initial: @tab normal
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The length unit indicates an addition to the default space between
+characters. Values can be negative, but there may be
+implementation-specific limits. The UA is free to select the exact
+spacing algorithm. The letter spacing may also be influenced by
+justification (which is a value of the 'align' property).
+
+@example
+  BLOCKQUOTE @{ letter-spacing: 0.1em @}
+@end example
+
+Here, the letter-spacing between each character in 'BLOCKQUOTE' elements
+would be increased by '0.1em'.
+
+NOTE: Emacs/W3 cannot currently support this, due to limitations in
+Emacs.  It may be implemented in the future.
+
+@node text-decoration, vertical-align, letter-spacing, Text Properties
+@subsubsection text-decoration
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab none | underline | line-through | blink
+@item Unsupported Values: @tab overline 
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab no, but see clarification below
+@item Percentage values: @tab N/A
+@end multitable
+
+This property describes decorations that are added to the text of an
+element. If the element has no text (e.g. the 'IMG' element in HTML) or
+is an empty element (e.g. '<EM></EM>'), this property has no effect. A
+value of 'blink' causes the text to blink.
+
+The color(s) required for the text decoration should be derived from the
+'color' property value.
+
+This property is not inherited, but elements should match their
+parent. E.g., if an element is underlined, the line should span the
+child elements. The color of the underlining will remain the same even
+if descendant elements have different 'color' values.
+
+@example
+  A:link, A:visited, A:active @{ text-decoration: underline @}
+@end example
+
+The example above would underline the text of all links (i.e., all 'A'
+elements with a 'HREF' attribute).
+
+NOTE: The 'line-through' property is only supported under XEmacs
+currently.  A patch has been sent to the Emacs maintainers to add
+support for this, but it has not made it into the main distribution
+yet.
+
+@node vertical-align, text-transform, text-decoration, Text Properties
+@subsubsection vertical-align
+
+This is currently unsupported in Emacs/W3.
+
+@node text-transform, text-align, vertical-align, Text Properties
+@subsubsection text-transform
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab none
+@item Unsupported Values: @tab capitalize | uppercase | lowercase
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+@table @b
+@item 'capitalize'
+Uppercases the first character of each word.
+@item 'uppercase'
+Uppercases all letters of the element.
+@item 'lowercase'
+Lowercases all letters of the element.
+@item 'none'
+Neutralizes inherited value.
+@end table
+
+The actual transformation in each case is human language dependent.
+
+@example
+  H1 @{ text-transform: uppercase @}
+@end example
+
+The example above would put 'H1' elements in uppercase text.
+
+NOTE: This capability was in the previous version of Emacs/W3, but has
+not been reimplemented in the new display code yet.  Please feel free to
+send me patches.
+
+@node text-align, text-indent, text-transform, Text Properties
+@subsubsection text-align
+
+@multitable @columnfractions .2 .8
+@item Value: @tab left | right | center | justify
+@item Initial: @tab User specific
+@item Applies to: @tab block-level elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+This property describes how text is aligned within the element. The
+actual justification algorithm used is UA and human language dependent.
+
+Example:
+@example
+  DIV.center @{ text-align: center @}
+@end example
+
+Since 'text-align' inherits, all block-level elements inside the 'DIV'
+element with 'CLASS=center' will be centered. Note that alignments are
+relative to the width of the element, not the canvas.
+
+@node text-indent, line-height, text-align, Text Properties
+@subsubsection text-indent
+
+Not currently implemented in Emacs/W3.
+
+@node line-height,  , text-indent, Text Properties
+@subsubsection line-height
+
+Not currently implemented in Emacs/W3.
+
+@node Box Properties, Classification, Text Properties, Properties
+@subsection Box Properties
+
+@multitable @columnfractions .2 .8
+@end multitable
+
+@node Classification, Media Selection, Box Properties, Properties
+@subsection Classification
+
+These properties classify elements into categories more than they set
+specific visual parameters.
+
+The list-style properties describe how list items (i.e. elements with a
+'display' value of 'list-item') are formatted. The list-style properties
+can be set on any element, and it will inherit normally down the
+tree. However, they will only be have effect on elements with a
+'display' value of 'list-item'. In HTML this is typically the case for
+the 'LI' element.
+
+@menu
+* display::                     
+* white-space::                 
+* list-style-type::             
+* list-style-image::            
+* list-style-position::         
+* list-style::                  
+@end menu
+
+@node display, white-space, Classification, Classification
+@subsubsection display
+
+@multitable @columnfractions .2 .8
+@item Value: @tab block | inline | list-item | none
+@item Extensions: @tab line
+@item Initial: @tab inline
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab N/A
+@end multitable
+
+This property describes how/if an element is displayed on the canvas
+(which may be on a printed page, a computer display etc.).
+
+An element with a 'display' value of 'block' opens whitespace suitable
+for a paragraph break.  Typically, elements like 'H1' and 'P' are of
+type 'block'. A value of 'list-item' is similar to 'block' except that a
+list-item marker is added. In HTML, 'LI' will typically have this value.
+
+An element with a 'display' value of 'inline' results in a new inline
+box on the same line as the previous content.
+
+A value of 'none' turns off the display of the element, including
+children elements and the surrounding box.
+
+@example
+  P @{ display: block @}
+  EM @{ display: inline @}
+  LI @{ display: list-item @}
+  IMG @{ display: none @}
+@end example
+
+The last rule turns off the display of images.
+
+A value of 'line' results in a single line break.  Emacs/W3 needs this
+extension to be able to fully specify the behaviour of @sc{br} and
+@sc{hr} elements within a stylesheet.
+
+NOTE: Emacs/W3 defaults to using 'inline' for this property, which is a
+slight deviation from the specification.
+
+@node white-space, list-style-type, display, Classification
+@subsubsection white-space
+
+@multitable @columnfractions .2 .8
+@item Value: @tab normal | pre | nowrap
+@item Initial: @tab normal
+@item Applies to: @tab block-level elements
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+This property declares how whitespace inside the element is handled: the
+'normal' way (where whitespace is collapsed), as 'pre' (which behaves
+like the 'PRE' element in HTML) or as 'nowrap' (where wrapping is done
+only through BR elements):
+
+@example
+  PRE @{ white-space: pre @}
+  P   @{ white-space: normal @}
+@end example
+
+@node list-style-type, list-style-image, white-space, Classification
+@subsubsection list-style-type
+
+@multitable @columnfractions .2 .8
+@item Value: @tab disc | circle | square | decimal | lower-roman | upper-roman | lower-alpha | upper-alpha | none
+@item Initial: @tab disc
+@item Applies to: @tab elements with 'display' value 'list-item'
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+This property is used to determine the appearance of the list-item
+marker if 'list-style-image' is 'none' or if the image pointed to by the
+URL cannot be displayed.
+
+Fo example:
+@example
+  OL @{ list-style-type: decimal @}       /* 1 2 3 4 5 etc. */
+  OL @{ list-style-type: lower-alpha @}   /* a b c d e etc. */
+  OL @{ list-style-type: lower-roman @}   /* i ii iii iv v etc. */
+@end example
+
+@node list-style-image, list-style-position, list-style-type, Classification
+@subsubsection list-style-image
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <url> | none
+@item Initial: @tab none
+@item Applies to: @tab elements with 'display' value 'list-item'
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+This property sets the image that will be used as the list-item
+marker. When the image is available it will replace the marker set with
+the 'list-style-type' marker.
+
+NOTE: This is currently unimplemented in Emacs/W3.
+
+@example
+  UL @{ list-style-image: url(http://png.com/ellipse.png) @}
+@end example
+
+@node list-style-position, list-style, list-style-image, Classification
+@subsubsection list-style-position
+
+@multitable @columnfractions .3 .7
+@item Supported Values: @tab outside
+@item Unsupported Values: @tab inside
+@item Initial: @tab outside
+@item Applies to: @tab elements with 'display' value 'list-item'
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The value of 'list-style-position' determines how the list-item marker
+is drawn with regard to the content. For a formatting example see
+section 4.1.3.
+
+@node list-style,  , list-style-position, Classification
+@subsubsection list-style
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <keyword> || <position> || <url>
+@item Initial: @tab not defined for shorthand properties
+@item Applies to: @tab elements with 'display' value 'list-item'
+@item Inherited: @tab yes
+@item Percentage values: @tab N/A
+@end multitable
+
+The 'list-style' property is a shorthand notation for setting the three
+properties 'list-style-type', 'list-style-image' and
+'list-style-position' at the same place in the style sheet.
+
+@example
+  UL @{ list-style: upper-roman inside @}
+  UL UL @{ list-style: circle outside @}
+  LI.square @{ list-style: square @}
+@end example
+
+Setting 'list-style' directly on 'LI' elements can have unexpected
+results. Consider:
+
+@example
+  <STYLE TYPE="text/css">
+    OL.alpha LI  @{ list-style: lower-alpha @}
+    UL LI        @{ list-style: disc @}
+  </STYLE>
+  <BODY>
+    <OL CLASS=alpha>
+      <LI>level 1
+      <UL>
+         <LI>level 2
+      </UL>
+    </OL>
+  </BODY>
+@end example
+
+Since the specificity (as defined in the cascading order) is higher for
+the first rule in the style sheet in the example above, it will override
+the second rule on all 'LI' elements and only 'lower-alpha' list styles
+will be used. It is therefore recommended to set 'list-style' only on
+the list type elements:
+
+@example
+  OL.alpha  @{ list-style: lower-alpha @}
+  UL        @{ list-style: disc @}
+@end example
+
+In the above example, inheritance will transfer the 'list-style' values
+from 'OL' and 'UL' elements to 'LI' elements.
+
+A URL value can be combined with any other value:
+
+@example
+  UL @{ list-style: url(http://png.com/ellipse.png) disc @}
+@end example
+
+In the example above, the 'disc' will be used when the image is
+unavailable.
+
+@node Media Selection, Speech Properties, Classification, Properties
+@subsection Media Selection
+
+To specify that a stylesheet declaration should only apply when using a
+certain media type (ie: different font families preferred when printing
+versus on-screen presentation), the declarations should be wrapped in
+the proposed @b{@@media} directive.
+
+The @@media directive takes two arguments, the media type, and a block
+of style declarations.
+
+@example
+  @@media print @{ 
+    BODY @{ font-size: 10pt @}
+    H1 @{ font-size: 14pt @}
+  @}
+@end example
+The '@@media' construct also allows to put include style sheet rules
+for various media in the same style sheet:
+
+@example
+  @@media print @{
+    BODY @{ font-size: 10pt @}
+  @}
+  @@media screen @{
+    BODY @{ font-size: 12pt @}
+  @}
+@end example
+
+Currently, the following media types are defined.
+@table @b
+@item Print
+Output for paged opaque material, and for documents viewed on screen in
+print preview mode.
+@item Screen
+A continuous presentation for computer screens.
+@item Projector
+Paged presentation for projected presentations.
+@item Braille
+For braille tactile feedback devices.
+@item Speech
+Aural presentation.
+@item Light
+The stylesheet will only be applied if the user is using a light background.
+@item Dark
+The stylesheet will only be applied if the user is using a dark background.
+@item Emacs
+The stylesheet will only be applied if the user is running in Emacs 19.
+@item XEmacs
+The stylesheet will only be applied if the user is running in XEmacs 19.
+@item All
+The default value, the style sheet applies to all output devices.
+@end table
+
+@node Speech Properties,  , Media Selection, Properties
+@subsection Speech Properties
+
+Those of us who are sighted are accustomed to visual presentation of
+@sc{html} documents, frequently on a bitmapped display. This is not the
+only possible presentation method, however. Aural presentation, using a
+combination of speech synthesis and 'audio icons', provides an
+alternative presentation. This form of presentation is in current use by
+the blind and print-impaired communities.
+
+Often such aural presentation occurs by converting the document to plain
+text and feeding this to a 'screen reader' -- software or hardware that
+simply reads all the characters on the screen. This results in less
+effective presentation than would be the case if the document structure
+were retained.
+
+There are other large markets for aural presentation, including in-car
+and home entertainment use; aurual or mixed aural/visual presentation is
+thus likely to increase in importance over the next few years. Realizing
+that that the aural rendering is essentially independent of the visual
+rendering:
+
+@itemize @bullet
+@item
+Allows orthogonal aural and visual views.
+@item
+Allows browsers to optionally implement both aural and visual views to
+produce truly multimodal documents.
+@end itemize
+
+@menu
+* volume::                      
+* pause-before::                
+* pause-after::                 
+* pause::                       
+* cue-before::                  
+* cue-after::                   
+* cue::                         
+* play-during::                 
+* speed::                       
+* voice-family::                
+* pitch::                       
+* pitch-range::                 
+* stress::                      
+* richness::                    
+* speak-punctuation::           
+* speak-date::                  
+* speak-numeral::               
+* speak-time::                  
+@end menu
+
+@node volume, pause-before, Speech Properties, Speech Properties
+@subsubsection volume
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <percentage> | mute | x-soft | soft | medium | loud | x-loud
+@item Initial: @tab medium
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@item Percentage values: @tab relative to user-specified mapping
+@end multitable
+
+The legal range of percentage values is 0% to 100%. There is a fixed
+mapping between keyword values and percentages:
+
+@itemize @bullet
+@item
+'x-soft' = '0%'
+@item
+'soft' = '25%'
+@item
+'medium' = '50%'
+@item
+'loud' = '75%'
+@item
+'x-loud' = '100%'
+@end itemize
+
+Volume refers to the median volume of the waveform. In other words, a
+highly inflected voice at a volume of 50 might peak well above
+that. Note that '0%' does not mean the same as "mute". 0% represents the
+minimum audible volume level and 100% corresponds to the maximum
+comfortable level. The UA should allow the values corresponding to 0%
+and 100% to be set by the user. Suitable values depend on the equipment
+in use (speakers, headphones), the environment (in car, home theater,
+library) and personal preferences. Some examples:
+
+@itemize @bullet
+@item
+A browser for in-car use has a setting for when there is lots of
+background noise . 0% would map to a fairly high level and 100% to a
+quite high level. The overall values are likely to be human adjustable
+for comfort, for example with a physical volume control: what this
+proposal does is adjust the dynamic range.
+@item
+Another speech browser is being used in the home, late at night, (don't
+annoy the neighbors) or in a shared study room. 0% is set to very quiet
+and 100% to a fairly quiet level, too. As with the first example, there
+is a low slope; the dynamic range is reduced. The actual volumes are low
+here, wheras they were high in the first example.
+@item
+In a quiet and isolated house, an expensive hifi home theatre setup. 0%
+is set fairly low and 100% to quite high; there is wide dynamic range.
+@end itemize
+
+The same authors stylesheet could be used in all cases, simply by
+mapping the 0 and 100 points suitably at the client side.
+
+@node pause-before, pause-after, volume, Speech Properties
+@subsubsection pause-before
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <time> | <percentage>
+@item Initial: @tab UA specific
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab speed
+@end multitable
+
+This property specifies the pause before elements. It may be given in an
+absolute units (seconds, milliseconds) or as a relative value in which
+case it is relative to the reciprocal of the 'speed' property: if speed
+is 120 words per minute (ie a word takes half a second -- 500
+milliseconds) then a pause-before of 100% means a pause of 500 ms and a
+pause-before of 20% means 100ms.
+
+Using relative units gives more robust stylesheets in the face of large
+changes in speed.
+
+@node pause-after, pause, pause-before, Speech Properties
+@subsubsection pause-after
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <time> | <percentage>
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab speed
+@end multitable
+
+This property specifies the pause after elements. Values are specified
+the same way as 'pause-before'.
+
+@node pause, cue-before, pause-after, Speech Properties
+@subsubsection pause
+
+@multitable @columnfractions .2 .8
+@item Value: @tab [<time> | <percentage> ]@{1,2@};
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@item Percentage values: @tab speed
+@end multitable
+
+The 'pause' property is a shorthand for setting 'pause-before' and
+'pause-after'. The first value is pause-before and the second is
+pause-after. If only one value is given, it applies to both properties.
+
+Examples:
+
+@example
+  H1 @{ pause: 20ms @}       /* pause-before: 20ms; pause-after: 20ms */
+  H2 @{ pause: 30ms 40ms @}  /* pause-before: 30ms; pause-after: 40ms */
+  H3 @{ pause-after: 10ms @} /* pause-before: ?;    pause-after: 10ms */
+@end example
+
+@node cue-before, cue-after, pause, Speech Properties
+@subsubsection cue-before
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <url> | none
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@end multitable
+Auditory icons are another way to distinguish semantic elements. Sounds
+may be played before, and/or after the element to delimit it. The same
+sound can be used both before and after, using the cue property.
+
+Examples:
+
+@example
+  A  @{ cue-before: url(bell.aiff); cue-after: url(dong.wav) @}
+  H1 @{ cue-before: url(pop.au); cue-after: url(pop.au) @}
+  H1 @{ cue: url(pop.au) @}  /* same as previous */
+@end example
+
+@node cue-after, cue, cue-before, Speech Properties
+@subsubsection cue-after
+
+@xref{cue-before}.
+
+@node cue, play-during, cue-after, Speech Properties
+@subsubsection cue
+
+@xref{cue-before}.
+
+@node play-during, speed, cue, Speech Properties
+@subsubsection cue-during
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <url> | mix | none
+@item Initial: @tab mix
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@end multitable
+Similar to the cue-before and cue-after properties, this indicates sound
+to be played during an element as a background (ie the sound is mixed in
+with the speech).
+
+Examples:
+
+@example
+  BLOCKQUOTE.sad @{ cue-during: url(violins.aiff) @}
+@end example
+
+@node speed, voice-family, play-during, Speech Properties
+@subsubsection speed
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <words-per-minute> | x-slow | slow | medium | fast | x-fast | faster | slower
+@item Initial: @tab medium
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+Specifies the speaking rate. Note that both absolute and relative
+keyword values are allowed (compare with @ref{font-weight}).
+
+@node voice-family, pitch, speed, Speech Properties
+@subsubsection voice-family
+
+@multitable @columnfractions .2 .8
+@item Value: @tab [[<specific-voice> | <generic-voice>],]* [<specific-voice> | <generic-voice>]
+@item Initial: @tab device-specific
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+The value is a prioritized list of voice family names. Generic families
+are male, female, and child.
+
+Examples of specific voice families are: comedian, paul, lisa
+
+Examples
+
+@example
+  H1 @{ voice-family: announcer, male @}
+  P.part.romeo @{ voice-family: romeo, male @}
+  P.part.juliet @{ voice-family: juliet, female @}
+@end example
+
+@node pitch, pitch-range, voice-family, Speech Properties
+@subsubsection pitch
+
+@multitable @columnfractions .2 .8
+@end multitable
+
+@node pitch-range, stress, pitch, Speech Properties
+@subsubsection pitch-range
+
+@multitable @columnfractions .2 .8
+@end multitable
+
+@node stress, richness, pitch-range, Speech Properties
+@subsubsection stress
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <percentage>
+@item Initial: @tab medium
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+Specifies the level of stress (assertiveness or emphasis) of the
+speaking voice. English is a stressed language, and different parts of a
+sentence are assigned primary, secondary or tertiary stress. The value
+of property 'stress' controls the amount of inflection that results from
+these stress markers.
+
+Increasing the value of this property results in the speech being more
+strongly inflected. It is in a sense dual to property 'pitch-range' and
+is provided to allow developers to exploit higher-end auditory displays.
+
+@node richness, speak-punctuation, stress, Speech Properties
+@subsubsection richness
+
+@multitable @columnfractions .2 .8
+@item Value: @tab <percentage>
+@item Initial: @tab medium (50%)
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+Specifies the richness (brightness) of the speaking voice. Different
+speech devices may require the setting of one or more device-specific
+parameters to achieve this effect.
+
+The effect of increasing richness is to produce a voice that carries --
+reducing richness produces a soft, mellifluous voice.
+
+@node speak-punctuation, speak-date, richness, Speech Properties
+@subsubsection speak-punctuation
+
+@multitable @columnfractions .2 .8
+@item Value: @tab code | none
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+'code' indicates that punctuation such as semicolons, braces, and so on
+are to be spoken literally. The default value of 'none' means that
+punctuation is not spoken but instead is rendered naturally as various
+pauses.
+
+@node speak-date, speak-numeral, speak-punctuation, Speech Properties
+@subsubsection speak-date
+
+@multitable @columnfractions .2 .8
+@item Value: @tab myd | dmy | ymd | none
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab no
+@end multitable
+
+This is a hint that the element contains a date and also how that date
+should be spoken. month-day-year is common in the USA, while
+day-month-year is common in Europe and year-month-day is also used.
+
+This should really be an HTML tag not a stylesheet property, since it
+gives semantic information about the content.
+
+@node speak-numeral, speak-time, speak-date, Speech Properties
+@subsubsection speak-numeral
+
+@multitable @columnfractions .2 .8
+@item Value: @tab digits | continous
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+@node speak-time,  , speak-numeral, Speech Properties
+@subsubsection speak-time
+
+@multitable @columnfractions .2 .8
+@item Value: @tab 24 | 12 | none
+@item Initial: @tab none
+@item Applies to: @tab all elements
+@item Inherited: @tab yes
+@end multitable
+
+@node Units,  , Properties, Stylesheets
+@section Units
+
+@menu
+* Length Units::                
+* Percentage Units::            
+* Color Units::                 
+* URLs::                        
+* Angle Units::                 
+* Time Units::                  
+@end menu
+
+@node Length Units, Percentage Units, Units, Units
+@subsection Length Units
+
+@node Percentage Units, Color Units, Length Units, Units
+@subsection Percentage Units
+
+@node Color Units, URLs, Percentage Units, Units
+@subsection color Units
+
+@node URLs, Angle Units, Color Units, Units
+@subsection URLs
+
+@node Angle Units, Time Units, URLs, Units
+@subsection Angle Units
+
+These are the legal angle units:
+@itemize @bullet
+@item
+deg: degrees
+@item
+grad
+@item
+rad: radians
+@end itemize
+
+@node Time Units,  , Angle Units, Units
+@subsection Time Units
+
+These are the legal time units:
+
+@itemize @bullet
+@item
+ms: milliseconds
+@item
+s: seconds
+@end itemize
+
+@node Supported URLs, MIME Support, Stylesheets, Top
+@chapter Supported URLs
+
+::WORK:: List supported URL types, specific RFCs, etc.
+
+@dfn{Uniform Resource Locators} (@sc{url}s) are a specific form of
+@dfn{Uniform Resource Identifiers} (@sc{uri}) described in @sc{rfc}2396
+which updates @sc{rfc}1738 and @sc{rfc}1808.
+
+@sc{rfc2016} defines uniform resource agents.
+
+@sc{uri} have the form @var{scheme}:@var{scheme-specific-part}, where @var{scheme}
+appears in the menu below for @sc{url}s supported by Emacs/W3.
+
+@sc{ftp, nfs, http, https}, @code{rlogin}, @code{telnet}, tn3270,
+@sc{irc} and gopher @sc{url}s all have the form
+@var{scheme}://[@var{userinfo}@@]@var{hostname}[:@var{port}][/@var{path}]
+where @samp{[} and @samp{]} delimit optional parts.  @var{userinfo}
+sometimes takes the form @var{userinfo}:@var{password} but you should
+beware of the security risks of sending cleartext passwords.
+@var{hostname} may be a domain name or a dotted decimal address.  If the
+@samp{:@var{port}} is omitted then Emacs/W3 will use the well known port
+for that service.  With the possible exception of @code{telnet}, it is
+very rare for ports to be specified, and it is possible using a
+non-standard port may have undesired consequences if a different service
+is listening on that port (eg. a gopher @sc{url} specifying the
+@sc{smtp} port can cause mail to be sent), but @xref{Other Variables,
+url-bad-port-list}.  The meaning of the @var{path} component depends on
+the service.
+
+@menu
+* file::                        Local file access.
+* ftp::                         Remote file access via ftp.
+* nfs::                         Remote file access via NFS.
+* info::                        Access to the Emacs Info system.
+* http/https::                  @sc{http/1.0} support.
+* mailto::                      Sending simple electronic mail.
+* mailserver::                  Slightly more complicated electronic mail.
+* news/nntp/snews::             Reading and sending Usenet news.
+* rlogin/telnet/tn3270::        Legacy host connections.
+* irc::                         Internet Relay Chat.
+* data::                        Embedding the data within the URL itself.
+* gopher::                      Gopher and Gopher+.
+* finger::                      The old favorite.
+* netrek::                      netrek.
+@end menu
+
+@node file, ftp, Supported URLs, Supported URLs
+@section File @sc{url}s
+@cindex files
+@cindex File @sc{url}s
+
+@vindex url-directory-index-file
+This allows Emacs/W3 to read arbitary files from hosts.  Compressed
+files are handled, but support is hard-coded so that
+@code{jka-compr-compression-info-list} and so on have no affect.
+Suffixes recognized are @samp{.z}, @samp{.gz} and @samp{.Z}.  If the
+@sc{url} points to a directory, then it will try to retrieve a file
+named by @code{url-directory-index-file} (@file{index.html} by default)
+and parse it, otherwise you get a directory listing in @samp{dired}
+mode.  If the @sc{url} refers to a file on a remote host, then Emacs/W3
+uses @samp{ange-ftp} (@pxref{Top, , ange-ftp}) or @samp{efs}
+(@pxref{Top, , efs}) to retrive the file.  ftp:// and file:// are
+synonymous for Emacs/W3.
+
+@node ftp, nfs, file, Supported URLs
+@section @sc{ftp} @sc{url}s
+@cindex @sc{ftp}
+
+For details of usage see @ref{file}.  In Emacs/W3 file and @sc{ftp} @sc{url}s
+are synonymous and files on the localhost are retrieved directly rather
+than by @sc{ftp}.  Emacs/W3 relies on @samp{ange-ftp}
+(@pxref{Top, , ange-ftp}) or @samp{efs} (@pxref{Top, , efs}) to do the actual
+transfers.
+
+@node nfs, info, ftp, Supported URLs
+@section @sc{nfs} @sc{url}s
+@cindex @sc{nfs}
+@cindex @sc{nfs} @sc{url}s
+
+@vindex url-nfs-automounter-directory-spec
+gdj1: have I misunderstood the point of this?
+Since @sc{nfs} is fairly transparent to the user (at least when it's
+working), there isn't very much to say here.  An nfs @sc{url} is similar
+to a file @sc{url} except that it points to a file on a remote host that
+is handled by the automounter on the local host.  The variable
+@code{url-nfs-automounter-directory-spec} may need to be tweaked
+depending on local configuration.  The @sc{nfs} @sc{url} is defined in
+@sc{rfc2224}.
+
+@node info, http/https, nfs, Supported URLs
+@section info
+@cindex info
+@cindex info @sc{url}s
+Info @sc{url}s are not an officially recognised @sc{url} (gdj1: is this
+right?), but Emacs/W3 will parse them to produce a reference to a
+TeXinfo node, or @samp{Top} if one is not specified.  @samp{Info-mode}
+will be used to browse the document.
+
+@node http/https, mailto, info, Supported URLs
+@section http/https
+@cindex @sc{http}
+@cindex @sc{https}
+@vindex url-honor-refresh-requests
+@vindex url-be-anal-about-file-attributes
+The HyperText Transfer Protocol is the protocol used to get documents
+from the World Wide Web.  Emacs/W3 supports @sc{http} version 1.0 as
+defined in @sc{rfc}1945 --- now superseded by version 1.1 defined in
+@sc{rfc}2068.
+
+If @code{url-honor-refresh-requests} is @code{nil} then @samp{Refresh}
+headers will not be honoured, if @code{t} then they will always be
+honoured, otherwise the user will be asked for each request.  The
+default is @code{t}.  @code{url-be-anal-about-file-attributes} controls
+whether @sc{http} is used to discover file attributes, or whether
+they're just guessed.  The default is @code{nil} which means that
+Emacs/W3 will make educated guesses.
+
+@sc{https} is a secure version of @sc{http} defined in @sc{rfc}2069
+(gdj1: ?).  Emacs/W3 requires @sc{ssl} to handle this, @xref{Installing SSL}.
+
+@node mailto, mailserver, http/https, Supported URLs
+@section mailto
+@vindex url-mail-command
+@cindex mailto
+@cindex mailto @sc{url}s
+A mailto @sc{url} will send an email message to the address in the
+@sc{url}, for example @samp{mailto:foo@@bar.com} would compose a
+message to foo@@bar.com.  Emacs/W3 uses the command specified by the
+@code{url-mail-command} variable to compose the email, this is @code{url-mail} by
+default which uses Gnu's @samp{message} mode (@pxref{Top, Message, , message}) if
+available, otherwise the standard @code{mail} command.  An X-Url-From
+header field containing the @sc{url} of the document that contained the
+mailto @sc{url} is added, as is an X-Mailer header field containing the
+version of Emacs/W3 being used.
+
+@sc{rfc}2368 extends the definition of mailto @sc{url}s in @sc{rfc1738}.
+The form of a mailto @sc{url} is
+@samp{mailto:@var{mailbox}[?@var{header}=@var{contents}[&@var{header}=@var{contents}]]}
+where an arbitary number of @var{header}s can be added.  If the
+@var{header} is @samp{body}, then @var{contents} is put in the body
+otherwise a @var{header} header field is created with @var{contents} as its
+contents.  Note that Emacs/W3 does not consider any headers as
+`dangerous' so you should check them before sending the message.
+
+Email messages are defined in @sc{rfc}822.
+
+@node mailserver, news/nntp/snews, mailto, Supported URLs
+@section mailserver
+@cindex mailserver
+@cindex mailserver @sc{url}s
+A mailserver @sc{url} allows you to send an email to a person, but this
+@sc{url} optionally specifies a subject and a body.  The basic format is
+@samp{mailserver:[@var{mailbox}/@var{subject}[/@var{body}]}.  Thus,
+@samp{mailserver:foo@@bar.com/wibble/flibble} will compose a message to
+foo@@bar.com with @var{subject} as the subject and @var{body} already in
+the body of the email.  Note that both the subject and the body are
+@dfn{hex}ed, but the subject cannot contain newlines.
+
+@node news/nntp/snews, rlogin/telnet/tn3270, mailserver, Supported URLs
+@section news/nntp/snews
+@cindex news
+@cindex nntp
+@cindex snews
+@cindex news @sc{url}s
+@vindex url-news-use-article-mode
+@vindex url-news-server
+@vindex url-default-ports
+If the @sc{url} doesn't specify a host, then the host in
+@code{url-news-server} will be used, and unless the @sc{url} has a port
+the news port as defined in @code{url-default-ports} (119) will be used.
+The username and password specified in the @sc{url} will be used if
+present.  The @sc{url} may contain a message-id, in which case that
+article is displayed; it may contain a newsgroup in which case Gnus is
+used to display the newsgroup; or it may by empty in which case Gnus is
+called with no arguments.  Emacs/W3 requires Gnus v5.x or Red, Quassia
+or Pterodactyl Gnus, @xref{Top, , ,gnus, Gnus}.  The variable
+@code{url-news-use-article-mode} controls the displaying of news
+articles; if non-@code{nil} then articles are displayed in Gnus article
+mode, otherwise they are turned into @sc{html} and rendered by Emacs/W3.
+
+An @sc{nntp url} is the same as a news @sc{url}, except that the
+@sc{url} may specify an article by its number.
+
+@node rlogin/telnet/tn3270, irc, news/nntp/snews, Supported URLs
+@section rlogin/telnet/tn3270
+@cindex rlogin
+@cindex telnet
+@cindex tn3270
+@cindex rlogin @sc{url}s
+@cindex telnet @sc{url}s
+@cindex tn3270 @sc{url}s
+To handle rlogin, telnet and tn3270 @sc{url}s, Emacs/W3 runs an
+@code{rlogin}, @code{telnet} or @code{tn3270} session (the program names
+and arguments are hardcoded) in a @code{terminal-emulator} buffer.
+Well-known ports are used if the @sc{url} does not specify a port.
+
+
+@node irc, data, rlogin/telnet/tn3270, Supported URLs
+@section irc
+@cindex @sc{irc}
+@cindex @sc{irc url}s
+@vindex url-irc-function
+@dfn{Internet Relay Chat} (@sc{irc}) is handled by handing off the @sc{irc}
+session to a function named in @code{url-irc-function}.  This function
+must take five argumenst, @var{host}, @var{port}, @var{channel},
+@var{user} and @var{password}.  The @var{channel} argument specifies the
+channel to join immediately, this can be @code{nil}.  By default this is
+@code{url-irc-zenirc} which processes the arguments and lets
+@code{zenirc} handle the session.
+
+@node data, gopher, irc, Supported URLs
+@cindex data @sc{url}s
+@section data
+
+Data @sc{url}s contain @sc{mime} data in the @sc{url} itself, by default
+the data is 8bit encoded @samp{text/plain}, but the @sc{url} can specify either
+or both the content-type and the encoding.  Emacs/W3 will parse the
+@sc{url}'s data as @sc{mime} and display it appropriately.  @xref{MIME Support}.
+
+@node gopher, finger, data, Supported URLs
+@section gopher
+@cindex gopher
+@cindex gopher @sc{url}s
+@vindex url-gopher-labels
+@vindex url-gopher-icons
+@vindex url-gopher-to-mime
+@vindex url-use-hypertext-gopher
+@dfn{Gopher} (Go for) was in someways the precurser to the world wide
+web and is becoming rarer as the web becomes more powerful.
+Nevertheless, there are still many gopher sites around and Emacs/W3
+supports this protocol (of course).  The variable
+@code{url-gopher-labels} maps gopher types to something else (gdj: ?)
+for displaying the gopher menus.  @code{url-gopher-icons} maps gopher
+types to pictures.  @code{url-gopher-to-mime} maps gopher types to
+@sc{mime} types.  If @code{url-use-hypertext-gopher} is non-@code{nil},
+then gopher pages will be turned into @sc{html} for Emacs/W3 to parse
+and display normally, otherwise Emacs/W3 will let @samp{gopher.el}
+handle all gopher requests which will lose gopher+ support and inlined
+searching.  This is @code{t} by default.
+
+@node finger,  netrek, gopher, Supported URLs
+@section finger
+@cindex finger
+@cindex finger @sc{url}s
+Finger @sc{url}s will finger a given user at a given host, or @samp{localhost}
+if no host is specified, processing the results to create an @sc{html}
+page for Emacs/W3 to display.
+
+@node netrek, , finger, Supported URLs
+@section netrek
+This is unsupported at present.
+
+
+@node MIME Support, Security, Supported URLs, Top
+@chapter MIME Support
+@sc{mime} is an emerging standard for multimedia mail.  It offers a very
+flexible typing mechanism.  The type of a file or message is specified
+in two parts, separated by a '/'.  The first part is the general
+category of the data (text, application, image, etc.).  The second part
+is the specific type of data (postscript, png, jpeg, etc.).  So
+@samp{text/html} specifies an @sc{html} document, whereas
+@samp{image/x-xwindowdump} specifies an image of an Xwindow taken with
+the @file{xwd} program.
+
+
+This typing allows much more flexibility in naming files.  @sc{http}/1.0
+servers can now send back content-type headers in response to a request,
+and not have the client second-guess it based on file extensions.  @sc{html}
+files can now be named @file{something.png} (not a great idea, but
+possible).
+
+@menu
+* Adding MIME types based on file extensions::  How to map file
+                                                extensions onto MIME
+                                                types (e.g., @samp{.png ->
+                                                image/png)}.
+* Specifying Viewers::          How to specify external and internal viewers
+                        for files that Emacs/W3 cannot handle natively.
+@end menu
+
+@node Adding MIME types based on file extensions, Specifying Viewers, MIME Support, MIME Support
+@section Adding MIME types based on file extensions
+
+@vindex mm-mime-extensions
+For some protocols however, it is still necessary to guess the content
+of a file based on the file extension.  This type of guess-work should
+only be needed when accessing files via @sc{ftp}, local file access, or old
+@sc{http}/0.9 servers.
+
+Instead of specifying how to view things twice, once based on
+content-type and once based on the file extension, it is easier to map
+file extensions to MIME content-types.  The variable that controls this
+is @code{mm-mime-extensions}.
+
+This variable is an assoc list of file extensions and the corresponding
+MIME content-type.  A sample entry looks like: @samp{(".movie"
+. "video/x-sgi-movie")} This makes all files that end in @file{.movie}
+(@file{foo.movie} and @file{bar.movie}) be interpreted as SGI animation
+files.  If a content-type is defined for the document, then this is
+over-ridden.  Regular expressions can @b{NOT} be used.
+
+@cindex mime-types file
+@findex mm-parse-mimetypes
+Both Mosaic and the NCSA @sc{http} daemon rely on a separate file for mapping
+file extensions to MIME types.  Instead of having the users of Emacs/W3
+duplicate this in lisp, this file can be parsed using the
+@code{url-parse-mimetypes} function.  This function is called each time
+w3 is loaded.  It tries to locate mimetype files in several places. If
+the environment variable @code{MIMETYPES} is nonempty, then this is
+assumed to specify a UNIX-like path of mimetype files (this is a colon
+separated string of pathnames).  If the @code{MIMETYPES} environment
+variable is empty, then Emacs/W3 looks for these files:
+
+@enumerate
+@item
+@file{~/.mime-types}
+@item
+@file{/etc/mime-types}
+@item
+@file{/usr/etc/mime-types}
+@item
+@file{/usr/local/etc/mime-types}
+@item
+@file{/usr/local/www/conf/mime-types}
+@end enumerate
+
+Each line contains information for one @sc{http} type.  These types resemble
+MIME types.  To add new ones, use subtypes beginning with x-, such as
+application/x-myprogram.  Lines beginning with # are comment lines, and
+suitably ignored.  Each line consists of:
+
+type/subtype ext1 ext2 ...  ext@var{n}
+
+type/subtype is the MIME-like type of the document. ext* is any number
+of space-separated filename extensions which correspond to the MIME
+type.
+
+@node Specifying Viewers,  , Adding MIME types based on file extensions, MIME Support
+@section Specifying Viewers
+
+Not all files look as they should when parsed as an @sc{html} document
+(whitespace is stripped, paragraphs are reformatted, and lots of little
+changes that make the document look unrecognizable).  Files may be
+passed to external programs or Emacs Lisp functions to be viewed.
+
+Not all files can be viewed accurately from within an Emacs session (PNG
+files for example, or audio files).  For this reason, the user can
+specify file "viewers" based on MIME content-types.  This is done with
+a standard mailcap file.  @xref{Mailcap Files}.
+
+@findex mm-add-mailcap-entry
+As an alternative, the function @code{mm-add-mailcap-entry} can also be
+used from an appropriate hook.  @xref{Hooks}.  This functions takes three
+arguments, the major type ("@i{image}"), the minor type ("@i{png}"), and
+an assoc list of information about the viewer.  Please see the @sc{url}
+documentation for more specific information on what this assoc list
+should look like.
+
+@node Security, Cookies, MIME Support, Top
+@chapter Security
+@cindex Security
+@cindex Paranoia
+There are an increasing number of ways to authenticate a user to a web
+service.  Emacs/W3 tries to support as many as possible.  Emacs/W3
+currently supports:
+
+@table @b
+@item Basic Authentication
+@cindex Security, Basic
+@cindex HTTP/1.0 Authentication
+@cindex Authentication, Basic
+The weakest authentication available, not recommended if serious
+security is necessary.  This is simply a string that looks like
+@samp{user:password} that has been Base64 encoded, as defined in RFC
+1421.
+@item Digest Authentication
+@cindex Security, Digest
+@cindex HTTP/1.0 Authentication
+@cindex Authentication, Digest
+Jeffery L. Hostetler, John Franks, Philip Hallam-Baker, Ari Luotonen,
+Eric W. Sink, and Lawrence C. Stewart have an internet draft for a new
+authentication mechanism.  For the complete specification, please see
+draft-ietf-http-digest-aa-01.txt in the nearest internet drafts
+archive@footnote{One is ftp://ds.internic.net/internet-drafts}.
+@item SSL Encryption
+@cindex HTTP/1.0 Authentication
+@cindex Secure Sockets Layer
+@cindex SSL
+@cindex Gag Puke Retch
+@cindex Exportability
+@cindex Export Restrictions
+SSL is the @code{Secure Sockets Layer} interface.  Emacs/W3 supports
+@sc{http} transfers over an SSL encrypted channel, if the appropriate
+files have been installed.  @xref{Installing SSL}.
+@end table
+
+@section Privacy
+@vindex url-privacy-level
+Sometimes you don't want people to know who you are, or where you've
+been.  @sc{http} is quite happy to tell everyone it meets who you are
+and where you've come from.  @code{url-privacy-level} can be used to set
+how much information is given, it can be a list of the following symbols
+
+@table @samp
+@item email
+Do not send email address.  This just sets
+@code{url-personal-mail-address} to @code{nil}.
+@item os
+Do not send operating system
+@item lastloc
+Do not send the last location
+@item agent
+Do not send the User-Agent string (for an alternative approach,
+@pxref{Masquerading}).
+@item cookie
+Never accept cookies (@pxref{Cookies})
+@end table
+
+Alternatively @code{url-privacy-level} can be a single symbol,
+@table @samp
+@item none
+Send all information.
+@item low
+Don't send the last location.  Equivalent to @code{(lastloc)}
+@item high
+Don't send the email address or last location.  Equivalent to
+@code{(email lastloc)}
+@item paranoid
+Don't send anything.  Equivalent to @code{(email os lastloc agent cookie)}
+@end table
+
+If you change @code{url-privacy-level} then you should also call
+@code{url-setup-privacy-info} to make sure that the changes propogate.
+
+@node Cookies, Non-Unix Operating Systems, Security, Top
+@chapter Cookies
+@cindex Cookies
+
+@sc{http} is a stateless protocol which means that the server sees every
+request for pages independently with no idea of how it relates to any
+other request.  Therefore the server has no idea whether or not you've
+seen a page before, or whether you've registered (if that's an option).
+Cookies@footnote{In computer terms a @dfn{cookie} is data that a
+program holds but which has no meaning in itself.  Cookies are not
+processed by the program (indeed the program may not even know
+what data they hold or what format it's in) but is passed to libraries or
+servers which do understand it.} are used to add state to @sc{http}
+sessions.  Cookies are defined in @sc{rfc2109}.
+
+@vindex url-cookie-file
+Cookies are saved in the file specified in @code{url-cookie-file}, which
+is @code{@var{w3-configuration-directory}/cookies} by default.  Note
+that this file should probably not be world writable, and possibly not
+even world readable.
+
+@vindex url-cookie-untrusted-urls
+@vindex url-cookie-trusted-urls
+@vindex url-cookie-confirmation
+Some people see cookies as an invasion of privacy while others see them
+as a product of badly designed websites and buggy servers.  Emacs/W3
+lets you unconditionally reject all cookies by adding @code{cookie} to
+@code{url-privacy-level} or setting it to @code{paranoid}
+(@pxref{Security}) but for those who want finer control over what to
+accept and reject, Emacs/W3 offers @code{url-cookie-trusted-urls} and
+@code{url-cookie-untrusted-urls} which are lists of regular expressions
+that match @sc{url}s from which cookies should be accepted and rejected
+respectively.  If a @sc{url} matches patterns in both of these, then
+Emacs/W3 decides whether to accept or not based on the most specific
+match (the most specific match being the shortest match).
+@c gdj1: This doesn't seem right.
+Note that Emacs/W3 only considers the first match for each variable, so
+the regular expressions should be in increasing order of generality.
+
+For even more control over which cookies are accepted, you can set
+@code{url-cookie-confirmation} to non-@code{nil}, in which case every
+time a cookie is offered Emacs/W3 will ask if you want to accept it.
+This only applies to cookies that would otherwise be accepted, Emacs/W3
+will still reject cookies from @sc{url}s matched in
+@code{url-cookie-untrusted-urls}.
+
+@node Non-Unix Operating Systems, Speech Integration, Cookies, Top
+@chapter Non-Unix Operating Systems
+@cindex Non-Unix Operating Systems
+
+@menu
+* VMS::                         The wonderful world of VAX|AXP-VMS!
+* OS/2::                        The next-best thing to Unix.
+* MS-DOS::                      The wonderful world of MS-DOG!
+* Windows::                     Windows NT, Chicago/Windows 95.
+@end menu
+
+@node VMS, OS/2, Non-Unix Operating Systems, Non-Unix Operating Systems
+@section VMS
+@cindex VAX-VMS
+@cindex AXP-VMS
+@cindex Digital VMS
+@cindex VMS
+
+:: WORK :: VMS Specific instriuctions
+
+@node OS/2, MS-DOS, VMS, Non-Unix Operating Systems
+@section OS/2
+@cindex OS/2
+@cindex Warp
+
+:: WORK :: OS/2 Specific instructions
+
+@node MS-DOS, Windows, OS/2, Non-Unix Operating Systems
+@section MS-DOS
+@cindex MS-DOS
+@cindex Microsloth
+@cindex DOS
+@cindex MS-DOG
+
+:: WORK :: DOS Specific instructions
+
+@node Windows,  , MS-DOS, Non-Unix Operating Systems
+@section Windows
+@cindex Windows (32-Bit)
+@cindex 32-Bit Windows
+@cindex Microsloth
+@cindex Windows '95
+
+:: WORK :: 32bit Windows Specific instructions
+
+@node Speech Integration, Advanced Features, Non-Unix Operating Systems, Top
+@chapter Speech Integration
+
+:: WORK :: Emacspeak integration
+
+@node Advanced Features, More Help, Speech Integration, Top
+@chapter Advanced Features
+
+@menu
+* Disk Caching::                Improving performance by using a local disk cache
+* Printing::                    Emacs/W3 can print @sc{html} by various methods.
+* Interfacing to Mail/News::    How to make VM understand hypertext links
+* Debugging HTML::              How to make Emacs/W3 display warnings about invalid
+                                @sc{html}/@sc{html}+ constructs.
+* Hooks::                       Various hooks to use throughout Emacs/W3
+* Other Variables::             Miscellaneous variables that control the real
+                                guts of Emacs/W3.
+@end menu
+
+@node Disk Caching, Printing, Advanced Features, Advanced Features
+@section Disk Caching
+@cindex Caching
+@cindex Persistent Cache
+@cindex Disk Cache
+
+A cache stores the information on a page on the local machine.  When
+requesting a page that is in the cache, Emacs/W3 can retrieve the page
+from the cache more quickly than retrieving the page again from its
+location out on the network.  With a well-populated cache, browsing the
+web is dramatically faster.
+
+The first time a page is requested, Emacs/W3 retrieves the page from the
+network.  When requesting a page that is in the cache, Emacs/W3 checks
+to see if the page has changed since it was last retrieved from the
+remote machine.  If it has not changed, the local copy is used, saving
+the transmission of the file over the network.
+
+@vindex url-automatic-caching
+@cindex Turning on caching
+@cindex Cleaning the cache
+@cindex Clearing the cache
+@cindex Cache cleaning
+@cindex Limiting the size of the cache
+To turn on disk caching, set the variable @code{url-automatic-caching}
+to non-@code{nil}, or choose the 'Caching' menu item (under `Options').
+That is all there is to it.  Running the @code{clean-cache} shell script
+fist is recommended, to allow for future cleaning of the cache.  This
+shell script will remove all files that have not been accessed since it
+was last run.  To keep the cache pared down, it is recommended that this
+script be run from @i{at} or @i{cron} (see the manual pages for
+crontab(5) or at(1) for more information)
+
+
+@cindex Relying on cache
+@cindex Cache only mode
+@cindex Standalone mode
+@cindex Browsing with no network connection
+@cindex Netless browsing
+@vindex url-standalone-mode
+With a large cache of documents on the local disk, it can be very handy
+when traveling, or any other time the network connection is not active
+(a laptop with a dial-on-demand PPP connection, etc).  Emacs/W3 can rely
+solely on its cache, and avoid checking to see if the page has changed
+on the remote server.  In the case of a dial-on-demand PPP connection,
+this will keep the phone line free as long as possible, only bringing up
+the PPP connection when asking for a page that is not located in the
+cache.  This is very useful for demonstrations as well.  To turn this
+feature on, set the variable @code{url-standalone-mode} to
+non-@code{nil}, or choose the `Use Cache Only' menu item (under
+`Options')
+
+@findex url-cache-expired
+@vindex url-cache-ignored-protocols
+@vindex url-cache-directory
+@vindex url-cache-creation-function
+@code{url-cache-expired} decides whether or not a cache entry has
+expired.  It is a function that take two times as it parameters and
+returns non-@code{nil} if the second time is ``too old'' when compared
+with the first time.  @code{url-cache-ignored-protocols} is a list of
+protocols that will never be cached, this is @code{'("www" "about"
+"https" "mailto")} by default. @code{url-cache-directory} sets the
+directory to store the cache files,
+@file{"@var{w3-configuration-directory}cache/"} by default.
+@code{url-cache-creation-function} sets the type of cache to use, it is
+a function that takes a @sc{url} as an argument and returns the absolute
+pathname of the cache-file corresponding to that @sc{url}.  You may
+write your own function or use one of the two ready built functions, 
+@code{url-cache-create-filename-using-md5} and
+@code{url-cache-create-filename-human-readable}.  The advantage of
+@code{url-cache-create-filename-using-md5} is that there are very few
+cache collisions but is only ``suitably fast'' if you're not using
+XEmacs.  @code{url-cache-create-filename-human-readable} will give a
+filename more obviously connected to the @sc{url}, but it is more likely
+to conflict with other files.
+
+@node Printing, Interfacing to Mail/News, Disk Caching, Advanced Features
+
+@section Printing
+@cindex Printing
+@cindex LaTeX
+@cindex Postscript
+
+If you want to print an @sc{html} document, then Emacs/W3 needs to
+convert it into something that can be printed.  You can choose from
+
+@table @asis
+@item @sc{html} source
+This will simply print the raw @sc{html} source code using
+@code{lpr-buffer}.  An appropriate <base> tag is inserted at the
+beginning of the document. @c gdj1: really?
+
+@item Formatted text
+This will print the rendered document using @code{lpr-buffer}; so the
+conversion is handled by Emacs.  This will print plain ASCII.
+
+@item Postscript
+@vindex w3-postscript-print-function
+This will call the function in @code{w3-postscript-print-function},
+which is @code{ps-print-buffer-with-faces} by default.  This just tells
+Emacs to generate postscript as best it can.
+
+@item LaTeX
+Emacs/W3 can generate a LaTeX equivalent of the @sc{html} document.
+
+@vindex w3-print-command
+@code{w3-print-command} contains a command string to print @file{dvi}
+files.  It is @samp{lpr -h -d} by default.
+
+
+There are several variables controlling what the final LaTeX document looks like.
+
+:: WORK :: Document the new LaTeX backend
+
+
+@table @code
+@item w3-latex-use-latex2e
+@vindex w3-latex-use-latex2e
+If non-@code{nil}, configures the LaTeX engine to use the LaTeX2e
+syntax.  A @code{nil} value indicates that LaTeX 2.0.9 compabibility
+will be used instead.
+@item w3-latex-docstyle
+@vindex w3-latex-docstyle
+The document style to use when printing or mailing converted @sc{html} files
+in LaTeX.
+@item w3-latex-packages
+@vindex w3-latex-packages
+List of LaTeX packages to include.  Currently this is only used if 
+@code{w3-latex-use-latex2e} is non-@code{nil}.
+@item w3-latex-use-maketitle
+@vindex w3-latex-use-maketitle
+If non-@code{nil}, the LaTeX engine will use real LaTeX title pages for
+document titles.
+@item w3-latex-print-links
+@vindex w3-latex-print-links
+If non-@code{nil}, prints the @sc{url}s of hypertext links as endnotes at the
+end of the document.  If set to @code{footnote}, prints the @sc{url}'s as
+footnotes on each page.
+@end table
+@end table
+
+
+@node Interfacing to Mail/News, Debugging HTML, Printing, Advanced Features
+@section Interfacing to Mail/News
+@cindex Interfacing to Mail/News
+@cindex VM
+@cindex Using Emacs/W3 with VM
+@cindex GNUS
+@cindex Using Emacs/W3 with Gnus
+@cindex RMAIL
+@cindex Using Emacs/W3 with RMAIL
+
+More and more people are including @sc{url}s in their signatures, and within
+the body of mail messages.  It can get quite tedious to type these into
+the minibuffer to follow one. 
+
+@vindex browse-url-browser-function
+With the latest versions of VM (the 5.9x series of betas) and Gnus
+(5.x), @sc{url}s are automatically highlighted, and can be followed with the
+mouse or the return key.  How the @sc{url}s are viewed is determined by the
+variable @code{browse-url-browser-function}, and it should be set to the
+symbol @code{browse-url-w3}.
+
+To access @sc{url}s from within RMAIL, the following hook should do the
+trick.
+@example
+(add-hook 'rmail-mode-hook
+	  (function
+	   (lambda ()
+	     (define-key rmail-mode-map [mouse-2] 'w3-maybe-follow-link-mouse)
+	     (define-key rmail-mode-map "\r"      'w3-maybe-follow-link))))
+@end example
+
+@node Debugging HTML, Hooks, Interfacing to Mail/News, Advanced Features
+@section Debugging HTML
+@cindex Debugging
+@cindex Invalid HTML
+@cindex Bad HTML
+@vindex w3-debug-buffer
+@vindex w3-debug-html
+@vindex w3-display-errors-hook
+@vindex w3-html-errors-font-lock-keywords
+For those people that are adventurous, or are just as anal as I am about
+people writing valid @sc{html}, set the variable @code{w3-debug-html} to
+@code{t} and see what happens.  Alternatively, you can set it to
+@code{style} to warn about stylistic issues as well.  The debugging
+information will be written to the buffer named by
+@code{w3-debug-buffer}, @file{*HTML Debug*} by default.  To control
+font-lock highlighting in the @sc{html} error buffer, use
+@code{w3-html-errors-font-lock-keywords}.  After Emacs/W3 has displayed
+@sc{html} errors for a page, it runs @code{w3-display-errors-hook}.
+
+
+If a Emacs/W3 thinks it has encountered invalid @sc{html}, then a debugging
+message is displayed.
+
+:: WORK :: Need to list the different values w3-debug-html can have, and@*
+:: WORK :: what they do ::
+
+gdj1: Does this refer to the macro?  And if so, why?
+
+@node Hooks, Other Variables, Debugging HTML, Advanced Features
+@section Hooks
+@cindex Hooks
+
+These are the various hooks that can be used to customize some of
+Emacs/W3's behavior.  They are arranged in the order in which they would
+happen when retrieving a document.  These are all 'normal hooks' in
+standard Emacs-terminology, meaning they are functions (or lists of
+functions) that are called consecutively.
+
+@table @code
+@vindex w3-load-hook
+@item w3-load-hook
+These hooks are run the first time a @sc{url} is fetched.  All the
+Emacs/W3 variables are initialized before this hook is run.
+@item w3-mode-hook
+These hooks are run after a buffer has been parsed and displayed, but
+before any inlined images are downloaded and converted.
+@item w3-source-file-hook
+These hooks are run after displaying a document's source.
+@end table
+
+@node Other Variables,  , Hooks, Advanced Features
+@section Miscellaneous variables
+
+There are lots of variables that control the real nitty-gritty of Emacs/W3
+that the beginning user probably shouldn't mess with.  Here they are.
+
+@table @code
+@item url-bad-port-list
+@vindex url-bad-port-list
+List of ports to warn the user about connecting to.  Defaults to just
+the mail, @sc{nntp} and chargen ports so a malicious @sc{html} author
+cannot spoof mail or news to other people.
+@item url-confirmation-func
+@vindex url-confirmation-func
+What function to use for asking yes or no functions.  Possible values
+are @code{'yes-or-no-p} or @code{'y-or-n-p}, or any function that takes
+a single argument (the prompt), and returns @code{t} only if a positive
+answer is gotten.  Defaults to @code{'yes-or-no-p}.
+
+@item url-passwd-entry-func
+@vindex url-passwd-entry-func
+This is a symbol indicating which function to call to read in a
+password.  If this variable is @code{nil} at startup, it is initialized
+depending on whether @dfn{EFS} or @dfn{ange-ftp} is being used.  This
+function should accept the prompt string as its first argument, and the
+default value as its second argument.
+
+@item url-max-password-attempts
+@vindex url-max-password-attempts
+When a protected document is requested, Emacs/W3 will prompt for a
+password.  @code{url-max-password-attempts} controls how many attempts
+should be allowed, it is 5 by default.
+
+@item w3-reuse-buffers
+@vindex w3-reuse-buffers
+Determines what happens when @code{w3-fetch} is called on a document
+that has already been loaded into another buffer.  Possible values are:
+@code{nil}, @code{yes}, and @code{no}.  @code{nil} will ask the user if
+Emacs/W3 should reuse the buffer (this is the default value).  A value of
+@code{yes} means assume the user wants to always reuse the buffer.  A
+value of @code{no} means assume the user always wants to re-fetch the
+document.
+
+@item url-show-status
+@vindex url-show-status
+Whether to show progress messages in the minibuffer.
+@code{url-show-status} controls if a running total of the
+number of bytes transferred is displayed.  This Can cause a large
+performance hit if using a remote X display over a slow link, or a
+terminal with a slow modem.
+
+@item mm-content-transfer-encodings
+@vindex mm-content-transfer-encodings
+An assoc list of @var{Content-Transfer-Encodings} or
+@var{Content-Encodings} and the appropriate decoding algorithms for each.
+If the @code{cdr} of a node is a list, then this specifies the decoder is
+an external program, with the program as the first item in the list, and
+the rest of the list specifying arguments to be passed on the command line.
+If using an external decoder, it must accept its input from @code{stdin}
+and send its output to @code{stdout}.
+
+If the @code{cdr} of a node is a symbol whose function definition is
+non-@code{nil}, then that encoding can be handled internally.  The function
+is called with 2 arguments, buffer positions bounding the region to be
+decoded.  The function should completely replace that region with the
+unencoded information.
+
+Currently supported transfer encodings are: base64, x-gzip, 7bit, 8bit,
+binary, x-compress, x-hqx, and quoted-printable.
+
+@item url-uncompressor-alist
+@vindex url-uncompressor-alist
+An assoc list of file extensions and the appropriate uncompression
+programs for each.  This is used to build the Accept-encoding header for
+@sc{http}/1.0 requests.
+
+@item w3-do-scripting
+@vindex w3-do-scripting
+If this is non-@code{nil} then Emacs/W3 will do clien-side scripting.
+This is @code{nil} by default.
+
+@item url-external-retrieval-program, url-external-retrieval-args
+@vindex url-external-retrieval-program
+@vindex url-external-retrieval-args
+@c gdj1: Find out what this means.
+@code{url-external-retrieval-program} names the external program that is
+run to retrieve @sc{url}s.  It is @file{www} by default.
+@code{url-external-retrieval-args} specifies the arguments that will be
+passed to it, @samp{("-source")} by default.
+
+@item w3-netscape-compatible-comments
+@vindex w3-netscape-compatible-comments
+Not everyone uses proper @sc{html} comments.  To allow for the presence
+of lesser browsers, Emacs/W3 will honour the incorrect netscape-style
+comments (@samp{<! >}) if @code{w3-netscape-compatible-comments} is
+non-@code{nil}.  This is @code{t} by default, but it shouldn't need to
+be.
+
+@item font-blink-interval
+@vindex font-blink-interval
+This controls how often blinks occur for text inside @samp{<blink>}
+tags.  It is 0.5 seconds by default.
+
+@item url-inhibit-mime-parsing
+@vindex url-inhibit-mime-parsing
+This controls whether to parse @sc{mime} headers in a message.  If it is
+@code{nil} then the headers are parsed and deleted.
+
+@item url-mime-language-string
+@vindex url-mime-language-string
+This is used to set the contents of the @samp{Accept-language:} field in
+@sc{http/1.0} requests.  If it is @code{nil} then the field isn't added
+and the server's default language version is retrieved, if it is
+@code{*} then the first available langauge version is retrieved.  If it
+is a string, then it should be the desired language.
+@c gdj1: find out how http/1.0 differs from http/1.1 here.
+
+@item url-multiple-p
+@vindex url-multiple-p
+If this is non-@code{nil} then multiple queries are possible through
+@file{ *URL-<i>*} buffers.
+
+@item url-personal-mail-address
+@vindex url-personal-mail-address
+@code{url-personal-mail-address} contains your full email address.  This
+is sent in the @sc{from} field in an @sc{http/1.0} request, but
+@ref{Security} for how to prevent this.  If @code{nil} (the default),
+then it will be set to @code{user-mail-address} if non-@code{nil}, else
+it will be @code{(user-real-login-name)} at @code{(system-name)}.
+
+@item url-temporary-directory, w3-temporary-directory
+@vindex url-temporary-directory
+@vindex w3-temporary-directory
+@code{url-temporary-directory} and @code{w3-temporary-directory} control
+where temporary files are placed.  If @samp{TMPDIR} is set then they
+default to that, otherwise @file{/tmp}.
+
+@item w3-documentation-root
+@vindex w3-documentation-root
+This specifies the location of the Emacs/W3 documentation, it
+@emph{must} end in a slash.
+
+@item w3-popup-menu-on-mouse-3
+@vindex w3-popup-menu-on-mouse-3
+If you like context-sensitive menus then you're bound to like
+@code{w3-popup-menu-on-mouse-3}.  If non-@code{nil} (the default) then
+Emacs/W3 will bind mouse-3 to provide context-sensitive menus.  This
+might not work at the moment.  If @code{w3-popup-menu-on-mouse-3} is
+@code{nil}, then Emacs/W3 will not change the binding of mouse-3.
+
+@item w3-track-mouse
+@vindex w3-track-mouse
+If @code{w3-track-mouse} is non-@code{nil} (the default) then Emacs/W3
+will display the @sc{url} under the mouse in the echo-area.
+
+@item w3-use-menus
+@vindex w3-use-menus
+If @code{w3-use-menus} is @code{nil} then Emacs/W3 will not provide a
+menu interface.  If it is @samp{1}, then Emacs/W3 will add a @samp{W3}
+item to the Emacs menubar.  If it is a list then Emacs/W3 will add its
+own menubar.  The following symbols may appear in the list to control
+what Emacs/W3 puts in its menubar.
+@table @code
+@item file
+A list of file related commands
+@item edit
+Various standard editing commands (copy/paste)
+@item view
+Controlling various things about the document view
+@item go
+Navigation control
+@item bookmark
+Bookmark / hotlist control
+@item options
+Various options
+@item buffers
+The standard buffers menu
+@item emacs
+A toggle button to switch back to normal emacs menus
+@item style
+Control style information and who gets to set what
+@item search
+Various search engines
+@item help
+The help menu
+@item nil
+This may appear once in the list.  All menus after this will be
+displayed flush right.
+@end table
+
+@end table
+
+@node More Help, Future Directions, Advanced Features, Top
+@chapter More Help
+@cindex Relevant Newsgroups
+@cindex Newsgroups
+@cindex Support
+For more help on Emacs/W3, please send me mail
+(@i{wmperry+w3@@cs.indiana.edu}).  Several discussion lists have also been
+created for Emacs/W3.  To subscribe, send mail to
+@i{majordomo@@indiana.edu}, with the body of the message 'subscribe
+@var{listname} @var{<email addres>}'.  All other mail should go to
+@i{<listname>@@indiana.edu}.
+
+
+@itemize @bullet
+@item
+w3-announce -- this list is for anyone interested in Emacs/W3, and
+should in general only be used by me.  The gnu.emacs.sources newsgroup
+and a few other mailing lists are included on this.  Please only use
+this list for major package releases related to Emacs/W3.
+(@i{www-announce@@w3.org} is included on this list).
+@item
+w3-beta -- this list is for beta testers of Emacs/W3.  These brave souls test
+out not-quite stable code.
+@item
+w3-dev -- a list consisting of myself and a few other people who are
+interested in the internals of Emacs/W3, and doing active development work.
+Pretty dead right now, but I hope it will grow.
+@end itemize
+
+For help on the World Wide Web in general, please refer to the
+comp.infosystems.www.* newsgroups.  There are also several discussion
+lists concerning the Web.  Send mail to @i{<listname>-request@@w3.org}
+with a subject line of 'subscribe <listname>'.  All mail should go to
+@i{<listname>@@w3.org}.  Administrative mail should go to
+@i{www-admin@@w3.org}.  The lists are:
+
+
+@itemize @bullet
+@item
+www-talk -- for general discussion of the World Wide Web, where its
+going, new features, etc.  All the major developers are subscribed to
+this list.
+@item
+www-announce -- for announcements concerning the World Wide Web.  Server
+changes, new servers, new software, etc.
+@end itemize
+
+As a last resort, mail me.  I'll try to answer as quickly as I can.
+
+@node Future Directions, Reporting Bugs, More Help, Top
+@chapter Future Directions
+Changes are constantly being made to the Emacs browser (hopefully all
+for the better).  This is a list of the things that are being worked on
+right now.
+
+BUGS (4.0):
+@itemize @minus
+@item
+need to support HTTP/0.9 (http://c2.com:8080) responses
+@item
+/etc/mailcap cannot overide builtin mm-mime-data stuff?
+@item
+try to protect people from using '~' in file URLs
+@item
+keystrokes entered while in w3-pause self-insert under XEmacs --- the
+loop around dispatch-event needs to be smarter about what it
+swallows.
+@item
+border-color can have multiple color specifications, but we
+currently choke with 'args out of range' when we see this.
+@item
+widget appears to be stealing button3 to mean 'activate' --- this is
+bogus!  We lose all context-sensitive menus because of this.
+@item
+We still seem to be growing the line size under Emacs 19.x/20.x
+@item
+It would be really nice if w3 buffers were put into w3-mode as soon
+as they were created. Then if the rendering craps out somehow then
+the buffer could be browsed such as it was. Ideally, links and
+widgets would be functional.
+@item
+document how to translate Netscape foo.pac files to emacs lisp
+@item
+Should we stop using reporter.el?
+@end itemize
+
+BUGS (4.1):
+@itemize @minus
+@item
+background colors are not heeded on table rows (<tr>).  Same
+properties on individual cells or the table as a whole work fine.
+@item
+<br> in <dd> hosed --- margins in general tend to be too big sometimes.
+@item
+client side imagemaps have to be in the same buffer (actually in the
+smae buffer, _BEFORE_ the usemap directive on an image) --- fix to be
+able to use imagemaps in different files, any position, etc, etc.
+@end itemize
+
+FEATURES (4.1)
+@itemize @minus
+@item
+cache a formatted version of documents, with enough info to recreate
+the widgets in them.
+@item
+w3-preview-region command
+@item
+LDAP support (XEmacs)
+@item
+New proxy type for sending requests via mail to a mail->web->mail gateway.
+@item
+Emacspeak Interaction
+
+@itemize @bullet
+@item
+some way of specifying in a stylesheet whether certain text is
+inaudible.  use the 'inaudible text property for this.
+@item
+Full Aural-CSS support
+@end itemize
+
+@item
+more sophisticated filling algorithm. I'm not sure exactly what
+would be sufficient but breaking lines after punctuation  seems like
+it would solve most of the problem.
+@item
+When fetching images for viewing (not inlining), W3 should at least
+have an option of displaying it inline, ala Netscape.
+@item
+Widget library merging
+
+@itemize @bullet
+@item
+Write a font selection widget
+@item
+Write a voice selection widget
+@item
+Write a mailcap entry widget
+@end itemize
+
+@item
+Custom library merging
+@bullet{Add custom support for MM}
+@item
+Hotlist handling
+
+@itemize @bullet
+@item
+Abstract out current support
+@item
+Do something similar to GNUS 'backends' to provide easy way to add new
+bookmark formats, etc.
+@end itemize
+
+@item
+Write a new major mode for handling CSS style sheets
+@end itemize
+
+FEATURES (5.0)
+
+@itemize @minus
+@item
+Emacspeak Integration
+
+@itemize @bullet
+@item
+Need option to turn off table rendering and print it out as a
+table that is viewable with emacspeak-table-ui.el
+@end itemize
+
+@item
+Write a text/xml parser
+@item
+Completely rewrite display code again
+
+@itemize @bullet
+@item
+Abstract everything out to follow parse->flow objects->render model
+@item
+Base all stylesheet stuff off of DSSSL
+@item
+CSS2
+@item
+New rendering backends
+
+@itemize @minus
+@item
+Native postscript output
+@item
+LaTeX upgrade
+@item
+TeXinfo
+@end itemize
+@end itemize
+
+@item
+Display code
+
+@itemize @bullet
+@item
+implement <spacer> from netscape 3.0b5
+@item
+reimplement w3-show-headers
+@item
+Handle math environment using the calc library
+@item
+Better integration with the parser
+@end itemize
+@end itemize
+
+
+@node Reporting Bugs, Dealing with Firewalls, Future Directions, Top
+@appendix Reporting Bugs
+@cindex Reporting Bugs
+@cindex Bugs
+@cindex Contacting the author
+
+If any bugs are discovered in Emacs/W3, please report them to the
+mailing list @t{w3-beta@@xemacs.org} --- this is where the brave souls
+who beta test the latest versions of Emacs/W3 reside, and are generally
+very responsive to bug reports.
+@kindex w
+@findex w3-submit-bug
+Please make sure to use the bug submission feature of Emacs/W3, so that
+all relevant information will be sent along with your bug report.  By
+default this is bound to the `@key{w}' key when in an Emacs/W3 buffer,
+or you can use @key{M-x w3-submit-bug} from anywhere within Emacs.
+
+For problems that are causing emacs to signal and error, please send a
+backtrace.  You can get a backtrace by @kbd{M-x setvariable RET
+debug-on-error RET t RET}, and then reproduce the error.
+
+If the problem is visual, please capture a copy of the output and mail
+it along with the bug report (preferably as a MIME attachment, but
+anything will do).  You can use the @code{xwd} program under X-windows
+for this, or @key{Alt-PrintScreen} under Windows 95/NT.  Sorry, but I
+don't remember what the magic incarnation is for doing a screen dump
+under NeXTstep or OS/2.
+
+If the problem is actually causing Emacs to crash, then you will need to
+also mail the maintainers of the various Emacs distributions with the
+bug.  Please use the @t{gnu.emacs.bug} newgroup for reporting bugs with
+GNU Emacs 19, and @t{comp.emacs.xemacs} for reporting bugs with XEmacs
+19 or XEmacs 20.  I am actively involved with the beta testing of the
+latest versions of both branches of Emacs, and if I can reproduce the
+problem, I will do my best to see it gets fixed in the next release.
+
+It is also important to always maintain as much context as possible in
+your responses.  I get so much email from my various Emacs-activities
+and work, that I cannot remember everything.  If you send a bug report,
+and I send you a reply, and you reply with 'no that didn't work', then
+odds are I will have no clue what didn't work, much less what that was
+trying to fix in the first place.  It will be much quicker and less
+painful if I don't have to waste a round-trip email exchange saying
+'what are you talking about'.
+
+@node Dealing with Firewalls, Proxy Gateways, Reporting Bugs, Top
+@appendix Dealing with Firewalls
+By default, Emacs can support standard @sc{tcp}/@sc{ip} network
+connections on almost all the platforms it runs on (Unix, @sc{vms},
+Windows, etc).  However, there are several situations where it is not
+sufficient.
+
+@table @b
+@cindex Firewalls
+@item Firewalls
+It is becoming more and more common to be behind a firewall or some
+other system that restricts your outbound network activity, especially
+if you are like me and away from the wonderful world of academia.
+Emacs/W3 has several different methods to get around firewalls (not to
+worry though --- none of them should get you in trouble with the local
+@sc{mis} department.)
+
+@item Emacs cannot resolve hostnames.
+@cindex Faulty hostname resolvers
+@cindex Broken SunOS libc
+@cindex Hostname resolution
+This happens quite often on SunOS workstations and some ULTRIX machines.
+Some C libraries do not include the hostname resolver routines in their
+static libraries.  If Emacs was linked statically, and was not linked
+with the resolver libraries, it wil not be able to get to any machines
+off the local network.  This is characterized by being able to reach
+someplace with a raw ip number, but not its hostname
+(@url{http://129.79.254.191/} works, but
+@url{http://www.cs.indiana.edu/} doesn't).
+
+The best solution for this problem is to recompile Emacs, making sure to
+either link dynamically (if available on your operating system), or
+include the @file{-lresolv}.
+
+@cindex url-gateway-broken-resolution
+If you do not have the disk space or the appropriate permissions to
+recompile Emacs, another alternative is using the @file{nslookup}
+program to do hostname resolution.  To turn this on, set the variable
+@code{url-gateway-broken-resolution} in your @file{~/.emacs} file.  This
+runs the program specified by @code{url-gateway-nslookup-program} (by
+default "@code{nslookup}" to do hostname resolution.  This program should
+expect a single argument on the command line --- the hostname to resolve,
+and should produce output similar to the standard Unix @file{nslookup}
+program:
+
+@example
+Name: www.cs.indiana.ed
+Address: 129.79.254.191
+@end example
+
+@cindex @sc{term}
+@item Using @sc{term} (or @sc{term}-like) Networking Software
+@sc{term} @footnote{@sc{term} is a user-level protocol for emulating
+@sc{ip} over a serial line.  More information is available at
+@url{ftp://sunsite.unc.edu/pub/Linux/apps/comm/term}} for slip-like
+access to the internet.
+
+@sc{note}: XEmacs and Emacs 19.22 or later have patches to enable native
+@sc{term} networking.  To enable it, @code{#define TERM} in the
+appropriate s/*.h file for the operating system, then change the
+@code{SYSTEM_LIBS} definition to include the @file{termnet} library that
+comes with the latest versions of @sc{term}.
+
+If you run into any problems with the native @sc{term} networking
+support in Emacs or XEmacs, please let @t{wmperry+w3@@cs.indiana.edu} know,
+as he is responsible for the original support.
+@end table
+
+@vindex url-gateway-local-host-regexp
+Emacs/W3 has support for using the gateway mechanism for certain
+domains, and directly connecting to others.  The variable
+@code{url-gateway-local-host-regexp} controls this behaviour.  This is a
+regular expression @footnote{Please see the full Emacs distribution for
+a description of regular expressions} that matches local hosts that do
+not require the use of a gateway.  If @code{nil}, then all connections
+are made through the gateway.
+
+@vindex url-gateway-method
+Emacs/W3 supports several methods of getting around gateways.  The
+variable @code{url-gateway-method} controls which of these methods is
+used.  This variable can have several values (use these as symbol names,
+not strings), ie: @samp{(setq url-gateway-method 'telnet)}.  Possible
+values are:
+
+@table @dfn
+@item telnet
+Use this method if you must first telnet and log into a gateway host,
+and then run telnet from that host to connect to outside machines.
+
+@vindex url-gateway-telnet-host
+@vindex url-gateway-telnet-parameters
+@vindex url-gateway-telnet-password-prompt
+@vindex url-gateway-telnet-user-name
+@vindex url-gateway-prompt-pattern
+@vindex url-gateway-telnet-login-prompt
+@vindex url-gateway-telnet-password
+@table @code
+@item url-gateway-telnet-host
+The gateway host to telnet to.  Once logged in there, you then telnet
+out to the hosts you want to connect to.
+@item url-gateway-telnet-parameters
+This should be a list of parameters to pass to the @file{telnet} program.
+@item url-gateway-telnet-password-prompt
+This is a regular expression that matches the password prompt when
+logging in.
+@item url-gateway-telnet-login-prompt
+This is a regular expression that matches the username prompt when
+logging in.
+@item url-gateway-telnet-user-name
+The username to log in with.
+@item url-gateway-telnet-password
+This is the password to send when logging in.
+@item url-gateway-prompt-pattern
+This is a regular expression that matches the shell prompt.
+@end table
+
+
+@item rlogin
+This method is identical to the @code{telnet} method, but uses
+@file{rlogin} to log into the remote machine without having to send the
+username and password over the wire every time.
+
+@vindex url-gateway-rlogin-host
+@vindex url-gateway-rlogin-parameters
+@vindex url-gateway-rlogin-user-name
+@vindex url-gateway-prompt-pattern
+@table @code
+@item url-gateway-rlogin-host
+Host to @samp{rlogin} to before telnetting out.
+@item url-gateway-rlogin-parameters
+Parametres to pass to @samp{rsh}.
+@item url-gateway-rlogin-user-name
+User name to use when logging in to the gateway.
+@item url-gateway-prompt-pattern
+This is a regular expression that matches the shell prompt.
+@end table
+
+@item tcp
+Masanobu UMEDA (@i{umerin@@mse.kyutech.ac.jp}) has written a very small
+application that you can run in a subprocess to do the network
+connections.
+
+@item @sc{socks}
+Use if the firewall has a @sc{socks} gateway running on it.  @sc{socks}
+v5 protocol is defined in @sc{rfc1928}.
+
+@vindex socks-password
+@vindex socks-username
+@vindex socks-timeout
+@vindex socks-server
+@vindex socks-server-aliases
+@vindex socks-network-aliases
+@vindex socks-redirection-rules
+@vindex socks-nslookup-program
+@table @code
+@item socks-password
+If this is @code{nil} then you will be asked for the passward, otherwise
+it will be used as the password for authenticating you to the @sc{socks}
+server.
+
+@item socks-username
+This is the username to use when authenticating yourself to the
+@sc{socks} server.  By default this is your login name
+
+@item socks-timeout
+This controls how long, in seconds, Emacs/W3 will wait for responses from the
+@sc{socks} server; it is 5 by default.
+
+@item socks-server
+Thiss the default server, it take the form (@samp{"Default server"}
+@var{server} @var{port} @var{version}) where @var{version} can be either
+4 or 5.
+
+@item socks-server-aliases
+This a list of server aliases.  It is a list of aliases of the form
+@code{(alias hostname port version)}.
+
+@item socks-network-aliases
+This a list of network aliases.  Each entry in the list takes the form
+@code{(alias (network))} where @var{alias} is a string that names the
+@var{network}.  The networks can contain a pair (not a dotted pair) of
+@sc{ip} addresses which specify a range of @sc{ip} addresses, an @sc{ip}
+address and a netmask, a domain name or a unique hostname or @sc{ip}
+address.
+
+@item socks-redirection-rules
+This a list of redirection rules.  Each rule take the form
+@code{(Destination network Connection type)} where @var{Destination
+network} is a network alias from @code{socks-network-aliases} and
+@var{Connection type} can be @code{nil} in which case a direct
+connection is used, or it can be an alias from
+@code{socks-server-aliases} in which case that server is used as a
+proxy.
+
+@item socks-nslookup-program
+This the @samp{nslookup} program.  It is @samp{nslookup} by default.
+@end table
+
+
+@c @item ssl
+@c This probably shouldn't be documented
+
+@item native
+This means that Emacs/W3 should use the builtin networking code of
+Emacs.  This should be used only if there is no firewall, or the Emacs
+source has already been hacked to get around the firewall.
+@end table
+
+Emacs/W3 should now be able to get outside the local network.  If none
+of this makes sense, its probably my fault.  Please check with the
+network administrators to see if they have a program that does most of
+this already, since somebody somewhere at the company has probably been
+through something similar to this before, and would be much more
+helpful/knowledgeable about the local setup than I would be.  But feel
+free to mail me as a last resort.
+
+@node Proxy Gateways, Installing SSL, Dealing with Firewalls, Top
+@appendix Proxy Gateways
+@vindex url-proxy-services
+@cindex Proxy Servers
+@cindex Proxies
+@cindex Proxies, environment variables
+@cindex HTTP Proxy
+
+In late January 1993, Kevin Altis and Lou Montulli proposed and
+implemented a new proxy service.  This service requires the use of
+environment variables to specify a gateway server/port # to send
+protocol requests to.  Each protocol (@sc{http}, @sc{wais}, gopher,
+@sc{ftp}, etc.) can have a different gateway server.  The environment
+variables are @code{PROTOCOL}_proxy, where @code{PROTOCOL} is one of the
+supported network protocols (gopher, file, @sc{http}, @sc{ftp}, etc.)
+
+@cindex No Proxy
+@cindex Proxies, exclusion lists
+@vindex NO_PROXY
+For companies with internal intranets, it will usually be helpful to
+define a list of hosts that should be contacted directly, @b{not} sent
+through the proxy.  The @code{NO_PROXY} environment variable controls
+what hosts are able to be contacted directly.  This should be a comma
+separated list of hostnames, domain names, or a mixture of both.
+Asterisks can be used as a wildcard.  For example:
+
+@example
+NO_PROXY=*.aventail.com,home.com,*.seanet.com
+@end example
+
+tells Emacs/W3 to contact all machines in the @b{aventail.com} and
+@b{seanet.com} domains directly, as well as the machine named
+@b{home.com}.
+
+@vindex url-proxy-services
+@cindex Proxies, setting from lisp
+For those adventurous souls who enjoy writing regular expressions, all
+the proxy settings can be manipulated from Emacs-Lisp.  The variable
+@code{url-proxy-services} controls this.  This is an assoc list, keyed
+on the protocol type (@sc{http}, gopher, etc) in all lowercase.  The
+@code{cdr} of each entry should be the @sc{address} of the proxy server
+to contact, followed by ":" and the port number to use. In the case of
+the special "no_proxy" entry, it should be a regular expression that
+matches any hostnames that should be contacted directly.
+
+@example
+(setq url-proxy-services
+       '(("http"     . "proxy.aventail.com:80")
+         ("no_proxy" . "^.*\\(aventail\\|seanet\\)\.com")))
+@end example
+
+@node Installing SSL, Mailcap Files, Proxy Gateways, Top
+@appendix Installing SSL
+@cindex HTTP/1.0 Authentication
+@cindex Secure Sockets Layer
+@cindex SSL
+@cindex Gag Puke Retch
+@cindex Exportability
+@cindex Export Restrictions
+In order to use SSL in Emacs/W3, an implementation of SSL is necessary.
+Emacs/W3 is configued to work out of the box with SSLeay 0.6.6 or later.
+For best results, you should apply a patch that makes the SSLeay client
+much quieter about what it reports.
+
+You can download SSLeay from
+@url{ftp://ftp.psy.uq.oz.au/pub/Crypto/SSL/}
+
+The following variables control how the external program is invoked.
+
+@table @code
+@item ssl-program-name
+@vindex ssl-program-name
+The name of the program to run, as a string.
+
+@example
+(setq ssl-program-name "s_client")
+@end example
+
+@item ssl-program-arguments
+@vindex ssl-program-arguments
+This should be used if your SSL program needs command line switches to
+specify any behaviour (certificate file locations, etc).  This is a list
+of strings and symbols.
+
+The special symbols 'host and 'port may be used in the list of arguments
+and will be replaced with the hostname and service/port that will be
+connected to.
+
+@example
+(setq ssl-program-arguments '("-host" host
+                              "-port" service
+                              "-verify" "4"
+                              "-CApath /usr/local/ssl/certs"))
+@end example
+@end table
+The default is ("-host" host "-port" service "-verify"
+@var{ssl-certificate-verification-policy} -CApath @var{ssl-certificate-directory}).
+
+@vindex ssl-certificate-directory
+@code{ssl-certificate-directory} is the directory in which @sc{ca}
+certificates are stored.  It is
+@code{@var{w3-configuration-directory}/cert} by default.
+
+@vindex ssl-rehash-program-name
+@code{ssl-rehash-program-name} is the program that is run after adding a
+certificate to the @code{ssl-certificate-directory} directory.  It is
+run with the directory name as an argument and defaults to @code{c_rehash}.
+
+@vindex ssl-view-certificate-program-name
+@vindex ssl-view-certificate-program-arguments
+@code{ssl-view-certificate-program-name} names the program that can
+produce a human-readable view of a certificate.  It is @code{x509} by
+default and is called with the arguments listed in
+@code{ssl-view-certificate-program-arguments} which is @code{("text"
+"-inform" "DER")} by default.
+
+@vindex ssl-certificate-directory-style
+@code{ssl-certificate-directory-style} specifies the type of certificate
+database to use.  It's default (and at the moment, only possible value)
+is @code{ssleay} which specifies a directory or pem encoded certificates
+with hash symlinks.
+
+@vindex ssl-certificate-verification-policy
+You can decide how high up the chain of certificates should
+be verified by setting @code{ssl-certificate-verification-policy}.  Possible
+values are
+@table @asis
+@item 0
+No verification
+@item 1
+Verification required
+@item 3
+Reject connection if verification fails
+@item 5
+SSL_VERIFY_CLIENT_ONCE
+@end table
+The default is 0
+
+@node Mailcap Files, Temporary, Installing SSL, Top
+@appendix Mailcap Files
+NCSA Mosaic and almost all other WWW browsers rely on a separate file
+for mapping MIME types to external viewing programs.  This takes some of
+the burden off of browser developers, so each browser does not have to
+support all image formats, or postscript, etc.  Instead of having the
+users of Emacs/W3 duplicate this in lisp, this file can be parsed using
+the @code{mm-parse-mailcaps} function.  This function is called each
+time Emacs/W3 is loaded.  It tries to locate mimetype files in several
+places. If the environment variable @code{MAILCAPS} is nonempty, then
+this is assumed to specify a UNIX-like path of mimetype files (this is a
+colon separated string of pathnames).  If the @code{MAILCAPS}
+environment variable is empty, then Emacs/W3 looks for these
+files:
+
+@enumerate
+@item
+@file{~/.mailcap}
+@item
+@file{/etc/mailcap}
+@item
+@file{/usr/etc/mailcap}
+@item
+@file{/usr/local/etc/mailcap}
+@end enumerate
+
+This format of this file is specified in RFC 1343, but a brief synopsis
+follows (this is taken verbatim from sections of RFC 1343).
+
+Each mailcap file consists of a set of entries that describe the proper
+handling of one media type at the local site.  For example, one line
+might tell how to display a message in Group III fax format.  A mailcap
+file consists of a sequence of such individual entries, separated by
+newlines (according to the operating system's newline
+conventions). Blank lines and lines that start with the "#" character
+(ASCII 35) are considered comments, and are ignored.  Long entries may
+be continued on multiple lines if each non-terminal line ends with a
+backslash character ('\', ASCII 92), in which case the multiple lines
+are to be treated as a single mailcap entry.  Note that for such
+"continued" lines, the backslash must be the last character on the line
+to be continued.
+
+Each mailcap entry consists of a number of fields, separated by
+semi-colons.  The first two fields are required, and must occur in the
+specified order.  The remaining fields are optional, and may appear in
+any order.
+
+The first field is the content-type, which indicates the type of data
+this mailcap entry describes how to handle.  It is to be matched against
+the type/subtype specification in the "Content-Type" header field of an
+Internet mail message.  If the subtype is specified as "*", it is
+intended to match all subtypes of the named content-type.
+
+The second field, view-command, is a specification of how the message or
+body part can be viewed at the local site.  Although the syntax of this
+field is fully specified, the semantics of program execution are
+necessarily somewhat operating system dependent.
+
+The optional fields, which may be given in any order, are as follows:
+@itemize @bullet
+@item
+The "compose" field may be used to specify a program that can be used to
+compose a new body or body part in the given format.  Its intended use
+is to support mail composing agents that support the composition of
+multiple types of mail using external composing agents.  As with the
+view- command, the semantics of program execution are operating system
+dependent.  The result of the composing program may be data that is not
+yet suitable for mail transport---that is, a Content-Transfer-Encoding
+may need to be applied to the data.
+@item
+The "composetyped" field is similar to the "compose" field, but is to be
+used when the composing program needs to specify the Content-type header
+field to be applied to the composed data.  The "compose" field is
+simpler, and is preferred for use with existing (non-mail-oriented)
+programs for composing data in a given format.  The "composetyped" field
+is necessary when the Content-type information must include auxilliary
+parameters, and the composition program must then know enough about mail
+formats to produce output that includes the mail type
+information.
+@item
+The "edit" field may be used to specify a program that can be used to
+edit a body or body part in the given format.  In many cases, it may be
+identical in content to the "compose" field, and shares the
+operating-system dependent semantics for program execution.
+@item
+The "print" field may be used to specify a program that can be used to
+print a message or body part in the given format.  As with the
+view-command, the semantics of program execution are operating system
+dependent.
+@item
+The "test" field may be used to test some external condition (e.g.  the
+machine architecture, or the window system in use) to determine whether
+or not the mailcap line applies.  It specifies a program to be run to
+test some condition.  The semantics of execution and of the value
+returned by the test program are operating system dependent.  If the
+test fails, a subsequent mailcap entry should be sought.  Multiple test
+fields are not permitted---since a test can call a program, it can
+already be arbitrarily complex.
+@item
+The "needsterminal" field indicates that the view-command must be run on
+an interactive terminal.  This is needed to inform window-oriented user
+agents that an interactive terminal is needed.  (The decision is not
+left exclusively to the view-command because in some circumstances it
+may not be possible for such programs to tell whether or not they are on
+interactive terminals.)  The needsterminal command should be assumed to
+apply to the compose and edit commands, too, if they exist.  Note that
+this is NOT a test---it is a requirement for the environment in which
+the program will be executed, and should typically cause the creation of
+a terminal window when not executed on either a real terminal or a
+terminal window.
+@item
+The "copiousoutput" field indicates that the output from the
+view-command will be an extended stream of output, and is to be
+interpreted as advice to the UA (User Agent mail- reading program) that
+the output should be either paged or made scrollable. Note that it is
+probably a mistake if needsterminal and copiousoutput are both
+specified.
+@item
+The "description" field simply provides a textual description,
+optionally quoted, that describes the type of data, to be used
+optionally by mail readers that wish to describe the data before
+offering to display it.
+@item
+The "x11-bitmap" field names a file, in X11 bitmap (xbm) format, which
+points to an appropriate icon to be used to visually denote the presence
+of this kind of data.
+@item
+Any other fields beginning with "x-" may be included for local or
+mailer-specific extensions of this format.  Implementations should
+simply ignore all such unrecognized fields to permit such extensions,
+some of which might be standardized in a future version of this
+document.
+@end itemize
+
+@node Temporary, General Index, Mailcap Files, Top
+@comment  node-name,  next,  previous,  upGeneral Index
+
+@c @appendix Temporary
+
+@c @subsection base64
+@c @itemize @code
+@c 
+@c gdj1: What is DSSSL?
+@c 
+@c @vindex font-maximum-slippage
+@c @item font-maximum-slippage
+@c This specifies how much a font can vary from the desired size.  It is a
+@c string and the default value is @samp{1pt}.
+
+@c @vindex font-family-mappings
+@c @item font-family-mappings
+@c This is an alist that tells Emacs/W3 what fonts correspond to the
+@c @sc{html} font families.  The format is @code{(@var{html_family}
+@c . (@var{fonts}))}.
+@c 
+@c @end itemize
+
+@node General Index, Key Index, Temporary, Top
+@appendix General Index
+@printindex fn
+@node Key Index,  , General Index, Top
+@appendix Key Index
+@printindex ky
+@contents
+@bye
