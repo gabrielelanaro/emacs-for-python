@@ -153,7 +153,7 @@
   (kill-buffer (current-buffer)))
 
 (global-set-key (kbd "C-x C-k") 'kill-current-buffer)
-
+(global-set-key (kbd "C-x c") 'compile)
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
 (global-set-key [f7] 'split-window-vertically)
