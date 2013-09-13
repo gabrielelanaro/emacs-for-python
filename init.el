@@ -98,8 +98,8 @@
 (if
     windowed-system
     (progn
-      (require 'tabbar)
-      (tabbar-mode)
+      ;(require 'tabbar)
+      ;(tabbar-mode)
       (menu-bar-mode 1)
       (require 'recentf)
       (recentf-mode 1)
