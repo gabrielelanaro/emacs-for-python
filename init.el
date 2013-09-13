@@ -46,8 +46,6 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
-(setq visible-bell 1)
-
 (require 'auto-complete)
 
 ;;(global-linum-mode 1)
@@ -100,8 +98,8 @@
 (if
     windowed-system
     (progn
-      (require 'tabbar)
-      (tabbar-mode)
+      ;(require 'tabbar)
+      ;(tabbar-mode)
       (menu-bar-mode 1)
       (require 'recentf)
       (recentf-mode 1)
@@ -155,7 +153,7 @@
   (kill-buffer (current-buffer)))
 
 (global-set-key (kbd "C-x C-k") 'kill-current-buffer)
-
+(global-set-key (kbd "C-x c") 'compile)
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
 (global-set-key [f7] 'split-window-vertically)
@@ -570,6 +568,36 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
+(setq visible-bell 1)
+
+(defvar gud-overlay
+(let* ((ov (make-overlay (point-min) (point-min))))
+(overlay-put ov 'face 'secondary-selection)
+ov)
+"Overlay variable for GUD highlighting.")
+
+(defadvice gud-display-line (after my-gud-highlight act)
+"Highlight current line."
+(let* ((ov gud-overlay)
+(bf (gud-find-file true-file)))
+(save-excursion
+  (set-buffer bf)
+  (move-overlay ov (line-beginning-position) (line-end-position)
+  (current-buffer)))))
+
+(defun gud-kill-buffer ()
+(if (eq major-mode 'gud-mode)
+(delete-overlay gud-overlay)))
+
+(add-hook 'kill-buffer-hook 'gud-kill-buffer)
+(add-hook 'gdb-mode-hook '(lambda ()
+                            ;(new-frame)
+                            ;(switch-to-buffer "**gdb**")
+                            (tool-bar-mode 1)
+                            (gdb-many-windows)
+                            ))
+;;-------------------------------------------------------------
+
 
 (require 'package)
 (add-to-list 'package-archives
@@ -577,3 +605,4 @@
 (package-initialize)
 ;(unless (package-installed-p 'scala-mode2)
 ;  (package-refresh-contents) (package-install 'scala-mode2))
+(put 'erase-buffer 'disabled nil)
