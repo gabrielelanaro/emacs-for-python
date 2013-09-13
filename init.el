@@ -570,6 +570,34 @@
 
 (setq visible-bell 1)
 
+(defvar gud-overlay
+(let* ((ov (make-overlay (point-min) (point-min))))
+(overlay-put ov 'face 'secondary-selection)
+ov)
+"Overlay variable for GUD highlighting.")
+
+(defadvice gud-display-line (after my-gud-highlight act)
+"Highlight current line."
+(let* ((ov gud-overlay)
+(bf (gud-find-file true-file)))
+(save-excursion
+  (set-buffer bf)
+  (move-overlay ov (line-beginning-position) (line-end-position)
+  (current-buffer)))))
+
+(defun gud-kill-buffer ()
+(if (eq major-mode 'gud-mode)
+(delete-overlay gud-overlay)))
+
+(add-hook 'kill-buffer-hook 'gud-kill-buffer)
+(add-hook 'gdb-mode-hook '(lambda ()
+                            ;(new-frame)
+                            ;(switch-to-buffer "**gdb**")
+                            (tool-bar-mode 1)
+                            (gdb-many-windows)
+                            ))
+;;-------------------------------------------------------------
+
 
 (require 'package)
 (add-to-list 'package-archives
