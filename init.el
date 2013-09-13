@@ -46,8 +46,6 @@
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 
-(setq visible-bell 1)
-
 (require 'auto-complete)
 
 ;;(global-linum-mode 1)
@@ -569,6 +567,8 @@
 
 (load "server")
 (unless (server-running-p) (server-start))
+
+(setq visible-bell 1)
 
 
 (require 'package)
