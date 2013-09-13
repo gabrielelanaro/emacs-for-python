@@ -147,6 +147,8 @@
 
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-set-key (kbd "C-с C-m") 'execute-extended-command)
+(global-set-key (kbd "s-<right>") 'next-buffer)
+(global-set-key (kbd "s-<left>") 'previous-buffer)
 
 (defun kill-current-buffer ()
   (interactive)
@@ -238,9 +240,21 @@
   (interactive)
   (newline-and-indent)
   (insert "import pdb; pdb.set_trace()")
+  (newline-and-indent)
   (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
+
+(defun my-ttt ()
+  (erase-buffer)
+  (face-remap-add-relative 'default '(
+          :family "Monospace"
+          :height 98
+          ))
+)
+
+
+(add-hook 'comint-mode-hook 'my-ttt)
 
 ;; vala
 (autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
