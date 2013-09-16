@@ -45,7 +45,6 @@
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
-
 (require 'auto-complete)
 
 ;;(global-linum-mode 1)
@@ -82,6 +81,7 @@
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
 
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
+
 
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
@@ -191,6 +191,7 @@
 (set-default 'indicate-empty-lines t)
 (set-default 'imenu-auto-rescan nil)
 
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
 
@@ -253,8 +254,11 @@
           ))
 )
 
-
 (add-hook 'comint-mode-hook 'my-ttt)
+(add-hook 'gdb-locals-mode-hook 'my-ttt)
+(add-hook 'gdb-frames-mode-hook 'my-ttt)
+(add-hook 'gdb-registers-mode-hook 'my-ttt)
+
 
 ;; vala
 (autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
@@ -277,8 +281,6 @@
       (defvar sub-zoom-len (safe-length sub-zoom-ht))
       (defvar def-zoom-ht (car sub-zoom-ht))
       (set-face-attribute 'default nil :height def-zoom-ht)
-
-
 
       ;; Adjust line number fonts.
 
@@ -326,7 +328,12 @@
                                (if (equal 'fullboth current-value)
                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
                                  (progn (setq old-fullscreen current-value)
-                                        'fullboth)))))
+                                        'fullboth)
+                                 )
+                               ;(menu-bar-mode 0)
+                               )
+          )
+        )
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
       (defun maximize-window (&optional f)
@@ -607,7 +614,7 @@ ov)
 (add-hook 'gdb-mode-hook '(lambda ()
                             ;(new-frame)
                             ;(switch-to-buffer "**gdb**")
-                            (tool-bar-mode 1)
+                            ;(tool-bar-mode 1)
                             (gdb-many-windows)
                             ))
 ;;-------------------------------------------------------------
