@@ -33,20 +33,24 @@
 
 
 ;; Keep emacs Custom-settings in separate file
-(if win32-system
-    (progn
-      (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+(if windowed-system
+    (if win32-system
+        (progn
+          (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+          )
+      (progn
+        (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+        )
       )
-    (progn
-      (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
-      )
-    )
+  (setq custom-file (expand-file-name "custom-nw.el" dotfiles-dir))
+)
 
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
 (require 'auto-complete)
 
+(require 'linum)
 ;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
@@ -101,17 +105,22 @@
       ;(require 'tabbar)
       ;(tabbar-mode)
       (menu-bar-mode 1)
-      (require 'recentf)
-      (recentf-mode 1)
-      (setq
-       recentf-menu-path '("File")
-       recentf-menu-title        "Recent"
- recentf-max-saved-items 100
- recentf-max-menu-items 20
+      (if (not win32-system)
+          (progn
+            (require 'recentf)
+            (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
+            (recentf-mode 1)
+            (setq
+             recentf-menu-path '("File")
+             recentf-menu-title "Recent"
+             recentf-max-saved-items 100
+             recentf-max-menu-items 20
              )
-      (recentf-update-menu-hook)
-      (require 'window-numbering)
-      (window-numbering-mode 1)
+            (setq recentf-max-menu-items 25)
+            (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+            (recentf-update-menu-hook)
+            )
+      )
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
@@ -121,6 +130,9 @@
       (menu-bar-mode 0)
     )
 )
+
+(require 'window-numbering)
+(window-numbering-mode 1)
 
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
