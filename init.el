@@ -249,8 +249,8 @@
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
-          :family "Monospace"
-          :height 98
+          ;:family "Monospace"
+          :height 80
           ))
 )
 
