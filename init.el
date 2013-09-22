@@ -47,6 +47,8 @@
                                         (concat dotfiles-dir "backups")))))
 (require 'auto-complete)
 
+(require 'linum)
+
 ;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
