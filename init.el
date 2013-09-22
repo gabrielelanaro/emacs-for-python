@@ -158,9 +158,9 @@
 (global-set-key (kbd "C-x c") 'compile)
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
-(global-set-key [f7] 'split-window-vertically)
-(global-set-key [f8] 'delete-other-windows)
-(global-set-key [f9] 'split-window-horizontally)
+;(global-set-key [f7] 'split-window-vertically)
+;(global-set-key [f8] 'delete-other-windows)
+;(global-set-key [f9] 'split-window-horizontally)
 
 (setq visible-bell nil)
 
@@ -249,8 +249,8 @@
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
-          :family "Monospace"
-          :height 98
+          ; :family "Monospace"
+          :height 80
           ))
 )
 
