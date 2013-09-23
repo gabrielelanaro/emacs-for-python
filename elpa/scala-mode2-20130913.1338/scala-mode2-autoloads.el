@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads (scala-mode) "scala-mode2" "scala-mode2.el" (21028
-;;;;;;  1399 763992 732000))
+;;;### (autoloads (scala-mode) "scala-mode2" "scala-mode2.el" (21054
+;;;;;;  35441 107242 648000))
 ;;; Generated autoloads from scala-mode2.el
 
 (autoload 'scala-mode "scala-mode2" "\
@@ -24,8 +24,8 @@ When started, runs `scala-mode-hook'.
 
 ;;;### (autoloads nil nil ("scala-mode2-fontlock.el" "scala-mode2-indent.el"
 ;;;;;;  "scala-mode2-lib.el" "scala-mode2-map.el" "scala-mode2-paragraph.el"
-;;;;;;  "scala-mode2-pkg.el" "scala-mode2-syntax.el") (21028 1399
-;;;;;;  826785 815000))
+;;;;;;  "scala-mode2-pkg.el" "scala-mode2-syntax.el") (21054 35441
+;;;;;;  191752 751000))
 
 ;;;***
 

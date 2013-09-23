@@ -141,10 +141,10 @@
      (man-page "git-branch")
      (actions
       ("v" "Branch manager" magit-branch-manager)
+      ("b" "Checkout" magit-checkout)
       ("c" "Create" magit-create-branch)
       ("r" "Rename" magit-rename-branch)
-      ("k" "Delete" magit-delete-branch)
-      ("b" "Checkout" magit-checkout))
+      ("k" "Delete" magit-delete-branch))
      (switches
       ("-t" "Set upstream configuration" "--track")
       ("-m" "Merged to HEAD" "--merged")
@@ -190,6 +190,7 @@
       ("c" "Commit" magit-commit))
      (switches
       ("-r" "Replace the tip of current branch" "--amend")
+      ("-R" "Claim authorship and reset author date" "--reset-author")
       ("-a" "Stage all modified and deleted files" "--all")
       ("-e" "Allow empty commit" "--allow-empty")
       ("-v" "Show diff of changes to be committed" "--verbose")

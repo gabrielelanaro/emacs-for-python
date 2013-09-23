@@ -6,7 +6,7 @@
 ;; Authors: Sebastian Wiesner <lunaryorn@gmail.com>
 ;;	Florian Ragwitz <rafl@debian.org>
 ;; Maintainer: Jonas Bernoulli <jonas@bernoul.li>
-;; Version: 20130917.23
+;; Version: 20130919.341
 ;; X-Original-Version: 0.14.0
 ;; Homepage: https://github.com/magit/git-modes
 ;; Keywords: convenience vc git
@@ -554,7 +554,7 @@ basic structure of and errors in git commit messages."
   (set (make-local-variable 'paragraph-start)
        (concat paragraph-start "\\|*\\|("))
   ;; Treat lines starting with a hash/pound as comments
-  (setq comment-start "#")
+  (set (make-local-variable 'comment-start) "#")
   ;; Do not remember point location in commit messages
   (when (fboundp 'toggle-save-place)
     (setq save-place nil))
