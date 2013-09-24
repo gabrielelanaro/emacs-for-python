@@ -12,7 +12,7 @@
       [(1 0)
        nil "Edit all lines matching a given regexp" single])
  (auctex .
-	 [(11 86 1)
+	 [(11 87)
 	  nil "Integrated environment for *TeX*" tar])
  (cl-lib .
 	 [(0 3)
@@ -124,7 +124,7 @@
 	   [(1 0)
 	    nil "Support for OWL Manchester Notation" single])
  (org .
-      [(20130909)
+      [(20130919)
        nil "Outline-based notes management and organizer" tar])
  (quarter-plane .
 		[(0 1)
