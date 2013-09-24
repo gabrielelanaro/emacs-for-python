@@ -162,6 +162,7 @@
 (global-set-key (kbd "C-с C-m") 'execute-extended-command)
 (global-set-key (kbd "s-<right>") 'next-buffer)
 (global-set-key (kbd "s-<left>") 'previous-buffer)
+(global-set-key (kbd "C-<return>") 'open-next-line)
 
 (defun kill-current-buffer ()
   (interactive)
