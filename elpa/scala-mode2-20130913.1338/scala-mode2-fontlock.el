@@ -294,7 +294,7 @@ Does not continue past limit.
 (defun scala-font-lock:mark-string-escapes (limit)
   (when (re-search-forward scala-syntax:string-escape-re limit t)
     (goto-char (match-end 0))
-    (or (= (nth 3 (save-excursion (syntax-ppss (match-beginning 0)))) ?\")
+    (or (eq (nth 3 (save-excursion (syntax-ppss (match-beginning 0)))) ?\")
         (scala-font-lock:mark-string-escapes limit))))
 
 (defun scala-font-lock:mark-numberLiteral (re limit)

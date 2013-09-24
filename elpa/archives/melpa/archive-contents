@@ -251,7 +251,11 @@
 	       [(20080221 651)
 		nil "Make marks visible. [wiki]" single])
  (virtualenvwrapper .
+<<<<<<< HEAD
 		    [(20130913 1203)
+=======
+		    [(20130921 1707)
+>>>>>>> 1a304ab044116a13a79f073f390fdf5054a2a5bb
 		     ((dash
 		       (1 5 0))
 		      (s
@@ -795,7 +799,11 @@
 	   [(20130312 1839)
 	    nil "Support sequential operation which omitted prefix keys. [github]" single])
  (smartparens .
+<<<<<<< HEAD
 	      [(20130919 1911)
+=======
+	      [(20130922 13)
+>>>>>>> 1a304ab044116a13a79f073f390fdf5054a2a5bb
 	       ((cl-lib
 		 (0 1))
 		(dash
@@ -1256,6 +1264,9 @@
  (project-local-variables .
 			  [(20080502 1652)
 			   nil "Set project-local variables from a file. [wiki]" single])
+ (prognth .
+	  [(20130920 1959)
+	   nil "Extend prog1 to arbitrary index [github]" single])
  (processing-snippets .
 		      [(20130718 2052)
 		       ((yasnippet
@@ -1831,7 +1842,7 @@
 		(0 1 1)))
 	      "nrepl extensions for ritz [github]" single])
  (nrepl-eval-sexp-fu .
-		     [(20130902 2040)
+		     [(20130921 1118)
 		      nil "Tiny functionality enhancements for evaluating sexps. [github]" single])
  (nrepl-decompile .
 		  [(20130726 1043)
@@ -2865,7 +2876,7 @@
 	       "Migemo plug-in for helm [github]" single])
  (helm-mercurial-queue .
 		       [(20130317 2030)
-			nil "No description available. [github]" tar])
+			nil "List hg files in hg project. [github]" single])
  (helm-ls-git .
 	      [(20130912 1059)
 	       nil "list git files. [github]" single])
@@ -3338,7 +3349,7 @@
 	    [(20130723 2318)
 	     nil "Non-interactive frame and window functions. [wiki]" single])
  (frame-cmds .
-	     [(20130723 2317)
+	     [(20130921 1622)
 	      nil "Frame and window commands (interactive functions). [wiki]" single])
  (foreign-regexp .
 		 [(20130618 1921)

@@ -1228,7 +1228,9 @@ arguments."
           (delq nil
                 (mapcar (function
                          (lambda (filename)
-                           (and (file-readable-p filename)
+                           (and 
+				(not filename)
+ 				(file-readable-p filename)
                                 (recentf-include-p filename)
                                 filename)))
                         recentf-list)))

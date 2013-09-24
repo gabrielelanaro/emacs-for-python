@@ -51,6 +51,7 @@
 (require 'auto-complete)
 
 (require 'linum)
+
 ;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
@@ -170,9 +171,9 @@
 (global-set-key (kbd "C-x c") 'compile)
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
-(global-set-key [f7] 'split-window-vertically)
-(global-set-key [f8] 'delete-other-windows)
-(global-set-key [f9] 'split-window-horizontally)
+;(global-set-key [f7] 'split-window-vertically)
+;(global-set-key [f8] 'delete-other-windows)
+;(global-set-key [f9] 'split-window-horizontally)
 
 (setq visible-bell nil)
 
@@ -261,12 +262,13 @@
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
-          ;:family "Monospace"
+          ; :family "Monospace"
           :height 80
           ))
 )
 
 (add-hook 'comint-mode-hook 'my-ttt)
+(add-hook 'compilation-mode-hook 'my-ttt)
 (add-hook 'gdb-locals-mode-hook 'my-ttt)
 (add-hook 'gdb-frames-mode-hook 'my-ttt)
 (add-hook 'gdb-registers-mode-hook 'my-ttt)
@@ -348,6 +350,8 @@
         )
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
+	(if (not win32-system)
+	(progn
       (defun maximize-window (&optional f)
 	(interactive)
 	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
@@ -357,6 +361,7 @@
 
       ;;; (toggle-fullscreen)
       (maximize-window)
+	))
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color

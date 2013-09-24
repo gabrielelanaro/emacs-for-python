@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads (lua-mode) "lua-mode" "lua-mode.el" (21035 62404
-;;;;;;  336808 576000))
+;;;### (autoloads (lua-mode) "lua-mode" "lua-mode.el" (21054 35450
+;;;;;;  840722 489000))
 ;;; Generated autoloads from lua-mode.el
 
 (autoload 'lua-mode "lua-mode" "\
@@ -18,8 +18,8 @@ Major mode for editing Lua code.
 
 ;;;***
 
-;;;### (autoloads nil nil ("lua-mode-pkg.el") (21035 62404 406062
-;;;;;;  848000))
+;;;### (autoloads nil nil ("lua-mode-pkg.el") (21054 35450 918612
+;;;;;;  243000))
 
 ;;;***
 

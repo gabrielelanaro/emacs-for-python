@@ -12,7 +12,7 @@
 ;;              Aaron Smith <aaron-lua@gelatinous.com>.
 ;;
 ;; URL:         http://immerrr.github.com/lua-mode
-;; Version: 20130902.1338
+;; Version: 20130910.922
 ;; X-Original-Version:     20130419
 ;;
 ;; This file is NOT part of Emacs.
@@ -715,7 +715,7 @@ Groups 6-9 can be used in any of argument regexps."
 (defun lua-electric-match (arg)
   "Insert character and adjust indentation."
   (interactive "P")
-  (insert-char last-command-event (prefix-numeric-value arg))
+  (self-insert-command (prefix-numeric-value arg))
   (if lua-electric-flag
       (lua-indent-line))
   (blink-matching-open))
