@@ -1,0 +1,377 @@
+\input texinfo
+@c -*-texinfo-*-
+@c Copyright (C) 1997 Free Software Foundation, Inc.
+@setfilename w3-faq.info
+@dircategory FAQs
+@dircategory GNU Emacs Lisp
+@direntry
+* Emacs/W3 FAQ: (w3-faq).          FAQ for Emacs/W3 World Wide Web browser.
+@end direntry
+
+@node Top, Installation FAQ, (dir), (dir)
+@section Frequently Asked Questions
+
+This is the Emacs/W3 Frequently Asked Questions list.
+
+@menu
+* Installation FAQ::      Installation of Emacs/W3.
+* Runtime FAQ::           Running Emacs/W3.
+* Arcana::                Obscure, but cool.
+* Customization FAQ::     Customizing Emacs/W3.
+@end menu
+
+@node Installation FAQ, Runtime FAQ, Top, Top
+@subsection Installation
+
+@itemize @bullet
+@item
+Q1.1  What is the latest version of Emacs/W3?
+
+The latest version is $State: v4.0pre.47 $.
+
+@item
+Q1.2  Where do I get Emacs/W3?
+
+Any of the following locations:
+
+@itemize @minus
+@item
+@url{http://www.cs.indiana.edu/elisp/w3/download.html}
+@item
+@url{ftp://ftp.cs.indiana.edu/pub/elisp/w3/}
+@end itemize
+
+@item
+Q1.3  Which version of Emacs do I need?
+
+At least GNU Emacs 19.34, or XEmacs 19.14 is recommended.  GNU Emacs
+19.28 has been known to work, but highlighting will not work due to
+differences in how faces are handled in newer Emacs versions.
+
+@item
+Q1.4  I get './configure: sh internal 2K buffer overflow' when configuring.
+
+On some systems (notably HP-UX 9.x), the standard /bin/sh is not quite
+up to snuff.  You should use bash to run configure if you possibly can,
+ie: bash ./configure [standard-arguments]
+
+If anyone has ideas about how I could fix my autoconf sources, please
+contact @url{mailto:wmperry@@aventail.com}.
+
+@item
+Q1.5  How can I build Emacs/W3 under Windows 95 or Windows NT?
+
+@item
+Q1.6  How can I build Emacs/W3 under VMS?
+
+@item
+Q1.7  I still want to use Emacs 19, are there any special problems?
+
+Since Emacs 19.x does not include a suitably `new' version of the custom
+and widget libraries, you will need to install them yourself.  Please
+see @url{http://www.dina.kvl.dk/~abraham/custom/} for more information
+on installing.  After this, you will need to re-run your configure
+script, including the --with-custom=/path/to/custom/library/directory.
+
+@end itemize
+
+@node Runtime FAQ, Arcana, Installation FAQ, Top
+@subsection Runtime
+
+@itemize @bullet
+@item
+Q2.1  The options menu is ugly under Emacs 19
+
+In Emacs 19, Emacs/W3 uses the 'easymenu' package to define menus.
+Unfortunately, this package does not show the current state of a boolean
+menu entry, it just shows as 'Toggle xxxx'.
+
+This feature-lack will be fixed in Emacs 19.35 or Emacs 20.1 when they
+are released.
+
+@item
+Q2.2  Animated GIFs cause XEmacs 19.14 or 20.0 to crash.
+
+There was a bug in the GIF decoding routines in XEmacs 19.14 and 20.0 -
+please update to XEmacs 19.15 or 20.1 respectively.
+
+@item
+Q2.3  I get an error when starting up about custom-declare-group
+
+This usually means you compiled Emacs/W3 in an emacs that could not find
+the 'custom' package (or found an old version), but you are running it
+in an emacs that finds the new one.  This is usually the case if you
+have a recent version of GNUS installed in a non-standard place.
+
+Make sure that you can load the custom library when compiling emacs.
+Set the environment variable WIDGETDIR to where your custom library
+lives (ie: ~/lisp/gnus/lisp), or rerun configure with the
+'--with-custom=/full/path/to/custom/lisp/' command line argument and
+then remake with a 'make clean all'.
+
+@item
+Q2.4  It is incredibly slow under OS/2
+
+This appears to be a problem with how fonts are looked up.  Thanks to
+chang@@wsu.edu for this analysis.
+
+In OS/2, the font name default to forms like
+
+@example
+"-*-Courier-medium-r-normal--*-100-*-*-m-*-cp850" ......
+or
+"10.Courier"
+@end example
+
+In these two cases, font detection fails because this does not match
+x-font-regexp.
+
+To solve this, set the default font as
+"-*-Courier-medium-r-normal--*-100-*-*-m-*-cp850-1"
+
+@item
+Q2.5  How do I make emacs scroll the window horizontally when moving?
+
+In XEmacs, you should simply put something like this in your .emacs
+file:
+
+@example
+   (add-hook 'w3-mode-hook '(lambda () (auto-show-mode 1)))
+@end example
+
+Under Emacs 19, there are a variety of different packages that provide
+this functionality.  The one I have seen used the most is 'hscroll.el',
+from @url{http://reality.sgi.com/wmesard/ftp/emacs/hscroll.el} - to turn
+it on, add this to your .emacs file:
+
+@example
+   (autoload 'turn-on-hscroll "hscroll" nil t)
+   (add-hook 'w3-mode-hook 'turn-on-hscroll)
+@end example
+
+@item
+Q2.6  I like being warned about invalid HTML on my own pages, but how
+      can I make Emacs/W3 stop telling me almost everything on the Web
+      is invalid?
+
+Snide answer: Make everyone start writing valid HTML pages. :)
+
+Real answer: You can use the file preparation hook, which is run before
+any parsing is done.  Something like this should work.
+
+@example
+(defun my-w3-file-prepare-hook ()
+  (make-local-variable 'w3-debug-html)
+  (setq w3-debug-html
+      (if (or (string= (url-type url-current-object) "file")
+              (string-match ".*\\.some\\.domain\\.name"
+                            (or (url-host url-current-object) "")))
+          'style
+        nil)))
+(add-hook 'w3-file-prepare-hook 'my-w3-file-prepare-hook)
+@end example
+This will turn on stylistic warnings for any local HTML files or files
+loaded from the `*.some.domain.name' domain.
+
+@item
+Q2.7  I get an error restarting Emacs after using the preferences menu
+      in Emacs/W3:
+      @samp{Symbol's function definition is void: custom-set-variables}
+
+Typically this happens if you are running GNU Emacs 19.  Because the
+custom libraries are not bundled with Emacs, you need to make sure that
+you load it from within your .emacs file.   Place the following line
+before any of the calls to @code{custom-set-variables}:
+
+@example
+(require 'custom)
+@end example
+
+@item
+Q2.8  When using Emacs 20.x, a \201 character appears in the buffer
+      before every character above ASCII 127?
+
+You should install the LEIM package and put the following lines in your
+.emacs file:
+
+@example
+(set-language-environment 'Latin-1)
+(standard-display-european t 'iso-latin-1)
+@end example
+
+LEIM packages for Emacs 20.x are located at
+@url{ftp://prep.ai.mit.edu/pub/gnu/}, filename is
+@file{leim-XX.Y.tar.gz}, where XX.Y matches the Emacs version you are
+currently running.
+
+@item
+Q2.9  All my FTP directory listings show up as HTML!  I HATE THAT!
+
+This will happen if you are going through a web-based proxy server.  To
+use the normal ftp support that Emacs provides, you will need to set up
+the no-proxy section of your proxy services to not include @b{any} ftp
+traffic  @xref{Proxy Gateways, , Proxy Gateways, w3, Emacs/W3 User's
+Manual}.  You must then also configure Ange-FTP or EFS to know about
+your specific proxy setup.
+
+After all this pain and anguish, you will see your FTP directories in
+dired as the gods intended.
+
+@item
+Q2.10 Why can't I choose an option in an HTML form using the minibuffer
+      instead of the #%!@@ing 'widget choose' buffer?
+
+This is in the hands of the @b{widget} library.  Thankfully, there is a
+way to change this behaviour.  Set the variable
+@code{widget-menu-minibuffer-flag} to @code{t} in your @file{~/.emacs}
+file, and you will get the expected behaviour.
+
+@end itemize
+
+@node Arcana, Customization FAQ, Runtime FAQ, Top
+@subsection Arcana
+
+@itemize @bullet
+@item
+Q3.2  How do i get Shift-Tab to go backwards on a text terminal or XTerm?
+
+aka: I hate the new text widgets, I can't go through the links with n and b
+     I can go forward using TAB but how do i go backward on a terminal? 
+
+Thanks to Greg Stark <gsstark@@mit.edu> for this incredibly thorough
+answer.  I have verified that this works on my Linux laptop.
+
+Not all terminals can distinguish between a shifted tab and an unshifted
+tab at all. Tab is indicated on a text terminal by a control-i. There is
+no such thing as capital control characters, so if the terminal is going
+to indicate a shift-tab somehow it has to be completely differently. The
+most appropriate thing to use is probably "backtab" which on old text
+terminals was sometimes a separate key and Emacs is already set up to
+recognize automatically if it exists.
+
+Making "backtab" work involves several steps. First you have to make
+sure your console generates some character sequence to indicate the key
+you want to generate a "backtab". Then you have to configure termcap or
+terminfo to recognize that key sequence. Then you may have to make your
+programs do useful things when they get a "backtab", Emacs for example
+will recognize it automatically but except for the Widget and W3
+commands nothing is ever bound it it.
+
+Step 1 On An XTerm: XTerm obeys standard X Toolkit translations which
+you can use to specify what character sequence Shift-Tab generates. The
+following X Resources will cause Shift-Tab and Meta-Shift-Tab to
+generate reasonable character sequences. You can either put this in your
+.Xresources or .Xdefaults file, or you can put it in
+/usr/lib/X11/app-defaults/XTerm to make it a site-wide default. (On
+Debian systems you should put it in /etc/X11/Xresources, not the
+app-defaults files):
+
+@example
+XTerm*VT100.translations: #override \
+   ~Meta Shift<Key>Tab: string(\033[Z) \n\
+    Meta Shift<Key>Tab: string(\033\033[Z) \n
+@end example
+
+I recommend these sequences, they are based on what seems to be a more
+or less standard sequence ^[[Z for backtab.
+
+Step 1 On Rxvt: By default Rxvt sends ^[[Z for Shift-Tab.  However, if
+Shift-Tab generates another keysym, like for example in XFree86 3.2
+where it's bound to ISO_Left_Tab then Rxvt will just ignore it. You
+would need to defeat this feature to make rxvt work again by doing
+something like:
+
+@example
+xmodmap -e 'keysym Tab = Tab'
+@end example
+
+or adding that command to some global X configuration file (On Debian
+systems adding ``Keysym Tab = Tab'' to /etc/X11/Xmodmap or ~/.Xmodmap is
+sufficient)
+
+Step 1 On A Linux Virtual Console: on a Linux virtual console you can
+configure what character sequences are generated by which keys using the
+loadkeys command. Many systems are set up to run loadkeys automatically on
+startup with some keymap file. On Debian systems this is true, the keymap file
+is specified in /etc/kbd/config and usually lives in the
+/usr/lib/kbd/keytables directory. You want to put something like the following
+in your keytable file:
+
+@example
+keycode  15 = Tab   F91
+	alt     keycode  15 = Meta_Tab        
+	shift   alt     keycode  15 = F92
+@end example
+
+where keycode 15 is Tab on my keyboard (and probably any keyboard). This
+defines Tab and Alt-Tab normally, and also defines Shift-Tab to be F91
+and Shift-Alt-Tab to be F92.
+
+Then put something like this:
+
+@example
+# backtab and M-backtab
+string F91 = "\033[Z"
+string F92 = "\033\033[Z"
+@end example
+
+later in the file. This defines what character sequence F91 (Shift-Tab)
+and F92 (Alt-Shift-Tab) should generate. I recommend these sequences,
+they are based on what seems to be a more or less standard sequence ^[[Z
+for backtab.
+
+Step 2 On A Termcap System:
+
+The termcap capability is kB, i'm not familiar with termcap tools, i think you
+just need to add it to the /etc/termcap file for the terminal you're concerned
+with as kB=\E[Z.
+
+Step 2 On A Terminfo System:
+
+The terminfo capability is kcbt (the long name is key_btab). You want to
+run infocmp to generate an edittable copy of the terminal info. Add the
+capability, then use tic to compile that information. Something like
+this:
+
+infocmp $TERM > info
+emacs info & # add kcbt=\E[Z, to the file
+tic info
+
+If you do this as root it should add the new definition to the system
+wide terminfo database. If you do it as a normal user it should create a
+~/.terminfo database with a local terminfo info definition for that
+terminal.
+
+Step 3 On Emacs:
+
+The standard terminal initialization should recognize the backtab
+capability automatically. To test it try C-h c Shift-Tab and see what it
+calls the key.  To bind commands to it just use [backtab] in
+local-set-key or global-set-key as in:
+
+@example
+(local-set-key [backtab] 'hippie-expand)
+or
+(global-set-key [backtab] 'hippie-expand)
+@end example
+
+In the interest of maintaining a single consistent set of key bindings
+between X and tty emacsen you may want to make equivalent X keystroke
+generate "backtab" as well, you can do this by doing this:
+
+(define-key function-key-map [S-tab] [backtab])
+or
+(define-key function-key-map [iso-lefttab] [backtab])
+
+To make S-tab or whatever keystroke you made generate backtab on a
+terminal be recognized as backtab under X11 as well. You can check how
+Emacs recognizes this keystroke currently by doing C-h c <keystroke>.
+
+@end itemize
+
+@node Customization FAQ,  , Arcana, Top
+@subsection Customization
+@itemize @bullet
+@end itemize
+
+@bye

@@ -1,0 +1,15 @@
+2013-03-03  Stefan Monnier  <monnier@iro.umontreal.ca>
+
+	* sokoban.el: Style tweaks.
+	(sokoban-level-file): Use load-file-name to find sokoban-levels.
+	(sokoban-init-level-data): Avoid messing with windows.  Use eobp and dotimes.
+	(sokoban-display-options, sokoban-get-level-data, sokoban-init-buffer)
+	(sokoban-draw-score): Use dotimes.
+	(sokoban-add-move, sokoban-add-push): Use push.
+	(sokoban-goto-level): `signal' can't return.
+	(sokoban-mode): Use define-derived-mode.  Set vars locally.
+
+2013-03-02  Leo Liu  <sdl.web@gmail.com>
+
+	Add sokoban game for emacs
+
