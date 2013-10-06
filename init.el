@@ -104,7 +104,7 @@
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
-      (menu-bar-mode 1)
+      (menu-bar-mode 0)
       (if (not win32-system)
           (progn
             (require 'recentf)
