@@ -1,0 +1,312 @@
+/******************************************************************************
+**       File: default.css
+**    Purpose: Default Stylesheet for Emacs/W3
+**       Info: Copyright (c) 1995-1996 William M. Perry <wmperry@aventail.com>
+**             Copyright (c) 1997 Free Software Foundation, Inc.
+**    Created: William M. Perry <wmperry@aventail.com>, Aug-31-1995
+** Maintainer: William M. Perry <wmperry@aventail.com>
+**
+**  This contains the top level fallback default styles for Emacs/W3
+**
+*******************************************************************************
+**
+** To specify device-dependent styles, you must mark a section with
+** @media devicetype { ... }
+** If you are not using 'devicetype', then anything within the { ... }
+** is ignored.
+**
+** These sections are currently defined by
+** http://www.w3.org/pub/WWW/Style/Group/WD-PRINT-961220
+** 
+**    print  - output for paged opaque material, and for documents viewed
+**             on screen in print preview mode
+**    screen - a continuous presentation of computer screens
+** projector - paged presentation for projected presentations
+**   braille - for braille tactile feedback devices
+**    speech - aural presentation
+**       all - the default value, applies to all output devices
+**
+** There are a few special Emacs/W3 sections
+**
+**     emacs - only include this chunk if you are using Emacs 19
+**    xemacs - only include this chunk if you are using XEmacs
+** multifont - only include this chunk if you are using a multi-font capable Emacs variant
+**   unifont - only include this chunk if you are using a uni-font capable Emacs variant
+**     light - only include this chunk if you are using a light background
+**      dark - only include this chunk if you are using a dark background
+**       tty - only include this chunk if you are using a TTY
+**  ansi-tty - only include this chunk if you are using an ANSI-capable TTY 
+*******************************************************************************
+**
+** There are some things this stylesheet cannot really specify, that we 
+** must rely on the browser to explicitly handle correctly:
+**
+** o table formatting
+** o actually creating a hyperlink from an <a> tag and its attributes
+** o specifying which tags open lists
+** o inlined images
+** o frames (perhaps with positioning)
+** o applet/script/embed/object
+** o horizontal rules
+******************************************************************************/
+
+/* Headers */
+
+h1,h2,h3,
+h4,h5,h6  {
+	    display: block;
+            font-family : serif;
+            font-weight : bold;
+          }
+
+@media multifont {
+      h1  { font-size : +12pt }
+      h2  { font-size : +6pt  }
+      h3  { font-size : +4pt  }
+      h5  { font-size : -2pt  }
+      h6  { font-size : -4pt  }
+}
+
+/* This causes problems with Emacs 19 */
+@media multifont {
+   pre,xmp,
+  plaintext { font-family: monospace }
+key,code,tt { font-family: monospace }
+}
+
+/*
+** Best we can do under Emacs-19 is use the default font and try to make
+** the headers stand out somehow.
+*/
+
+@media unifont {
+h1,h2,h3,
+h4,h5,h6  { text-decoration: underline; }
+       h1 { color: rgb(0,255,255); }   // cyan
+       h2 { color: rgb(70,130,180); }  // steelblue
+       h3 { color: rgb(106,90,205); }  // slateblue
+       h4 { color: rgb(135,206,235); } // skyblue
+       h5 { color: rgb(0,0,128); }     // navy
+       h6 { color: rgb(173,216,230); } // lightblue
+
+strong,em { color: red         }
+      dfn { font-style: italic }
+ s,strike { color: green       }
+
+} // @media unifont
+
+       p  { display: block }
+ pre,xmp  { display: block; white-space: pre; }
+blockquote{ display: block; margin-left: 5em; margin-right: 5em; }
+
+/*
+** How to draw form elements.
+** This is an extension in Emacs/W3 (and perhaps soon E-Scape)
+** Since there are so many different types of input fields, you should be
+** able to control formatting based on that.  Enter pseudo-classes.
+**
+** This functionality will be removed as soon as the W3C comes up with
+** the standard way to do this, perhaps in CSS level 2.
+*/
+input:text,
+input:int,
+input:float,
+input:url,
+input:password,
+input:text    { text-decoration: underline; }
+input:submit  { color: green;  text-decoration: none; }
+input:reset   { color: red;    text-decoration: none; }
+input:button  { color: yellow; text-decoration: none; }
+input:image   { text-decoration: none; }
+
+/*
+** List formatting instructions
+*/
+
+       ul { display: block;     }
+       ol { display: block;     }
+       dl { display: block;     }
+      dir { display: block;     }
+     menu { display: block;     }
+       dt { font-weight: bold; display: line }
+       dd { display: line; margin-left: 5em; }
+       li { display: list-item; margin-left: 5em; }
+       ol { list-style: decimal; }
+       ul { list-style: circle; }
+
+/* These are to make nested list items look better */
+ul ul,ol ul,ol ol,ul ol { display: line; }
+
+/*
+** All logical emphasis tags, the way god intended
+*/
+
+        div { display: line;                }
+  strong,em { font-weight: bold             }
+        dfn { font-style: italic            }
+   s,strike { text-decoration: line-through }
+        sub { text-position: sub            }
+        sup { text-position: sup            }
+     secret { text-transform: rot13         }
+
+/*
+** Physical emphasis - spawn of evil
+*/
+          b { font-weight: bold }
+	  i { font-style: italic }
+          u { text-decoration: underline }
+      blink { text-decoration: blink }
+     center { display: line; text-align: center; }
+/*
+** Various and sundry
+*/
+         br { display: line }
+         hr { display: line; text-align: center; }
+
+
+/*
+** Hypertext link coloring
+*/
+
+a:link    { color: #FF0000 }
+a:visited { color: #B22222 }
+a:active  { color: #FF0000 }
+
+/*
+** Table formatting
+*/
+table     { display: block;    }
+   th     { display: block; font-weight: bold; text-align: center; }
+   td     { display: block; text-align: left; }
+caption   { display: block; text-align: center; }
+
+/*
+** Various other character-level formatting issues
+*/
+
+ address { text-align: right; display: line; }
+abstract { font-style: bold & italic ; text-align : indent }
+   quote { font-style: italic ; text-align : indent }
+
+/*
+** Now for monochrome defaults
+*/
+@media mono {
+   a:link { color: black; text-decoration: underline }
+a:visited { color: black; text-decoration: underline }
+ a:active { color: white }
+} // @media mono
+/*
+** All the TTY specific formatting
+*/
+
+@media tty {
+/*
+** First, handle some stuff for generic TTYs to emulate our old
+** behaviour with w3-delimit-links and a subset of w3-delimit-emphasis
+*/
+
+h1,h2,h3,
+h4,h5,h6 {
+           insert-before: *;
+           insert-after: *
+         }
+
+a:visited{
+           insert-before: "{{";
+           insert-after: "}}"
+         }
+
+a:link   {
+           insert-before: "[[";
+           insert-after: "]]"
+         }
+
+input:text,
+input:int,
+input:float,
+input:url,
+input:file,
+input:password,
+input:text    { insert-before: "[{"; insert-after: "}]"; }
+select { insert-before: "[{"; insert-after: "}]"; }
+
+} // @media tty
+
+
+@media ansi-tty {
+/*
+** Now comes the cool TTY stuff.  You will need to be using XEmacs 19.14
+** or later (or Emacs 19.30 under DOS) in order to get any benefit from
+** these whatsoever.  But if you are using one of these, wow, cool, eh?
+**
+** ANSI specifies these colors, and most (all?) TTYs that support color
+** will generally have 2 versions.  One normal and one bright or 'standout'
+** version.
+**
+**  Color     R     G     B
+** --------------------------
+**   white - 1.0 , 1.0 , 1.0
+**    cyan - 0.0 , 1.0 , 1.0
+** magenta - 1.0 , 0.0 , 1.0
+**    blue - 0.0 , 0.0 , 1.0
+**  yellow - 1.0 , 1.0 , 0.0
+**   green - 0.0 , 1.0 , 0.0
+**     red - 1.0 , 0.0 , 0.0
+**   black - 0.0 , 0.0 , 0.0
+*/
+
+h1,h2,h3,
+h4,h5,h6  { color : cyan     }
+a:visited { color : magenta  }
+   a:link { color : red      }
+ a:active { color : yellow   }
+} // @media ansi-tty
+
+/*
+** Secial styles for the Emacspeak subsystem of emacs - an incredibly cool
+** speech synthesizer.  This was contributed by T.V. Raman (raman@adobe.com)
+*/
+@media speech {
+h1,h2,h3,
+h4,h5,h6 { voice-family: paul; stress: 2; richness: 9; }
+      h1 { pitch: 1; pitch-range: 9; }
+      h2 { pitch: 2; pitch-range: 8; }
+      h3 { pitch: 3; pitch-range: 7; }
+      h4 { pitch: 4; pitch-range: 6; }
+      h5 { pitch: 5; pitch-range: 5; }
+      h6 { pitch: 6; pitch-range: 4; }
+
+li,dt,dd { pitch: 6; richness: 6; }
+      dt { stress: 8; }
+      th { pitch: 6; pitch-range: 6; stress: 9; richness: 9; }
+
+pre,xmp,plaintext,key,code,tt { pitch: 5; 
+				pitch-range: 0;
+				stress: 0;
+				richness: 8;
+			      }
+      em { pitch: 6; pitch-range: 6; stress: 6; richness: 5; }
+  strong { pitch: 6; pitch-range: 6; stress: 9; richness: 9; }
+     dfn { pitch: 7; pitch-range: 6; stress: 6; }
+s,strike { richness: 0; }
+       i { pitch: 6; pitch-range: 6; stress: 6; richness: 5 }
+       b { pitch: 6; pitch-range: 6; stress: 9; richness: 9; }
+       u { richness: 0; }
+   a:link { voice-family: harry; }
+a:visited { voice-family: betty;}
+ a:active { voice-family: betty; pitch-range: 8; pitch: 8 }
+
+} // @media speech
+
+@media experimental {
+table    { display: table; }
+tr       { display: table-row; }
+thead    { display: table-header-group; }
+tbody    { display: table-row-group; }
+tfoot    { display: table-footer-group; }
+col      { display: table-column; }
+colgroup { display: table-column-group; }
+td, th   { display: table-cell; }
+caption  { display: table-caption; }
+} // @media experimental

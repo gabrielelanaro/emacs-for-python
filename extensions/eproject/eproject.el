@@ -800,7 +800,7 @@ for all project files (nil/t).")
 
 (defun prj-list-sorted ()
   (sort (append prj-list nil)
-        '(lambda (a b) (string-lessp (car a) (car b)))
+        #'(lambda (a b) (string-lessp (car a) (car b)))
         ))
 
 (defun prj-setmenu ()
