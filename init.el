@@ -513,3 +513,4 @@
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+(put 'scroll-left 'disabled nil)
