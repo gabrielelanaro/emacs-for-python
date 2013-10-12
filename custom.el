@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(blink-cursor-mode nil)
  '(bookmark-default-file "/home/eugeneai/.emacs.d/bookmarks.bmk")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (deeper-blue)))
@@ -23,7 +24,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#181a26" :foreground "gray80" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "unknown" :family "Fira Mono"))))
+ '(cursor ((t (:background "DarkOrange2"))))
  '(minibuffer-prompt ((t (:foreground "CadetBlue1"))))
  '(mode-line ((t (:background "gray75" :foreground "black" :weight normal :height 0.5 :family "Droid Sans"))))
  '(mode-line-highlight ((t (:background "gold"))))
+ '(modeline-buffer-id ((t (:foreground "dark blue" :weight normal))) t)
  '(tex-verbatim ((t (:family "Inconsolata LGC Medium")))))
