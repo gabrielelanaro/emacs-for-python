@@ -105,6 +105,7 @@
       ;(require 'tabbar)
       ;(tabbar-mode)
       (menu-bar-mode 0)
+      (set-fringe-style '(0 . 0)) ; no fringes atall
       (if (not win32-system)
           (progn
             (require 'recentf)
@@ -130,6 +131,34 @@
       (menu-bar-mode 0)
     )
 )
+
+(setq-default
+ default-truncate-lines t
+ blink-cursor-alist '((t . hollow))
+ user-full-name "Evgeny Cherkashin"
+ user-mail-address "eugeneai@irnok.net"
+ column-number-mode t
+ line-number-mode t
+ page-delimiter "^\\s *\n\\s *"
+ minibuffer-max-depth nil
+ display-time-day-and-date t
+ frame-title-format '(buffer-file-name "%f" "%b")
+)
+
+;; goto-matching-paren
+;; -------------------
+;; If point is sitting on a parenthetic character, jump to its match.
+;; This matches the standard parenthesis highlighting for determining which
+;; one it is sitting on.
+;;
+(defun goto-matching-paren ()
+  "If point is sitting on a parenthetic character, jump to its match."
+  (interactive)
+  (cond ((looking-at "\\s\(") (forward-list 1))
+        ((progn
+           (backward-char 1)
+           (looking-at "\\s\)")) (forward-char 1) (backward-list 1))))
+(define-key global-map (kbd "C-x p") 'goto-matching-paren) ; Bind to C-z p
 
 (require 'window-numbering)
 (window-numbering-mode 1)
