@@ -59,7 +59,7 @@
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python2")
 )
-;;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
@@ -263,7 +263,7 @@
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          :height 80
+          :height 160
           ))
 )
 
