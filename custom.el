@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(blink-cursor-mode nil)
  '(bookmark-default-file "/home/eugeneai/.emacs.d/bookmarks.bmk")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (eugeneai-theme)))
