@@ -57,7 +57,7 @@
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
-    (setenv "PYMACS_PYTHON" "python2")
+    (setenv "PYMACS_PYTHON" "python")
 )
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
@@ -427,10 +427,10 @@
                           global-proc-buffer-name))))
 
 
-(require 'jump-char)
+;(require 'jump-char)
 
-(global-set-key [(meta m)] 'jump-char-forward)
-(global-set-key [(shift meta m)] 'jump-char-backward)
+;(global-set-key [(meta m)] 'jump-char-forward)
+;(global-set-key [(shift meta m)] 'jump-char-backward)
 
 (defun set-input-method-english ()
   (interactive)
