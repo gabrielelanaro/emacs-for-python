@@ -30,3 +30,4 @@
  '(mode-line-highlight ((t (:background "gold"))))
  '(modeline-buffer-id ((t (:foreground "dark blue" :weight normal))) t)
  '(tex-verbatim ((t (:family "Inconsolata LGC Medium")))))
+
