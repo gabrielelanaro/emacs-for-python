@@ -33,28 +33,31 @@
 
 
 ;; Keep emacs Custom-settings in separate file
-(if win32-system
-    (progn
-      (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
-      (load custom-file)
+(if windowed-system
+    (if win32-system
+        (progn
+          (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+          )
+      (progn
+        (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
+        )
       )
-    (progn
-      (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
-      (load custom-file)
-      )
-    )
+  (setq custom-file (expand-file-name "custom-nw.el" dotfiles-dir))
+)
 
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
-
 (require 'auto-complete)
 
-(global-linum-mode 1)
+(require 'linum)
+
+;;(global-linum-mode 1)
 (global-auto-complete-mode 1)
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
+    (setenv "PYMACS_PYTHON" "python2")
 )
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
@@ -70,7 +73,9 @@
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
-                                ("\\.P$" . prolog-mode))
+                                ("\\.P$" . prolog-mode)
+                                ("\\.tex$" . latex-mode)
+                                )
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
 
@@ -81,24 +86,42 @@
 
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 
+
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\.md" . markdown-mode) auto-mode-alist))
+
+(autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
+(add-to-list 'auto-mode-alist '("\.vala$" . vala-mode))
+(add-to-list 'auto-mode-alist '("\.vapi$" . vala-mode))
+(add-to-list 'file-coding-system-alist '("\.vala$" . utf-8))
+(add-to-list 'file-coding-system-alist '("\.vapi$" . utf-8))
+
 ;;Setting up tabbar
 (if
     windowed-system
     (progn
-      (require 'tabbar)
-      (tabbar-mode)
-      (menu-bar-mode 1)
-      (require 'recentf)
-      (recentf-mode 1)
-      (setq
-       recentf-menu-path '("File")
-       recentf-menu-title        "Recent"
- recentf-max-saved-items 100
- recentf-max-menu-items 20
+      ;(require 'tabbar)
+      ;(tabbar-mode)
+      (menu-bar-mode 0)
+      (set-fringe-style '(0 . 0)) ; no fringes atall
+      (if (not win32-system)
+          (progn
+            (require 'recentf)
+            (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
+            (recentf-mode 1)
+            (setq
+             recentf-menu-path '("File")
+             recentf-menu-title "Recent"
+             recentf-max-saved-items 100
+             recentf-max-menu-items 20
              )
-      (recentf-update-menu-hook)
-      (require 'window-numbering)
-      (window-numbering-mode 1)
+            (setq recentf-max-menu-items 25)
+            (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+            (recentf-update-menu-hook)
+            )
+      )
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
@@ -108,6 +131,42 @@
       (menu-bar-mode 0)
     )
 )
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
+(defun my-minibuffer-setup ()
+       (set (make-local-variable 'face-remapping-alist)
+          '((default :height 1.0)))) ; just for a while
+
+(setq-default
+ default-truncate-lines t
+ blink-cursor-alist '((t . hollow))
+ user-full-name "Evgeny Cherkashin"
+ user-mail-address "eugeneai@irnok.net"
+ column-number-mode t
+ line-number-mode t
+ page-delimiter "^\\s *\n\\s *"
+ minibuffer-max-depth nil
+ display-time-day-and-date t
+ frame-title-format '(buffer-file-name "%f" "%b")
+)
+
+;; goto-matching-paren
+;; -------------------
+;; If point is sitting on a parenthetic character, jump to its match.
+;; This matches the standard parenthesis highlighting for determining which
+;; one it is sitting on.
+;;
+(defun goto-matching-paren ()
+  "If point is sitting on a parenthetic character, jump to its match."
+  (interactive)
+  (cond ((looking-at "\\s\(") (forward-list 1))
+        ((progn
+           (backward-char 1)
+           (looking-at "\\s\)")) (forward-char 1) (backward-list 1))))
+(define-key global-map (kbd "C-x p") 'goto-matching-paren) ; Bind to C-z p
+
+(require 'window-numbering)
+(window-numbering-mode 1)
 
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -126,23 +185,29 @@
 
 ;;;;; key bindings
 
+(global-set-key (kbd "C-x e") 'erase-buffer)
+(global-set-key (kbd "C-<escape>") 'keyboard-escape-quit)
+(global-unset-key (kbd "<escape>-<escape>-<escape>"))
 (global-set-key (kbd "C-q") 'undo)
 (global-set-key (kbd "C-z") 'quoted-insert)
 
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-set-key (kbd "C-с C-m") 'execute-extended-command)
+(global-set-key (kbd "s-<right>") 'next-buffer)
+(global-set-key (kbd "s-<left>") 'previous-buffer)
+(global-set-key (kbd "C-<return>") 'open-next-line)
 
 (defun kill-current-buffer ()
   (interactive)
   (kill-buffer (current-buffer)))
 
 (global-set-key (kbd "C-x C-k") 'kill-current-buffer)
-
+(global-set-key (kbd "C-x c") 'compile)
 (global-set-key (kbd "C-x h") 'view-url)
 (global-set-key (kbd "C-x M-m") 'shell)
-(global-set-key [f7] 'split-window-vertically)
-(global-set-key [f8] 'delete-other-windows)
-(global-set-key [f9] 'split-window-horizontally)
+;(global-set-key [f7] 'split-window-vertically)
+;(global-set-key [f8] 'delete-other-windows)
+;(global-set-key [f9] 'split-window-horizontally)
 
 (setq visible-bell nil)
 
@@ -172,6 +237,7 @@
 (set-default 'indent-tabs-mode nil)
 (set-default 'indicate-empty-lines t)
 (set-default 'imenu-auto-rescan nil)
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (random t) ;; Seed the random-number generator
@@ -222,9 +288,25 @@
   (interactive)
   (newline-and-indent)
   (insert "import pdb; pdb.set_trace()")
+  (newline-and-indent)
   (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
+
+(defun my-ttt ()
+  (erase-buffer)
+  (face-remap-add-relative 'default '(
+          ; :family "Monospace"
+          :height 160
+          ))
+)
+
+(add-hook 'comint-mode-hook 'my-ttt)
+(add-hook 'compilation-mode-hook 'my-ttt)
+(add-hook 'gdb-locals-mode-hook 'my-ttt)
+(add-hook 'gdb-frames-mode-hook 'my-ttt)
+(add-hook 'gdb-registers-mode-hook 'my-ttt)
+
 
 ;; vala
 (autoload 'vala-mode "vala-mode" "Major mode for editing Vala code." t)
@@ -232,6 +314,8 @@
 (add-to-list 'auto-mode-alist '("\\.vapi$" . vala-mode))
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
+
+(load custom-file)
 
 (if
     windowed-system
@@ -245,8 +329,6 @@
       (defvar sub-zoom-len (safe-length sub-zoom-ht))
       (defvar def-zoom-ht (car sub-zoom-ht))
       (set-face-attribute 'default nil :height def-zoom-ht)
-
-
 
       ;; Adjust line number fonts.
 
@@ -286,7 +368,7 @@
       (setq popup-use-optimized-column-computation nil) ; May be tie menu zise to default text size.
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
-      (add-hook 'after-make-frame-functions 'fullscreen-toggle)
+      ;; (add-hook 'after-make-frame-functions 'fullscreen-toggle)
       (defun toggle-fullscreen (&optional f)
         (interactive)
         (let ((current-value (frame-parameter nil 'fullscreen)))
@@ -294,10 +376,26 @@
                                (if (equal 'fullboth current-value)
                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
                                  (progn (setq old-fullscreen current-value)
-                                        'fullboth)))))
+                                        'fullboth)
+                                 )
+                               ;(menu-bar-mode 0)
+                               )
+          )
+        )
       (global-set-key [f11] 'toggle-fullscreen)
       (global-set-key (kbd "C-c f") 'toggle-fullscreen)
-      (toggle-fullscreen)
+	(if (not win32-system)
+	(progn
+      (defun maximize-window (&optional f)
+	(interactive)
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+	(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+
+      ;;; (toggle-fullscreen)
+      (maximize-window)
+	))
       )
   (progn
     (set-face-background 'region "blue") ; Set region background color
@@ -505,11 +603,12 @@
 (defun latex-12-hacks ()
   (latex-dollar-hack)
   (latex-set-b-slash-hack)
-  (add-hook 'post-command-hook 'auto-language-environment)
+  ;; (add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'latex-mode-hook 'latex-12-hacks)
 (global-set-key (kbd "C-`") 'linum-mode)
+(put 'scroll-left 'disabled nil)
 
 ;; Patching wrong scrolllock behaviour
 (defun scroll-lock-next-line (&optional arg)
@@ -534,6 +633,49 @@
   )
 
 (setq-default ispell-program-name "aspell")
+
 (setq ispell-dictionary "english")
-(setq ispell-local-dictionary "russian")
-(setq flyspell-default-dictionary "russian")
+;(setq ispell-local-dictionary "russian")
+;(setq flyspell-default-dictionary "russian")
+
+(load "server")
+(unless (server-running-p) (server-start))
+
+(setq visible-bell 1)
+
+(defvar gud-overlay
+(let* ((ov (make-overlay (point-min) (point-min))))
+(overlay-put ov 'face 'secondary-selection)
+ov)
+"Overlay variable for GUD highlighting.")
+
+(defadvice gud-display-line (after my-gud-highlight act)
+"Highlight current line."
+(let* ((ov gud-overlay)
+(bf (gud-find-file true-file)))
+(save-excursion
+  (set-buffer bf)
+  (move-overlay ov (line-beginning-position) (line-end-position)
+  (current-buffer)))))
+
+(defun gud-kill-buffer ()
+(if (eq major-mode 'gud-mode)
+(delete-overlay gud-overlay)))
+
+(add-hook 'kill-buffer-hook 'gud-kill-buffer)
+(add-hook 'gdb-mode-hook '(lambda ()
+                            ;(new-frame)
+                            ;(switch-to-buffer "**gdb**")
+                            ;(tool-bar-mode 1)
+                            (gdb-many-windows)
+                            ))
+;;-------------------------------------------------------------
+
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+;(unless (package-installed-p 'scala-mode2)
+;  (package-refresh-contents) (package-install 'scala-mode2))
+(put 'erase-buffer 'disabled nil)

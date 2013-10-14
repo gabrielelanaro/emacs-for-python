@@ -1,0 +1,9 @@
+This is the user-contributed utilities section of Emacs/W3.
+-------------------------------------------------------------------------------
+The files in this directory are not officially part of Emacs/W3, but
+are generally useful.  A short synopsis:
+
+File				Purpose
+-------------------------------------------------------------------------------
+w3-imenu.el			Navigate an HTML buffer via the `imenu' package
+clean-cache			Prune your cache to a certain size
