@@ -64,7 +64,11 @@
 (if
     windowed-system
     (setq linum-format "%4d")
-    (setq linum-format "%3d"))
+  (progn
+    (setq linum-format "%3d ")
+    (global-linum-mode 1)
+    )
+)
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -106,7 +110,7 @@
       ;(tabbar-mode)
       (menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
-      (if (not win32-system)
+      (if (not nil)
           (progn
             (require 'recentf)
             (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
@@ -400,8 +404,8 @@
   (progn
     (set-face-background 'region "blue") ; Set region background color
     (set-face-foreground 'region "wheat1") ; Set region background color
-    (set-face-background 'linum "cyan") ; Set region background color
-    (set-face-foreground 'linum "black") ; Set region background color
+    (set-face-background 'linum "gray10") ; Set region background color
+    (set-face-foreground 'linum "gold") ; Set region background color
     )
   )
 
