@@ -57,19 +57,24 @@
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
-    (setenv "PYMACS_PYTHON" "python2")
+    (setenv "PYMACS_PYTHON" "python")
 )
+
 (load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
     (setq linum-format "%4d")
-    (setq linum-format "%3d"))
+  (progn
+    (setq linum-format "%3d ")
+    (global-linum-mode 1)
+    )
+)
 
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
-(setq prolog-system 'gnu) ;; swi
+(setq prolog-system 'swi) ;; swi
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
@@ -99,6 +104,12 @@
 (add-to-list 'file-coding-system-alist '("\.vapi$" . utf-8))
 
 ;;Setting up tabbar
+;;(require 'tabbar)
+;;(tabbar-mode)
+
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 (if
     windowed-system
     (progn
@@ -106,7 +117,7 @@
       ;(tabbar-mode)
       (menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
-      (if (not win32-system)
+      (if (not nil)
           (progn
             (require 'recentf)
             (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
@@ -174,6 +185,11 @@
 (require 'ido)
 
 ;;(require 'dired+)
+;;(require 'highlight-80+)
+;;(require 'window-numbering)
+;;(window-numbering-mode 1)
+;;(setq window-numbering-assign-func
+;;      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 (require 'highlight-80+)
 
 ;(require 'python-mode)
@@ -400,8 +416,8 @@
   (progn
     (set-face-background 'region "blue") ; Set region background color
     (set-face-foreground 'region "wheat1") ; Set region background color
-    (set-face-background 'linum "cyan") ; Set region background color
-    (set-face-foreground 'linum "black") ; Set region background color
+    (set-face-background 'linum "gray10") ; Set region background color
+    (set-face-foreground 'linum "gold") ; Set region background color
     )
   )
 
@@ -427,10 +443,10 @@
                           global-proc-buffer-name))))
 
 
-(require 'jump-char)
+;(require 'jump-char)
 
-(global-set-key [(meta m)] 'jump-char-forward)
-(global-set-key [(shift meta m)] 'jump-char-backward)
+;(global-set-key [(meta m)] 'jump-char-forward)
+;(global-set-key [(shift meta m)] 'jump-char-backward)
 
 (defun set-input-method-english ()
   (interactive)
@@ -456,6 +472,27 @@
   (interactive)
   (local-set-key (kbd "\\") 'ask-user-latex-command)
   )
+
+(set-face-background 'region "wheat3") ; Set region background color
+;; (set-background-color        "wheat3") ; Set emacs bg color
+
+;;(toggle-fullscreen)
+
+;; Adjust line number fonts.
+
+(setq my-def-linum-text-height 100)
+
+(defun text-scale-adjust-zAp ()
+   (interactive)
+   (text-scale-adjust 0)
+   (set-face-attribute 'linum nil :height my-def-linum-text-height)
+ )
+
+(defun text-scale-decrease-zAp ()
+   (interactive)
+   (text-scale-increase 1)
+   (set-face-attribute 'linum nil :height my-def-linum-text-height)
+)
 
 (defun dollar-equation ()
   (interactive)
@@ -633,10 +670,6 @@
   )
 
 (setq-default ispell-program-name "aspell")
-
-(setq ispell-dictionary "english")
-;(setq ispell-local-dictionary "russian")
-;(setq flyspell-default-dictionary "russian")
 
 (load "server")
 (unless (server-running-p) (server-start))
