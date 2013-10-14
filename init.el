@@ -473,26 +473,11 @@
   (local-set-key (kbd "\\") 'ask-user-latex-command)
   )
 
-(set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
 
 ;;(toggle-fullscreen)
 
 ;; Adjust line number fonts.
-
-(setq my-def-linum-text-height 100)
-
-(defun text-scale-adjust-zAp ()
-   (interactive)
-   (text-scale-adjust 0)
-   (set-face-attribute 'linum nil :height my-def-linum-text-height)
- )
-
-(defun text-scale-decrease-zAp ()
-   (interactive)
-   (text-scale-increase 1)
-   (set-face-attribute 'linum nil :height my-def-linum-text-height)
-)
 
 (defun dollar-equation ()
   (interactive)
