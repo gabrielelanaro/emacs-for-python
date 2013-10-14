@@ -476,7 +476,7 @@
 (set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
 
-(toggle-fullscreen)
+;;(toggle-fullscreen)
 
 ;; Adjust line number fonts.
 
