@@ -59,7 +59,7 @@
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
     (setenv "PYMACS_PYTHON" "python")
 )
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+;(load-file (expand-file-name "epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
@@ -77,7 +77,6 @@
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.pro$" . prolog-mode)
                                 ("\\.m$" . mercury-mode)
-                                ("\\.P$" . prolog-mode))
                                 ("\\.P$" . prolog-mode)
                                 ("\\.tex$" . latex-mode)
                                 )
@@ -473,39 +472,6 @@
   (local-set-key (kbd "\\") 'ask-user-latex-command)
   )
 
-;; This script is set for a `text-scale-mode-step` of `1.04`
-(setq text-scale-mode-step 1.2)
-;;
-;; List: `Sub-Zoom Font Heights per text-scale-mode-step`
-;;   eg.  For a default font-height of 120 just remove the leading `160 150 140 130`
-(defvar sub-zoom-ht (list 160 150 140 130 120 120 110 100 100  90  80  80  80  80  70  70  60  60  50  50  50  40  40  40  30  20  20  20  20  20  20  10  10  10  10  10  10  10  10  10  10   5   5   5   5   5   2   2   2   2   2   2   2   2   1   1   1   1   1   1   1   1   1   1   1   1))
-(defvar sub-zoom-len (safe-length sub-zoom-ht))
-(defvar def-zoom-ht (car sub-zoom-ht))
-(set-face-attribute 'default nil :height def-zoom-ht)
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(recentf-max-menu-items 20)
- '(recentf-max-saved-items 50)
- '(recentf-menu-path (quote ("File")))
- '(safe-local-variable-values (quote ((TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
- '(show-paren-mode t)
- '(tabbar-background-color "blue")
- '(tool-bar-mode nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Ubuntu Mono"))))
- '(linum ((t (:inherit (shadow default) :background "light cyan" :foreground "medium blue" :height 100 :family "Droid Mono")))))
-
 (set-face-background 'region "wheat3") ; Set region background color
 ;; (set-background-color        "wheat3") ; Set emacs bg color
 
@@ -525,6 +491,7 @@
    (interactive)
    (text-scale-increase 1)
    (set-face-attribute 'linum nil :height my-def-linum-text-height)
+)
 
 (defun dollar-equation ()
   (interactive)
@@ -702,10 +669,6 @@
   )
 
 (setq-default ispell-program-name "aspell")
-
-(setq ispell-dictionary "english")
-;(setq ispell-local-dictionary "russian")
-;(setq flyspell-default-dictionary "russian")
 
 (load "server")
 (unless (server-running-p) (server-start))
