@@ -64,7 +64,7 @@
 
 (if
     windowed-system
-    (setq linum-format "%4d")
+    (setq linum-format "%4d ")
   (progn
     (setq linum-format "%3d ")
     (global-linum-mode 1)
@@ -321,7 +321,8 @@
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          :height 160
+          ; :height 160
+          :height 88
           ))
 )
 
