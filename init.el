@@ -64,7 +64,7 @@
 
 (if
     windowed-system
-    (setq linum-format "%4d")
+    (setq linum-format "%4d ")
   (progn
     (setq linum-format "%3d ")
     (global-linum-mode 1)
@@ -307,13 +307,22 @@
   (newline-and-indent)
   (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
+(defun python-add-pubreakpoint ()
+  (interactive)
+  (newline-and-indent)
+  (insert "import pudb; pu.db")
+  (newline-and-indent)
+  (highlight-lines-matching-regexp "^[ ]*import pudb; pu.db"))
+
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-y") 'python-add-pubreakpoint)))
 
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          :height 160
+          ; :height 160
+          :height 88
           ))
 )
 
