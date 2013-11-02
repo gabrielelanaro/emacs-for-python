@@ -13,7 +13,7 @@ To get in contact or ask for help you have many possibilities:
 
 github issue tracker: [[https://github.com/gabrielelanaro/emacs-for-python/issues]]
 
-google+ page: [[https://plus.google.com/u/0/b/108723367526390492977/]]
+google+ page: [[https://plus.google.com/108723367526390492977/]]
 
 email me: [[mailto:gabriele.lanaro@gmail.com]]
 
