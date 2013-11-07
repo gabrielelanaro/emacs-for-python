@@ -1,6 +1,6 @@
 * Welcome to the best collection of emacs extensions ever
 I'm collecting and customizing the perfect environment for python
-developement, using the most beautiful emacs customization to obtain a
+development, using the most beautiful emacs customization to obtain a
 really modern and exciting (yet stable) way to edit text files.
 
 In the package are included also a lot of other packages and
@@ -18,7 +18,7 @@ google+ page: [[https://plus.google.com/108723367526390492977/]]
 email me: [[mailto:gabriele.lanaro@gmail.com]]
 
 ** Features 
-The package is splitted in various files, in this way it's very easy
+The package is split into various files, in this way it's very easy
 to include what you really need.
 
 *** Python Related
@@ -99,7 +99,7 @@ put in your customization file (.emacs):
 
 : (epy-setup-checker "pyflakes %f")
 
-Obviously you can substitute the ``"pyflakes %f"`` with wathever you
+Obviously you can substitute the ``"pyflakes %f"`` with whatever you
 want, you just have to keep in mind that ``%f`` will be substituted
 with the file which is being checked.
 
@@ -117,7 +117,7 @@ instead of a python one. To enable the feature put this line in your .emacs:
 : (epy-setup-ipython)
 
 *** line highlighting
-You may wanto to enable this feature with the color you prefer, to do
+You may want to enable this feature with the color you prefer, to do
 so, drop one of the following lines in your .emacs
 : (global-hl-line-mode t) ;; To enable
 : (set-face-background 'hl-line "black") ;; change with the color that you like
