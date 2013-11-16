@@ -53,7 +53,13 @@
 (require 'linum)
 
 ;;(global-linum-mode 1)
-(global-auto-complete-mode 1)
+;; (global-auto-complete-mode 1)
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                         (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
@@ -83,6 +89,7 @@
                                 )
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
+(add-hook 'd-mode-hook 'auto-complete-mode)
 
 
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
@@ -706,3 +713,9 @@ ov)
 ;(unless (package-installed-p 'scala-mode2)
 ;  (package-refresh-contents) (package-install 'scala-mode2))
 (put 'erase-buffer 'disabled nil)
+
+(require 'compile)
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
+   1 2 nil (3 . 4)))
