@@ -3,7 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(ansi-color-names-vector
+   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
  '(blink-cursor-mode nil)
  '(bookmark-default-file "/home/eugeneai/.emacs.d/bookmarks.bmk")
  '(column-number-mode t)
@@ -25,7 +26,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Fira Mono OT" :foundry "unknown" :slant normal :weight normal :height 120 :width normal))))
+ '(default ((t (:family "Fira Mono OT" :foundry "unknown" :slant normal :weight normal :height 98 :width normal))))
  '(minibuffer-prompt ((t (:foreground "CadetBlue1"))))
  '(mode-line ((t (:background "gray75" :foreground "black" :weight normal :height 0.5 :family "Droid Sans"))))
  '(mode-line-highlight ((t (:background "gold"))))
