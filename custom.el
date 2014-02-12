@@ -9,13 +9,22 @@
  '(bookmark-default-file "/home/eugeneai/.emacs.d/bookmarks.bmk")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (eugeneai-theme)))
- '(custom-safe-themes (quote ("5ea08b040c5515152d2bcae79a05ae5c98339b5729c359d02437bf4cc567cca5" "e200f481e31ceee929079ad8a6f629e45bdad45e5ac27101c89d55f4827071db" "e885ba299f1f0f0927bc8b10136a704c1ec05c7d04b7011559439dd9e56c56ab" "6252dbc43eefee0edc82ef000659ece4f77c4c989b4571d8d23485efc5e9ef4d" "d5af8f6ee92912a7bac8185ed447e1e825252728a1ebd1d41eb2da660d27ad62" default)))
+ '(custom-safe-themes
+   (quote
+    ("5ea08b040c5515152d2bcae79a05ae5c98339b5729c359d02437bf4cc567cca5" "e200f481e31ceee929079ad8a6f629e45bdad45e5ac27101c89d55f4827071db" "e885ba299f1f0f0927bc8b10136a704c1ec05c7d04b7011559439dd9e56c56ab" "6252dbc43eefee0edc82ef000659ece4f77c4c989b4571d8d23485efc5e9ef4d" "d5af8f6ee92912a7bac8185ed447e1e825252728a1ebd1d41eb2da660d27ad62" default)))
  '(fringe-mode 0 nil (fringe))
-;; '(ispell-dictionary "ru-yeyo" t)
  '(ispell-dictionary "english" t)
  '(minibuffer-auto-raise t)
  '(minibuffer-frame-alist (quote ((width . 80) (height . 1))))
- '(safe-local-variable-values (quote ((TeX-master . t) (ispell-dictionary . american) (py-indent-offset . 4) (TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values
+   (quote
+    ((TeX-master . t)
+     (ispell-dictionary . american)
+     (py-indent-offset . 4)
+     (TeX-master . "dis")
+     (py-master-file . "/path/to/interactivetest.py")
+     (whitespace-line-column . 80)
+     (lexical-binding . t))))
  '(show-paren-mode t)
  '(text-mode-hook (quote (turn-on-flyspell text-mode-hook-identify)))
  '(tool-bar-mode nil)
