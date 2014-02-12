@@ -53,7 +53,13 @@
 (require 'linum)
 
 ;;(global-linum-mode 1)
-(global-auto-complete-mode 1)
+;; (global-auto-complete-mode 1)
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                         (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
@@ -64,7 +70,7 @@
 
 (if
     windowed-system
-    (setq linum-format "%4d")
+    (setq linum-format "%4d ")
   (progn
     (setq linum-format "%3d ")
     (global-linum-mode 1)
@@ -83,6 +89,7 @@
                                 )
                                auto-mode-alist))
 (add-hook 'prolog-mode-hook 'auto-complete-mode)
+(add-hook 'd-mode-hook 'auto-complete-mode)
 
 
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
@@ -175,6 +182,16 @@
            (backward-char 1)
            (looking-at "\\s\)")) (forward-char 1) (backward-list 1))))
 (define-key global-map (kbd "C-x p") 'goto-matching-paren) ; Bind to C-z p
+
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+;; Handy key definition
+(define-key global-map "\M-Q" 'unfill-paragraph)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
@@ -307,13 +324,22 @@
   (newline-and-indent)
   (highlight-lines-matching-regexp "^[ ]*import pdb; pdb.set_trace()"))
 
+(defun python-add-pubreakpoint ()
+  (interactive)
+  (newline-and-indent)
+  (insert "import pudb; pu.db")
+  (newline-and-indent)
+  (highlight-lines-matching-regexp "^[ ]*import pudb; pu.db"))
+
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-y") 'python-add-pubreakpoint)))
 
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          :height 160
+          ; :height 160 ;Seseg
+           :height 88
           ))
 )
 
@@ -495,6 +521,7 @@
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
@@ -697,3 +724,9 @@ ov)
 ;(unless (package-installed-p 'scala-mode2)
 ;  (package-refresh-contents) (package-install 'scala-mode2))
 (put 'erase-buffer 'disabled nil)
+
+(require 'compile)
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
+   1 2 nil (3 . 4)))
