@@ -183,6 +183,16 @@
            (looking-at "\\s\)")) (forward-char 1) (backward-list 1))))
 (define-key global-map (kbd "C-x p") 'goto-matching-paren) ; Bind to C-z p
 
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+;; Handy key definition
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
 (require 'window-numbering)
 (window-numbering-mode 1)
 
@@ -426,7 +436,7 @@
 			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
 
       ;;; (toggle-fullscreen)
-      (maximize-window)
+      ;;; (maximize-window)
 	))
       )
   (progn
@@ -511,6 +521,7 @@
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
