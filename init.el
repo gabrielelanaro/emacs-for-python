@@ -328,8 +328,8 @@
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          ; :height 160 ;Seseg
-           :height 88
+           :height 160 ;Seseg
+          ; :height 88
           ))
 )
 
