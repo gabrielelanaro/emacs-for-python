@@ -436,7 +436,7 @@
 			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
 
       ;;; (toggle-fullscreen)
-      (maximize-window)
+      ;;; (maximize-window)
 	))
       )
   (progn
@@ -522,6 +522,7 @@
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'diff-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
