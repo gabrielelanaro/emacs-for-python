@@ -521,7 +521,7 @@ The timer is used only if `post-gc-hook' is not available.")
                (set-text-properties 0 (length text) nil text)
                (when multibyte
                  (princ "b"))
-               (princ (mapconcat 'identity
+               (princ (mapconcat #'identity
                                  (split-string (prin1-to-string text) "\n")
                                  "\\n"))
                (when multibyte
