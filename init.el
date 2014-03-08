@@ -734,3 +734,12 @@ ov)
 
 ;; Some additional features
 (defalias 'qrr 'query-replace-regexp)
+
+;; Workaround rope hooks error
+
+(if (not (functionp 'rope-after-save-actions))
+    (defun rope-after-save-actions ())
+  )
+(if (not (functionp 'rope-before-save-actions))
+    (defun rope-before-save-actions ())
+)
