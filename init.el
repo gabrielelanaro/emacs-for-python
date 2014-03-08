@@ -338,8 +338,8 @@
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          ; :height 160 ;Seseg
-           :height 88
+           :height 160 ;Seseg
+          ; :height 88
           ))
 )
 
@@ -522,6 +522,7 @@
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'diff-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
