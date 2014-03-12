@@ -13,14 +13,15 @@ PYTHONPATH=./ $EI -z -d ./ rope ropemacs
 wget https://github.com/pinard/Pymacs/archive/master.tar.gz -O - | tar xzvf -
 
 DNAME=$(ls -d *Pymacs*)
-pushd $DNAME
+echo "Pymacs source directory: $DNAME"
+cd $DNAME
 $PYTHON pppp -C ppppconfig.py *.in contrib tests
 $PYTHON setup.py sdist
-PYMACS_VERSION=$(python -c \"import Pymacs;print (Pymacs.version)\")
+PYMACS_VERSION=$( python -c "import Pymacs;print(Pymacs.version)" )
 echo "Pymacs-version: $PYMACS_VERSION"
 cp dist/Pymacs-$PYMACS_VERSION.tar.gz ../
 cp -i pymacs.el ../../extensions/
-popd
+cd ..
 rm -rf $DNAME
 PYTHONPATH=./ $EI -z -d ./ Pymacs-$PYMACS_VERSION.tar.gz
 rm -f Pymacs-$PYMACS_VERSION.tar.gz
