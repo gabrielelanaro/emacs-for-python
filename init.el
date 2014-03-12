@@ -731,3 +731,15 @@ ov)
  'compilation-error-regexp-alist
  '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
    1 2 nil (3 . 4)))
+
+;; Some additional features
+(defalias 'qrr 'query-replace-regexp)
+
+;; Workaround rope hooks error
+
+(if (not (functionp 'rope-after-save-actions))
+    (defun rope-after-save-actions ())
+  )
+(if (not (functionp 'rope-before-save-actions))
+    (defun rope-before-save-actions ())
+)
