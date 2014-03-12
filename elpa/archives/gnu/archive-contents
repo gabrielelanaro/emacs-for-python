@@ -255,11 +255,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords quote nil))])
  (org .
-<<<<<<< HEAD
       [(20140310)
-=======
-      [(20140303)
->>>>>>> 5602c0a1c848c01a94e161dd400eb973f259acad
        nil "Outline-based notes management and organizer" tar nil])
  (quarter-plane .
 		[(0 1)
@@ -367,7 +363,6 @@
       ((:keywords quote
 		  ("faces" "help" "comm" "news" "mail" "processes" "mouse" "hypermedia"))
        (:url . "http://elpa.gnu.org/packages/w3.html"))])
-<<<<<<< HEAD
  (web-server .
 	     [(0 1 0)
 	      ((emacs
@@ -376,8 +371,6 @@
 	      ((:keywords quote
 			  ("http" "server" "network"))
 	       (:url . "https://github.com/eschulte/emacs-web-server"))])
-=======
->>>>>>> 5602c0a1c848c01a94e161dd400eb973f259acad
  (websocket .
 	    [(1 1)
 	     nil "Emacs WebSocket client and server" tar
