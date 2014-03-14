@@ -338,8 +338,8 @@
   (erase-buffer)
   (face-remap-add-relative 'default '(
           ; :family "Monospace"
-          ; :height 160 ;Seseg
-           :height 88
+           :height 160 ;Seseg
+          ; :height 88
           ))
 )
 
@@ -436,7 +436,7 @@
 			       '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
 
       ;;; (toggle-fullscreen)
-      (maximize-window)
+      ;;; (maximize-window)
 	))
       )
   (progn
@@ -522,6 +522,7 @@
 
 (add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'diff-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
@@ -730,3 +731,18 @@ ov)
  'compilation-error-regexp-alist
  '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
    1 2 nil (3 . 4)))
+
+(require 'goto-last-change)
+(global-set-key (kbd "C-x C-\\") 'goto-last-change)
+
+;; Some additional features
+(defalias 'qrr 'query-replace-regexp)
+
+;; Workaround rope hooks error
+
+(if (not (functionp 'rope-after-save-actions))
+    (defun rope-after-save-actions ())
+  )
+(if (not (functionp 'rope-before-save-actions))
+    (defun rope-before-save-actions ())
+)
