@@ -31,7 +31,6 @@
 
 (add-to-list 'load-path ".")
 
-
 ;; Keep emacs Custom-settings in separate file
 (if windowed-system
     (if win32-system
@@ -48,6 +47,7 @@
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
+
 (require 'auto-complete)
 
 (require 'linum)
