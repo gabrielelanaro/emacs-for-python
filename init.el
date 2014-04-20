@@ -190,8 +190,32 @@
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
+(defun reconstruct-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)
+    )
+  (replace-regexp "\\(\\w+\\)-\\s-+\\(\\w+\\)" "\\1\\2" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s-*вЂ\”" "~---" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\(\\w+\\)-\\(\\w+\\)" "\\1\"=\\2" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\.\\.\\." "\\\\ldots{}" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\[\\([[:digit:]]+\\)\\]" "\\\\cite{b\\1}" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\(\\w\\|\\.\\):" "\\1\\\\,:" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\"\\(\\w+\\)" "<<\1" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\\(\\w+\\)\"" "\1>>" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\"\\(\\.\\)\"" "<<\1>>" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\\s-+" "_")
+  )
+
+(defun rec-tmp ()
+  (interactive)
+
+)
+
+
 ;; Handy key definition
-(define-key global-map "\M-Q" 'unfill-paragraph)
+(define-key global-map [f9] 'reconstruct-paragraph)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
