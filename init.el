@@ -31,7 +31,6 @@
 
 (add-to-list 'load-path ".")
 
-
 ;; Keep emacs Custom-settings in separate file
 (if windowed-system
     (if win32-system
@@ -48,6 +47,7 @@
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
+
 (require 'auto-complete)
 
 (require 'linum)
@@ -493,10 +493,10 @@
                           global-proc-buffer-name))))
 
 
-;(require 'jump-char)
+(require 'jump-char)
 
-;(global-set-key [(meta m)] 'jump-char-forward)
-;(global-set-key [(shift meta m)] 'jump-char-backward)
+(global-set-key [(meta m)] 'jump-char-forward)
+(global-set-key [(shift meta m)] 'jump-char-backward)
 
 (defun set-input-method-english ()
   (interactive)
@@ -755,6 +755,9 @@ ov)
  'compilation-error-regexp-alist
  '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
    1 2 nil (3 . 4)))
+
+(require 'goto-last-change)
+(global-set-key (kbd "C-x C-\\") 'goto-last-change)
 
 ;; Some additional features
 (defalias 'qrr 'query-replace-regexp)
