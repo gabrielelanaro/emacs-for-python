@@ -1,3 +1,5 @@
 *~
 *.elc
 *.pyc
+*#*#
+commit.txt

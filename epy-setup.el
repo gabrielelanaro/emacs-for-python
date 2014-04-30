@@ -18,4 +18,18 @@
                  )
   (add-to-list 'load-path (concat epy-install-dir relpath)))
 
+(defvar epy-yas--version yas--version
+  "Version of yassnippet found when epy was loaded.
+
+Not used now, just for debugging. ")
+
+(defcustom epy-load-yasnippet-p nil
+ "If yasnippet stuff delivered here should be loaded.
+
+Default is nil.
+Disable in case of versions-conflicts etc. " 
+
+:type 'boolean
+:group 'python-mode)
+
 (provide 'epy-setup)
