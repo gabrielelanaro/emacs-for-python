@@ -18,6 +18,9 @@
                  )
   (add-to-list 'load-path (concat epy-install-dir relpath)))
 
+(when (not (boundp 'yas--version))
+  (setq yas--version nil))
+
 (defvar epy-yas--version yas--version
   "Version of yassnippet found when epy was loaded.
 

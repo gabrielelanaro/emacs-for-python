@@ -132,6 +132,18 @@ original" (interactive)
   (setq deactivate-mark nil)
 )
 
+;;  Evaluate a python block contributed by eepgwde
+(defun python-shell-send-block (arg)
+  "Send the current block to inferior Python process."
+  (interactive "P")
+  (python-shell-send-region
+   (progn
+     (progn (beginning-of-line) (point-marker)))
+   (progn
+     (progn (forward-paragraph) (point-marker)))))
+
+
+;; Defining some useful keybindings
 (global-set-key (kbd "M-<up>") 'move-text-up)
 (global-set-key (kbd "M-<down>") 'move-text-down)
 
@@ -140,8 +152,12 @@ original" (interactive)
 	    (define-key python-mode-map (kbd "M-<right>")
 	      'balle-python-shift-right)
 	    (define-key python-mode-map (kbd "M-<left>")
-	      'balle-python-shift-left))
+	      'balle-python-shift-left)
+	    (define-key python-mode-map (kbd "C-c C-b") 
+	      'python-shell-send-block))
 	  )
+
+
 
 ;; Other useful stuff
 
