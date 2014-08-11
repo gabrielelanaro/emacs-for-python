@@ -1,6 +1,7 @@
 *~
 *.elc
 *.pyc
+<<<<<<< HEAD
 ac-comphist.dat
 .emacs.desktop*
 tramp
@@ -12,3 +13,5 @@ custom.el
 site-lisp/
 /bookmarks.bmk
 \177
+*#*#
+commit.txt
