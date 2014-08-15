@@ -680,7 +680,8 @@
   ;; (add-hook 'post-command-hook 'auto-language-environment)
   )
 
-(add-hook 'latex-mode-hook 'latex-12-hacks)
+;;(add-hook 'latex-mode-hook 'latex-12-hacks)
+
 (global-set-key (kbd "C-`") 'linum-mode)
 (put 'scroll-left 'disabled nil)
 
@@ -706,7 +707,7 @@
   (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
   )
 
-(setq-default ispell-program-name "aspell")
+;(setq-default ispell-program-name "aspell")
 
 (load "server")
 (unless (server-running-p) (server-start))
@@ -770,3 +771,52 @@ ov)
 (if (not (functionp 'rope-before-save-actions))
     (defun rope-before-save-actions ())
 )
+
+;; AuCTeX Setups
+
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(require 'rw-language-and-country-codes)
+(require 'rw-ispell)
+(require 'rw-hunspell)
+(add-to-list 'ispell-local-dictionary-alist  '("russian"
+        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[-]"  nil ("-d" "ru_RU") nil utf-8)
+)
+
+(add-to-list 'ispell-local-dictionary-alist  '("english"
+       "[A-Za-z]" "[^A-Za-z]"
+       "[']"  nil ("-d" "en_US") nil iso-8859-1)
+)
+(setq ispell-program-name "hunspell")
+(setq ispell-really-aspell nil
+      ispell-really-hunspell t)
+(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
+;;; The following is set via custom
+(custom-set-variables
+ '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t)
+)
+
+(defun fd-switch-dictionary()
+  (interactive)
+      (let* ((dic ispell-current-dictionary)
+             (change (if (string= dic "russian") "english" "russian")))
+        (ispell-change-dictionary change)
+        (message "Dictionary switched from %s to %s" dic change)
+        ))
+
+(require 'ispell-multi)
+;(require 'flyspell-babel)
+
+;(autoload 'flyspell-babel-setup "flyspell-babel")
+;(add-hook 'latex-mode-hook 'flyspell-babel-setup)
+
+(global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+(global-set-key (kbd "<f7>")   'ispell-word)

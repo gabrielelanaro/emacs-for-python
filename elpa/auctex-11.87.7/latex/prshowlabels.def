@@ -1,0 +1,67 @@
+%%
+%% This is file `prshowlabels.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `showlabels')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from prshowlabels.def.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\ifPreview\else\expandafter\endinput\fi
+\newbox\pr@labelbox
+\def\pr@label#1{\pr@@label{#1}%
+   \ifpr@setbox\z@{#1}%
+     \global\setbox\pr@labelbox\vbox{\unvbox\pr@labelbox
+      \box\z@}\egroup\fi}
+\def\ifpr@setbox#1#2{%
+  \romannumeral%
+  \ifx\protect\@typeset@protect\ifpr@outer\else
+   \z@\bgroup
+   \protected@edef\next{#2}\@onelevel@sanitize\next
+   \ifx\next\@empty\egroup\romannumeral\else
+   \ifx\next\pr@lastlabel\egroup\romannumeral\else
+   \global\let\pr@lastlabel\next
+   \setbox#1\pr@boxlabel\pr@lastlabel
+   \expandafter\expandafter\romannumeral\fi\fi\fi\fi
+   \z@\iffalse\iftrue\fi}
+\def\pr@boxlabel#1{\hbox{\normalfont
+   \footnotesize\ttfamily\fboxsep0.4ex\relax\fbox{#1}}}
+\def\pr@maketag#1{\pr@@maketag{#1}%
+  \ifpr@setbox\z@{\df@label}%
+      \global\setbox\pr@labelbox\vbox{%
+         \hrule\@width\wd\z@\@height\z@
+         \unvbox\pr@labelbox}%
+        \wd\z@\z@\box\z@ \egroup\fi}
+\g@addto@macro\pr@ship@start{%
+  \global\setbox\pr@labelbox\box\voidb@x
+  \xdef\pr@lastlabel{}%
+  \global\let\pr@@label\label \let\label\pr@label
+  \global\let\pr@@maketag\maketag@@@
+  \let\maketag@@@\pr@maketag
+}
+\pr@addto@front\pr@ship@end{%
+   \ifx \label\pr@label \global\let\label\pr@@label \fi
+   \ifx \maketag@@@\pr@maketag
+        \global\let\maketag@@@\pr@@maketag \fi
+   \ifvoid\pr@labelbox
+   \else \setbox\pr@box\hbox{%
+         \box\pr@box\,\box\pr@labelbox}%
+   \fi}
+\endinput
+%%
+%% End of file `prshowlabels.def'.

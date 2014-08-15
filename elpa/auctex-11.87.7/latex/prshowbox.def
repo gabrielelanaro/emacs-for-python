@@ -1,0 +1,32 @@
+%%
+%% This is file `prshowbox.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `showbox')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from prshowbox.def.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\ifPreview\else\expandafter\endinput\fi
+\AtEndOfPackage{%
+  \showboxbreadth\maxdimen
+  \showboxdepth\maxdimen}
+\g@addto@macro\pr@ship@end{\showbox\pr@box}
+\endinput
+%%
+%% End of file `prshowbox.def'.

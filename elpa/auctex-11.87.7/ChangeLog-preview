@@ -1,0 +1,1796 @@
+2012-12-04  Tassilo Horn  <tsdh@gnu.org>
+
+	Merge revno 314 (Stefan Monnier) from emacs elpa branch: Shorten
+	copyright year ranges.
+
+	* preview.el:
+
+2011-01-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* preview.el (preview-auto-reveal): Add `forward-char' and
+	`backward-char' to commands on which to open an overlay.
+
+2010-10-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* preview.el (preview-gs-options): Start gs with -dDELAYSAFER
+	instead of -dSAFER.
+	(preview-prepare-fast-conversion): Add relevant files to
+	PermitFileReading list of paths.
+
+2010-02-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex/preview.dtx: Add support for XeTeX.
+
+2009-06-18  Ralf Angeli  <angeli@caeruleus.net>
+
+	* preview.el (preview-start-pdf2dsc): Determine the PDF source
+	depending on the previews being generated from the master or the
+	region file.
+
+2008-05-10  Reiner Steib  <reiner.steib@gmx.de>
+
+	* preview.el (preview-auto-cache-preamble): Fix markup in in doc
+	string.
+
+2008-02-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Relicense all "GPLv2 or later" files to "GPLv3 or later".
+
+	* COPYING: Switch to GPLv3.
+
+	* preview/Makefile.in, preview/configure.ac,
+	preview/preview-latex.spec, preview/latex/Makefile.in: Add
+	copyright and license notices.
+
+2007-04-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* preview.el (preview-parse-messages): Match any closing
+	parenthesis.
+
+2007-03-25  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (preview-dump-threshold):
+
+	* prv-emacs.el (preview-dump-threshold): Make the dump threshold
+	closely match what mylatex.ltx expects.
+
+	* latex/preview.dtx: Have the counter output appear before the
+	snippet start/end messages in order to have the counter
+	maintenance work out correctly regardless of the order of `auctex'
+	and `counters' options to preview.el.
+
+2007-02-09  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* preview.el (preview-report-bug): Use `AUCTeX-version' instead of
+	`AUC-TeX-version'.  Reported by Ikumi Keita <ikumi@ikumi.que.jp>.
+
+2007-01-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* configure.ac: Bump version number.
+
+2006-12-01  David Kastrup  <dak@gnu.org>
+
+	* prv-emacs.el (preview-move-point): Do not error out if
+	`distance' is nil.
+
+	* prv-xemacs.el (preview-supports-image-type): Move so that the
+	following comment makes sense.
+
+2006-12-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* prv-xemacs.el (preview-move-point): Do not error out if
+	`distance' is nil.
+
+2006-10-24  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (preview-move-point): rearrange for calling
+	`preview-auto-reveal' with DISTANCE argument.
+
+	* prv-emacs.el (preview-remove-urgentization): Small optimization.
+	(preview-move-point): Rearrange to be more efficient in the
+	absence of overlays.
+
+	* preview.el (preview-auto-reveal): Fetch keybindings of [left]
+	and [right] at runtime.  Change proposed default accordingly.
+	(preview-at-point): Fix change from 2005-03-15 for cursor
+	restoration.
+	(preview-auto-reveal-p): Implement integer MODE and take DISTANCE
+	argument.
+	(preview-auto-reveal): Allow DISTANCE.
+
+2006-10-19  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (preview-defmacro): Use `fboundp' instead of
+	`functionp'.
+	(add-to-list): compatibility function not needed anymore since
+	2006-10-11 change.
+
+2006-10-18  David Kastrup  <dak@gnu.org>
+
+	* preview.el (eval-when-compile): restore function definitions of
+	compatibility macros.
+
+	* prv-xemacs.el (preview-defmacro): Also redefine functions that
+	actually exist, but save their definition.
+
+	* preview.el (preview-parse-messages): Fix bad regexp.
+
+2006-10-16  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-parse-messages): Rearrange the regexp for
+	matching and renumber the matches and match strings accordingly.
+
+2006-10-11  David Kastrup  <dak@gnu.org>
+
+	* preview.el (LaTeX-preview-setup): Move setup of
+	`TeX-error-description-list' and `TeX-expand-list' to AUCTeX
+	proper.
+
+2006-10-10  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-gs-filter): Fix prompt match expression to
+	allow stack garbage > 10.
+	(preview-gs-open): Assume `.runandhide' is defined (Ghostscript
+	6.53 and greater).  Don't check Ghostscript stack for correctness,
+	just leave garbage.
+	(preview-prepare-fast-conversion): Use `.runandhide' to ignore
+	garbage left by preamble (such as Omega fonts).
+	(preview-LaTeX-command): Use "%'" and "%t" expansion strings in
+	order to allow filenames with spaces in them.
+	(preview-goto-info-page): Use `info' instead of `Info-goto-node'.
+	(preview-parse-messages): Spike up terminal log file name tracing
+	in order to have a reasonable chance of detecting spaces in file
+	names.
+	(preview-parse-messages): Massage match string for partial strings
+	to deal better with TeX-quoted control sequences.
+	(preview-dump-file-name): The format name should not contain
+	spaces.  Replace them with underlines.
+	(preview-dump-replacements, preview-undump-replacements): Use a
+	different replacement in order to work with the new
+	`preview-LaTeX-command'.
+	(preview-cache-preamble): shell-quote `preview-format-name'.  Keep
+	`mylatex.ltx' from ignoring spaces in file names.
+	(TeX-inline-preview-internal): shell-quote `preview-format-name'.
+
+2006-09-29  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-gs-command): Make default depend on
+	`system-type', using "GSWIN32C.EXE" on `windows-nt'.
+
+	* configure.ac: If no GhostScript or the standard setting for the
+	operating system is found, don't override the default.
+
+2006-09-21  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-TeX-style-cooked): Fix bugs.
+	(preview-set-texinputs): Use `preview-TeX-style-cooked'.
+	(preview-TeX-style-dir): Change doc string to reflect new behavior
+	of `preview-set-texinputs'.
+	(preview-install-styles): Try to deal with `preview-TeX-style-dir'
+	properly.  Bomb out if no styles found to install.
+	(preview-report-bug): Add `preview-TeX-style-dir' to reported
+	variables.
+
+	* configure.ac: Remove `--with-kpathseasep' option.
+
+2006-09-01  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (preview-import-image): Allow strings as image
+	properties.
+
+	* prv-emacs.el (preview-remove-urgentization)
+	(preview-import-image): Allow strings as image properties.
+
+	* preview.el (preview-clearout, preview-kill-buffer-cleanup)
+	(preview-place-preview): Use `timestamp' field universally for
+	dealing with when to overwrite and when to retain images, don't
+	rely on filename internals.
+	(desktop-buffer-preview-misc-data): Use `preview-image' to judge
+	the availability of savable data.
+	(preview-reinstate-preview): Allow saving images without
+	associated filenames.
+	(preview-format-mml): Deal with string type images.
+
+2006-08-25  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Use eTeX's `\protected' on redefinitions when
+	available.
+
+2006-08-15  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Change from 2006-07-12 could lose the
+	`AtBeginDvi' material.  Fix that.  Disable preview within output
+	routine.
+	And actually hijack `\output' instead of doing it half way.
+
+2006-07-28  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex/Makefile.in (install-texmf): Only update the relevant ls-R
+	file.
+
+2006-07-25  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Allow two optional parameters as in
+	memoir.cls for sections.  Also preview chapter headings.
+
+2006-07-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* configure.ac: Fix spelling of MiKTeX.
+
+2006-07-12  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Add a font-lock helping comment, remove
+	preview's hook into the output routine, deactivate `\shipout' in a
+	cleaner manner.
+
+2006-07-11  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Fix XymTeX catcodes again.
+
+2006-07-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in, latex/Makefile.in (datarootdir): New variable used
+	by autoconf 2.59e.
+
+2006-06-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex/README: Streamline.  Add sections.  Clean up.
+
+2006-06-08  David Kastrup  <dak@gnu.org>
+
+	* latex/README: Adapt to new realities.
+
+2006-05-25  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Add another fix for XyMTeX (which got the
+	catcode for @ wrong).
+
+2006-05-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* configure.ac: Bump version number.
+
+	Update address of FSF in GPL notices.
+
+2006-04-20  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-parse-messages): Adapt parser to
+	`-file-line-error-style' messages.  Try to make the detection of
+	the current file more robust.  Utilize file-line-error messages
+	for that purpose if they are present.
+
+2006-03-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (.PHONY, install): Remove `install-metadata'.
+	(install-metadata): Remove.
+
+2006-03-22  David Kastrup  <dak@gnu.org>
+
+	* prv-install.el (preview-make-package-xemacs): Accept list of
+	files to be appended.
+
+2006-03-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Use `AC_PROG_MAKE_SET' instead of deprecated
+	`AC_SET_MAKE'.
+
+2006-02-21  Ikumi Keita <ikumi@revery.net>
+
+	* preview.el (preview-error-quote, TeX-inline-preview-internal):
+	Fix the problem that preview-latex put the preview-image in wrong
+	place if user compiles iso-2022-jp file on Windows or UNIX, by
+	using TeX-japanese-process-output-coding-system for
+	preview-coding-system instead of buffer-file-coding-system if
+	tex-jp.el is loaded.
+
+2006-01-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (install-metadata): Let `for' loop return an exit
+	status of 0.
+
+2006-01-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* preview.el (preview-TeX-style-cooked): Fix cond expression.
+
+2006-01-17  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-TeX-style-cooked): New function, to be used
+	later.  Just checked in so that nobody else feels compelled
+	writing it.
+
+2006-01-14  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Remove infodir and INSTALL_INFO checks.  Don't
+	check for TEXHASH if it is already set.
+
+2006-01-13  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-parse-messages): Some ugly fix for
+	`<xxx (PNG copy)>' style error messages.
+
+2005-12-31  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (ELCC, AUCTEX): Put "." in front of load-path to
+	avoid picking up outdated `prv-*.el*' files from the installation
+	directory.
+
+2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Bump version number.
+
+2005-10-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Import `TEX' in unquoted form.
+
+2005-10-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Change wrongly used `previewdatadir' to
+	`previewlispdir'.
+	Change version number in `AC_INIT'.
+
+2005-10-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* prv-xemacs.el (preview-check-changes): Delete detached extents.
+
+2005-09-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Document option for specifying AUCTeX startfile as
+	--with-previewstartfile, not --with-preview-startfile which does
+	not work.
+	Use matching package names for determining the kpathsea path
+	separator both internally and in the option name which now is
+	--with-kpathseasep.
+	Fix the quadrigraph for the closing bracket in the
+	kpathsesep-related error message.
+
+2005-09-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex/preview.dtx: Add space for nicer formatting in version
+	output.  Adapt checksum.
+
+2005-09-25  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Try fixing the release parsing/grouping.
+
+2005-09-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex/README (CTAN): Bump version number.
+
+	* latex/preview.dtx: Fix case in release tag parsing.
+
+2005-09-24  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Try parsing version correctly by treating
+	underlines in the release tag properly.
+
+2005-09-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* preview.el (preview-version): Extract version number from
+	release tag.
+
+2005-08-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Import unquoted variables from top-level configure
+	script.
+
+2005-07-15  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Don't talk nonsense about the footnote macro,
+	and don't define it nonsensical for AUCTeX.
+	Reproduce `\@startsection' command to keep numbering correct in
+	default configuration for AUCTeX.
+
+2005-07-14  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: protect against packagedir starting with `-'
+
+2005-07-11  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-at-point): Join adjacent touched previews
+	for regeneration.
+
+	* prv-emacs.el (preview-mode-setup):
+
+	* prv-xemacs.el (preview-mode-setup): Use correct string for
+	resetting watch on preamble.
+
+2005-07-05  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-string-expand): Allow substrings to be
+	controlled by booleans.
+	(preview-expandable-string): Adapt type to that.
+	(preview-required-option-list): Make dependent on
+	`preview-preserve-counters'.
+	(preview-preserve-counters): New boolean.
+
+2005-06-30  jalar  <jalar@mai.liu.se>
+
+	* latex/preview.dtx: <tightpage>: added comments
+
+2005-06-28  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* latex/preview.dtx: Add version number in a \special, in dvips
+	mode. Fix mismatched parantheses.
+
+2005-06-27  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Put version into `\pr@version'.
+
+2005-06-27  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* latex/preview.dtx: Add backwards-compatibility for dvipng <= 1.5
+
+	* latex/preview.dtx: Add preview@tightpage
+
+2005-06-24  David Kastrup  <dak@gnu.org>
+
+	* prv-install.el (preview-make-package-xemacs): Add author-version.
+
+	* preview.el (preview-TeX-style-dir): Change docs.
+
+	* latex/Makefile.in (preview.dvi): Depend on preview.sty
+	(preview.pdf): Same here.
+
+	* configure.ac: Remove checks for PERL and info-related stuff.
+	Add . into search path first.
+
+	* Makefile.in (texmf): Depend on latex/Makefile
+	(latex/Makefile, auto.el, configure, Makefile, config.status):
+	targets to make sure that Makefile and stuff are up to date.
+	(install-metadata): pass author version into prv-install.el
+
+2005-06-21  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Make message at end of configuration clearer.
+	Remove redundant build hint.
+
+	* .cvsignore: Remove irrelevant entries.
+
+2005-06-21  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: correct comparison.
+
+2005-06-20  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Remove (folded into ../RELEASE).
+
+2005-06-18  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-gs-dvips-process-setup)
+	(preview-dvipng-process-setup): Improve error message.
+	(preview-parse-messages): Don't throw error on nil parsestate if
+	we are in error unwinding mode already.
+
+2005-06-14  David Kastrup  <dak@gnu.org>
+
+	* README.CVS: Remove.  Top file should be sufficient.
+
+	* autogen.sh: Remove.  We have its functionality in the top
+	directory.
+
+2005-06-08  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (docs, install-docs): Remove.
+	(all): Do not depend on `docs' anymore.
+	(.PHONY): Do not depend on `docs' and `install-docs' anymore.
+	(clean, maintainer-clean): Do not descend into doc directory
+	anymore.
+
+	* autogen.sh: Do not generate documentation anymore.
+
+	* configure.ac: Remove doc/Makefile from AC_OUTPUT.
+
+	* doc/todo.texi: Move to AUCTeX's main doc/ directory as
+	preview-todo.texi.
+
+	* doc/readme.texi: Move to AUCTeX's main doc/ directory as
+	preview-readme.texi.
+
+	* doc/problems.texi: Move to AUCTeX's main doc/ directory as
+	preview-problems.texi.
+
+	* doc/preview-dtxdoc.pl, doc/preview-latex.texi: Move to AUCTeX's
+	main doc/ directory.
+
+	* doc/faq.texi: Move to AUCTeX's main doc/ directory as
+	preview-faq.texi.
+
+	* doc/copying.texi: Move to AUCTeX's main doc/ directory.
+
+	* doc/Makefile.in: Remove.
+
+	* doc/.cvsignore: Remove.
+
+2005-06-06  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Remove call to MAKEINFO_CHECK_MACROS: we expect a
+	recent enough makeinfo version for bootstrapping, anyway.
+
+	* doc/Makefile.in (MAKEINFO_MACROS): remove
+	(TEXINFOINCLUDES): Remove unused TEXIPWD hack.  Troublesome.
+
+2005-06-04  David Kastrup  <dak@gnu.org>
+
+	* doc/Makefile.in (TEXIFILES): Oops, depends on ../../doc/macros.texi
+
+	* latex/Makefile.in (MKINSTALLDIRS):
+
+	* doc/Makefile.in (MKINSTALLDIRS):
+
+	* Makefile.in (MKINSTALLDIRS): Use mkinstalldirs from AUCTeX.
+
+	* mkinstalldirs: remove in favor of ../mkinstalldirs
+
+	* doc/Makefile.in (TEXI2HTML): Use TEXI* tools and TEXINFOINCLUDES.
+	(../README): et al.  Depend on ../../doc/macros.texi
+
+	* configure.ac: Check and test for TEXI* as well.  Quotify if
+	necessary.
+
+	* autogen.sh: Look in .. for macros.
+
+	* doc/Makefile.in (preview-latex.dvi): Use texi2dvi.
+	(preview-latex.pdf): Use texi2pdf.
+	(preview-latex.ps): Use -Ppdf option.
+	(preview-latex.info, ../README, ../FAQ, ../PROBLEMS, ../TODO):
+	deal with ../../doc/macros.texi
+
+2005-05-25  David Kastrup  <dak@gnu.org>
+
+	* circ.tex (section{Die gerade Linie}): Make the intentional
+	errors more conspicuous.
+
+2005-05-24  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: Use elif for prettiness.
+
+	* prv-xemacs.el (preview-mode-setup): Change watch condition.
+	(preview-watch-preamble): Accept command.
+	(preview-unwatch-preamble): Change unwatch method.
+	(preview-preamble-check-change): Change check.
+
+	* prv-emacs.el (preview-preamble-changed-function): First unwatch
+	preamble, then kill format.
+	(preview-watch-preamble): Accept command to watch for.
+	(preview-unwatch-preamble): Adapt to new `format-cons' format.
+	(preview-mode-setup): Change watch condition.
+
+	* preview.el (preview-dumped-alist): Change definition.
+	(preview-parse-messages): Use `string-to-number' instead of
+	obsoleted `string-to-int'.
+	(preview-cache-preamble): Add format-cons arg.  Only cache
+	preamble if there is no cache with the same command yet.
+	Precalculate command and check whether it matches previous one.
+	If so, omit dumping.
+	(preview-region, preview-document): Expand command here.
+	(preview-generate-preview): Accept expanded command.  Always
+	tentatively dump command (unless disabled) and set sentinel only
+	if this succeeded.
+	(TeX-inline-preview-internal): Set command buffer at start.  Use
+	`commandbuff' argument rather than `TeX-command-buffer'.
+	Raise error at different point.
+
+2005-05-22  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: Allow --with-emacs=sth and --without-xemacs and
+	similar combinations as long as they are more or less consistent.
+
+2005-05-21  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* prv-install.el (preview-make-package-xemacs): Cater for XEmacs
+	21.5 which uses a different interface for generating autoloads at
+	present.
+
+2005-05-21  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Editing changes.  Last checkin before
+	removal.
+
+	* doc/install.texi: Editing changes.  Last checkin before removal.
+
+	* doc/faq.texi (Customization): Don't use @var inappropriately.
+
+	* autogen.sh: Remove generation of auto.texi.
+
+	* doc/preview-latex.texi (Installation): Refer to AUCTeX manual.
+	(Keys and lisp): Some formatting changes.
+
+	* doc/Makefile.in (TEXIFILES): Remove wininstall.texi and
+	install.texi.
+	(DISTTEXTS): Remove ../INSTALL and ../INSTALL.windows
+	(../INSTALL, ../INSTALL.windows): Remove.
+
+	* doc/problems.texi (Known problems): Remove old AUCTeX advice.
+	Remove explicit node names.
+	(Emacs problems): Rewrite.  Mention precompiled CVS Emacsen.
+	Refer to AUCTeX manual.
+	(AUCTeX prior to 11.0): Remove.
+	(Too small bounding boxes): Reword.
+	(x-symbol interoperation): Explain 8-bit cleanliness somewhat more.
+
+2005-05-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* preview.el (preview-specs-type): Use an extra :value keyword to
+	avoid a bug in `widget-convert' of XEmacs 21.4 and Emacs 21.
+
+2005-05-18  David Kastrup  <dak@gnu.org>
+
+	* doc/preview-dtxdoc.pl: Don't use \n in character ranges since it
+	is not actually a character in Windows.
+
+2005-05-17  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (lisp): Rewrite condition to make `make -n' work,
+	also non-Posix shells.
+	(install-metadata): Rewrite stuff for non-Posix shells.
+	(preview-latex.el): Same here.
+	(install-metadata): ignore return state of mkinstalldirs.
+
+2005-05-02  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi:
+
+	* doc/install.texi: Overhaul, use auto.texi.
+
+	* doc/Makefile.in (../INSTALL, ../INSTALL.windows): add auto.texi
+	dependence.
+	(maintainer-clean): remove auto.texi.
+
+	* autogen.sh: Generate auto.texi
+
+	* README.CVS: Some modifications.
+
+	* aclocal.m4 (EMACS_PATH_LISPDIR): better help.
+
+2005-05-01  David Kastrup  <dak@gnu.org>
+
+	* doc/install.texi (Configure): Synch with auctex.
+
+2005-04-30  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Use existing variables packagedatadir,
+	packagelispdir.
+	If configuring a package and infodir is defaulted, disable
+	install-info.
+	Disable TEXHASH when installing --without-texmfdir.  Move TEXHASH
+	test.
+
+	* aclocal.m4: Use existing lispdir variable.
+
+	* prv-install.el (preview): don't require
+	(preview-make-package-xemacs): several changes to command line
+	options.
+
+	* Makefile.in (lisp): rename from elisp for harmony with AUCTeX.
+	(install-images): rename from install-icons.
+	(install-metadata): new options for prv-install.el
+
+2005-04-29  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: echo date correctly.
+
+2005-04-28  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4 (AUCTEX_AUTO_DIR): simplify.
+	(AC_LISPIFY_DIR): add third argument.  Simplify a few common
+	expressions.
+
+2005-04-27  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: sed paranoia.
+
+2005-04-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (AC_DATE_VERSION_FROM_CHANGELOG): Escape `+'.  Add
+	regexp group.  Close function.
+
+2005-04-27  David Kastrup  <dak@gnu.org>
+
+	* preview.el (TeX-inline-preview-internal): Don't try interpreting
+	coding-system if it is nil.
+
+	* aclocal.m4 (AC_DATE_VERSION_FROM_CHANGELOG): actually look into
+	the ChangeLog file.  Uh.
+
+	* latex/README (Note): Add bug reporting address.
+
+2005-04-19  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-install-styles): Add autoload cookie.
+
+2005-04-18  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-dump-state): New function to get run buffer
+	info.
+	(preview-report-bug): Use it.
+
+	* Makefile.in (install-metadata): include directories in `MANIFEST'.
+
+2005-04-16  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Work around another ntheorem bug affecting
+	showlabels.
+
+2005-04-12  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Don't bother about pre-2.5 autoconf versions.
+
+	* doc/faq.texi (Customization): Remove lamentation that PDF
+	foreground is fixed to black.
+
+	* preview.el (preview-pdf-color-string): New function.
+	(preview-pdf2dsc-sentinel): Use it.
+
+	* configure.ac: renamed from configure.in
+
+2005-04-11  jalar  <jalar@mai.liu.se>
+
+	* configure.in: Minimal changes to printouts
+
+2005-04-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* preview.el (preview-set-texinputs): Fix grouping.
+
+2005-04-11  David Kastrup  <dak@gnu.org>
+
+	* prv-install.el (preview-make-package-xemacs): Don't generate
+	manifest and take package name from command line.
+
+	* configure.in: Don't expose `lispdir'.  Explain `TEXHASH',
+	`PERL', `MAKEINFO', `INSTALL_INFO'.
+
+	* latex/Makefile.in (texmfdir): Don't import.
+
+	* Makefile.in (lispdir): Don't import.
+
+	* preview.el (preview-counter-find): Fix bug with `(marker)'.
+
+	* latex/Makefile.in (exec_prefix, libdir): Export.
+
+	* doc/install.texi (Configure): Explain `--without-texmf-dir'.
+	(Advice for package providers): Don't trash talk AUCTeX
+	preactivation.
+	(Advice for package providers): Mention `--without-texmf-dir'.
+
+	* doc/Makefile.in (exec_prefix, libdir): export.
+
+	* preview.el (preview-datadir): Use instead of `preview-icondir'.
+	(preview-filter-specs): Use it.
+	(preview-TeX-style-dir): New variable for uninstalled styles
+	(preview-set-texinputs): Add or remove it from TEXINPUTS
+	environment.
+	(preview-TeX-style-dir): proper customization.
+	(preview-install-styles): New function to install styles
+	permanently.
+
+	* configure.in: use `packagedatadir' instead of `icondir'.  Add
+	check for `kpathseaseparator'.  Shell-quote and export
+	`exec_prefix' and `libdir'.
+
+	* auto.el.in (preview-datadir): replace preview-icondir, and add
+	`lisppackagetexstyles' invocation.
+
+	* aclocal.m4 (TEX_PATH_TEXMFDIR): Allow --without-texmf-dir, stop
+	quoting a bunch of stuff, fix reference to load-file-name.
+
+	* Makefile.in (exec_prefix, libdir, packagedatadir): export since
+	the XEmacs tree might call them.
+	(.PHONY, install): add install-nosearch target.
+	(install-nosearch): Install .nosearch file.
+	(install-icons): Use `$(packagedatadir)/images' instead of
+	`$(icondir)'
+
+2005-04-10  David Kastrup  <dak@gnu.org>
+
+	* configure.in: Use new backquote syntax.
+
+	* doc/install.texi (Configure): Clarify.
+
+2005-04-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex/preview.dtx: Dvipng --> dvipng.
+
+	* RELEASE, circ.tex, configure.in, preview.el, doc/faq.texi,
+	doc/install.texi, doc/preview-latex.texi, doc/problems.texi,
+	doc/readme.texi, doc/wininstall.texi, latex/README,
+	latex/preview.dtx: GhostScript --> Ghostscript.
+
+2005-04-08  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (previewstartfile): import.
+	(install-startup): split lines with `$(MAKE)' and
+	`$(INSTALL_DATA)' so that `make -n' will properly recurse.
+
+	* aclocal.m4 (AC_LISPIFY_DIR): resolve relative paths below
+	${lispdir} hierarchy.  AC_SUBST both lisp variant of directory as
+	well as original.
+
+	* configure.in: Add `--with-preview-startfile', use new semantics
+	of `AC_LISPIFY_DIR', drop `AC_MAKE_FILENAME_ABSOLUTE' stuff.
+
+	* doc/install.texi (Configure): explain new semantics of
+	`--with-lispdir' and new `--with-preview-startfile'.
+
+	* doc/wininstall.texi: Document changes semantics for
+	`--with-lispdir' and new `with-preview-startfile'.
+
+2005-04-07  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4 (EMACS_LISP): properly echo result to log file.
+	(EMACS_EXAMINE_INSTALLATION_DIR): check that the result of
+	file-relative-name is not absolute, which can happen for unrelated
+	drives on Windows.
+	(AC_FULL_EXPAND): also check, set and restore exec_prefix if not
+	set.
+
+2005-04-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.in: Cosmetics for ./configure --help.
+
+	* preview.el (desktop-buffer-preview): Return buffer even if no
+	information about previews is found.
+
+2005-04-04  David Kastrup  <dak@gnu.org>
+
+	* preview-latex.spec (URL, Source0): Fix addresses to point to
+	AUCTeX.  Oops.
+
+2005-04-03  David Kastrup  <dak@gnu.org>
+
+	* Release 0.9.1
+
+	* latex/preview.dtx: Don't let negative dimensions into tightpage
+	comment.
+
+	* doc/macros.texi: Make @previewlatex swallow argument in links.
+	Don't scrap sf declaration.  Make it correct in links.
+
+	* doc/readme.texi (What use is it?):
+
+	* doc/problems.texi:
+
+	* doc/install.texi (Top): Work around raisesection bug.
+
+	* doc/Makefile.in (../INSTALL, ../INSTALL.windows, ../README)
+	(../FAQ, ../TODO): Remove --no-validate option.
+	(../PROBLEMS): remove --no-validate option, and number sections.
+
+	* doc/faq.texi: Make validatable top entry.  Don't raise sections
+	until after the first chapter.  This is insane, but otherwise
+	everything will be unnumbered.
+
+	* configure.in: Expand `packagelispdir' and `lispdir' before
+	checking for conflicts.
+
+2005-04-02  David Kastrup  <dak@gnu.org>
+
+	* autogen.sh: Remove autom4te.cache
+
+	* doc/Makefile.in (.PHONY): Add a few targets.
+
+	* doc/readme.texi (Basic modes of operation): Correct dvipng
+	information.
+
+	* autogen.sh: make preview-latex.info generation work by passing
+	in PERL default.
+
+	* README.CVS: Mention that `perl' is needed for autogen.sh, and
+	that `makeinfo' might need to be up to date.
+
+	* latex/README: Renamed from latex/README-preview.  Overhaul
+	availability.
+
+	* doc/macros.texi: Synchronize to AUCTeX.
+
+	* Makefile.in (tarball-ready): Remove this target for now: it
+	can't be used consistently really.  It is probably better to do
+	just run autogen.sh on a freshly exported archive.
+
+	* doc/Makefile.in (DISTTEXTS): Targets in parent dir.
+	(../INSTALL, ../INSTALL.windows, ../README, ../FAQ, ../PROBLEMS)
+	(../TODO): New targets instead of targets in current dir.
+	(clean): Don't remove targets in this dir.
+	(maintainer-clean): Remove DISTTEXTS targets.
+
+	* autogen.sh: Use make for generating distribution texts and also
+	pregenerate the info file.
+
+	* Makefile.in (emacsprefix): Remove.
+	(.PHONY): Collect phony targets here.
+	(DISTTEXTS): Move to doc/Makefile.in
+	(tarball-ready): Adapt
+
+	* preview-latex.spec: Change version number.  Change directory
+	choice to "xemacs-packages" on fedora.
+
+	* doc/wininstall.texi: Mention that Perl is not needed if working
+	with the default tarball.
+
+	* doc/preview-latex.texi: Bump versions numbers, fix copyrights.
+
+	* doc/readme.texi (Activating preview-latex): Don't talk about
+	half a dozen non-sensical things.
+	(Availability): Change information to match move into AUCTeX.
+
+	* configure.in: Add check for load-path shadowing.
+
+	* aclocal.m4 (TEX_PATH_TEXMFDIR): We want "${texprefix}/share" in
+	most cases.
+
+2005-04-01  David Kastrup  <dak@gnu.org>
+
+	* doc/faq.texi: Some changes.  This thing really is an outdated
+	unmaintained abomination.  We need to do something about it at one
+	time.
+
+2005-04-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (EMACS_EXAMINE_INSTALLATION_DIR): Repair quoting.
+
+2005-04-01  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: rearrange.  Mention AUCTeX 11.80 as target.
+
+	* aclocal.m4(EMACS_EXAMINE_INSTALLATION_DIR): avoid trailing
+	`/.'.
+	(TEX_PATH_TEXMFDIR): search order changed.
+
+	* latex/Makefile.in (prefix, datadir, texmfdir, previewtexmfdir)
+	(previewdocdir): Use (null) to mask Windows backslashes.
+
+	* configure.in: Adjust version info.
+
+	* aclocal.m4 (EMACS_PATH_PREFIX): just generate a single output.
+	(EMACS_PROG_EMACS): Check for `emacsprefix'.
+	(EMACS_EXAMINE_INSTALLATION_DIR): accept list of prefix variables
+	as second argument.  Decompose and compare directory names
+	starting from the back.
+	(EMACS_PATH_PACKAGEDIR): search in several prefixes.
+	(EMACS_PATH_LISPDIR): same.
+	(TEX_PATH_TEXMFDIR): set `texprefix' from kpsepath.
+	Use new `EMACS_EXAMINE_INSTALLATION_DIR' for getting TeX
+	directories.
+
+2005-03-31  David Kastrup  <dak@gnu.org>
+
+	* configure.in: Don't set prefix if it is not set.
+
+	* aclocal.m4 (EMACS_PATH_PREFIX): new function.
+	(AC_FULL_EXPAND): set `prefix' from `ac_default_prefix' before
+	expansion if it is unset.
+
+2005-03-31  jalar  <jalar@mai.liu.se>
+
+	* Makefile.in:
+	* aclocal.m4: Add $emacsprefix
+
+2005-03-31  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Update release info.
+
+2005-03-30  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (use-hint): Fix spelling.
+
+	* preview.el (preview-report-bug): Use "preview-" prefix in
+	version information.
+
+2005-03-29  David Kastrup  <dak@gnu.org>
+
+	* configure.in (auctexdir): Use `AC_ARG_VAR' on `GS' and `TEXHASH'
+	(should probably also be used on a few other environment
+	variables).
+	Use `AC_SHELL_QUOTIFY' on `GS'.
+
+2005-03-28  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview): Change home page address to AUCTeX.
+	(preview-report-bug): Change bug reporting address.
+
+	* doc/readme.texi (Contacts): Change mailing list info.
+
+	* doc/problems.texi: Change mailing list info.
+
+	* doc/faq.texi (Introduction to FAQ): Change mailing list address.
+
+	* preview.el (if): Use (featurep 'xemacs) instead of
+	`(string-match "XEmacs" (emacs-version))'.
+	(preview-at-point): Don't check for XEmacs, just use
+	`TeX-active-mark' instead.
+
+2005-03-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (distclean, maintainer-clean, tarball-ready): Delete
+	autom4te.cache in maintainer-clean and tarball-ready targets.
+
+2005-03-24  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* doc/Makefile.in: Add *.pdf to clean target and
+	preview-dtxdoc.texi to maintainer-clean
+
+2005-03-23  jalar  <jalar@mai.liu.se>
+
+	* doc/Makefile.in:
+	* Makefile.in: add maintainer-clean target
+
+	* Makefile.in: add tarball-ready target
+
+	* configure.in: Add check for perl
+
+	* doc/Makefile.in: Use the configure-provided $PERL
+
+2005-03-22  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-counter-find): Coerce `begin' to integer to
+	work around an Emacs 21.x bug.
+
+	* Makefile.in (install): Install startup file before docs.
+
+	* doc/Makefile.in (preview-latex/index.html): Don't ignore exit
+	status of makeinfo (this target is on-demand only, anyway).
+
+	* doc/preview-dtxdoc.pl: Accept two arguments so that output file
+	will not get clobbered if Perl is not operative.
+
+2005-03-19  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (preview-buffer-recoding-alist): Madness variable.
+	(preview-buffer-recode-system): Use it.
+	(tex-site, tex, latex): Require them.
+
+	* prv-emacs.el (tex-site, tex, latex): require them to silence
+	byte compiler.
+	(preview-buffer-recode-system): Compatibility function.  Probably
+	not necessary for Emacs.
+
+	* preview.el (TeX-overlay-prioritize): don't redefine, test for
+	its presence at runtime.  Less invasive, less offensive to the
+	byte compiler.
+	(preview-coding-system): New buffer-local variable to indicate the
+	coding system used for processes.
+	(preview-place-preview, preview-reinstate-preview):  Use
+	`TeX-overlay-prioritize' only if it exists.
+	(mailcap-extension-to-mime): Use an autoload form instead of
+	`require' at runtime.
+	(preview-format-mml): Use `mailcap-extension-to-mime' directly
+	(preview-error-quote): take coding system of LaTeX process as
+	second argument.
+	(preview-parse-messages): initialize `run-coding-system' from
+	`preview-coding-system'.  Use it for calling
+	`preview-error-quote'.
+	(TeX-inline-preview-internal): Initialize `preview-coding-system'
+	and make process use it.
+
+2005-03-18  David Kastrup  <dak@gnu.org>
+
+	* preview.el (TeX-region-create): Try shutting up the byte
+	compiler at load time.
+
+	* doc/install.texi: Mention that "the usual procedure" is for
+	site-wide installation.
+	(Advice for package providers): Mention site-start.el.
+	(Advice for non-privileged users): Adapt to new conventions.
+	Some other small changes.
+
+	* preview.el (TeX-overlay-prioritize): correct stupid typo.
+	(preview-log-error): Pop up run buffer in case of error.
+
+2005-03-17  David Kastrup  <dak@gnu.org>
+
+	* preview.el (tex-site): Require loads of stuff at the beginning:
+	preview.el is supposed to be autoloaded, so we can just load
+	everything that needs to get loaded, anyway.
+	(TeX-overlay-prioritize): alias to "ignore" if not defined
+	elsewhere.  This will not set priorities.
+	(eval-when-compile): move out most requires.
+	(preview-place-preview): Use TeX-overlay-prioritize instead of
+	TeX-fold-prioritize.
+	(preview-counter-find): Pass begin in to reduce one compilation
+	error message.
+	(TeX-region-create): Don't preactivate `preview-counter' advice.
+	(preview-reinstate-preview): Rename priority function to
+	`TeX-overlay-prioritize'.
+	(LaTeX-preview-setup): Remove requires.
+	(TeX-region-create): Explicitly activate `preview-preamble' advice
+	even though it is preactivated.
+
+2005-03-16  David Kastrup  <dak@gnu.org>
+
+	* prv-emacs.el: Use the four-argument version of `face-attribute'
+	if it exists.
+
+2005-03-15  David Kastrup  <dak@gnu.org>
+
+	* doc/install.texi (Configure): Be somewhat more verbose.  Be
+	explicit about Emacs-only options.
+
+	* doc/wininstall.texi: Warn against Winzip.  Reorganize docs
+	somewhat and clarify about Emacs-only procedures.
+
+	* doc/preview-latex.texi (Keys and lisp): Document
+	preview-at-point allowing active region.
+
+	* preview.el (preview-at-point): Remove nonsensical arguments.
+	Instead, allow for an active region.
+
+	* configure.in: Add `packagelispdir' to quoted Makefile variables.
+
+2005-03-14  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Reformat the kaboodle to look nicer.
+	Move \nofiles to auctex option.
+
+	* latex/README-preview (Note): Mention \nofiles problem.
+
+	* preview.el (preview-LaTeX-command): Add \nofiles to startup.
+
+2005-03-14  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* preview.el (TeX-fold-prioritize): autoload.
+	(preview-place-preview, preview-reinstate-preview): Use it.
+
+2005-03-07  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-gs-open): Make better error message for junk
+	left over on PostScript stack, so that we may better pass the
+	buck.
+
+2005-03-05  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Fix psfixbb option that must have become
+	illegal at some time accidentally.
+
+	* doc/install.texi (Loading the package): Explain that
+	preview-latex.el should already be installed in-place.
+
+2005-03-04  David Kastrup  <dak@gnu.org>
+
+	* Organizational: preview-latex development has been moved from
+	<URL:http://sourceforge.net/projects/preview-latex> into the
+	AUCTeX CVS Archive on
+	<URL:http://savannah.gnu.org/projects/auctex>.
+
+2005-03-03  David Kastrup  <dak@gnu.org>
+
+	* Release 0.9
+
+	* prv-install.el (preview-make-package-xemacs): Add directory
+	information from autoe.el to autoloads.
+
+	* Makefile.in (elisp): generate preview-latex.el only when no
+	package system.
+	(install-el): Depend on auto.el
+	(install-startup): Make and install preview-latex.el only when no
+	package system.
+
+	* prv-emacs.el (preview-create-icon-1): Use adaptive heuristic
+	mask for transparency.
+
+	* preview-latex.spec: Make preview.dvi.  But preview-latex.pdf
+
+	* latex/Makefile.in (all): Generate both dvi and pdf.
+	(install-texmf-doc): Install DVI (faster, compact).
+
+	* latex/Makefile.in (install-texmf-doc): Install PDF instead of
+	DVI file.
+
+	* doc/wininstall.texi: Simplify, rearrange, adapt to new
+	installation scheme.  Add links to CVS precompiled versions.
+
+	* doc/install.texi (Prerequisites): Revamp.
+	(Configure): Add explanations.
+
+	* preview-latex.spec: Change rpm name to include "fedora".  Adapt
+	to new configure stuff.  Use pdf doc instead of DVI.
+
+	* configure.in: icondir is absolute, reorder some stuff to
+	maintain directory locality.
+
+	* aclocal.m4: Change a lot of $x to ${x}.
+	Simplify some stuff.
+
+	* RELEASE: Add information for release.
+
+	* configure.in: Correct prefix check.  Add Emacs version check.
+
+	* aclocal.m4: Move several functions around, completely overhaul
+	the stuff to just detect material in prefix-related directories.
+	Remove docstrip config detection, add version checking of major
+	and minor version.  Rely on prefix being set by configure.in.
+
+2005-03-02  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (install-el): no means no for packagedir.
+
+	* configure.in: Set prefix.
+
+	* aclocal.m4: Use "no" for no packagedir in XEmacs.
+	Don't save prefix and stuff.
+	Expand stuff at some points.
+
+	* doc/wininstall.texi: Use executable name directly to save
+	confusion.
+
+	* prv-xemacs.el (preview-filter-specs): Rework specs.
+
+	* prv-emacs.el (preview-filter-specs): Translate :type fields.
+
+	* preview.el (preview-min-spec): Move.
+	(preview-filter-specs): Move from prv-emacs.el and prv-xemacs.el.
+	(preview-filter-specs-1): simplify.
+	(preview-icondir): Create icondir preset variable.
+	(preview-filter-specs): expand file specs against it here instead
+	of prv-emacs.el and prv-xemacs.el.
+
+	* configure.in: Adapt to new variables.
+	Remove check for image-supporting Emacs: it is probably not
+	reliable on consoles.
+	Add packagelispdir and icondir options.
+	(GS): Don't try GSWIN32.EXE.
+	Create lispGS in auto.el
+
+	* autogen.sh: Use --output option for makeinfo to get
+	tableofcontents in FAQ.
+
+	* doc/Makefile.in (.PHONY): Add install here.
+
+	* Makefile.in (install-el): Adapt targets to packagelispdir.
+	(.PHONY): Add install target for case insensitive filesystems.
+
+	* aclocal.m4: Rewrite EMACS_EXAMINE_PACKAGEDIR.
+	EMACS_LISP now gets one argument less.
+	EMACS_TEST_LISP_DIR makes just one pass.
+	EMACS_PATH_LISPDIR expands less.
+	AC_LISPIFY_DIR is a new function.
+	AC_MAKE_FILENAME_ABSOLUTE
+	AC_LISP_RELATIVE new functions.
+
+2005-02-26  David Kastrup  <dak@gnu.org>
+
+	* doc/readme.texi (Basic modes of operation): Adapt PDFLaTeX
+	explanation to newer AUCTeX versions.
+
+	* preview.el (preview-error-icon-specs): Choose somewhat oversized
+	errors. Adapt to set.
+	(preview-gs-restart, preview-gs-transact): Change image file name
+	prefix to `pr'.
+	(preview-clean-subdir): When cleaning out subdirectories, match
+	`pr' instead of `pre'.
+
+	* Makefile.in (ICON_SOURCES): Adapt to existing set.
+
+2005-02-25  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-gs-options): Remove "-dDELAYSAFER" from
+	option list.
+	(preview-gs-sequence): New variable.
+	(preview-gs-sentinel): Don't repeat startup echo if GhostScript
+	fails before prompting the first time.
+	(preview-gs-sentinel): When restarting, remove expected file names
+	from `preview-gs-outstanding'.
+	(preview-gs-restart): generate a unique output file name pattern
+	from `preview-gs-sequence'
+	(preview-gs-restart): list start command quoted.
+	(preview-gs-open): initialize `preview-gs-sequence'.
+	(preview-gs-open): if historic "DELAYSAFER" is still configured,
+	start safe mode manually.  Remove all settings of OutputFile, and
+	all runandhide stuff.
+	(preview-gs-place): Don't generate a filename that might not be
+	needed.
+	(preview-gs-flag-error): Generate a synthetic OutputFile option.
+	Use it in error messages.
+	(preview-gs-transact): generate output file name in outstanding
+	queue.  Don't fiddle with OutputFile settings.  Advance
+	`preview-gs-sequence'.
+	(preview-dvipng-place-all): Generate file name.
+
+	* prv-xemacs.el (null-device): Remove compatibility definition.
+
+2005-02-18  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-specs-setter): New function.
+	(preview-nonready-icon-specs): Choose slightly smaller icons.
+	(preview-nonready-icon-specs, preview-error-icon-specs)
+	(preview-icon-specs): Use `preview-specs-setter'.
+
+	* doc/wininstall.texi: Mention case problems.
+
+	* doc/install.texi (Prerequisites): Update AUCTeX version info.
+
+	* doc/problems.texi (Middle-clicks paste instead of toggling):
+	Remove reference to patches directory.  Should no longer be
+	necessary.
+	(Problems with GhostScript): Mention use of gswin32.exe instead of
+	gswin32c.exe as a problem source.
+
+	* preview.el (preview-nonready-icon-specs): Add size 14.
+
+	* images/prvwrk24.xpm: New icon, dimmer, better shape.
+
+	* images/prvwrk20.xpm: New icon
+
+	* images/prvwrk16.xpm: New icon
+
+	* images/prvwrk14.xpm: New icon
+
+	* images/prvwrk12.xpm: New icon
+
+2005-02-15  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-error-quote): Encode to raw-text to get
+	unibyte string.
+
+2005-02-13  David Kastrup  <dak@gnu.org>
+
+	* doc/preview-latex.texi (The Emacs interface): Adapt to new
+	`preview-use-balloon-help' default.
+
+	* doc/faq.texi (Customization): Adapt to new
+	`preview-use-balloon-help' default.
+
+	* prv-xemacs.el (preview-use-balloon-help): Default to nil.
+
+	* preview.el (preview-gs-flag-error): For consistency, make error
+	icons have a context menu on right mouse button.
+
+2005-02-11  David Kastrup  <dak@gnu.org>
+
+	* doc/preview-latex.texi (Keys and lisp): Change descriptions to
+	cater only for interactive use.
+	(Keys and lisp): Explain mouse-3 better.
+	(Keys and lisp): Move preview-copy-region-as-mml explanation up.
+	Explain about the new border avoidance behavior.
+	(The Emacs interface): Explain about how to adapt the various
+	icon-specs.
+
+	* preview.el (preview-specs-type): Type for specs defcustom.
+
+	(preview-nonready-icon-specs, preview-error-icon-specs)
+	(preview-icon-specs): move lower and make defcustom from it.
+
+2005-02-10  David Kastrup  <dak@gnu.org>
+
+	* prv-emacs.el (preview-mode-setup): Only define a preview toolbar
+	entry when the icon is valid.
+
+	* RELEASE: Mention the new icons.
+
+	* prv-xemacs.el (preview-tb-icon): Use this instead of
+	(preview-icon-toolbar-button): in order to match
+	`preview-tb-icon-specs', as in prv-emacs.el
+	(preview-mode-setup): Don't install a toolbar item when no icon
+	image can be generated properly.
+
+2005-02-09  David Kastrup  <dak@gnu.org>
+
+	* prv-xemacs.el (add-to-list): only provide definition for
+	three-argument version if XEmacs doesn't.  May be removed at some
+	time completely.
+	(null-device): Only defvar if unbound in order not to munge the
+	doc string.
+	(preview-transparent-border): Silence the byte-compiler.
+	(preview-supports-image-type): Move earlier.
+	(preview-filter-specs): Correct a few typos.
+	(preview-filter-specs): Don't forget to call `make-glyph'.
+	(preview-mode-setup): Correct toolbar icon setup.
+
+	* preview.el (preview-error-quote): Remove unused variable `char'.
+
+	* doc/faq.texi (Requirements): Stop talking about ancient XEmacs
+	versions.
+	(Requirements): Mention Emacs 22 instead of 21.4
+
+	* doc/install.texi (Prerequisites): same
+
+	* doc/problems.texi (Emacs problems): same
+
+	* preview-latex.spec (Conflicts): xemacs = 21.4.16
+
+	* RELEASE: Add some dvipng information, more detailed
+	recommendations.
+
+	* preview.el (preview-region, preview-buffer, TeX-region-create)
+	(preview-document, preview-environment, preview-section): Move
+	down to avoid byte compiler warnings.
+
+	* images/*: lots of renaming/moving stuff around.
+
+	* configure.in: remove ICONFORM stuff.
+
+	* Makefile.in (ICONFORM): removed.
+	(ICON_SOURCES): Change to different list.
+
+	* prv-xemacs.el (preview-nonready-icon, preview-error-icon)
+	(preview-icon, preview-tb-icon): Removed in this form.
+	(preview-ascent-spec): New symbol for storing minimal data when
+	parsing specs.
+	(preview-filter-specs): New function.
+	(preview-icon-copy): Replaces `preview-nonready-copy'.
+	(preview-mode-setup): Create toolbar button.
+
+	* prv-emacs.el (preview-nonready-icon, preview-error-icon)
+	(preview-icon): removed.
+	(preview-filter-specs): New function.
+	(preview-tb-icon-specs, preview-tb-icon): New variables for the
+	toolbar icon.
+	(preview-icon-copy): replaces `preview-nonready-copy'
+	(preview-mode-setup): Initialize `preview-tb-icon'
+
+	* preview.el (preview-nonready-icon-specs)
+	(preview-nonready-icon, preview-error-icon-specs)
+	(preview-error-icon, preview-icon-specs, preview-icon)
+	(preview-min-spec): New variables.
+	(preview-gs-place): Use `preview-icon-copy' instead of
+	`preview-nonready-copy'
+	(preview-make-image): New function.
+	(preview-filter-specs-1): New function.
+	(preview-buffer-restore-internal): Call `preview-get-geometry' for
+	having size information.  This may be incorrect at restore time.
+	(preview-get-geometry): Also constitute `preview-icon',
+	`preview-error-icon' and `preview-nonready-icon'.
+
+2005-02-06  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Add note about `gswin32c.exe'.
+
+2005-01-29  David Kastrup  <dak@gnu.org>
+
+	* preview-latex.spec (Release): Bump version to prerelease, make
+	some changes that look like they'd fit into AUCTeX's scheme.
+
+	* RELEASE: Some changes and mentions.
+
+	* doc/preview-dtxdoc.pl: Convert AUC\TeX reference as well.
+	Convert `\#' to `#'.
+
+	* latex/preview.dtx: Add `#' and `:' letters and documentation.
+	Make all commands pass on `#' on cleanly.  Don't eliminate last
+	`{}' last in argument lists.
+
+	* latex/Makefile.in (preview.pdf): New target.  Since PDFs are
+	used for external documentation usually, generate only the
+	description (for internal docs, dvi is fine and adding the code,
+	too).
+
+	* configure.in: Bump version number.
+	check for PDFLaTeX.
+
+2005-01-26  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-copy-mml, preview-copy-region-as-mml)
+	(preview-format-mml): Ask whether user really wants to use
+	bordered graphics.
+	(preview-error-quote): Fix typo.  Make the condition to call
+	decode-coding-string depend on (featurep 'mule) to match choice
+	for using raw process output.
+	(preview-get-geometry): Return the geometry instead of
+	manipulating a buffer.
+	(preview-set-geometry): New function to set the geometry into
+	buffer-local variables.
+	(preview-generate-preview): Start by getting geometry.
+	(TeX-inline-preview-internal): Additional geometry argument.
+	Don't switch into buffer where we are already.
+
+2005-01-25  David Kastrup  <dak@gnu.org>
+
+	* prv-emacs.el: Don't use transparent borders when Emacs is new
+	enough to have tolerable blinking.
+
+	* preview.el (preview-dvipng-color-string): Pass the border into
+	dvipng.
+	(preview-dvipng-place-all): Record the border in the image data
+	structure.
+
+2005-01-24  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Ask for dvipng 1.4, mention utf-8 capability.
+
+	* preview.el (preview-error-quote): Don't regexp codes out of the
+	ASCII range, and convert the resulting string using the buffer
+	encoding.  This makes for utf-8.
+	(preview-parse-messages): Change match mechanism.
+	(TeX-inline-preview-internal): Set process encoding to raw-text
+	since TeX may deliver mixtures of encoded and clean bytes.
+
+2005-01-19  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4: sync with AUCTeX
+
+2005-01-17  jalar  <jalar@mai.liu.se>
+
+	* ChangeLog.1: Move dvipng changes to its Changelog
+
+2004-11-05  David Kastrup  <dakas@users.sourceforge.net>
+
+	* doc/readme.texi (What use is it?): New section.
+
+	* doc/preview-latex.texi (The Emacs interface)
+	(The preview images): Add a bit of information concerning
+	PDF/dvipng operation.
+
+	* preview.el (preview-default-preamble): Require specific date of
+	preview package.
+
+	* latex/preview.dtx: Let bop-hook and eop-hook work only on outer
+	level, so that previews can contain dvips -E generated files.
+
+2004-10-23  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview): Change group to 'AUCTeX.
+
+2004-10-21  David Kastrup  <dakas@users.sourceforge.net>
+
+	* prv-xemacs.el (preview-mode-setup): Add `desktop-save-buffer'
+	setup.
+
+	* prv-emacs.el (preview-mode-setup): Add `desktop-save-buffer'
+	setup.
+
+	* preview.el (desktop-buffer-preview-misc-data): Let arguments be
+	ignored for desktop 2.06.
+	Add to `desktop-buffer-misc-functions' only after desktop has been
+	loaded.
+	(desktop-buffer-preview): take arguments for desktop 206.
+
+2004-10-18  David Kastrup  <dakas@users.sourceforge.net>
+
+	* prv-xemacs.el (glyph-image-type): Removed.
+	(preview-create-icon-1, preview-create-icon): like in prv-emacs.el.
+	(preview-replace-active-icon): Use defsubst.
+	(preview-ps-image): Removed.
+	(preview-move-point): Reorganized.
+	(preview-export-image): Removed.
+	(preview-import-image): Changed to new preview-image semantics.
+
+	* prv-emacs.el (preview-create-icon): replace macro with defsubst,
+	add border argument.
+	(preview-replace-active-icon): defsubst, and cater for new
+	preview-image structure.
+	(preview-int-bb, preview-ps-image): Removed, only needed for
+	postscript device.
+	(preview-move-point): Reorganized.
+	(preview-export-image): Removed.
+
+	* preview.el (preview-image-creators): Remove postscript device,
+	it did not work, anyway.
+	(preview-dvipng-color-string): Add resolution to args in order to
+	properly convert border thickness.
+	(preview-gs-dvips-sentinel): Delete unused `gsfile' variable.
+	(preview-eps-open, preview-eps-dvips-process-setup,
+	preview-eps-place): Removed.
+	(preview-gs-place, preview-gs-transact, preview-dissect)
+	(preview-dvipng-place-all, preview-active-string)
+	(preview-reinstate-preview): add construction info to
+	`preview-image' property.
+	(preview-start-dvipng): Calculate resolution info correctly.
+	(preview-at-point): Fix an awful typo.
+
+2004-10-14  David Kastrup  <dakas@users.sourceforge.net>
+
+	* latex/preview.dtx: Make the end of snarfed environments behave
+	normally if the environment is not being snarfed.
+
+2004-10-14  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* doc/wininstall.texi: Adjust text to conform with the AUCTeX aclocal.
+
+	* configure.in: Add VALID_BUILD_DIR
+
+2004-10-13  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* configure.in: Adjust for the aclocal.m4 sync with AUCTeX
+
+	* aclocal.m4: Sync with AUCTeX. Well, almost. Don't
+	use the version test.
+
+2004-10-09  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-dvipng-command): Use -picky option.
+	(preview-error-quote): Convert character to buffer encoding if
+	mule allows it.
+	(preview-parse-messages): Strip incomplete 8bit character
+	transliterations from the error context.
+
+2004-08-21  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/install.texi: Markup fixes, see "(texinfo)command".
+
+	* doc/wininstall.texi: Ditto.
+
+2004-08-09  David Kastrup  <dakas@users.sourceforge.net>
+
+	* doc/preview-latex.texi: Bump version number.
+	(top): Change preview-latex typesetting convention.
+	(Keys and lisp): AUCTeX menus are not changed.
+	(Simple customization): Don't talk about `.dvi'.
+	(For advanced users): Menu `The preview images' instead of `On EPS
+	previews'.
+	(The Emacs interface): Take PDF into account.
+	(The preview images): Describe `preview-gs-image-type-alist',
+	`preview-dvipng-image-type'.
+
+	* doc/faq.texi (Introduction to FAQ): Change submission address to
+	preview-latex-devel since this appears to better reflect reality.
+
+	* latex/preview.dtx (showlabels): work around ntheorem/amsmath
+	bug.
+
+	* preview.el (preview-gs-image-type-alist): Add fallback for
+	'postscript image type (not yet used).
+	(preview-dvipng-command): Add documentation about
+	`preview-dvipng-image-type'.  Change options to `-picky
+	-noghostscript' to work with dvipng 1.2.
+	(preview-dvipng-image-type): New variable.
+	(preview-gs-open): Don't barf until we know what device will
+	actually be used.
+	(preview-gs-dvips-process-setup): Complain about unavailable
+	devices here.
+	(preview-dvipng-process-setup): And here.
+	(preview-dvipng-process-setup, preview-dvipng-place-all): Use
+	`preview-dvipng-image-type'.
+	(preview-TeX-inline-sentinel): Change "abnormally with code 1" and
+	"finished" exit status message.
+	(preview-dump-replacements, preview-undump-replacements): Don't
+	match command name as specifically.
+	(preview-report-bug): Report more variables.
+
+2004-08-07  David Kastrup  <dakas@users.sourceforge.net>
+
+	* doc/macros.texi: New @ConTeXt{} macro, change appearance of
+	@previewlatex{}.
+
+	* doc/faq.texi (Customization): Presentation classes should work
+	mostly.
+	(Customization): Remove troubleshooting for `xy.sty'.
+	(Requirements): Add AUCTeX 11.50 for PDFLaTeX.
+	(Requirements): Mention dvipng.
+	(Customization): PDFLaTeX is supported now.
+	(Customization): ConTeXt is supported by AUCTeX, PDFLaTeX too.
+	`Only' style support is missing now.
+
+	* latex/preview.dtx: workaround for `xy.sty' in `textmath' code.
+
+2004-08-04  David Kastrup  <dakas@users.sourceforge.net>
+
+	* aclocal.m4: Merge a few AUCTeX changes.
+
+2004-08-03  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-walk-document): Current buffer and its
+	master are always considered part of the document.
+	(preview-dvipng-command): Use -noghostscript option.
+	(preview-dvipng): Remove the almost unused customization group
+	'preview-dvipng.
+
+2004-08-02  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-extract-bb): remove old outcommented version.
+	(preview-dvipng-command): Use -no-image-on-warn option.
+	(preview-pdf2dsc-process-setup): Oops, just use
+	`preview-gs-image-type' here.
+	(preview-dvipng-sentinel): Don't delete dvi file since it might be
+	needed in `dvipng-place-all'.
+	(preview-dvipng-place-all): Start dvips/GhostScript if some image
+	files are missing.  Delete dvi file if none are missing.
+
+2004-07-28  David Kastrup  <dakas@users.sourceforge.net>
+
+	* doc/problems.texi (Too small bounding boxes): Fix node
+	crosslinks.
+
+	* latex/preview.dtx: Tiny change to placate font-latex.
+
+	* latex/README-preview: Explain that PDF may be produced.
+
+	* doc/wininstall.texi: Remove advice about failing byte-compiles:
+	we should have this covered by now.
+
+	* doc/problems.texi (LaTeX international characters): remove node.
+
+	* doc/preview-latex.texi (Misplaced previews): Refer to x-symbol
+	node instead of 8bit testing.
+
+	* doc/install.texi (Configure): Remove --disable-8bit-test
+	description.
+
+	* preview.el (preview-parse-messages): Simplify line match.
+
+	* preview-latex.spec: Several changes of %{buildroot} uses and of
+	infodir.  Doubtful whether this will work with Fedora.
+
+	* configure.in: Remove all 8bit-cleanness testing.
+
+	* aclocal.m4 (EMACS_LISP): just write out a string expression
+	without change or echo.  Document the macro.
+
+	* doc/Makefile.in (prefix) (packagedir) (datadir) (infodir):
+	preserve trailing backslashes.
+
+	* Makefile.in (INSTALL) (INSTALL_DATA): Don't munge them for
+	trailing backslashes.
+
+2004-07-27  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-dvipng): New customization group.
+	(preview-image-creators): Remove ghostscript options here.
+	(preview-gs-image-type-alist): New variable for lookup of
+	Ghostscript options.
+	(preview-gs-open): Remove imagetype and gs-optionlist arguments.
+	Instead, look them up in preview-gs-image-type-alist.
+	(preview-gs-dvips-process-setup): Setup GhostScript command line
+	at different place.
+	(preview-gs-dvips-process-setup): Use preview-gs-image-type, not
+	preview-image-type for extension.
+	(preview-dvipng-open): Removed.
+	(preview-dvipng-process-setup): Setup GhostScript fallback.
+	(preview-pdf2dsc-process-setup): Don't setup GhostScript here.
+	(preview-error-quote): Fix bugs, only convert last ^^ sequence
+	when a long string of ^^ exists.
+
+2004-07-16  David Kastrup  <dakas@users.sourceforge.net>
+
+	* Makefile.in (INSTALL_DATA): Use `$(null)' at end of variables at
+	end of lines instead of `#'
+
+2004-07-15  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-format-mml): Somewhat different code.
+	(preview-error-quote): New function for generating a matching
+	regexp to deal with ^^ type error messages.  In short: forget
+	about 8-bit-cleanliness.
+	(preview-parse-messages): Use it.
+
+2004-05-08  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-format-mml): Determine MIME format from
+	file name properly.  And don't return anything for bad overlays.
+
+	* Split ChangeLog.1 off, create dvipng/ChangeLog.
+
+	* preview.el (preview-gs-sentinel): Add info about GhostScript
+	finishing to run buffer.
+	(preview-gs-restart): Same for start.
+	(preview-gs-color-string): Cater for border without mask color
+	(didn't we do that already?)
+
+2004-04-23  David Kastrup  <dakas@users.sourceforge.net>
+
+	* preview.el (preview-gs-color-string)
+	(preview-dvipng-color-string): Try to do something reasonably sane
+	when a non-nil border thickness is specified, but no color.
+
+2004-04-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* .cvsignore: Added "autom4te.cache".
+
+2004-04-19  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/preview-latex.texi (Simple customization): Don't "unlispify"
+	variable names.
+
+2004-04-12  David Kastrup  <dakas@users.sourceforge.net>
+
+	* Release 0.8.1
+
+	* preview.el (preview-dump-replacements): Use regexp not
+	triggering bugs in older Emacsen.
+	(preview-dump-replacements): Same here.
+
+	* RELEASE, configure.in, doc/preview-latex.texi: Adapt to 0.8.1
+
+	* preview-latex.spec: xemacspkgdir has changed in recent XEmacs
+	releases for Redhat.
+
+	* prv-xemacs.el (preview-mode-setup): Remove non-existent menu.
+
+	* prv-emacs.el (preview-mode-setup): Remove non-existent menu
+	"copied" from TeX-command-list to Command menu.
+
+	* Release 0.8
+
+	* RELEASE: prepare for 0.8
+
+	* preview-latex.spec: prepare for 0.8, bump XEmacs to 21.4.9.
+
+;; Local Variables:
+;; coding: iso-8859-1
+;; End:
