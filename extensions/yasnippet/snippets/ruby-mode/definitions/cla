@@ -1,5 +1,0 @@
-#name : class << self ... end
-# --
-class << ${self}
-  $0
-end

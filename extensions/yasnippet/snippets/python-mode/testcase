@@ -1,6 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: unittest.TestCase normal
-# contributor: Gabriele Lanaro
-# --
-class ${1:TestCase}(${2:unittest.TestCase}):
-    $0

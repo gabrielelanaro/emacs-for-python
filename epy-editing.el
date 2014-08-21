@@ -1,4 +1,4 @@
-;; ibuffer by default
+0;95;c;; ibuffer by default
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; Ido mode with fuzzy matching
@@ -25,14 +25,12 @@
 (defun epy-django-snippets ()
   "Load django snippets"
   (interactive)
-  (yas/load-directory (concat epy-install-dir "snippets/django"))
-  )
+  (add-to-list 'yas-snippet-dirs (concat epy-install-dir "snippets/django")))
 
-
-(yas/initialize)
-(yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
-(setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
-(setq yas/wrap-around-region 'cua)
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs (concat epy-install-dir "extensions/yasnippet/snippets"))
+(setq yas-prompt-functions '(yas-dropdown-prompt yas-ido-prompt yas-x-prompt))
+(setq yas-wrap-around-region 'cua)
 
 ;; Eproject project management with emacs
 ;; (require 'eproject)

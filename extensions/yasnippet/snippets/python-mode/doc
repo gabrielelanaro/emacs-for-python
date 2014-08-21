@@ -1,7 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: doc
-# contributor: Gabriele Lanaro <gabriele.lanaro@gmail.com>
-# expand-env ((yas/indent-line 'fixed)
-# --
-"""$0
-"""

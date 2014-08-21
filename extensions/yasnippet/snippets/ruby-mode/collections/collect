@@ -1,3 +1,0 @@
-#name : collect { |...| ... }
-# --
-collect { |${e}| $0 }

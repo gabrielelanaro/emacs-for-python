@@ -1,0 +1,3 @@
+[submodule "extensions/yasnippet"]
+	path = extensions/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git

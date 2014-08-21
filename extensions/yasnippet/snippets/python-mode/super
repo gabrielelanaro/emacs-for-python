@@ -1,6 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: super
-# contributor: Gabriele Lanaro <gabriele.lanaro@gmail.com>
-# --
-super(${1:`(prev-class-name)`},self).${2:`(prev-def-name)`}(${3:`(prev-def-args)`})
-    $0
