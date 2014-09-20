@@ -777,7 +777,13 @@ ov)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-(setq-default TeX-master nil)
+; (setq-default TeX-master nil)
+(custom-set-variables
+'(TeX-PDF-mode t)
+'(TeX-master nil)
+'(TeX-source-correlate-method (quote synctex))
+'(TeX-source-correlate-mode t)
+'(TeX-source-correlate-start-server (quote ask)))
 
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)
@@ -812,7 +818,7 @@ ov)
         (message "Dictionary switched from %s to %s" dic change)
         ))
 
-(require 'ispell-multi)
+;(require 'ispell-multi)
 ;(require 'flyspell-babel)
 
 ;(autoload 'flyspell-babel-setup "flyspell-babel")
