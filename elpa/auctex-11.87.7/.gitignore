@@ -1,0 +1,27 @@
+#*
+*.elc
+*.log
+*~
+CHANGES
+FAQ
+INSTALL
+INSTALL.windows
+Makefile
+#README
+TODO
+auctex-pkg.el
+auto-loads.el
+autom4te.*
+config.*
+configure
+#tex-site.el
+tex-site.el.out
+
+# Files genrated while building the auto-generated files included in elpa.
+doc/preview-dtxdoc.texi
+doc/version.texi
+latex/preview-mk.ins
+latex/preview.drv
+
+# Files generated when installing/compiling the package in place.
+auctex-autoloads.el

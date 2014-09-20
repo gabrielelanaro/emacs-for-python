@@ -1,0 +1,831 @@
+@c This is part of the AUCTeX manual.
+@c Copyright (C) 1994-2002, 2004-2010, 2012 Free Software Foundation, Inc.
+@c See file auctex.texi for copying conditions.
+@include macros.texi
+@ifset rawfile
+@chapheading Changes and New Features in @AUCTeX{}
+
+@end ifset
+
+@heading News since 11.87
+
+@itemize @bullet
+@item
+@AUCTeX{} now supports Biber in conjunction with biblatex in addition to
+BibTeX.
+
+@item
+Each @AUCTeX{} mode now has its own abbrev table.  On Emacsen which
+provide the possibility to inherit abbrevs from other tables, the
+abbrevs from the Text mode abbrev table are available as well.  Newly
+defined abbrevs are written to the mode-specific tables, though.
+
+@item
+The file @samp{tex-fptex.el} was removed.
+
+@item
+Forward/backward search for Evince has been improved.  If Emacs is
+compiled with DBUS support and a recent Evince version (3.x) is
+installed, the communication goes over the desktop bus instead of the
+command line, resulting in more accurate positioning of point in Emacs
+and highlighting of the target paragraph in Evince.
+
+@item
+A problem where Ghostscript threw an /invalidfileaccess error when
+running @previewlatex{} was fixed.
+
+@item
+A lot of smaller fixes and additions have been made.
+@end itemize
+
+
+@heading News in 11.86
+
+@itemize @bullet
+@item
+Parsing of @LaTeX{} output was improved.  It is now less likely that
+@AUCTeX{} opens a non-existent file upon calling @code{TeX-next-error};
+a problem for example encountered when using MiK@TeX{} 2.8.  In addition
+quoted file names as emitted by MiK@TeX{} are now supported.
+
+@item
+A new framework for the definition and selection of viewers was
+implemented.  If you have customizations regarding viewers you will have
+to redo them in this new framework or reenable the old one.
+@ifset rawfile
+See the section on viewers in the manual for details.
+@end ifset
+@ifclear rawfile
+@xref{Starting Viewers}, for details.
+@end ifclear
+
+@item
+Comprehensive editing support for PSTricks was added.
+
+@item
+Support for various @LaTeX{} packages was added, e.g. @samp{tabularx},
+@samp{CJK}, and @samp{hyperref}.
+
+@item
+An easy way to switch between @TeX{} engines (PDF@TeX{}, Lua@TeX{},
+Xe@TeX{}, Omega) was added.
+
+@item
+Support for Sync@TeX{} was added.  This involves the command line
+options for @LaTeX{} and the viewer.
+
+@item
+Folding can now be customized to use macro arguments as replacement
+text.
+
+@item
+@samp{preview.sty} now works with Xe@TeX{}.
+
+@item
+A lot of smaller and larger bugs have been squashed.
+@end itemize
+
+@heading News in 11.85
+
+@itemize @bullet
+
+@item
+Font locking has been improved significantly.  It is now less prone to
+color bleeding which could lead to high resource usage.  In addition it
+now includes information about @LaTeX{} macro syntax and can indicate
+syntactically incorrect macros in @LaTeX{} mode.
+
+@item
+The license was updated to GPLv3.
+
+@item
+Support for the nomencl, flashcards and comment @LaTeX{} packages as
+well as the Icelandic language option of babel were added.
+
+@item
+Support for folding of math macros was added.
+
+@item
+Lots of minor bugs in features and documentation fixed.
+@end itemize
+
+@heading News in 11.84
+
+@itemize @bullet
+
+@item
+There have been problems with the @samp{-without-texmf-dir} option to
+@samp{configure} when the value of @samp{-with-kpathsea-sep} was set or
+determined for an installation system with a default different from that
+of the runtime system.  @code{with-kpathsea-sep} has been removed; the
+setting is now usually determined at runtime.
+
+Due to this and other problems, preview-latex in the released XEmacs
+package failed under Windows or with anything except recent 21.5
+XEmacsen.
+
+@item
+@AUCTeX{} and @previewlatex{} have been changed in order to accommodate
+file names containing spaces.  @previewlatex{} now tolerates bad
+PostScript code polluting the stack (like some Omega fonts).
+
+@item
+@samp{preview.sty} had in some cases failed to emit PostScript header
+specials.
+
+@item
+Support for folding of comments was added.
+
+@item
+The @code{polish} language option of the babel LaTeX package as well as
+the polski LaTeX package are now supported.  Most notably this means
+that AUCTeX will help to insert quotation marks as defined by polish.sty
+(@code{"`..."'}) and polski.sty (@code{,,...''}).
+
+@item
+The @TeX{} tool bar is now available and enabled by default in plain
+@TeX{} mode.
+@ifclear rawfile
+@xref{Processing Facilities}.
+@end ifclear
+
+@item
+Bug fix in the display of math subscripts and superscripts.
+
+@item
+Bug fix @code{TeX-doc} for Emacs 21.
+
+@item
+There has been quite a number of other bug fixes to various features and
+documentation across the board.
+
+@end itemize
+
+@heading News in 11.83
+
+@itemize @bullet
+@item
+The new function @code{TeX-doc} provides easy access to documentation
+about commands and packages or information related to @TeX{} and friends
+in general.
+@ifset rawfile
+It is accessible with the key binding @kbd{C-c ?} or the
+@samp{Find Documentation...} entry in the mode menus.
+@end ifset
+@ifclear rawfile
+@xref{Documentation}.
+@end ifclear
+
+@item
+You can now get rid of generated intermediate and output files by means
+of the new @samp{Clean} and @samp{Clean All} entries in
+@code{TeX-command-list} accessible with @kbd{C-c C-c} or the Command
+menu.
+@ifclear rawfile
+@xref{Cleaning}.
+@end ifclear
+
+@item
+Support for forward search with PDF files was added.  That means you can
+jump to a place in the output file corresponding to the position in the
+source file.
+@ifset rawfile
+Currently this only works if you use the pdfsync @LaTeX{} package and
+xpdf as your PDF viewer.  The accuracy is in the range of +/-1 page.
+@end ifset
+@ifclear rawfile
+@xref{Viewing}.
+@end ifclear
+
+Adding support for this feature required the default value of the
+variable @code{TeX-output-view-style} to be changed.  Please make sure
+you either remove any customizations overriding the new default or
+incorporate the changes into your customizations if you want to use this
+feature.
+
+@item
+@TeX{} error messages of the @code{-file-line-error} kind are now
+understood in @AUCTeX{} and @previewlatex{} (parsers are still
+separate).
+
+@item
+Bug fix in XyM@TeX{} support.
+
+@item
+The @LaTeX{} tool bar is now enabled by default.
+@ifclear rawfile
+@xref{Processing Facilities}.
+@end ifclear
+
+@end itemize
+
+@heading News in 11.82
+
+@itemize @bullet
+@item
+Support for the MinionPro LaTeX package was added.
+
+@item
+Warnings and underfull/overfull boxes are now being indicated in the
+echo area after a @LaTeX{} run, if the respective debugging options are
+activated with @code{TeX-toggle-debug-warnings} (@kbd{C-c C-t C-w}) or
+@code{TeX-toggle-debug-bad-boxes} (@kbd{C-c C-t C-b}).  In this case
+@code{TeX-next-error} will find these warnings in addition to normal
+errors.
+
+The key binding @kbd{C-c C-w} for @code{TeX-toggle-debug-bad-boxes}
+(which was renamed from @code{TeX-toggle-debug-boxes}) now is
+deprecated.
+
+@item
+@AUCTeX{} now can automatically insert a pair of braces after typing
+@key{_} or @key{^} in math constructs if the new variable
+@code{TeX-electric-sub-and-superscript} is set to a non-nil value.
+
+@item
+Some language-specific support for French was added.  There now is
+completion support for the commands provided by the @samp{frenchb} (and
+@samp{francais}) options of the babel @LaTeX{} package and easier input
+of French quotation marks (@code{\\og ...\\fg}) which can now be
+inserted by typing @key{"}.
+
+@item
+Completion support for options of some LaTeX packages was added.
+
+@item
+@cindex @file{auctex.el}
+@cindex @file{tex-site.el}
+Already in version 11.81 the way to activate @AUCTeX{} changed
+substantially.  This should now be done with @code{(load "auctex.el" nil
+t t)} instead of the former @code{(require 'tex-site)}.  Related to this
+change @file{tex-mik.el} does not load @file{tex-site.el} anymore.  That
+means if you used only @code{(require 'tex-mik)} in order to activate
+@AUCTeX{}, you have to add @code{(load "auctex.el" nil t t)} before the
+latter statement.
+@ifset rawfile
+More detailed information can be found in the installation instructions
+(file INSTALL).
+@end ifset
+@ifclear rawfile
+@xref{Loading the package}.
+@end ifclear
+
+@item
+Handling of verbatim constructs was consolidated across AUCTeX.  This
+resulted in the @fontlatex{}-specific variables
+@code{font-latex-verb-like-commands}, @code{font-latex-verbatim-macros},
+and @code{font-latex-verbatim-environments} being removed and the more
+general variables @code{LaTeX-verbatim-macros-with-delims},
+@code{LaTeX-verbatim-macros-with-braces}, and
+@code{LaTeX-verbatim-environments} being added.
+
+@item
+The output of a Bib@TeX{} run is now checked for warnings and errors,
+which are reported in the echo area.
+
+@item
+The aliases for @code{font-latex-title-fontify} were removed.  Use
+@code{font-latex-fontify-sectioning} instead.
+
+@item
+The problem that Japanese macros where broken across lines was fixed.
+
+@item
+Various bug fixes.
+@end itemize
+
+@heading News in 11.81
+
+@itemize @bullet
+@item
+@code{LaTeX-mark-section} now marks subsections of a given section as
+well.  The former behavior is available via the prefix argument.
+
+@item
+@previewlatex{} which was previously available separately became a
+subsystem of @AUCTeX{}.  There is no documented provision for building
+or installing @previewlatex{} separately.  It is still possible to use
+and install @AUCTeX{} without @previewlatex{}, however.
+
+@item
+The installation procedures have been overhauled and now also install
+startup files as part of the process (those had to be copied manually
+previously).  You are advised to remove previous installations of
+@AUCTeX{} and @previewlatex{} before starting the installation
+procedure.  A standard installation from an unmodified tarball no longer
+requires Makeinfo or Perl.
+
+Also note that the way @AUCTeX{} is supposed to be activated changed.
+Instead of @code{(require 'tex-site)} you should now use @code{(load
+"auctex.el" nil t t)}.  While the former method may still work, the new
+method has the advantage that you can deactivate a preactivated
+@AUCTeX{} with the statement @code{(unload-feature 'tex-site)} before
+any of its modes have been used.  This may be important especially for
+site-wide installations.
+
+@item
+Support for the babel @LaTeX{} package was added.
+
+@item
+Folding a buffer now ensures that the whole buffer is fontified before
+the actual folding is carried out.  If this results in unbearably long
+execution times, you can fall back to the old behavior of relying on
+stealth font locking to do this job in the background by customizing the
+variable @code{TeX-fold-force-fontify}.
+
+@item
+Folded content now reveals part of its original text in a tooltip or the
+echo area when hovering with the mouse pointer over it.
+
+@item
+The language-specific insertion of quotation marks was generalized.  The
+variables @code{LaTeX-german-open-quote},
+@code{LaTeX-german-close-quote}, @code{LaTeX-german-quote-after-quote},
+@code{LaTeX-italian-open-quote}, @code{LaTeX-italian-close-quote}, and
+@code{LaTeX-italian-quote-after-quote} are now obsolete.  If you are not
+satisfied with the default settings, you should customize
+@code{TeX-quote-language-alist} instead.
+
+@item
+Similar to language-specific quote insertion, @AUCTeX{} now helps you
+with hyphens in different languages as well.
+@ifclear rawfile
+@xref{European}, for details.
+@end ifclear
+
+@item
+Fill problems in Japanese text introduced in @AUCTeX{} 11.55 were fixed.
+@AUCTeX{} tries not to break lines between 1-byte and 2-byte chars.
+These features will work in Chinese text, too.
+
+@item
+The scaling factor of the fontification of sectioning commands can now
+be customized using the variable @code{font-latex-fontify-sectioning}.
+This variable was previously called @code{font-latex-title-fontify}; In
+this release we provide an alias but this will disappear in one of the
+the next releases.  The faces for the sectioning commands are now called
+@code{font-latex-sectioning-@var{N}-face} (@var{N}=0@dots{}5) instead of
+@code{font-latex-title-@var{N}-face} (@var{N}=1@dots{}4).  Analogously
+the names of the variables holding the related keyword lists were
+changed from @code{font-latex-title-@var{N}-keywords} to
+@code{font-latex-sectioning-@var{N}-keywords}.
+@ifclear rawfile
+@xref{Font Locking}, for details.
+@end ifclear
+Make sure to adjust your customizations.
+
+@item
+Titles in beamer slides marked by the ``\frametitle'' command are know
+displayed with the new face @code{font-latex-slide-title-face}.  You can
+add macros to be highlighted with this face to
+@code{font-latex-match-slide-title-keywords}.
+
+@item
+Of course a lot of bugs have been fixed.
+@end itemize
+
+@heading News in 11.55
+
+@itemize @bullet
+@item
+A bug was fixed which lead to the insertion of trailing whitespace
+during filling.  In particular extra spaces were added to sentence
+endings at the end of lines.  You can make this whitespace visible by
+setting the variable @code{show-trailing-whitespace} to @code{t}.  If
+you want to delete all trailing whitespace in a buffer, type @kbd{M-x
+delete-trailing-whitespace RET}.
+
+@item
+A bug was fixed which lead to a @samp{*Compile-Log*} buffer popping up
+when the first @LaTeX{} file was loaded in an Emacs session.
+
+@item
+On some systems the presence of an outdated Emacspeak package lead to
+the error message @samp{File mode specification error: (error "Variable
+binding depth exceeds max-specpdl-size")}.  Precautions were added which
+prevent this error from happening.  But nevertheless, it is advised to
+upgrade or uninstall the outdated Emacspeak package.
+
+@item
+The value of @code{TeX-macro-global} is not determined during
+configuration anymore but at load time of @AUCTeX{}.  Consequently the
+associated configuration option @samp{--with-tex-input-dirs} was
+removed.
+
+@item
+Support for the @LaTeX{} Japanese classes @samp{jsarticle} and
+@samp{jsbook} was added.
+@end itemize
+
+@heading News in 11.54
+
+@itemize @bullet
+@item
+The parser (used e.g. for @code{TeX-auto-generate-global}) was extended
+to recognize keywords common in @LaTeX{} packages and classes, like
+``\DeclareRobustCommand'' or ``\RequirePackage''.  Additionally a bug
+was fixed which led to duplicate entries in @AUCTeX{} style files.
+
+@item
+Folding can now be done for paragraphs and regions besides single
+constructs and the whole buffer.  With the new @code{TeX-fold-dwim}
+command content can both be hidden and shown with a single key binding.
+In course of these changes new key bindings for unfolding commands where
+introduced.  The old bindings are still present but will be phased out
+in future releases.
+
+@item
+Info files of the manual now have a .info extension.
+
+@item
+There is an experimental tool bar support now.  It is not activated by
+default.  If you want to use it, add
+@lisp
+(add-hook 'LaTeX-mode-hook 'LaTeX-install-toolbar)
+@end lisp
+to your init file.
+
+@item
+The manual now contains a new chapter ``Quick Start''.  It explains the
+main features and how to use them, and should be enough for a new user
+to start using @AUCTeX{}.
+
+@item
+A new section ``Font Locking'' was added to the manual which explains
+syntax highlighting in @AUCTeX{} and its customization.  Together with
+the sections related to folding and outlining, the section is part of
+the new chapter ``Display''.
+
+@item
+Keywords for syntax highlighting of @LaTeX{} constructs to be typeset in
+bold, italic or typewriter fonts may now be customized.  Besides the
+built-in classes, new keyword classes may be added by customizing the
+variable @samp{font-latex-user-keyword-classes}.  The customization
+options can be found in the customization group
+@samp{font-latex-keywords}.
+
+@item
+Verbatim content is now displayed with the @samp{fixed-pitch} face. (GNU
+Emacs only)
+
+@item
+Syntax highlighting should not spill out of verbatim content
+anymore. (GNU Emacs only)
+
+@item
+Verbatim commands like @samp{\verb|...|} will not be broken anymore
+during filling.
+
+@item
+You can customize the completion for graphic files with 
+@code{LaTeX-includegraphics-read-file}.
+
+@item
+Support for the @LaTeX{} packages @samp{url}, @samp{listings},
+@samp{jurabib} and @samp{csquotes} was added with regard to command
+completion and syntax highlighting.
+
+@item
+Performance of fontification and filling was improved.
+
+@item
+Insertion of nodes in Texinfo mode now supports completion of existing
+node names.
+
+@item
+Setting the variable @code{LaTeX-float} to @code{nil} now means that you
+will not be prompted for the float position of figures and tables.  You
+can get the old behaviour of @code{nil} by setting the variable to
+@code{""}, i.e. an empty string.
+@ifclear rawfile
+See also @ref{Floats}.
+@end ifclear
+
+@item
+The XEmacs-specific bug concerning @code{overlays-at} was fixed.
+
+@item
+Lots of bug fixes.
+@end itemize
+
+@heading News in 11.53
+
+@itemize @bullet
+@item
+The @LaTeX{} math menu can include Unicode characters if your Emacs
+built supports it.  See the variable
+@ifset rawfile
+@code{LaTeX-math-menu-unicode}.
+@end ifset
+@ifclear rawfile
+@code{LaTeX-math-menu-unicode}, @ref{Mathematics}.
+@end ifclear
+
+@item
+Bug fixes for XEmacs.
+
+@c The following items weren't present at release time of 11.53:
+@item
+Completion for graphic files in the TeX search path has been added.
+
+@item
+@command{start} is used for the viewer for MiK@TeX{} and fp@TeX{}.
+
+@item
+The variable @code{TeX-fold-preserve-comments} can now be customized to
+deactivate folding in comments.
+@end itemize
+
+@heading News in 11.52
+@c Not present at release time of 11.52.
+
+@itemize @bullet
+@item
+Installation and menus under XEmacs work again (maybe for the first
+time).
+
+@item
+Fontification of subscripts and superscripts is now disabled when the
+fontification engine is not able to support it properly.
+
+@item
+Bug fixes in the build process.
+@end itemize
+
+@heading News in 11.51
+@c Not present at release time of 11.51.
+
+@itemize @bullet
+@item
+PDFTeX and Source Special support did not work with ConTeXt,
+this has been fixed.  Similar for Source Special support under Windows.
+
+@item
+Omega support has been added.
+
+@item
+Bug fixes in the build process.
+
+@item
+@code{TeX-fold} now supports folding of environments in Texinfo mode.
+@end itemize
+
+@heading News in 11.50
+
+@itemize @bullet
+@item
+The use of source specials when processing or viewing the document can
+now be controlled with the new @code{TeX-source-specials} minor mode
+which can be toggled via an entry in the Command menu or the key binding
+@kbd{C-c C-t C-s}.  If you have customized the variable
+@code{TeX-command-list}, you have to re-initialize it for this to work.
+This means to open a customization buffer for the variable by typing
+@code{M-x customize-variable RET TeX-command-list RET}, selecting
+``Erase Customization'' and do your customization again with the new
+default.
+
+@item
+The content of the command menu now depends on the mode (plain @TeX{},
+@LaTeX{}, @ConTeXt{} etc.).  Any former customization of the variable
+@code{TeX-command-list} has to be erased.  Otherwise the command menu
+and the customization will not work correctly.
+
+@item
+Support for hiding and auto-revealing macros, e.g. footnotes or
+citations, and environments in a buffer was
+@ifset rawfile
+added.
+@end ifset
+@ifclear rawfile
+added, @ref{Folding}.
+@end ifclear
+
+@item
+You can now control if indentation is done upon typing @key{RET} by
+customizing the variable
+@ifset rawfile
+@code{TeX-newline-function}.
+@end ifset
+@ifclear rawfile
+@code{TeX-newline-function}, @ref{Indenting}.
+@end ifclear
+
+@item
+Limited support for @code{doc.sty} and @code{ltxdoc.cls} (@samp{dtx}
+files) was added.  The new doc@TeX{} mode provides functionality for
+editing documentation parts.  This includes formatting (indenting and
+filling), adding and completion of macros and environments while staying
+in comments as well as syntax highlighting.  (Please note that the mode
+is not finished yet.  For example syntax highlighting does not work yet
+in XEmacs.)
+
+@item
+For macro completion in doc@TeX{} mode the @AUCTeX{} style files
+@file{doc.el}, @file{ltxdoc.el} and @file{ltx-base.el} were included.
+The latter provides general support for low-level @LaTeX{} macros and
+may be used with @LaTeX{} class and style files as well.  It is
+currently not loaded automatically for those files.
+
+@item
+Support for @ConTeXt{} with a separate @ConTeXt{} mode is now included.
+Macro definitions for completion are available in Dutch and English.
+
+@item
+The filling and indentation code was overhauled and is now able to
+format commented parts of the source syntactically correct.  Newly
+available functionality and customization options are explained in the
+manual.
+
+@item
+Filling and indentation in XEmacs with preview-latex and activated
+previews lead to the insertion of whitespace before multi-line previews.
+@AUCTeX{} now contains facilities to prevent this problem.
+
+@item
+If @code{TeX-master} is set to @code{t}, @AUCTeX{} will now query for a
+master file only when a new file is opened.  Existing files will be left
+alone.  The new function @code{TeX-master-file-ask} (bound to @kbd{C-c
+_} is provided for adding the variable manually.
+
+@item
+Sectioning commands are now shown in a larger font on display devices
+which support such fontification.  The variable
+@code{font-latex-title-fontify} can be customized to restore the old
+appearance, i.e. the usage of a different color instead of a change in
+size.
+
+@item
+Support for @code{alphanum.sty}, @code{beamer.cls}, @code{booktabs.sty},
+@code{captcont.sty}, @code{emp.sty}, @code{paralist.sty},
+@code{subfigure.sty} and @code{units.sty}/@code{nicefrac.sty} was added.
+Credits go to the authors mentioned in the respective @AUCTeX{} style
+files.
+
+@item
+Inserting graphics with @kbd{C-c RET \includegraphics RET} was improved.
+See the variable @code{LaTeX-includegraphics-options-alist}.
+@c FIXME: Document this in the main part of the manual
+
+@item
+If @code{LaTeX-default-position} is @code{nil}, don't prompt for
+position arguments in Tabular-like
+@ifset rawfile
+environments.
+@end ifset
+@ifclear rawfile
+environments, see @ref{Tabular-like}.
+@end ifclear
+
+@item
+Completion for available packages when using @kbd{C-c RET \usepackage
+RET} was improved on systems using the kpathsea library.
+
+@item
+The commenting functionality was fixed.  The separate functions for
+commenting and uncommenting were unified in one function for paragraphs
+and regions respectively which do both.
+
+@item
+Syntax highlighting can be customized to fontify quotes delimited by
+either >>German<< or <<French>> quotation marks by changing the variable
+@code{font-latex-quotes}.
+
+@item
+Certain @TeX{}/@LaTeX{} keywords for functions, references, variables
+and warnings will now be fontified specially.  You may add your own
+keywords by customizing the variables
+@code{font-latex-match-function-keywords},
+@code{font-latex-match-reference-keywords},
+@code{font-latex-match-variable-keywords} and
+@code{font-latex-match-warning-keywords}.
+
+@item
+If you include the style files @file{german} or @file{ngerman} in a
+document (directly or via the @samp{babel} package), you should now
+customize @code{LaTeX-german-open-quote},
+@code{LaTeX-german-close-quote} and
+@code{LaTeX-german-quote-after-quote} instead of @code{TeX-open-quote},
+@code{TeX-close-quote} and @code{TeX-quote-after-quote} if you want to
+influence the type of quote insertion.
+
+@item
+Upon viewing an output file, the right viewer and command line options
+for it are now determined automatically by looking at the extension of
+the output file and certain options used in the source file.  The
+behavior can be adapted or extended respectively by customizing the
+variable @code{TeX-output-view-style}.
+
+@item
+You can control whether @code{TeX-insert-macro} (@kbd{C-c RET}) ask for
+all optional arguments by customizing the variable
+@ifset rawfile
+@code{TeX-insert-macro-default-style}.
+@end ifset
+@ifclear rawfile
+@code{TeX-insert-macro-default-style}, @ref{Completion}.
+@end ifclear
+
+@item
+@code{TeX-run-discard} is now able to completely detach a process that
+it started.
+
+@item
+The build process was enhanced and is now based on @code{autoconf}
+making installing AUC@TeX{} a mostly automatic process.  See
+@ifset rawfile
+the files @file{INSTALL} and @file{INSTALL.windows}
+@end ifset
+@ifclear rawfile
+@ref{Installation} and @ref{Installation under MS Windows}
+@end ifclear
+for details.
+@end itemize
+
+@heading News in 11.14
+
+@itemize @bullet
+@item
+Many more LaTeX and LaTeX2e commands are supported.
+Done by Masayuki Ataka  <ataka@@milk.freemail.ne.jp>
+@end itemize
+
+@heading News in 11.12
+
+@itemize @bullet
+@item
+Support for the KOMA-Script classes.
+Contributed by Mark Trettin <Mark.Trettin@@gmx.de>.
+@end itemize
+
+@heading News in 11.11
+
+@itemize @bullet
+@item
+Support for @file{prosper.sty}, see @url{http://prosper.sourceforge.net/}.
+Contributed by Phillip Lord <p.lord@@russet.org.uk>.
+@end itemize
+
+@heading News in 11.10
+
+@itemize @bullet
+@item
+@code{comment-region} now inserts @t{%%} by default.
+Suggested by "Davide G. M. Salvetti" <salve@@debian.org>.
+@end itemize
+
+@heading News in 11.06
+
+@itemize @bullet
+@item
+You can now switch between using the @file{font-latex} (all emacsen),
+the @file{tex-font} (Emacs 21 only) or no special package for font
+locking.  Customize @code{TeX-install-font-lock} for this.
+@end itemize
+
+@heading News in 11.04
+
+@itemize @bullet
+@item
+Now use @t{-t landscape} by default when landscape option appears.
+Suggested by Erik Frisk <frisk@@isy.liu.se>.
+@end itemize
+
+@heading News in 11.03
+
+@itemize @bullet
+@item
+Use @file{tex-fptex.el} for fpTeX support.
+Contributed by Fabrice Popineau <Fabrice.Popineau@@supelec.fr>.
+@end itemize
+
+@heading News in 11.02
+
+@itemize @bullet
+@item
+New user option @code{LaTeX-top-caption-list} specifies environments
+where the caption should go at top.
+Contributed by ataka@@milk.freemail.ne.jp (Masayuki Ataka).
+
+@item
+Allow explicit dimensions in @file{graphicx.sty}.
+Contributed by ataka@@milk.freemail.ne.jp (Masayuki Ataka).
+
+@item
+Limited support for @file{verbatim.sty}.
+Contributed by ataka@@milk.freemail.ne.jp (Masayuki Ataka).
+
+@item
+Better support for asmmath items.
+Patch by ataka@@milk.freemail.ne.jp (Masayuki Ataka).
+
+@item
+More accurate error parsing.
+Added by David Kastrup <David.Kastrup@@t-online.de>.
+@end itemize
+
+@heading News in 11.01
+
+@itemize @bullet
+@item
+Bug fixes.
+@end itemize

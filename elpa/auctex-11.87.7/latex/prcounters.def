@@ -1,0 +1,38 @@
+%%
+%% This is file `prcounters.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `counters')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from prcounters.def.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\ifPreview\else\expandafter\endinput\fi
+\def\pr@eltprint#1{\expandafter\@gobble\ifnum\value{#1}=0%
+  \csname pr@c@#1\endcsname\else\relax
+  \space{#1}{\arabic{#1}}\fi}
+\def\pr@eltdef#1{\expandafter\xdef
+  \csname pr@c@#1\endcsname{\arabic{#1}}}
+\def\pr@ckpt#1{{\let\@elt\pr@eltprint\edef\next{\cl@@ckpt}%
+  \ifx\next\@empty\else\typeout{Preview: Counters\next#1}%
+  \let\@elt\pr@eltdef\cl@@ckpt\fi}}
+\pr@addto@front\pr@ship@start{\pr@ckpt:}
+\pr@addto@front\pr@ship@end{\pr@ckpt.}
+\endinput
+%%
+%% End of file `prcounters.def'.

@@ -1,0 +1,64 @@
+The preview.sty style file
+==========================
+
+Purpose
+-------
+
+The main purpose of the preview package is the extraction of selected
+elements from a LaTeX source, like formulas or graphics, into separate
+pages of a DVI file.  A flexible and convenient interface allows it to
+specify what commands and constructs should be extracted.  This works
+with DVI files postprocessed by either Dvips and Ghostscript or
+dvipng, but it also works when you are using PDFTeX for generating PDF
+files.
+
+Current uses of the package include the preview-latex package for
+WYSIWYG functionality in the AUCTeX editing environment, generation of
+previews in LyX, as part of the operation of the ps4pdf and pst-pdf
+packages, the tbook XML system and some other tools.
+
+Availability
+------------
+
+The preview package is being developed along and distributed with
+AUCTeX.  It can therefore be obtained as part of AUCTeX distribution
+files available at <URL:ftp://ftp.gnu.org/pub/gnu/auctex/> or its
+mirror at <CTAN:support/auctex>.  CTAN also provides a standalone
+version at <CTAN:macros/latex/contrib/preview>.  The project page at
+<URL:http://savannah.gnu.org/projects/auctex/> offers downloads and
+anonymous CVS access for cutting edge versions.  For more information
+about the preview package please refer to the home page of AUCTeX at
+<URL:http://www.gnu.org/software/auctex/>.
+
+Installation
+------------
+
+To install the preview style file on its own without the entire AUCTeX
+package, run
+tex preview.ins
+If preview.ins happens to be missing, you can regenerate it by running
+tex docstrip
+on preview.dtx with the option `installer'.
+
+Running TeX on preview.ins will then extract further files:
+preview.drv which you can run through LaTeX in order to get the
+documentation for preview.sty, preview.sty itself, a bunch of option
+files with extension .def and a few configuration files with extension
+.cfg.  In case your docstrip configuration has not already taken care
+of that, install the files with extension .sty, .def and .cfg to a
+location where LaTeX will be able to find them, generate the
+documentation and have fun.
+
+The license of the original file is the GPL which you'll find a copy
+of in the complete AUCTeX distribution.  The distribution will also
+unpack and install the respective LaTeX files with an
+autoconf-supported mechanism, so you might consider using that.
+
+Bug reporting
+-------------
+
+Please report problems to <URL:mailto:bug-auctex@gnu.org>, including a
+small example file which uses the \listfiles statement, and the
+resulting log file.
+
+David Kastrup

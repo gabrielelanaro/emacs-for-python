@@ -135,8 +135,10 @@ The CMDLINE should be something like:
      
      ;; Not on all modes, please
      ;; Be careful of mumamo, buffer file name nil
-     (add-hook 'python-mode-hook (lambda () (if (buffer-file-name)
-						(flymake-mode))))
+     (add-hook 'python-mode-hook (lambda ()
+                                   (if (and (buffer-file-name)
+                                            (file-name-directory buffer-file-name))
+                                       (flymake-mode))))
 
      ;; when we swich on the command line, switch in Emacs
      ;;(desktop-save-mode 1)

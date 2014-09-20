@@ -13,26 +13,26 @@
 
 ;; Auto Completion
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories 
+(add-to-list 'ac-dictionary-directories
 	     (concat epy-install-dir "auto-complete/ac-dict"))
 (ac-config-default)
 
-;; Yasnippet - force the loading of the custom version of yasnippet
-(require 'yasnippet (concat epy-install-dir "extensions/yasnippet/yasnippet"))
-(load-file (concat epy-install-dir "extensions/snippet-helpers.el"))
+(when epy-load-yasnippet-p
+  ;; Yasnippet - force the loading of the custom version of yasnippet
+  (require 'yasnippet (concat epy-install-dir "extensions/yasnippet/yasnippet"))
+  (load-file (concat epy-install-dir "extensions/snippet-helpers.el"))
 
-;; this one is to activate django snippets
-(defun epy-django-snippets ()
-  "Load django snippets"
-  (interactive)
-  (yas/load-directory (concat epy-install-dir "snippets/django"))
-  )
+  ;; this one is to activate django snippets
+  (defun epy-django-snippets ()
+    "Load django snippets"
+    (interactive)
+    (and epy-load-yasnippet-p
+	 (yas/load-directory (concat epy-install-dir "snippets/django"))))
 
-
-(yas/initialize)
-(yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
-(setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
-(setq yas/wrap-around-region 'cua)
+  (yas/initialize)
+  (yas/load-directory (concat epy-install-dir "extensions/yasnippet/snippets"))
+  (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
+  (setq yas/wrap-around-region 'cua))
 
 ;; Eproject project management with emacs
 (require 'eproject)
@@ -132,6 +132,18 @@ original" (interactive)
   (setq deactivate-mark nil)
 )
 
+;;  Evaluate a python block contributed by eepgwde
+(defun python-shell-send-block (arg)
+  "Send the current block to inferior Python process."
+  (interactive "P")
+  (python-shell-send-region
+   (progn
+     (progn (beginning-of-line) (point-marker)))
+   (progn
+     (progn (forward-paragraph) (point-marker)))))
+
+
+;; Defining some useful keybindings
 (global-set-key (kbd "M-<up>") 'move-text-up)
 (global-set-key (kbd "M-<down>") 'move-text-down)
 
@@ -140,8 +152,12 @@ original" (interactive)
 	    (define-key python-mode-map (kbd "M-<right>")
 	      'balle-python-shift-right)
 	    (define-key python-mode-map (kbd "M-<left>")
-	      'balle-python-shift-left))
+	      'balle-python-shift-left)
+	    (define-key python-mode-map (kbd "C-c C-b") 
+	      'python-shell-send-block))
 	  )
+
+
 
 ;; Other useful stuff
 

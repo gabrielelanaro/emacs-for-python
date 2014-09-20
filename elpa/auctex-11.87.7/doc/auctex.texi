@@ -1,0 +1,4553 @@
+\input texinfo
+@comment %**start of header
+@setfilename auctex.info
+@include version.texi
+@settitle AUCTeX @value{VERSION}
+@c footnotestyle separate
+@c paragraphindent 2
+@comment %**end of header
+@include macros.texi
+@copying
+This manual is for @AUCTeX{}
+(version @value{VERSION} from @value{UPDATED}),
+a sophisticated TeX environment for Emacs.
+
+Copyright @copyright{} 1992-1995, 2001, 2002, 2004-2012
+Free Software Foundation, Inc.
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts and no Back-Cover Texts.  A
+copy of the license is included in the section entitled ``GNU Free
+Documentation License.''
+@end quotation
+@end copying
+
+@dircategory Emacs
+@direntry
+* AUCTeX: (auctex).     A sophisticated TeX environment for Emacs.
+@end direntry
+@dircategory TeX
+@direntry
+* AUCTeX: (auctex).     A sophisticated TeX environment for Emacs.
+@end direntry
+
+@iftex
+@tolerance 10000 @emergencystretch 3em
+@end iftex
+
+@finalout
+@titlepage
+@title @AUCTeX{}
+@subtitle A sophisticated @TeX{} environment for Emacs
+@subtitle Version @value{VERSION}, @value{UPDATED}
+@author Kresten Krab Thorup
+@author Per Abrahamsen
+@author David Kastrup and others
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Use @ifinfo _and_ @ifhtml here because Texinfo 3 cannot cope with
+@c @ifnottex around a top node.
+@ifinfo
+@node top
+@top @AUCTeX{}
+
+This manual may be copied under the conditions spelled out in
+@ref{Copying this Manual}.
+
+@end ifinfo
+@ifhtml
+@node top
+@top @AUCTeX{}
+@insertcopying
+@end ifhtml
+
+@contents
+
+@iftex
+@unnumbered Executive Summary
+@end iftex
+
+@AUCTeX{} is an integrated environment for editing @LaTeX{}, @ConTeXt{},
+doc@TeX{}, Texinfo, and @TeX{} files.
+
+Although @AUCTeX{} contains a large number of features, there are no
+reasons to despair.  You can continue to write @TeX{} and @LaTeX{}
+documents the way you are used to, and only start using the multiple
+features in small steps.  @AUCTeX{} is not monolithic, each feature
+described in this manual is useful by itself, but together they provide
+an environment where you will make very few @LaTeX{} errors, and makes it
+easy to find the errors that may slip through anyway.
+
+It is a good idea to make a printout of @AUCTeX{}'s reference card
+@file{tex-ref.tex} or one of its typeset versions.
+
+If you want to make @AUCTeX{} aware of style files and multi-file
+documents right away, insert the following in your @file{.emacs} file.
+
+@lisp
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+@end lisp
+
+Another thing you should enable is Ref@TeX{}, a comprehensive solution
+for managing cross references, bibliographies, indices, document
+navigation and a few other things.  (@pxref{Installation,,,reftex,The
+Ref@TeX{} manual})
+
+For detailed information about the @previewlatex{} subsystem of
+@AUCTeX{}, see @ref{Top,,Introduction,preview-latex,The @previewlatex{}
+Manual}.
+
+There is a mailing list for general discussion about @AUCTeX{}: write a
+mail with ``subscribe'' in the subject to
+@email{auctex-request@@gnu.org} to join it.  Send contributions to
+@email{auctex@@gnu.org}.
+
+Bug reports should go to @email{bug-auctex@@gnu.org}, suggestions for
+new features, and pleas for help should go to either
+@email{auctex-devel@@gnu.org} (the @AUCTeX{} developers), or to
+@email{auctex@@gnu.org} if they might have general interest.  Please use
+the command @kbd{M-x TeX-submit-bug-report RET} to report bugs if
+possible.  You can subscribe to a low-volume announcement list by
+sending ``subscribe'' in the subject of a mail to
+@email{info-auctex-request@@gnu.org}.
+
+@menu
+* Copying::                     Copying
+* Introduction::                Introduction to @AUCTeX{}
+* Editing::                     Editing the Document Source
+* Display::                     Controlling Screen Display
+* Processing::                  Starting Processors, Viewers and Other Programs
+* Customization::               Customization and Extension
+* Appendices::                  Copying, Changes, Development, FAQ, Texinfo mode
+* Indices::                     Indices
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Introduction
+
+* Summary::                     Overview of @AUCTeX{}
+* Installation::                Installing @AUCTeX{}
+* Quick Start::                 Quick Start
+
+Editing the Document Source
+
+* Quotes::                      Inserting double quotes
+* Font Specifiers::             Inserting Font Specifiers
+* Sectioning::                  Inserting chapters, sections, etc.
+* Environments::                Inserting Environment Templates
+* Mathematics::                 Entering Mathematics
+* Completion::                  Completion of macros
+* Commenting::                  Commenting text
+* Indenting::                   Reflecting syntactic constructs with whitespace
+* Filling::                     Automatic and manual line breaking
+
+Inserting Environment Templates
+
+* Equations::                   Equations
+* Floats::                      Floats
+* Itemize-like::                Itemize-like Environments
+* Tabular-like::                Tabular-like Environments
+* Customizing Environments::    Customizing Environments
+
+Controlling Screen Display
+
+* Font Locking::                Font Locking
+* Folding::                     Folding Macros and Environments
+* Outline::                     Outlining the Document
+
+Font Locking
+
+* Fontification of macros::     Fontification of macros
+* Fontification of quotes::     Fontification of quotes
+* Fontification of math::       Fontification of math constructs
+* Verbatim content::            Verbatim macros and environments
+* Faces::                       Faces used by font-latex
+
+Starting Processors, Viewers and Other Programs
+
+* Commands::                    Invoking external commands.
+* Viewing::                     Invoking external viewers.
+* Debugging::                   Debugging @TeX{} and @LaTeX{} output.
+* Checking::                    Checking the document.
+* Control::                     Controlling the processes.
+* Cleaning::                    Cleaning intermediate and output files.
+* Documentation::               Documentation about macros and packages.
+
+Viewing the Formatted Output
+
+* Starting Viewers::            Starting viewers
+* I/O Correlation::             Forward and inverse search
+
+Customization and Extension
+
+* Multifile::                   Multifile Documents
+* Parsing Files::               Automatic Parsing of @TeX{} Files
+* Internationalization::        Language Support
+* Automatic::                   Automatic Customization
+* Style Files::                 Writing Your Own Style Support
+
+Language Support
+
+* European::                    Using @AUCTeX{} with European Languages
+* Japanese::                    Using @AUCTeX{} with Japanese
+
+Automatic Customization
+
+* Automatic Global::            Automatic Customization for the Site
+* Automatic Private::           Automatic Customization for a User
+* Automatic Local::             Automatic Customization for a Directory
+
+Writing Your Own Style Support
+
+* Simple Style::                A Simple Style File
+* Adding Macros::               Adding Support for Macros
+* Adding Environments::         Adding Support for Environments
+* Adding Other::                Adding Other Information
+* Hacking the Parser::          Automatic Extraction of New Things
+
+Copying, Changes, Development, FAQ
+
+* Copying this Manual::         
+* Changes::                     
+* Development::                 
+* FAQ::                         
+* Texinfo mode::                
+
+Copying this Manual
+
+* GNU Free Documentation License:: License for copying this manual.
+
+Indices
+
+* Key Index::                   
+* Function Index::              
+* Variable Index::              
+* Concept Index::               
+
+@end detailmenu
+@end menu
+
+@node Copying
+@unnumbered Copying
+@cindex Copying
+@cindex Copyright
+@cindex GPL
+@cindex General Public License
+@cindex License
+@cindex Free
+@cindex Free software
+@cindex Distribution
+@cindex Right
+@cindex Warranty
+
+@c This text adapted from the Texinfo 2.16 distribution.
+
+@AUCTeX{} primarily consists of Lisp files for Emacs (and XEmacs), but
+there are also installation scripts and files and @TeX{} support files.
+All of those are @dfn{free}; this means that everyone is free to use
+them and free to redistribute them on a free basis.  The files of
+@AUCTeX{} are not in the public domain; they are copyrighted and there
+are restrictions on their distribution, but these restrictions are
+designed to permit everything that a good cooperating citizen would want
+to do.  What is not allowed is to try to prevent others from further
+sharing any version of these programs that they might get from you.
+
+Specifically, we want to make sure that you have the right to give away
+copies of the files that constitute @AUCTeX{}, that you receive source
+code or else can get it if you want it, that you can change these files
+or use pieces of them in new free programs, and that you know you can do
+these things.
+
+To make sure that everyone has such rights, we have to forbid you to
+deprive anyone else of these rights.  For example, if you distribute
+copies of parts of @AUCTeX{}, you must give the recipients all the
+rights that you have.  You must make sure that they, too, receive or can
+get the source code.  And you must tell them their rights.
+
+Also, for our own protection, we must make certain that everyone finds
+out that there is no warranty for @AUCTeX{}.  If any parts are modified
+by someone else and passed on, we want their recipients to know that
+what they have is not what we distributed, so that any problems
+introduced by others will not reflect on our reputation.
+
+The precise conditions of the licenses for the files currently being
+distributed as part of @AUCTeX{} are found in the General Public
+Licenses that accompany them.  This manual specifically is covered by
+the GNU Free Documentation License (@pxref{Copying this Manual}).
+
+@node Introduction
+@chapter Introduction
+
+@menu
+* Summary::                     Overview of @AUCTeX{}
+* Installation::                Installing @AUCTeX{}
+* Quick Start::                 Quick Start
+@end menu
+
+@lowersections
+@include intro.texi
+
+@include install.texi
+
+@include quickstart.texi
+@raisesections
+
+@node Editing
+@chapter Editing the Document Source
+
+The most commonly used commands/macros of @AUCTeX{} are those which
+simply insert templates for often used @TeX{}, @LaTeX{}, or @ConTeXt{}
+constructs, like font changes, handling of environments, etc.  These
+features are very simple, and easy to learn, and help you avoid mistakes
+like mismatched braces, or @samp{\begin@{@}}-@samp{\end@{@}} pairs.
+
+Apart from that this chapter contains a description of some features for
+entering more specialized sorts of text, for formatting the source by
+indenting and filling and for navigating through the document.
+
+@menu
+* Quotes::                      Inserting double quotes
+* Font Specifiers::             Inserting Font Specifiers
+* Sectioning::                  Inserting chapters, sections, etc.
+* Environments::                Inserting Environment Templates
+* Mathematics::                 Entering Mathematics
+* Completion::                  Completion of macros
+* Marking::                     Marking Environments, Sections, or Texinfo Nodes
+* Commenting::                  Commenting text
+* Indenting::                   Reflecting syntactic constructs with whitespace
+* Filling::                     Automatic and manual line breaking
+@end menu
+
+@node Quotes
+@section Insertion of Quotes, Dollars, and Braces
+
+@cindex Quotes
+@cindex Double quotes
+@cindex Braces
+@cindex Brackets
+@cindex Dollars
+@cindex Math mode delimiters
+@cindex Matching dollar signs
+@cindex Display math mode
+
+@subheading Quotation Marks
+
+In @TeX{}, literal double quotes @samp{"like this"} are seldom used,
+instead two single quotes are used @samp{``like this''}.  To help you
+insert these efficiently, @AUCTeX{} allows you to continue to press
+@kbd{"} to insert two single quotes.  To get a literal double quote,
+press @kbd{"} twice.
+
+@deffn Command TeX-insert-quote @var{count}
+@kindex "
+(@kbd{"}) Insert the appropriate quote marks for @TeX{}.
+
+Inserts the value of @code{TeX-open-quote} (normally @samp{``}) or
+@code{TeX-close-quote} (normally @samp{''}) depending on the context.
+With prefix argument, always inserts @samp{"} characters.
+@end deffn
+
+@defopt TeX-open-quote
+String inserted by typing @kbd{"} to open a quotation.
+(@xref{European}, for language-specific quotation mark insertion.)
+@end defopt
+
+@defopt TeX-close-quote
+String inserted by typing @kbd{"} to close a quotation.
+(@xref{European}, for language-specific quotation mark insertion.)
+@end defopt
+
+@defopt TeX-quote-after-quote
+Determines the behavior of @kbd{"}.  If it is non-nil, typing @kbd{"}
+will insert a literal double quote.  The respective values of
+@code{TeX-open-quote} and @code{TeX-close-quote} will be inserted
+after typing @kbd{"} once again.
+@end defopt
+
+The @samp{babel} package provides special support for the requirements
+of typesetting quotation marks in many different languages.  If you use
+this package, either directly or by loading a language-specific style
+file, you should also use the special commands for quote insertion
+instead of the standard quotes shown above.  @AUCTeX{} is able to
+recognize several of these languages and will change quote insertion
+accordingly.  @xref{European}, for details about this feature and how to
+control it.
+
+@vindex LaTeX-csquotes-open-quote
+@vindex LaTeX-csquotes-close-quote
+@vindex LaTeX-csquotes-quote-after-quote
+In case you are using the @samp{csquotes} package, you should customize
+@code{LaTeX-csquotes-open-quote}, @code{LaTeX-csquotes-close-quote} and
+@code{LaTeX-csquotes-quote-after-quote}.  The quotation characters will
+only be used if both variables---@code{LaTeX-csquotes-open-quote} and
+@code{LaTeX-csquotes-close-quote}---are non-empty strings.  But then the
+@samp{csquotes}-related values will take precedence over the
+language-specific ones.
+
+@subheading Dollar Signs
+
+In @AUCTeX{}, dollar signs should match like they do in @TeX{}.  This
+has been partially implemented, we assume dollar signs always match
+within a paragraph.  The first @samp{$} you insert in a paragraph will
+do nothing special.  The second @samp{$} will match the first.  This
+will be indicated by moving the cursor temporarily over the first dollar
+sign.
+
+@deffn Command TeX-insert-dollar @var{arg}
+@kindex $
+(@kbd{$}) Insert dollar sign.
+
+Show matching dollar sign if this dollar sign end the @TeX{} math mode.
+Ensure double dollar signs match up correctly by inserting extra dollar
+signs when needed if @code{TeX-math-close-double-dollar} is non-nil.
+
+With optional @var{arg}, insert that many dollar signs.
+@end deffn
+
+@defopt TeX-math-close-double-dollar
+Control the insertion of double dollar signs for delimiting display
+math.  (Note that you should not use double dollar signs in @LaTeX{}
+because this practice can lead to wrong spacing in typeset documents.)
+If the variable is non-nil and you enter a dollar sign that matches a
+double dollar sign @samp{$$} @AUCTeX{} will automatically insert two
+dollar signs.
+@end defopt
+
+@subheading Braces
+
+To avoid unbalanced braces, it is useful to insert them pairwise.  You
+can do this by typing @kbd{C-c @{}.
+
+@deffn Command TeX-insert-braces
+@kindex C-c @{
+(@kbd{C-c @{}) Make a pair of braces and position the cursor
+to type inside of them.  If there is an active region, put braces around
+it and leave point after the closing brace.
+@end deffn
+
+@node Font Specifiers
+@section Inserting Font Specifiers
+
+@cindex Fonts
+@cindex Font macros
+@cindex Changing font
+@cindex Specifying a font
+
+Perhaps the most used keyboard commands of @AUCTeX{} are the short-cuts
+available for easy insertion of font changing macros.
+
+If you give an argument (that is, type @kbd{C-u}) to the font command,
+the innermost font will be replaced, i.e. the font in the @TeX{} group
+around point will be changed.  The following table shows the available
+commands, with @code{@point{}} indicating the position where the text
+will be inserted.
+
+@table @kbd
+@item C-c C-f C-b
+@kindex C-c C-f C-b
+@cindex @code{\textbf}
+Insert @b{bold face} @samp{\textbf@{@point{}@}} text.
+
+@item C-c C-f C-i
+@kindex C-c C-f C-i
+@cindex @code{\textit}
+Insert @i{italics} @samp{\textit@{@point{}@}} text.
+
+@item C-c C-f C-e
+@kindex C-c C-f C-e
+@cindex @code{\emph}
+Insert @i{emphasized} @samp{\emph@{@point{}@}} text.
+
+@item C-c C-f C-s
+@kindex C-c C-f C-s
+@cindex @code{\textsl}
+Insert @i{slanted} @samp{\textsl@{@point{}@}} text.
+
+@item C-c C-f C-r
+@kindex C-c C-f C-r
+@cindex @code{\textrm}
+Insert roman @r{\textrm@{@point{}@}} text.
+
+@item C-c C-f C-f
+@kindex C-c C-f C-f
+@cindex @code{\textsf}
+Insert @sansserif{sans serif} @samp{\textsf@{@point{}@}} text.
+
+@item C-c C-f C-t
+@kindex C-c C-f C-t
+@cindex @code{\texttt}
+Insert @t{typewriter} @samp{\texttt@{@point{}@}} text.
+
+@item C-c C-f C-c
+@kindex C-c C-f C-c
+@cindex @code{\textsc}
+Insert @sc{small caps} @samp{\textsc@{@point{}@}} text.
+
+@item C-c C-f C-d
+@kindex C-c C-f C-c
+@cindex Deleting fonts
+Delete the innermost font specification containing point.
+
+@end table
+
+@deffn Command TeX-font replace what
+@kindex C-c C-f
+(@kbd{C-c C-f}) Insert template for font change command.
+
+If @var{replace} is not nil, replace current font.  @var{what}
+determines the font to use, as specified by @code{TeX-font-list}.
+@end deffn
+
+@defopt TeX-font-list
+List of fonts used by @code{TeX-font}.
+
+Each entry is a list with three elements.  The first element is the
+key to activate the font.  The second element is the string to insert
+before point, and the third element is the string to insert after
+point.  An optional fourth element means always replace if not nil.
+@end defopt
+
+@defopt LaTeX-font-list
+List of fonts used by @code{TeX-font} in LaTeX mode.  It has the same
+structure as @code{TeX-font-list}.
+@end defopt
+
+@node Sectioning
+@section Inserting chapters, sections, etc.
+@cindex Sectioning
+@cindex Sections
+@cindex Chapters
+@cindex @code{\chapter}
+@cindex @code{\section}
+@cindex @code{\subsection}
+@cindex @code{\label}
+
+Insertion of sectioning macros, that is @samp{\chapter},
+@samp{\section}, @samp{\subsection}, etc. and accompanying
+@samp{\label}'s may be eased by using @kbd{C-c C-s}.  This command is
+highly customizable, the following describes the default behavior.
+
+When invoking you will be asked for a section macro to insert.  An
+appropriate default is automatically selected by @AUCTeX{}, that is
+either: at the top of the document; the top level sectioning for that
+document style, and any other place: The same as the last occurring
+sectioning command.
+
+Next, you will be asked for the actual name of that section, and
+last you will be asked for a label to be associated with that section.
+The label will be prefixed by the value specified in
+@code{LaTeX-section-hook}.
+
+@deffn Command LaTeX-section @var{arg}
+@kindex C-c C-s
+(@kbd{C-c C-s}) Insert a sectioning command.
+
+Determine the type of section to be inserted, by the argument
+@var{arg}.
+
+@itemize @bullet
+@item
+If @var{arg} is nil or missing, use the current level.
+@item
+If @var{arg} is a list (selected by C-u), go downward one level.
+@item
+If @var{arg} is negative, go up that many levels.
+@item
+If @var{arg} is positive or zero, use absolute level:
+@itemize +
+@item
+0 : part
+@item
+1 : chapter
+@item
+2 : section
+@item
+3 : subsection
+@item
+4 : subsubsection
+@item
+5 : paragraph
+@item
+6 : subparagraph
+@end itemize
+@end itemize
+
+The following variables can be set to customize the function.
+
+@vtable @code
+@item LaTeX-section-hook
+Hooks to be run when inserting a section.
+@item LaTeX-section-label
+Prefix to all section references.
+@end vtable
+
+@end deffn
+
+The precise behavior of @code{LaTeX-section} is defined by the contents
+of @code{LaTeX-section-hook}.
+
+@defopt LaTeX-section-hook
+List of hooks to run when a new section is inserted.
+
+The following variables are set before the hooks are run
+
+@table @var
+@item level
+Numeric section level, default set by prefix arg to @code{LaTeX-section}.
+@item name
+Name of the sectioning command, derived from @var{level}.
+@item title
+The title of the section, default to an empty string.
+@item toc
+Entry for the table of contents list, default nil.
+@item done-mark
+Position of point afterwards, default nil meaning after the inserted
+text.
+@end table
+
+A number of hooks are already defined.  Most likely, you will be able to
+get the desired functionality by choosing from these hooks.
+
+@ftable @code
+@item LaTeX-section-heading
+Query the user about the name of the sectioning command.  Modifies
+@var{level} and @var{name}.
+@item LaTeX-section-title
+Query the user about the title of the section. Modifies @var{title}.
+@item LaTeX-section-toc
+Query the user for the toc entry.  Modifies @var{toc}.
+@item LaTeX-section-section
+Insert @LaTeX{} section command according to @var{name}, @var{title},
+and @var{toc}.  If @var{toc} is nil, no toc entry is inserted.  If
+@var{toc} or @var{title} are empty strings, @var{done-mark} will be
+placed at the point they should be inserted.
+@item LaTeX-section-label
+Insert a label after the section command.  Controlled by the variable
+@code{LaTeX-section-label}.
+@end ftable
+
+To get a full featured @code{LaTeX-section} command, insert
+
+@lisp
+(setq LaTeX-section-hook
+      '(LaTeX-section-heading
+	LaTeX-section-title
+	LaTeX-section-toc
+	LaTeX-section-section
+	LaTeX-section-label))
+@end lisp
+
+in your @file{.emacs} file.
+@end defopt
+
+The behavior of @code{LaTeX-section-label} is determined by the
+variable @code{LaTeX-section-label}.
+
+@defopt LaTeX-section-label
+Default prefix when asking for a label.
+
+If it is a string, it is used unchanged for all kinds of sections.
+If it is nil, no label is inserted.
+If it is a list, the list is searched for a member whose car is equal
+to the name of the sectioning command being inserted.  The cdr is then
+used as the prefix.  If the name is not found, or if the cdr is nil,
+no label is inserted.
+
+@cindex Prefix for labels
+@cindex Label prefix
+@cindex Labels
+By default, chapters have a prefix of @samp{cha:} while sections and
+subsections have a prefix of @samp{sec:}.  Labels are not automatically
+inserted for other types of sections.
+@end defopt
+
+@node Environments
+@section Inserting Environment Templates
+@cindex Environments
+@cindex @samp{\begin}
+@cindex @samp{\end}
+
+A large apparatus is available that supports insertions of environments,
+that is @samp{\begin@{@}} --- @samp{\end@{@}} pairs.
+
+@AUCTeX{} is aware of most of the actual environments available in a
+specific document.  This is achieved by examining your
+@samp{\documentclass} command, and consulting a precompiled list of
+environments available in a large number of styles.
+
+You insert an environment with @kbd{C-c C-e}, and select an environment
+type.  Depending on the environment, @AUCTeX{} may ask more questions
+about the optional parts of the selected environment type.  With
+@kbd{C-u C-c C-e} you will change the current environment.
+
+@deffn Command LaTeX-environment @var{arg}
+@kindex C-c C-e
+(@kbd{C-c C-e})  @AUCTeX{} will prompt you for an environment
+to insert.  At this prompt, you may press @key{TAB} or @key{SPC} to
+complete a partially written name, and/or to get a list of available
+environments.  After selection of a specific environment @AUCTeX{} may
+prompt you for further specifications.
+
+If the optional argument @var{arg} is not-nil (i.e. you have given a
+prefix argument), the current environment is modified and no new
+environment is inserted.
+@end deffn
+
+As a default selection, @AUCTeX{} will suggest the environment last
+inserted or, as the first choice the value of the variable
+@code{LaTeX-default-environment}.
+
+@defopt LaTeX-default-environment
+Default environment to insert when invoking @samp{LaTeX-environment}
+first time.
+@end defopt
+
+If the document is empty, or the cursor is placed at the top of the
+document, @AUCTeX{} will default to insert a `document' environment.
+
+Most of these are described further in the following sections, and you
+may easily specify more.  @xref{Customizing Environments}.
+
+@menu
+* Equations::                   Equations
+* Floats::                      Floats
+* Itemize-like::                Itemize-like Environments
+* Tabular-like::                Tabular-like Environments
+* Customizing Environments::    Customizing Environments
+@end menu
+
+You can close the current environment with @kbd{C-c ]}, but we suggest
+that you use @kbd{C-c C-e} to insert complete environments instead.
+
+@deffn Command LaTeX-close-environment
+@kindex C-c ]
+(@kbd{C-c ]}) Insert an @samp{\end} that matches the current environment.
+@end deffn
+
+@node Equations
+@subsection Equations
+@cindex Equations
+@cindex Equation
+@cindex Eqnarray
+@cindex amsmath
+
+When inserting equation-like environments, the @samp{\label} will have a
+default prefix, which is controlled by the following variables:
+
+@defopt LaTeX-equation-label
+Prefix to use for `equation' labels.
+@end defopt
+
+@defopt LaTeX-eqnarray-label
+Prefix to use for `eqnarray' labels.
+@end defopt
+
+@defopt LaTeX-amsmath-label
+Prefix to use for amsmath equation labels.  Amsmath equations include
+@samp{align}, @samp{alignat}, @samp{xalignat}, @samp{aligned},
+@samp{flalign} and @samp{gather}.
+@end defopt
+
+@node Floats
+@subsection Floats
+@cindex Floats
+@cindex Figures
+@cindex Figure environment
+@cindex Tables
+@cindex Table environment
+
+Figures and tables (i.e., floats) may also be inserted using @AUCTeX{}.
+After choosing either `figure' or `table' in the environment list
+described above, you will be prompted for a number of additional things.
+
+@table @var
+@item float position
+This is the optional argument of float environments that controls how
+they are placed in the final document.  In @LaTeX{} this is a sequence
+of the letters @samp{htbp} as described in the @LaTeX{} manual.  The
+value will default to the value of @code{LaTeX-float}.
+@vindex LaTeX-float
+
+@item caption
+This is the caption of the float.  The default is to insert the caption
+at the bottom of the float.  You can specify floats where the caption
+should be placed at the top with @code{LaTeX-top-caption-list}.
+@vindex LaTeX-top-caption-list
+
+@item label
+The label of this float.  The label will have a default prefix, which is
+controlled by the variables @code{LaTeX-figure-label} and
+@code{LaTeX-table-label}.
+@vindex LaTeX-figure-label
+@vindex LaTeX-table-label
+@cindex Prefix for labels
+@cindex Label prefix
+@cindex Labels
+@end table
+
+Moreover, you will be asked if you want the contents of the float
+environment to be horizontally centered.  Upon a positive answer a
+@samp{\centering} macro will be inserted at the beginning of the float
+environment.
+
+@defopt LaTeX-float
+Default placement for floats.
+@end defopt
+
+@defopt LaTeX-figure-label
+Prefix to use for figure labels.
+@end defopt
+
+@defopt LaTeX-table-label
+Prefix to use for table labels.
+@end defopt
+
+@defopt LaTeX-top-caption-list
+List of float environments with top caption.
+@end defopt
+
+@node Itemize-like
+@subsection Itemize-like Environments
+@cindex Itemize
+@cindex Enumerates
+@cindex Descriptions
+@cindex Items
+@cindex \item
+
+In an itemize-like environment, nodes (i.e., @samp{\item}s) may be
+inserted using @kbd{C-c @key{LFD}}.
+
+@deffn Command LaTeX-insert-item
+@kindex C-c @key{LFD}
+(@kbd{C-c @key{LFD}}) Close the current item, move to the next line and
+insert an appropriate @samp{\item} for the current environment. That is,
+`itemize' and `enumerate' will have @samp{\item } inserted, while
+`description' will have @samp{\item[]} inserted.
+@end deffn
+
+@node Tabular-like
+@subsection Tabular-like Environments
+
+When inserting Tabular-like environments, that is, `tabular' `array'
+etc., you will be prompted for a template for that environment.
+Related variables:
+
+@defopt LaTeX-default-format
+Default format string for array and tabular environments.
+@end defopt
+
+@defopt LaTeX-default-position
+Default position string for array and tabular environments.  If nil,
+act like the empty string is given, but don't prompt for a position.
+@end defopt
+
+@node Customizing Environments
+@subsection Customizing Environments
+
+@xref{Adding Environments}, for how to customize the list of known
+environments.
+
+@node Mathematics
+@section Entering Mathematics
+@cindex Mathematics
+@cindex Symbols
+@cindex Abbreviations
+
+@TeX{} is written by a mathematician, and has always contained good
+support for formatting mathematical text.  @AUCTeX{} supports this
+tradition, by offering a special minor mode for entering text with many
+mathematical symbols.  You can enter this mode by typing @kbd{C-c
+~}.
+
+@deffn Command LaTeX-math-mode
+@kindex C-c ~
+(@kbd{C-c ~}) Toggle LaTeX Math mode.  This is a minor mode rebinding
+the key @code{LaTeX-math-abbrev-prefix} to allow easy typing of
+mathematical symbols.  @kbd{`} will read a character from the keyboard,
+and insert the symbol as specified in @code{LaTeX-math-default} and
+@code{LaTeX-math-list}.  If given a prefix argument, the symbol will be
+surrounded by dollar signs.
+@end deffn
+
+You can use another prefix key (instead of @kbd{`}) by  setting the
+variable @code{LaTeX-math-abbrev-prefix}.
+
+To enable LaTeX Math mode by default, add the following in your
+@file{.emacs} file:
+@lisp
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+@end lisp
+
+@defopt LaTeX-math-abbrev-prefix
+A string containing the prefix of @code{LaTeX-math-mode} commands; This
+value defaults to @kbd{`}.
+
+The string has to be a key or key sequence in a format understood by the
+@code{kbd} macro.  This corresponds to the syntax usually used in the
+manuals for Emacs Emacs Lisp.
+@end defopt
+
+The variable @code{LaTeX-math-list} allows you to add your own mappings.
+
+@defopt LaTeX-math-list
+A list containing user-defined keys and commands to be used in LaTeX
+Math mode.  Each entry should be a list of two to four elements.
+
+First, the key to be used after @code{LaTeX-math-abbrev-prefix} for
+macro insertion.  If it is nil, the symbol has no associated
+keystroke (it is available in the menu, though).
+
+Second, a string representing the name of the macro (without a leading
+backslash.)
+
+Third, a string representing the name of a submenu the command should be
+added to.  Use a list of strings in case of nested menus.
+
+Fourth, the position of a Unicode character to be displayed in the menu
+alongside the macro name.  This is an integer value.
+@end defopt
+
+@defopt LaTeX-math-menu-unicode
+Whether the LaTeX menu should try using Unicode for effect.  Your Emacs
+built must be able to display include Unicode characters in menus for
+this feature.
+@end defopt
+
+@AUCTeX{}'s reference card @file{tex-ref.tex} includes a list of all
+math mode commands.
+
+@AUCTeX{} can help you write subscripts and superscripts in math
+constructs by automatically inserting a pair of braces after typing
+@key{_} or @key{^} respectively and putting point between the braces.
+In order to enable this feature, set the variable
+@code{TeX-electric-sub-and-superscript} to a non-nil value.
+
+@defopt TeX-electric-sub-and-superscript
+If non-nil, insert braces after typing @key{^} and @key{_} in math mode.
+@end defopt
+
+@node Completion
+@section Completion
+@cindex Completion
+@cindex Expansion
+@cindex Macro expansion
+@cindex Macro completion
+@cindex Macro arguments
+@cindex Arguments to @TeX{} macros
+
+Emacs lisp programmers probably know the @code{lisp-complete-symbol}
+command, usually bound to @kbd{M-@key{TAB}}.  Users of the wonderful
+ispell mode know and love the @code{ispell-complete-word} command from
+that package.  Similarly, @AUCTeX{} has a @code{TeX-complete-symbol}
+command, by default bound to @kbd{M-@key{TAB}} which is equivalent to
+@kbd{M-C-i}.  Using @code{TeX-complete-symbol} makes it easier to type
+and remember the names of long @LaTeX{} macros.
+
+In order to use @code{TeX-complete-symbol}, you should write a backslash
+and the start of the macro.  Typing @kbd{M-@key{TAB}} will now complete
+as much of the macro, as it unambiguously can.  For example, if you type
+`@samp{\renewc}' and then @kbd{M-@key{TAB}}, it will expand to
+`@samp{\renewcommand}'.
+
+@deffn Command TeX-complete-symbol
+@kindex M-@key{TAB}
+(@kbd{M-@key{TAB}})  Complete @TeX{} symbol before point.
+@end deffn
+
+A more direct way to insert a macro is with @code{TeX-insert-macro},
+bound to @kbd{C-c C-m} which is equivalent to @kbd{C-c @key{RET}}.  It
+has the advantage over completion that it knows about the argument of
+most standard @LaTeX{} macros, and will prompt for them.  It also knows
+about the type of the arguments, so it will for example give completion
+for the argument to @samp{\include}.  Some examples are listed below.
+
+@deffn Command TeX-insert-macro
+@kindex C-c C-m
+(@kbd{C-c C-m} or @kbd{C-c @key{RET}}) Prompt (with completion) for the
+name of a @TeX{} macro, and if @AUCTeX{} knows the macro, prompt for
+each argument.
+@end deffn
+
+As a default selection, @AUCTeX{} will suggest the macro last inserted
+or, as the first choice the value of the variable
+@code{TeX-default-macro}.
+
+@defopt TeX-insert-macro-default-style
+Specifies whether @code{TeX-insert-macro} will ask for all optional
+arguments.
+
+If set to the symbol @code{show-optional-args}, @code{TeX-insert-macro}
+asks for optional arguments of @TeX{} macros.  If set to
+@code{mandatory-args-only}, @code{TeX-insert-macro} asks only for
+mandatory arguments.  When @code{TeX-insert-macro} is called with prefix
+argument (@kbd{C-u}), it's the other way round.
+
+Note that for some macros, there are special mechanisms, e.g.
+@code{LaTeX-includegraphics-options-alist}.
+
+@end defopt
+
+
+@defopt TeX-default-macro
+Default macro to insert when invoking @code{TeX-insert-macro} first time.
+@end defopt
+
+A faster alternative is to bind the function @code{TeX-electric-macro}
+to @samp{\}.  This can be done by setting the variable
+@code{TeX-electric-escape}
+
+@defopt TeX-electric-escape
+If this is non-nil when @AUCTeX{} is loaded, the @TeX{} escape
+character @samp{\} will be bound to @code{TeX-electric-macro}
+@end defopt
+
+The difference between @code{TeX-insert-macro} and
+@code{TeX-electric-macro} is that space will complete and exit from the
+minibuffer in @code{TeX-electric-macro}.  Use @key{TAB} if you merely
+want to complete.
+
+@deffn Command TeX-electric-macro
+Prompt (with completion) for the name of a @TeX{} macro,
+and if @AUCTeX{} knows the macro, prompt for each argument.
+Space will complete and exit.
+@end deffn
+
+By default @AUCTeX{} will put an empty set braces @samp{@{@}} after a
+macro with no arguments to stop it from eating the next whitespace.
+This can be stopped by entering @code{LaTeX-math-mode},
+@pxref{Mathematics}, or by setting @code{TeX-insert-braces} to nil.
+
+@defopt TeX-insert-braces
+If non-nil, append a empty pair of braces after inserting a macro.
+@end defopt
+
+Completions work because @AUCTeX{} can analyze @TeX{} files, and store
+symbols in Emacs Lisp files for later retrieval.  @xref{Automatic}, for
+more information.
+
+@cindex \cite, completion of
+@cindex Bib@TeX{}, completion
+@cindex cite, completion of
+@cindex bibliography, completion
+@cindex citations, completion of
+@cindex \label, completion
+@cindex \ref, completion
+@cindex labels, completion of
+@AUCTeX{} will also make completion for many macro arguments, for
+example existing labels when you enter a @samp{\ref} macro with
+@code{TeX-insert-macro} or @code{TeX-electric-macro}, and Bib@TeX{}
+entries when you enter a @samp{\cite} macro.  For this kind of
+completion to work, parsing must be enabled as described in
+@pxref{Parsing Files}.  For @samp{\cite} you must also make sure that
+the Bib@TeX{} files have been saved at least once after you enabled
+automatic parsing on save, and that the basename of the Bib@TeX{} file
+does not conflict with the basename of one of @TeX{} files.
+
+@node Marking
+@section Marking Environments, Sections, or Texinfo Nodes
+
+You can mark the current environment by typing @kbd{C-c .}, or the
+current section by typing @kbd{C-c *}.
+
+In Texinfo documents you can type @kbd{M-C-h} to mark the current node.
+
+When the region is set, the point is moved to its beginning and the mark
+to its end.
+
+@menu
+* Marking (LaTeX):: LaTeX Commands for Marking Environments and Sections
+* Marking (Texinfo):: Texinfo Commands for Marking Environments, Sections, and Nodes
+@end menu
+
+@node Marking (LaTeX)
+@subsection LaTeX Commands for Marking Environments and Sections
+
+@deffn Command LaTeX-mark-section
+@kindex C-c *
+(@kbd{C-c *}) Set mark at end of current logical section, and point at
+top.
+
+With a non-nil prefix argument, mark only the region from the current
+section start to the next sectioning command.  Thereby subsections are
+not being marked.  Otherwise, any included subsections are also marked
+along with current section.
+@end deffn
+
+@deffn Command LaTeX-mark-environment
+@kindex C-c .
+(@kbd{C-c .}) Set mark to the end of the current environment and point
+to the matching beginning.
+
+If a prefix argument is given, mark the respective number of enclosing
+environments.  The command will not work properly if there are
+unbalanced begin-end pairs in comments and verbatim environments.
+@end deffn
+
+@node Marking (Texinfo)
+@subsection Texinfo Commands for Marking Environments and Sections
+
+@deffn Command Texinfo-mark-section
+@kindex C-c *
+(@kbd{C-c *}) Mark the current section, with inclusion of any containing
+node.
+
+The current section is detected as starting by any of the structuring
+commands matched by the regular expression in the variable
+@code{outline-regexp} which in turn is a regular expression matching any
+element of the variable @code{texinfo-section-list}.
+
+With a non-nil prefix argument, mark only the region from the current
+section start to the next sectioning command.  Thereby subsections are
+not being marked.  Otherwise, any included subsections are also marked
+
+Note that when the current section is starting immediately after a node
+command, then the node command is also marked as part of the section.
+@end deffn
+
+@deffn Command Texinfo-mark-environment
+@kindex C-c .
+(@kbd{C-c .}) Set mark to the end of the current environment and point
+to the matching beginning.
+
+If a prefix argument is given, mark the respective number of enclosing
+environments.  The command will not work properly if there are
+unbalanced begin-end pairs in comments and verbatim environments.
+@end deffn
+
+@deffn Command Texinfo-mark-node
+@kindex M-C-h
+(@kbd{M-C-h}) Mark the current node.  This is the node in which point is
+located.  It is starting at the previous occurrence of the keyword
+@code{@@node} and ending at next occurrence of the keywords
+@code{@@node} or @code{@@bye}.
+@end deffn
+
+@node Commenting
+@section Commenting
+
+It is often necessary to comment out temporarily a region of @TeX{} or
+@LaTeX{} code.  This can be done with the commands @kbd{C-c ;} and
+@kbd{C-c %}.  @kbd{C-c ;} will comment out all lines in the current
+region, while @kbd{C-c %} will comment out the current paragraph.
+Type @kbd{C-c ;} again to uncomment all lines of a commented region,
+or @kbd{C-c %} again to uncomment all comment lines around point.
+These commands will insert or remove a single @samp{%} respectively.
+
+@deffn Command TeX-comment-or-uncomment-region
+@kindex C-c ;
+(@kbd{C-c ;}) Add or remove @samp{%} from the beginning of each line
+in the current region.  Uncommenting works only if the region encloses
+solely commented lines.  If @AUCTeX{} should not try to guess if the
+region should be commented or uncommented the commands
+@code{TeX-comment-region} and @code{TeX-uncomment-region} can be used
+to explicitly comment or uncomment the region in concern.
+@end deffn
+
+@deffn Command TeX-comment-or-uncomment-paragraph
+@kindex C-c %
+(@kbd{C-c %}) Add or remove @samp{%} from the beginning of each line
+in the current paragraph.  When removing @samp{%} characters the
+paragraph is considered to consist of all preceding and succeeding
+lines starting with a @samp{%}, until the first non-comment line.
+@end deffn
+
+@node Indenting
+@section Indenting
+@cindex Formatting
+@cindex Indenting
+@cindex Indentation
+@cindex Reformatting
+@cindex Reindenting
+
+Indentation means the addition of whitespace at the beginning of lines
+to reflect special syntactical constructs.  This makes it easier to see
+the structure of the document, and to catch errors such as a missing
+closing brace.  Thus, the indentation is done for precisely the same
+reasons that you would indent ordinary computer programs.
+
+Indentation is done by @LaTeX{} environments and by @TeX{} groups, that
+is the body of an environment is indented by the value of
+@code{LaTeX-indent-level} (default 2).  Also, items of an `itemize-like'
+environment are indented by the value of @code{LaTeX-item-indent},
+default @minus{}2.  (Items are identified with the help of
+@code{LaTeX-item-regexp}.)  If more environments are nested, they are
+indented `accumulated' just like most programming languages usually are
+seen indented in nested constructs.
+@vindex LaTeX-indent-level
+@vindex LaTeX-item-indent
+@vindex LaTeX-item-regexp
+
+You can explicitely indent single lines, usually by pressing @key{TAB},
+or marked regions by calling @code{indent-region} on it.  If you have
+@code{auto-fill-mode} enabled and a line is broken while you type it,
+Emacs automatically cares about the indentation in the following line.
+If you want to have a similar behavior upon typing @key{RET}, you can
+customize the variable @code{TeX-newline-function} and change the
+default of @code{newline} which does no indentation to
+@code{newline-and-indent} which indents the new line or
+@code{reindent-then-newline-and-indent} which indents both the current
+and the new line.
+@vindex TeX-newline-function
+
+There are certain @LaTeX{} environments which should be indented in a
+special way, like @samp{tabular} or @samp{verbatim}.  Those environments
+may be specified in the variable @code{LaTeX-indent-environment-list}
+together with their special indentation functions.  Taking the
+@samp{verbatim} environment as an example you can see that
+@code{current-indentation} is used as the indentation function.  This
+will stop @AUCTeX{} from doing any indentation in the environment if you
+hit @key{TAB} for example.
+@vindex LaTeX-indent-environment-list
+
+There are environments in @code{LaTeX-indent-environment-list} which do
+not bring a special indentation function with them.  This is due to the
+fact that first the respective functions are not implemented yet and
+second that filling will be disabled for the specified environments.
+This shall prevent the source code from being messed up by accidently
+filling those environments with the standard filling routine.  If you
+think that providing special filling routines for such environments
+would be an appropriate and challenging task for you, you are invited to
+contribute. (@xref{Filling}, for further information about the filling
+functionality)
+@vindex LaTeX-indent-environment-list
+
+The check for the indentation function may be enabled or disabled by
+customizing the variable @code{LaTeX-indent-environment-check}.
+@vindex LaTeX-indent-environment-check
+
+As a side note with regard to formatting special environments: Newer
+Emacsen include @file{align.el} and therefore provide some support for
+formatting @samp{tabular} and @samp{tabbing} environments with the
+function @code{align-current} which will nicely align columns in the
+source code.
+
+@AUCTeX{} is able to format commented parts of your code just as any
+other part.  This means @LaTeX{} environments and @TeX{} groups in
+comments will be indented syntactically correct if the variable
+@code{LaTeX-syntactic-comments} is set to t.  If you disable it,
+comments will be filled like normal text and no syntactic indentation
+will be done.
+@vindex LaTeX-syntactic-comments
+
+Following you will find a list of most commands and variables related
+to indenting with a small summary in each case:
+
+@table @kbd
+@item @key{TAB}
+@kindex @key{TAB}
+@findex LaTeX-indent-line
+@code{LaTeX-indent-line} will indent the current line.
+
+@item @key{LFD}
+@kindex @key{LFD}
+@code{newline-and-indent} inserts a new line (much like @key{RET}) and
+moves the cursor to an appropriate position by the left margin.
+
+Most keyboards nowadays lack a linefeed key and @kbd{C-j} may be tedious
+to type.  Therefore you can customize @AUCTeX{} to perform indentation
+upon typing @key{RET} as well.  The respective option is called
+@code{TeX-newline-function}.
+
+@item C-j
+@kindex C-j
+Alias for @key{LFD}
+@end table
+
+@defopt LaTeX-indent-environment-list
+List of environments with special indentation.  The second element in
+each entry is the function to calculate the indentation level in
+columns.
+
+The filling code currently cannot handle tabular-like environments
+which will be completely messed-up if you try to format them.  This is
+why most of these environments are included in this customization
+option without a special indentation function.  This will prevent that
+they get filled.
+@end defopt
+
+@defopt LaTeX-indent-level
+Number of spaces to add to the indentation for each @samp{\begin} not
+matched by a @samp{\end}.
+@end defopt
+
+@defopt LaTeX-item-indent
+Number of spaces to add to the indentation for @samp{\item}'s in list
+environments.
+@end defopt
+
+@defopt TeX-brace-indent-level
+Number of spaces to add to the indentation for each @samp{@{} not
+matched by a @samp{@}}.
+@end defopt
+
+@defopt LaTeX-syntactic-comments
+If non-nil comments will be filled and indented according to @LaTeX{}
+syntax.  Otherwise they will be filled like normal text.
+@end defopt
+
+@defopt TeX-newline-function
+Used to specify the function which is called when @key{RET} is pressed.
+This will normally be @code{newline} which simply inserts a new line.
+In case you want to have @AUCTeX{} do indentation as well when you press
+@key{RET}, use the built-in functions @code{newline-and-indent} or
+@code{reindent-then-newline-and-indent}.  The former inserts a new line
+and indents the following line, i.e. it moves the cursor to the right
+position and therefore acts as if you pressed @key{LFD}.  The latter
+function additionally indents the current line.  If you choose
+@samp{Other}, you can specify your own fancy function to be called when
+@key{RET} is pressed.
+@end defopt
+
+
+@node Filling
+@section Filling
+@cindex Filling
+@cindex Formatting
+@cindex Reformatting
+@cindex Refilling
+
+Filling deals with the insertion of line breaks to prevent lines from
+becoming wider than what is specified in @code{fill-column}.  The
+linebreaks will be inserted automatically if @code{auto-fill-mode} is
+enabled.  In this case the source is not only filled but also indented
+automatically as you write it.
+
+@code{auto-fill-mode} can be enabled for @AUCTeX{} by calling
+@code{turn-on-auto-fill} in one of the hooks @AUCTeX{} is running.
+@xref{Modes and Hooks}.  As an example, if you want to enable
+@code{auto-fill-mode} in @code{LaTeX-mode}, put the following into your
+init file:
+
+@lisp
+(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+@end lisp
+
+You can manually fill explicitely marked regions, paragraphs,
+environments, complete sections, or the whole buffer.  (Note that manual
+filling in @AUCTeX{} will indent the start of the region to be filled in
+contrast to many other Emacs modes.)
+
+There are some syntactical constructs which are handled specially with
+regard to filling.  These are so-called code comments and paragraph
+commands.
+
+Code comments are comments preceded by code or text in the same line.
+Upon filling a region, code comments themselves will not get filled.
+Filling is done from the start of the region to the line with the code
+comment and continues after it.  In order to prevent overfull lines in
+the source code, a linebreak will be inserted before the last
+non-comment word by default.  This can be changed by customizing
+@code{LaTeX-fill-break-before-code-comments}.  If you have overfull
+lines with code comments you can fill those explicitely by calling
+@code{LaTeX-fill-paragraph} or pressing @kbd{M-q} with the cursor
+positioned on them.  This will add linebreaks in the comment and indent
+subsequent comment lines to the column of the comment in the first line
+of the code comment.  In this special case @kbd{M-q} only acts on the
+current line and not on the whole paragraph.
+
+Lines with @samp{\par} are treated similarly to code comments,
+i.e. @samp{\par} will be treated as paragraph boundary which should not
+be followed by other code or text.  But it is not treated as a real
+paragraph boundary like an empty line where filling a paragraph would
+stop.
+
+Paragraph commands like @samp{\section} or @samp{\noindent} (the list of
+commands is defined by @code{LaTeX-paragraph-commands}) are often to be
+placed in their own line(s).  This means they should not be consecuted
+with any preceding or following adjacent lines of text.  @AUCTeX{} will
+prevent this from happening if you do not put any text except another
+macro after the end of the last brace of the respective macro.  If
+there is other text after the macro, @AUCTeX{} regards this as a sign
+that the macro is part of the following paragraph.
+@vindex LaTeX-paragraph-commands
+
+Here are some examples:
+
+@example
+\begin@{quote@}
+  text text text text
+@end example
+
+@example
+\begin@{quote@}\label@{foo@}
+  text text text text
+@end example
+
+If you press @kbd{M-q} on the first line in both examples, nothing will
+change.  But if you write
+
+@example
+\begin@{quote@} text
+  text text text text
+@end example
+
+and press @kbd{M-q}, you will get
+
+@example
+\begin@{quote@} text text text text text
+@end example
+
+Besides code comments and paragraph commands, another speciality of
+filling in @AUCTeX{} involves commented lines.  You should be aware that
+these comments are treated as islands in the rest of the @LaTeX{} code
+if syntactic filling is enabled.  This means, for example, if you try to
+fill an environment with @code{LaTeX-fill-environment} and have the
+cursor placed on a commented line which does not have a surrounding
+environment inside the comment, @AUCTeX{} will report an error.
+@findex LaTeX-fill-environment
+
+The relevant commands and variables with regard to filling are:
+
+@table @kbd
+@item C-c C-q C-p
+@kindex C-c C-q C-p
+@findex LaTeX-fill-paragraph
+@code{LaTeX-fill-paragraph} will fill and indent the current paragraph.
+
+@item M-q
+@kindex M-q
+Alias for @kbd{C-c C-q C-p}
+
+@item C-c C-q C-e
+@kindex C-c C-q C-e
+@findex LaTeX-fill-environment
+@code{LaTeX-fill-environment} will fill and indent the current
+environment.  This may e.g. be the `document' environment, in which case
+the entire document will be formatted.
+
+@item C-c C-q C-s
+@kindex C-c C-q C-s
+@findex LaTeX-fill-section
+@code{LaTeX-fill-section} will fill and indent the current logical
+sectional unit.
+
+@item C-c C-q C-r
+@kindex C-c C-q C-r
+@findex LaTeX-fill-region
+@code{LaTeX-fill-region} will fill and indent the current region.
+@end table
+
+@defopt LaTeX-fill-break-at-separators
+List of separators before or after which respectively linebreaks will
+be inserted if they do not fit into one line.  The separators can be
+curly braces, brackets, switches for inline math (@samp{$}, @samp{\(},
+@samp{\)}) and switches for display math (@samp{\[}, @samp{\]}).  Such
+formatting can be useful to make macros and math more visible or to
+prevent overfull lines in the @LaTeX{} source in case a package for
+displaying formatted @TeX{} output inside the Emacs buffer, like
+preview-latex, is used.
+@end defopt
+
+@defopt LaTeX-fill-break-before-code-comments
+Code comments are comments preceded by some other text in the same line.
+When a paragraph containing such a comment is to be filled, the comment
+start will be seen as a border after which no line breaks will be
+inserted in the same line.  If the option
+@code{LaTeX-fill-break-before-code-comments} is enabled (which is the
+default) and the comment does not fit into the line, a line break will
+be inserted before the last non-comment word to minimize the chance that
+the line becomes overfull.
+@end defopt
+
+@node Display
+@chapter Controlling Screen Display
+
+It is often desirable to get visual help of what markup code in a text
+actually does whithout having to decipher it explicitely.  For this
+purpose Emacs and @AUCTeX{} provide font locking (also known as syntax
+highlighting) which visually sets off markup code like macros or
+environments by using different colors or fonts.  For example text to be
+typeset in italics can be displayed with an italic font in the editor as
+well, or labels and references get their own distinct color.
+
+While font locking helps you grasp the purpose of markup code and
+separate markup from content, the markup code can still be distracting.
+@AUCTeX{} lets you hide those parts and show them again at request with
+its built-in support for hiding macros and environments which we call
+folding here.
+
+Besides folding of macros and environments, @AUCTeX{} provides support
+for Emacs' outline mode which lets you narrow the buffer content to
+certain sections of your text by hiding the parts not belonging to these
+sections.
+
+@menu
+* Font Locking::                Font Locking
+* Folding::                     Folding Macros and Environments
+* Outline::                     Outlining the Document
+@end menu
+
+@node Font Locking
+@section Font Locking
+@cindex Font Locking
+@cindex Syntax Highlighting
+@cindex font-latex
+
+Font locking is supposed to improve readability of the source code by
+highlighting certain keywords with different colors or fonts.  It
+thereby lets you recognize the function of markup code to a certain
+extent without having to read the markup command.  For general
+information on controlling font locking with Emacs' Font Lock mode, see
+@ref{Font Lock, , Font Lock Mode, emacs, GNU Emacs Manual}.
+
+@defopt TeX-install-font-lock
+Once font locking is enabled globally or for the major modes provided by
+@AUCTeX{}, the font locking patterns and functionality of @fontlatex{}
+are activated by default.  You can switch to a different font locking
+scheme or disable font locking in @AUCTeX{} by customizing the variable
+@code{TeX-install-font-lock}.
+
+Besides @fontlatex{} @AUCTeX{} ships with a scheme which is derived
+from Emacs' default @LaTeX{} mode and activated by choosing
+@code{tex-font-setup}.  Be aware that this scheme is not coupled with
+@AUCTeX{}'s style system and not the focus of development.  Therefore
+and due to @fontlatex{} being much more feature-rich the following
+explanations will only cover @fontlatex{}.
+
+In case you want to hook in your own fontification scheme, you can
+choose @code{other} and insert the name of the function which sets up
+your font locking patterns.  If you want to disable fontification in
+@AUCTeX{} completely, choose @code{ignore}.
+@end defopt
+
+@fontlatex{} provides many options for customization which are
+accessible with @kbd{M-x customize-group RET font-latex RET}.  For this
+description the various options are explained in conceptional groups.
+
+@menu
+* Fontification of macros::     Fontification of macros
+* Fontification of quotes::     Fontification of quotes
+* Fontification of math::       Fontification of math constructs
+* Verbatim content::            Verbatim macros and environments
+* Faces::                       Faces used by font-latex
+* Known problems::              Known fontification problems
+@end menu
+
+@node Fontification of macros
+@subsection Fontification of macros
+
+Highlighting of macros can be customized by adapting keyword lists which
+can be found in the customization group @code{font-latex-keywords}.
+
+Three types of macros can be handled differently with respect to
+fontification:
+
+@enumerate
+@item
+Commands of the form @samp{\foo[bar]@{baz@}} which consist of the macro
+itself, optional arguments in square brackets and mandatory arguments in
+curly braces.  For the command itself the face
+@code{font-lock-keyword-face} will be used and for the optional
+arguments the face @code{font-lock-variable-name-face}.  The face
+applied to the mandatory argument depends on the macro class represented
+by the respective built-in variables.
+@item
+Declaration macros of the form @samp{@{\foo text@}} which consist of the
+macro which may be enclosed in a @TeX{} group together with text to be
+affected by the macro.  In case a @TeX{} group is present, the macro
+will get the face @code{font-lock-keyword-face} and the text will get
+the face configured for the respective macro class.  If no @TeX{} group
+is present, the latter face will be applied to the macro itself.
+@item
+Simple macros of the form @samp{\foo} which do not have any arguments or
+groupings.  The respective face will be applied to the macro itself.
+@end enumerate
+
+Customization variables for @samp{\foo[bar]@{baz@}} type macros allow
+both the macro name and the sequence of arguments to be specified.  The
+latter is done with a string which can contain the characters
+@table @samp
+@item *
+indicating the existence of a starred variant for the macro,
+@item [
+for optional arguments in brackets,
+@item @{
+for mandatory arguments in braces,
+@item \
+for mandatory arguments consisting of a single macro and
+@item |
+as a prefix indicating that two alternatives are following.
+@end table
+For example the specifier for @samp{\documentclass} would be @samp{[@{}
+because the macro has one optional followed by one mandatory argument.
+The specifier for @samp{\newcommand} would be @samp{*|@{\[[@{} because
+there is a starred variant, the mandatory argument following the macro
+name can be a macro or a @TeX{} group which can be followed by two
+optional arguments and the last token is a mandatory argument in braces.
+
+Customization variables for the @samp{@{\foo text@}} and @samp{\foo}
+types are simple lists of strings where each entry is a macro name
+(without the leading backslash).
+
+@subheading General macro classes
+
+@fontlatex{} provides keyword lists for different macro classes which
+are described in the following table:
+
+@vindex font-latex-match-function-keywords
+@vindex font-latex-match-reference-keywords
+@vindex font-latex-match-textual-keywords
+@vindex font-latex-match-variable-keywords
+@vindex font-latex-match-warning-keywords
+@table @code
+@item font-latex-match-function-keywords
+Keywords for macros defining or related to functions, like
+@samp{\newcommand}.@*
+Type: @samp{\macro[...]@{...@}}@*
+Face: @code{font-lock-function-name-face}
+
+@item font-latex-match-reference-keywords
+Keywords for macros defining or related to references, like
+@samp{\ref}.@*
+Type: @samp{\macro[...]@{...@}}@*
+Face: @code{font-lock-constant-face}
+
+@item font-latex-match-textual-keywords
+Keywords for macros specifying textual content, like @samp{\caption}.@*
+Type: @samp{\macro[...]@{...@}}@*
+Face: @code{font-lock-type-face}
+
+@item font-latex-match-variable-keywords
+Keywords for macros defining or related to variables, like
+@samp{\setlength}.@*
+Type: @samp{\macro[...]@{...@}}@*
+Face: @code{font-lock-variable-name-face}
+
+@item font-latex-match-warning-keywords
+Keywords for important macros, e.g. affecting line or page break, like
+@samp{\clearpage}.@*
+Type: @samp{\macro}@*
+Face: @code{font-latex-warning-face}
+@end table
+
+@subheading Sectioning commands
+@cindex Sectioning commands, fontification of
+
+Sectioning commands are macros like @samp{\chapter} or @samp{\section}.
+For these commands there are two fontification schemes which may be
+selected by customizing the variable @code{font-latex-fontify-sectioning}.
+
+@defopt font-latex-fontify-sectioning
+@c Is @vindex correct?
+@vindex font-latex-sectioning-0-face
+@vindex font-latex-sectioning-1-face
+@vindex font-latex-sectioning-2-face
+@vindex font-latex-sectioning-3-face
+@vindex font-latex-sectioning-4-face
+@vindex font-latex-sectioning-5-face
+Per default sectioning commands will be shown in a larger, proportional
+font, which corresponds to a number for this variable.  The font size
+varies with the sectioning level, e.g. @samp{\part}
+(@code{font-latex-sectioning-0-face}) has a larger font than
+@samp{\paragraph} (@code{font-latex-sectioning-5-face}).  Typically,
+values from 1.05 to 1.3 for @code{font-latex-fontify-sectioning} give
+best results, depending on your font setup.  If you rather like to use
+the base font and a different color, set the variable to the symbol
+@samp{color}.  In this case the face @code{font-lock-type-face} will be
+used to fontify the argument of the sectioning commands.
+@end defopt
+
+@vindex font-latex-match-sectioning-0-keywords
+@vindex font-latex-match-sectioning-1-keywords
+@vindex font-latex-match-sectioning-2-keywords
+@vindex font-latex-match-sectioning-3-keywords
+@vindex font-latex-match-sectioning-4-keywords
+@vindex font-latex-match-sectioning-5-keywords
+You can make @fontlatex{} aware of your own sectioning commands be
+adding them to the keyword lists:
+@code{font-latex-match-sectioning-0-keywords}
+(@code{font-latex-sectioning-0-face}) @dots{}
+@code{font-latex-match-sectioning-5-keywords}
+(@code{font-latex-sectioning-5-face}).
+
+@vindex font-latex-slide-title-face
+@vindex font-latex-match-slide-title-keywords
+Related to sectioning there is special support for slide titles which
+may be fontified with the face @code{font-latex-slide-title-face}.  You
+can add macros which should appear in this face by customizing the
+variable @code{font-latex-match-slide-title-keywords}.
+
+@subheading Commands for changing fonts
+
+@LaTeX{} provides various macros for changing fonts or font attributes.
+For example, you can select an italic font with @samp{\textit@{...@}} or
+bold with @samp{\textbf@{...@}}.  An alternative way to specify these
+fonts is to use special macros in @TeX{} groups, like @samp{@{\itshape
+...@}} for italics and @samp{@{\bfseries ...@}} for bold.  As mentioned
+above, we call the former variants commands and the latter
+declarations.
+
+Besides the macros for changing fonts provided by @LaTeX{} there is an
+infinite number of other macros---either defined by yourself for logical
+markup or defined by macro packages---which affect the font in the
+typeset text.  While @LaTeX{}'s built-in macros and macros of packages
+known by @AUCTeX{} are already handled by @fontlatex{}, different
+keyword lists per type style and macro type are provided for entering
+your own macros which are listed in the table below.
+
+@vindex font-latex-match-bold-command-keywords
+@vindex font-latex-match-italic-command-keywords
+@vindex font-latex-match-math-command-keywords
+@vindex font-latex-match-type-command-keywords
+@vindex font-latex-match-bold-declaration-keywords
+@vindex font-latex-match-italic-declaration-keywords
+@vindex font-latex-match-type-declaration-keywords
+@table @code
+@item font-latex-match-bold-command-keywords
+Keywords for commands specifying a bold type style.@*
+Face: @code{font-latex-bold-face}
+@item font-latex-match-italic-command-keywords
+Keywords for commands specifying an italic font.@*
+Face: @code{font-latex-italic-face}
+@item font-latex-match-math-command-keywords
+Keywords for commands specifying a math font.@*
+Face: @code{font-latex-math-face}
+@item font-latex-match-type-command-keywords
+Keywords for commands specifying a typewriter font.@*
+Face: @code{font-lock-type-face}
+@item font-latex-match-bold-declaration-keywords
+Keywords for declarations specifying a bold type style.@*
+Face: @code{font-latex-bold-face}
+@item font-latex-match-italic-declaration-keywords
+Keywords for declarations specifying an italic font.@*
+Face: @code{font-latex-italic-face}
+@item font-latex-match-type-declaration-keywords
+Keywords for declarations specifying a typewriter font.@*
+Face: @code{font-latex-type-face}
+@end table
+
+@subheading Deactivating defaults of built-in keyword classes
+
+@vindex font-latex-deactivated-keyword-classes
+@fontlatex{} ships with predefined lists of keywords for the classes
+described above.  You can disable these defaults per class by
+customizing the variable @code{font-latex-deactivated-keyword-classes}.
+This is a list of strings for keyword classes to be deactivated.  Valid
+entries are "warning", "variable", "reference", "function" ,
+"sectioning-0", "sectioning-1", "sectioning-2", "sectioning-3",
+"sectioning-4", "sectioning-5", "textual", "bold-command",
+"italic-command", "math-command", "type-command", "bold-declaration",
+"italic-declaration", "type-declaration".
+
+You can also get rid of certain keywords only.  For example if you want
+to remove highlighting of footnotes as references you can put the
+following stanza into your init file:
+
+@lisp
+(eval-after-load "font-latex"
+  '(setq-default
+    font-latex-match-reference-keywords-local
+    (remove "footnote" font-latex-match-reference-keywords-local)))
+@end lisp
+
+But note that this means fiddling with @fontlatex{}'s internals and is
+not guaranteed to work in future versions of @fontlatex{}.
+
+@subheading User-defined keyword classes
+
+In case the customization options explained above do not suffice for
+your needs, you can specify your own keyword classes by customizing the
+variable @code{font-latex-user-keyword-classes}.
+
+@defopt font-latex-user-keyword-classes
+Every keyword class consists of four parts, a name, a list of keywords,
+a face and a specifier for the type of macros to be highlighted.
+
+When adding new entries, you have to use unique values for the class
+names, i.e. they must not clash with names of the built-in keyword
+classes or other names given by you.  Additionally the names must not
+contain spaces.
+
+The list of keywords defines which commands and declarations should be
+covered by the keyword class.  A keyword can either be a simple command
+name omitting the leading backslash or a list consisting of the command
+name and a string specifying the sequence of arguments for the command.
+
+The face argument can either be an existing face or font specifications
+made by you.  (The latter option is not available on XEmacs.)
+
+There are three alternatives for the type of keywords---``Command with
+arguments'', ``Declaration inside @TeX{} group'' and ``Command without
+arguments''---which correspond with the macro types explained above.
+@end defopt
+
+@node Fontification of quotes
+@subsection Fontification of quotes
+@cindex Quotes, fontification of
+
+Text in quotation marks is displayed with the face
+@code{font-latex-string-face}.  Besides the various forms of opening and
+closing double and single quotation marks, so-called guillemets (<<, >>)
+can be used for quoting.  Because there are two styles of using
+them---French style: << text >>; German style: >>text<<---you can
+customize the variable @code{font-latex-quotes} to tell @fontlatex{}
+which type you are using if the correct value cannot be derived from
+document properties.
+
+@defopt font-latex-quotes
+The default value of @code{font-latex-quotes} is @samp{auto} which means
+that @fontlatex{} will try to derive the correct type of quotation mark
+matching from document properties like the language option supplied to
+the babel @LaTeX{} package.
+
+If the automatic detection fails for you and you mostly use one specific
+style you can set it to a specific language-dependent value as well.
+Set the value to @samp{german} if you are using >>German quotes<< and to
+@samp{french} if you are using << French quotes >>.  @fontlatex{} will
+recognize the different ways these quotes can be given in your source
+code, i.e. (@samp{"<}, @samp{">}), (@samp{<<}, @samp{>>}) and the
+respective 8-bit variants.
+
+If you set @code{font-latex-quotes} to nil, quoted content will not be
+fontified.
+@end defopt
+
+
+@node Fontification of math
+@subsection Fontification of mathematical constructs
+@cindex Math, fontification of
+@cindex Subscript, fontification of
+@cindex Superscript, fontification of
+
+@vindex font-latex-match-math-command-keywords
+@vindex font-latex-math-environments
+In @LaTeX{} mathematics can be indicated by a variety of different
+methods: toggles (like dollar signs), macros and environments.  Math
+constructs known by @fontlatex{} are displayed with the face
+@code{font-latex-math-face}.  Support for dollar signs and shorthands
+like @samp{\(...\)} or @samp{\[...\]} is built-in and not customizable.
+Support for other math macros and environments can be adapted by
+customizing the variables @code{font-latex-match-math-command-keywords}
+and @code{font-latex-math-environments} respectively.
+
+In order to make math constructs more readable, @fontlatex{} displays
+subscript and superscript parts in a smaller font and raised or lowered
+respectively.  This fontification feature can be controlled with the
+variables @code{font-latex-fontify-script} and
+@code{font-latex-script-display}.
+
+@defopt font-latex-fontify-script
+If non-nil, fontify subscript and superscript strings.
+
+Note that this feature is not available on XEmacs, for which it is
+disabled per default.  In GNU Emacs raising and lowering is not enabled
+for versions 21.3 and before due to it working not properly.
+@end defopt
+
+@defopt font-latex-script-display
+Display specification for subscript and superscript content.  The car is
+used for subscript, the cdr is used for superscript.  The feature is
+implemented using so-called display properties.  For information on what
+exactly to specify for the values, see @ref{Other Display Specs, , Other
+Display Specifications, elisp, GNU Emacs Lisp Reference Manual}.
+@end defopt
+
+@node Verbatim content
+@subsection Verbatim macros and environments
+@cindex Verbatim, fontification of
+
+Usually it is not desirable to have content to be typeset verbatim
+highlighted according to @LaTeX{} syntax.  Therefore this content will
+be fontified uniformly with the face @code{font-latex-verbatim-face}.
+
+@vindex LaTeX-verbatim-macros-with-delims
+@vindex LaTeX-verbatim-macros-with-braces
+@vindex LaTeX-verbatim-environments
+@fontlatex{} differentiates three different types of verbatim
+constructs for fontification.  Macros with special characters like | as
+delimiters, macros with braces, and environments.  Which macros and
+environments are recognized is controlled by the variables
+@code{LaTeX-verbatim-macros-with-delims},
+@code{LaTeX-verbatim-macros-with-braces}, and
+@code{LaTeX-verbatim-environments} respectively.
+
+@node Faces
+@subsection Faces used by @fontlatex{}
+@cindex Faces
+
+In case you want to change the colors and fonts used by @fontlatex{}
+please refer to the faces mentioned in the explanations above and use
+@kbd{M-x customize-face RET <face> RET}.  All faces defined by
+@fontlatex{} are accessible through a customization group by typing
+@kbd{M-x customize-group RET font-latex-highlighting-faces RET}.
+
+@node Known problems
+@subsection Known fontification problems
+@cindex Dollar signs, color bleed with
+@cindex Math, fontification problems with
+
+In certain cases the fontification machinery fails to interpret buffer
+contents correctly.  This can lead to color bleed, i.e. large parts of a
+buffer get fontified with an inappropriate face.  A typical situation
+for this to happen is the use of a dollar sign (@samp{$}) in a verbatim
+macro or environment.  If @fontlatex{} is not aware of the verbatim
+construct, it assumes the dollar sign to be a toggle for mathematics and
+fontifies the following buffer content with the respective face until it
+finds a closing dollar sign or till the end of the buffer.
+
+As a remedy you can make the verbatim construct known to @fontlatex{},
+@pxref{Verbatim content}.  If this is not possible, you can insert a
+commented dollar sign (@samp{%$}) at the next suitable end of line as a
+quick workaround.
+@c As a last resort one can set `font-lock-keywords-only', but we should
+@c probably not advise users to do this.
+
+
+@node Folding
+@section Folding Macros and Environments
+@cindex Outlining
+@cindex Folding
+@cindex Reveal
+@cindex Auto-Reveal
+@cindex Hide Macros
+
+A popular complaint about markup languages like @TeX{} and @LaTeX{} is
+that there is too much clutter in the source text and that one cannot
+focus well on the content.  There are macros where you are only
+interested in the content they are enclosing, like font specifiers where
+the content might already be fontified in a special way by font locking.
+Or macros the content of which you only want to see when actually
+editing it, like footnotes or citations.  Similarly you might find
+certain environments or comments distracting when trying to concentrate
+on the body of your document.
+
+With @AUCTeX{}'s folding functionality you can collapse those items and
+replace them by a fixed string, the content of one of their arguments,
+or a mixture of both.  If you want to make the original text visible
+again in order to view or edit it, move point sideways onto the
+placeholder (also called display string) or left-click with the mouse
+pointer on it.  (The latter is currently only supported on Emacs.)  The
+macro or environment will unfold automatically, stay open as long as
+point is inside of it and collapse again once you move point out of it.
+(Note that folding of environments currently does not work in every
+@AUCTeX{} mode.)
+
+In order to use this feature, you have to activate @code{TeX-fold-mode}
+which will activate the auto-reveal feature and the necessary commands
+to hide and show macros and environments.  You can activate the mode in
+a certain buffer by typing the command @kbd{M-x TeX-fold-mode RET} or
+using the keyboard shortcut @kbd{C-c C-o C-f}.  If you want to use it
+every time you edit a @LaTeX{} document, add it to a hook:
+@findex TeX-fold-mode
+@kindex C-c C-o C-f
+
+@lisp
+(add-hook 'LaTeX-mode-hook (lambda ()
+                             (TeX-fold-mode 1)))
+@end lisp
+
+If it should be activated in all @AUCTeX{} modes, use
+@code{TeX-mode-hook} instead of @code{LaTeX-mode-hook}.
+
+Once the mode is active there are several commands available to hide
+and show macros, environments and comments:
+
+@deffn Command TeX-fold-buffer
+@kindex C-c C-o C-b
+(@kbd{C-c C-o C-b}) Hide all foldable items in the current buffer
+according to the setting of @code{TeX-fold-type-list}.
+
+If you want to have this done automatically every time you open a file,
+add it to a hook and make sure the function is called after font locking
+is set up for the buffer.  The following code should accomplish this:
+
+@lisp
+(add-hook 'find-file-hook 'TeX-fold-buffer t)
+@end lisp
+
+The command can be used any time to refresh the whole buffer and fold
+any new macros and environments which were inserted after the last
+invocation of the command.
+@end deffn
+
+@defopt TeX-fold-type-list
+List of symbols determining the item classes to consider for folding.
+This can be macros, environments and comments.  Per default only macros
+and environments are folded.
+@end defopt
+
+@defopt TeX-fold-force-fontify
+In order for all folded content to get the right faces, the whole buffer
+has to be fontified before folding is carried out.
+@code{TeX-fold-buffer} therefore will force fontification of unfontified
+regions.  As this will prolong the time folding takes, you can prevent
+forced fontification by customizing the variable
+@code{TeX-fold-force-fontify}.
+@end defopt
+
+@defopt TeX-fold-preserve-comments
+By default items found in comments will be folded.  If your comments
+often contain unfinished code this might lead to problems.  Give this
+variable a non-nil value and foldable items in your comments will be
+left alone.
+@end defopt
+
+@deffn Command TeX-fold-region
+@kindex C-c C-o C-r
+(@kbd{C-c C-o C-r}) Hide all configured macros in the marked region.
+@end deffn
+
+@deffn Command TeX-fold-paragraph
+@kindex C-c C-o C-p
+(@kbd{C-c C-o C-p}) Hide all configured macros in the paragraph
+containing point.
+@end deffn
+
+@deffn Command TeX-fold-macro
+@kindex C-c C-o C-m
+(@kbd{C-c C-o C-m}) Hide the macro on which point currently is located.
+If the name of the macro is found in @code{TeX-fold-macro-spec-list},
+the respective display string will be shown instead.  If it is not
+found, the name of the macro in sqare brackets or the default string for
+unspecified macros (@code{TeX-fold-unspec-macro-display-string}) will be
+shown, depending on the value of the variable
+@code{TeX-fold-unspec-use-name}.
+@end deffn
+
+@deffn Command TeX-fold-env
+@kindex C-c C-o C-e
+(@kbd{C-c C-o C-e}) Hide the environment on which point currently is
+located.  The behavior regarding the display string is analogous to
+@code{TeX-fold-macro} and determined by the variables
+@code{TeX-fold-env-spec-list} and
+@code{TeX-fold-unspec-env-display-string} respectively.
+@end deffn
+
+@deffn Command TeX-fold-math
+Hide the math macro on which point currently is located.  If the name of
+the macro is found in @code{TeX-fold-math-spec-list}, the respective
+display string will be shown instead.  If it is not found, the name of
+the macro in sqare brackets or the default string for unspecified macros
+(@code{TeX-fold-unspec-macro-display-string}) will be shown, depending
+on the value of the variable @code{TeX-fold-unspec-use-name}.
+@end deffn
+
+@deffn Command TeX-fold-comment
+@kindex C-c C-o C-c
+(@kbd{C-c C-o C-c}) Hide the comment point is located on.
+@end deffn
+
+@deffn Command TeX-fold-clearout-buffer
+@kindex C-c C-o b
+(@kbd{C-c C-o b}) Permanently unfold all macros and environments in the
+current buffer.
+@end deffn
+
+@deffn Command TeX-fold-clearout-region
+@kindex C-c C-o r
+(@kbd{C-c C-o r}) Permanently unfold all macros and environments in the
+marked region.
+@end deffn
+
+@deffn Command TeX-fold-clearout-paragraph
+@kindex C-c C-o p
+(@kbd{C-c C-o p}) Permanently unfold all macros and environments in the
+paragraph containing point.
+@end deffn
+
+@deffn Command TeX-fold-clearout-item
+@kindex C-c C-o i
+(@kbd{C-c C-o i}) Permanently show the macro or environment on which
+point currently is located.  In contrast to temporarily opening the
+macro when point is moved sideways onto it, the macro will be
+permanently unfolded and will not collapse again once point is leaving
+it.
+@end deffn
+
+@deffn Command TeX-fold-dwim
+@kindex C-c C-o C-o
+(@kbd{C-c C-o C-o}) Hide or show items according to the current context.
+If there is folded content, unfold it.  If there is a marked region,
+fold all configured content in this region.  If there is no folded
+content but a macro or environment, fold it.
+@end deffn
+
+@vindex TeX-fold-command-prefix
+In case you want to use a different prefix than @kbd{C-c C-o} for these
+commands you can customize the variable @code{TeX-fold-command-prefix}.
+(Note that this will not change the key binding for activating the
+mode.)
+
+The commands above will only take macros or environments into
+consideration which are specified in the variables
+@code{TeX-fold-macro-spec-list} or @code{TeX-fold-env-spec-list}
+respectively.
+
+@defopt TeX-fold-macro-spec-list
+List of replacement specifiers and macros to fold.  The specifier can be
+a string, an integer or a function symbol.
+
+If you specify a string, it will be used as a display replacement for
+the whole macro.  Numbers in braces, brackets, parens or angle brackets
+will be replaced by the respective macro argument.  For example
+@samp{@{1@}} will be replaced by the first mandatory argument of the
+macro.  One can also define alternatives within the specifier which are
+used if an argument is not found.  Alternatives are separated by
+@samp{||}.  They are most useful with optional arguments.  As an
+example, the default specifier for @samp{\item} is @samp{[1]:||*} which
+means that if there is an optional argument, its value is shown followed
+by a colon.  If there is no optional argument, only an asterisk is used
+as the display string.
+
+If you specify a number as the first element, the content of the
+respective mandatory argument of a @LaTeX{} macro will be used as the
+placeholder.
+
+If the first element is a function symbol, the function will be called
+with all mandatory arguments of the macro and the result of the function
+call will be used as a replacement for the macro.
+
+The placeholder is made by copying the text from the buffer together with
+its properties, i.e. its face as well.  If fontification has not
+happened when this is done (e.g. because of lazy font locking) the
+intended fontification will not show up.  As a workaround you can leave
+Emacs idle a few seconds and wait for stealth font locking to finish
+before you fold the buffer.  Or you just re-fold the buffer with
+@code{TeX-fold-buffer} when you notice a wrong fontification.
+@end defopt
+
+@defopt TeX-fold-env-spec-list
+List of display strings or argument numbers and environments to fold.
+Argument numbers refer to the @samp{\begin} statement.  That means if
+you have e.g. @samp{\begin@{tabularx@}@{\linewidth@}@{XXX@} ...
+\end@{tabularx@}} and specify 3 as the argument number, the resulting
+display string will be ``XXX''.
+@end defopt
+
+@defopt TeX-fold-math-spec-list
+List of display strings and math macros to fold.
+@end defopt
+
+@vindex LaTeX-fold-macro-spec-list
+@vindex LaTeX-fold-env-spec-list
+@vindex LaTeX-fold-math-spec-list
+The variables @code{TeX-fold-macro-spec-list},
+@code{TeX-fold-env-spec-list}, and @code{TeX-fold-math-spec-list} apply
+to any @AUCTeX{} mode.  If you want to make settings which are only
+applied to @LaTeX{} mode, you can use the mode-specific variables
+@code{LaTeX-fold-macro-spec-list}, @code{LaTeX-fold-env-spec-list}, and
+@code{LaTeX-fold-math-spec-list}
+
+@defopt TeX-fold-unspec-macro-display-string
+Default display string for macros which are not specified in
+@code{TeX-fold-macro-spec-list}.
+@end defopt
+
+@defopt TeX-fold-unspec-env-display-string
+Default display string for environments which are not specified in
+@code{TeX-fold-env-spec-list}.
+@end defopt
+
+@defopt TeX-fold-unspec-use-name
+If non-nil the name of the macro or environment surrounded by square
+brackets is used as display string, otherwise the defaults specified in
+@code{TeX-fold-unspec-macro-display-string} or
+@code{TeX-fold-unspec-env-display-string} respectively.
+@end defopt
+
+When you hover with the mouse pointer over folded content, its original
+text will be shown in a tooltip or the echo area depending on Tooltip
+mode being activate.  In order to avoid exorbitantly big tooltips and to
+cater for the limited space in the echo area the content will be cropped
+after a certain amount of characters defined by the variable
+@code{TeX-fold-help-echo-max-length}.
+
+@defopt TeX-fold-help-echo-max-length
+Maximum length of original text displayed in a tooltip or the echo area
+for folded content.  Set it to zero in order to disable this feature.
+@end defopt
+
+
+@node Outline
+@section Outlining the Document
+@cindex Outlining
+@cindex Headers
+@cindex Sections
+@cindex Overview
+@cindex Folding
+
+@AUCTeX{} supports the standard outline minor mode using
+@LaTeX{}/@ConTeXt{} sectioning commands as header lines.  @xref{Outline
+Mode, , Outline Mode, emacs, GNU Emacs Manual}.
+
+You can add your own headings by setting the variable
+@code{TeX-outline-extra}.
+
+@defvar TeX-outline-extra
+List of extra @TeX{} outline levels.
+
+Each element is a list with two entries.  The first entry is the regular
+expression matching a header, and the second is the level of the header.
+A @samp{^} is automatically prepended to the regular expressions in the
+list, so they must match text at the beginning of the line.
+
+See @code{LaTeX-section-list} or @code{ConTeXt-INTERFACE-section-list}
+for existing header levels.
+@end defvar
+
+The following example add @samp{\item} and @samp{\bibliography} headers,
+with @samp{\bibliography} at the same outline level as @samp{\section},
+and @samp{\item} being below @samp{\subparagraph}.
+
+@lisp
+(setq TeX-outline-extra
+      '(("[ \t]*\\\\\\(bib\\)?item\\b" 7)
+	("\\\\bibliography\\b" 2)))
+@end lisp
+
+You may want to check out the unbundled @file{out-xtra} package for even
+better outline support.  It is available from your favorite emacs lisp
+archive.
+
+@node Processing
+@chapter Starting Processors, Viewers and Other Programs
+
+The most powerful features of @AUCTeX{} may be those allowing you to run
+@TeX{}, @LaTeX{}, @ConTeXt{} and other external commands like Bib@TeX{}
+and @code{makeindex} from within Emacs, viewing and printing the
+results, and moreover allowing you to @emph{debug} your documents.
+
+@cindex tool bar, toolbar
+@vindex LaTeX-enable-toolbar
+@vindex plain-TeX-enable-toolbar
+@AUCTeX{} comes with a special tool bar for @TeX{} and @LaTeX{} which
+provides buttons for the most important commands.  You can enable or
+disable it by customizing the options @code{plain-TeX-enable-toolbar}
+and @code{LaTeX-enable-toolbar} in the @code{TeX-tool-bar} customization
+group.
+
+@menu
+* Commands::                    Invoking external commands.
+* Viewing::                     Invoking external viewers.
+* Debugging::                   Debugging @TeX{} and @LaTeX{} output.
+* Checking::                    Checking the document.
+* Control::                     Controlling the processes.
+* Cleaning::                    Cleaning intermediate and output files.
+* Documentation::               Documentation about macros and packages.
+@end menu
+
+@node Commands
+@section Executing Commands
+@cindex Formatting
+@cindex Running @LaTeX{}
+@cindex Running @TeX{}
+@cindex @LaTeX{}
+@cindex @TeX{}
+@cindex Running commands
+@cindex Default command
+@cindex Header
+@cindex Trailer
+@cindex Setting the header
+@cindex Setting the trailer
+@cindex Region
+@cindex Region file
+@cindex Setting the default command
+@cindex Commands
+@cindex External Commands
+@cindex Indexing
+@cindex Making an index
+@cindex Running @code{makeindex}
+@cindex @code{makeindex}
+@cindex Bib@TeX{}
+@cindex Bibliography
+@cindex Literature
+@cindex Running Bib@TeX{}
+@cindex Making a bibliography
+@cindex Printing
+@cindex Writing to a printer
+
+Formatting the document with @TeX{}, @LaTeX{} or @ConTeXt{}, viewing
+with a previewer, printing the document, running Bib@TeX{}, making an
+index, or checking the document with @command{lacheck} or
+@command{chktex} all require running an external command.
+
+@menu
+* Starting a Command::          Starting a Command on a Document or Region
+* Selecting a Command::         Selecting and Executing a Command
+* Processor Options::           Options for @TeX{} Processors
+@end menu
+
+@node Starting a Command
+@subsection Starting a Command on a Document or Region
+
+There are two ways to run an external command, you can either run it on
+the current document with @code{TeX-command-master}, or on the current
+region with @code{TeX-command-region}.  A special case of running @TeX{}
+on a region is @code{TeX-command-buffer} which differs from
+@code{TeX-command-master} if the current buffer is not its own master
+file.
+
+@deffn Command TeX-command-master
+@kindex C-c C-c
+(@kbd{C-c C-c})  Query the user for a command, and run it on the master
+file associated with the current buffer.  The name of the master file is
+controlled by the variable @code{TeX-master}.  The available commands are
+controlled by the variable @code{TeX-command-list}.
+@vindex TeX-master
+@vindex TeX-command-list
+@end deffn
+
+@deffn Command TeX-command-region
+@kindex C-c C-r
+(@kbd{C-c C-r}) Query the user for a command, and run it on the contents
+of the selected region.  The region contents are written into the region
+file, after extracting the header and trailer from the master file.  If
+mark is inactive (which can happen with Transient Mark mode), use the
+old region.  See also the command @code{TeX-pin-region} about how to fix
+a region.
+
+The name of the region file is controlled by the variable
+@code{TeX-region}.  The name of the master file is controlled by the
+variable @code{TeX-master}.  The header is all text up to the line
+matching the regular expression @code{TeX-header-end}.  The trailer is
+all text from the line matching the regular expression
+@code{TeX-trailer-start}.  The available commands are controlled by the
+variable @code{TeX-command-list}.
+@vindex TeX-region
+@vindex TeX-header-end
+@vindex TeX-trailer-start
+@vindex TeX-master
+@vindex TeX-command-list
+@end deffn
+
+@deffn Command TeX-command-buffer
+@kindex C-c C-b
+(@kbd{C-c C-b}) Query the user for a command, and apply it to the
+contents of the current buffer.  The buffer contents are written into
+the region file, after extracting the header and trailer from the master
+file.  The command is then actually run on the region file.  See above
+for details.
+@end deffn
+
+@defopt TeX-region
+The name of the file for temporarily storing the text when formatting
+the current region.
+@end defopt
+
+@defopt TeX-header-end
+A regular expression matching the end of the header.  By default, this
+is @samp{\begin@{document@}} in @LaTeX{} mode and @samp{%**end of
+header} in @TeX{} mode.
+@end defopt
+
+@defopt TeX-trailer-start
+A regular expression matching the start of the trailer.  By default,
+this is @samp{\end@{document@}} in @LaTeX{} mode and @samp{\bye} in
+@TeX{} mode.
+@end defopt
+
+If you want to change the values of @code{TeX-header-end} and
+@code{TeX-trailer-start} you can do this for all files by setting the
+variables in a mode hook or per file by specifying them as file
+variables (@pxref{File Variables,,,emacs,The Emacs Editor}).
+
+@deffn Command TeX-pin-region
+@kindex C-c C-t C-r
+(@kbd{C-c C-t C-r}) If you don't have a mode like Transient Mark mode
+active, where marks get disabled automatically, the region would need to
+get properly set before each call to @code{TeX-command-region}.  If you
+fix the current region with @kbd{C-c C-t C-r}, then it will get used for
+more commands even though mark and point may change.  An explicitly
+activated mark, however, will always define a new region when calling
+@code{TeX-command-region}.
+@end deffn
+
+@AUCTeX{} will allow one process for each document, plus one process
+for the region file to be active at the same time.  Thus, if you are
+editing @var{n} different documents, you can have @var{n} plus one
+processes running at the same time.  If the last process you started was
+on the region, the commands described in @ref{Debugging} and
+@ref{Control} will work on that process, otherwise they will work on the
+process associated with the current document.
+
+@node Selecting a Command
+@subsection Selecting and Executing a Command
+
+Once you started the command selection with @kbd{C-c C-c}, @kbd{C-c C-s}
+or @kbd{C-c C-b} you will be prompted for the type of command.
+@AUCTeX{} will try to guess which command is appropriate in the given
+situation and propose it as default.  Usually this is a processor like
+@samp{TeX} or @samp{LaTeX} if the document was changed or a viewer if
+the document was just typeset.  Other commands can be selected in the
+minibuffer with completion support by typing @key{TAB}.
+
+@vindex TeX-command-list
+@vindex TeX-expand-list
+The available commands are defined by the variable
+@code{TeX-command-list}.  Per default it includes commands for
+typesetting the document (e.g. @samp{LaTeX}), for viewing the output
+(@samp{View}), for printing (@samp{Print}), for generating an index
+(@samp{Index}) or for spell checking (@samp{Spell}) to name but a few.
+You can also add your own commands by adding entries to
+@code{TeX-command-list}.  Refer to its doc string for information about
+its syntax.  You might also want to look at @code{TeX-expand-list} to
+learn about the expanders you can use in @code{TeX-command-list}.
+
+Note that the default of the variable occasionally changes.  Therefore
+it is advisable to add to the list rather than overwriting it.  You can
+do this with a call to @code{add-to-list} in your init file.  For
+example, if you wanted to add a command for running a program called
+@samp{foo} on the master or region file, you could do this with the
+following form.
+
+@lisp
+(eval-after-load "tex"
+  '(add-to-list 'TeX-command-list
+		'("Foo" "foo %s" TeX-run-command t t :help "Run foo") t))
+@end lisp
+
+As mentioned before, @AUCTeX{} will try to guess what command you want
+to invoke.  If you want to use another command than @samp{TeX},
+@samp{LaTeX} or whatever processor @AUCTeX{} thinks is appropriate for
+the current mode, set the variable @code{TeX-command-default}.  You can
+do this for all files by setting it in a mode hook or per file by
+specifying it as a file variable (@pxref{File Variables,,,emacs,The
+Emacs Editor}).
+
+@defopt TeX-command-default
+The default command to run in this buffer.  Must be an entry in
+@code{TeX-command-list}.
+@end defopt
+
+@cindex Biber
+@cindex biblatex
+@vindex LaTeX-biblatex-use-Biber
+In case you use biblatex in a document, @AUCTeX{} switches from
+Bib@TeX{} to Biber for bibliography processing.  In case you want to
+keep using Bib@TeX{}, set the variable @code{LaTeX-biblatex-use-Biber}
+to nil.
+
+After confirming a command to execute, @AUCTeX{} will try to save any
+buffers related to the document, and check if the document needs to be
+reformatted.  If the variable @code{TeX-save-query} is non-nil,
+@AUCTeX{} will query before saving each file.  By default @AUCTeX{} will
+check emacs buffers associated with files in the current directory, in
+one of the @code{TeX-macro-private} directories, and in the
+@code{TeX-macro-global} directories.  You can change this by setting the
+variable @code{TeX-check-path}.
+
+@defopt TeX-check-path
+Directory path to search for dependencies.
+
+If nil, just check the current file.
+Used when checking if any files have changed.
+@end defopt
+
+@node Processor Options
+@subsection Options for @TeX{} Processors
+
+There are some options you can customize affecting which processors are
+invoked or the way this is done and which output they produce as a
+result.  These options control if @acronym{DVI} or @acronym{PDF} output
+should be produced, if @TeX{} should be started in interactive or
+nonstop mode, if source specials or a Sync@TeX{} file should be produced
+for making inverse and forward search possible or which @TeX{} engine
+should be used instead of regular @TeX{}, like PDF@TeX{}, Omega or
+Xe@TeX{}.
+
+@deffn Command TeX-PDF-mode
+@kindex C-c C-t C-p
+@vindex TeX-PDF-mode
+@cindex PDF mode
+(@kbd{C-c C-t C-p})
+This command toggles the @acronym{PDF} mode of @AUCTeX{}, a buffer-local
+minor mode.  You can customize @code{TeX-PDF-mode} to give it a
+different default.  The default is used when @AUCTeX{} does not have
+additional clue about what a document might want.  This option usually
+results in calling either PDF@TeX{} or ordinary @TeX{}.
+@end deffn
+
+@defopt TeX-DVI-via-PDFTeX
+If this is set, @acronym{DVI} will also be produced by calling
+PDF@TeX{}, setting @code{\pdfoutput=0}.  This makes it possible to use
+PDF@TeX{} features like character protrusion even when producing
+@acronym{DVI} files.  Contemporary @TeX{} distributions do this anyway,
+so that you need not enable the option within @AUCTeX{}.
+@end defopt
+
+@deffn Command TeX-interactive-mode
+@kindex C-c C-t C-i
+@vindex TeX-interactive-mode
+(@kbd{C-c C-t C-i}) This command toggles the interactive mode of
+@AUCTeX{}, a global minor mode.  You can customize
+@code{TeX-interactive-mode} to give it a different default.  In
+interactive mode, @TeX{} will pause with an error prompt when errors are
+encountered and wait for the user to type something.
+@end deffn
+
+@cindex I/O correlation
+@cindex SyncTeX
+@cindex Source specials
+@cindex PDFSync
+@deffn Command TeX-source-correlate-mode
+@kindex C-c C-t C-s
+@vindex TeX-source-correlate-mode
+(@kbd{C-c C-t C-s}) Toggles support for forward and inverse search.
+Forward search refers to jumping to the place in the previewed document
+corresponding to where point is located in the document source and
+inverse search to the other way round.  @xref{I/O Correlation}.
+
+You can permanently activate @code{TeX-source-correlate-mode} by
+customizing the variable @code{TeX-source-correlate-mode}.  There is a
+bunch of customization options for the mode, use @kbd{M-x
+customize-group @key{RET} TeX-view @key{RET}} to find out more.
+
+@vindex TeX-source-correlate-method
+@AUCTeX{} is aware of three different means to do I/O correlation:
+source specials (only DVI output), the pdfsync @LaTeX{} package (only
+PDF output) and Sync@TeX{}.  The choice between source specials and
+Sync@TeX{} can be controlled with the variable
+@code{TeX-source-correlate-method}.
+
+Should you use source specials it has to be stressed @emph{very}
+strongly however, that source specials can cause differences in page
+breaks and spacing, can seriously interfere with various packages and
+should thus @emph{never} be used for the final version of a document.
+In particular, fine-tuning the page breaks should be done with source
+specials switched off.
+@end deffn
+
+@AUCTeX{} also allows you to easily select different @TeX{} engines for
+processing, either by using the entries in the @samp{TeXing Options}
+submenu below the @samp{Command} menu or by calling the function
+@code{TeX-engine-set}.  These eventually set the variable
+@code{TeX-engine} which you can also modify directly.
+
+@defopt TeX-engine
+This variable allows you to choose which @TeX{} engine should be used
+for typesetting the document, i.e. the executables which will be used
+when you invoke the @samp{TeX} or @samp{LaTeX} commands.  The value
+should be one of the symbols defined in @code{TeX-engine-alist-builtin}
+or @code{TeX-engine-alist}.  The symbols @samp{default}, @samp{xetex},
+@samp{luatex} and @samp{omega} are available from the built-in list.
+@end defopt
+
+Note that @code{TeX-engine} is buffer-local, so setting the variable
+directly or via the above mentioned menu or function will not take
+effect in other buffers.  If you want to activate an engine for all
+@AUCTeX{} modes, set @code{TeX-engine} in your init file, e.g. by using
+@kbd{M-x customize-variable <RET>}.  If you want to activate it for a
+certain @AUCTeX{} mode only, set the variable in the respective mode
+hook.  If you want to activate it for certain files, set it through file
+variables (@pxref{File Variables,,,emacs,The Emacs Editor}).
+
+@vindex TeX-command
+@vindex LaTeX-command
+@vindex TeX-Omega-command
+@vindex LaTeX-Omega-command
+@vindex ConTeXt-engine
+@vindex ConTeXt-Omega-engine
+@vindex TeX-engine-alist
+@vindex TeX-engine-alist-builtin
+Should you need to change the executable names related to the different
+engine settings, there are some variables you can tweak.  Those are
+@code{TeX-command}, @code{LaTeX-command}, @code{TeX-Omega-command},
+@code{LaTeX-Omega-command}, @code{ConTeXt-engine} and
+@code{ConTeXt-Omega-engine}.  The rest of the executables is defined
+directly in @code{TeX-engine-alist-builtin}.  If you want to override an
+entry from that, add an entry to @code{TeX-engine-alist} that starts
+with the same symbol as that the entry in the built-in list and specify
+the executables you want to use instead.  You can also add entries to
+@code{TeX-engine-alist} in order to add support for engines not covered
+per default.
+
+@defopt TeX-engine-alist
+Alist of TeX engines and associated commands.  Each entry is a list with
+a maximum of five elements.  The first element is a symbol used to
+identify the engine.  The second is a string describing the engine.  The
+third is the command to be used for plain TeX.  The fourth is the
+command to be used for LaTeX.  The fifth is the command to be used for
+the @samp{--engine} parameter of ConTeXt's @samp{texexec} program.  Each
+command can either be a variable or a string.  An empty string or nil
+means there is no command available.
+@end defopt
+
+You can customize @AUCTeX{} to show the processor output as it is
+produced.
+
+@defopt TeX-show-compilation
+If non-nil, the output of @TeX{} compilation is shown in another window.
+@end defopt
+
+@node Viewing
+@section Viewing the Formatted Output
+@cindex Viewing
+@cindex Previewing
+@cindex Starting a previewer
+
+@AUCTeX{} allows you to start external programs for previewing the
+formatted output of your document.
+
+@menu
+* Starting Viewers::            Starting viewers
+* I/O Correlation::             Forward and inverse search
+@end menu
+
+@node Starting Viewers
+@subsection Starting Viewers
+
+Viewers are normally invoked by pressing @kbd{C-c C-c} once the document
+is formatted, which will propose the View command, or by activating the
+respective entry in the Command menu.  Alternatively you can type
+@kbd{C-c C-v} which calls the function @code{TeX-view}.
+
+@deffn Command TeX-view
+@kindex C-c C-v
+(@kbd{C-c C-v}) Start a viewer without confirmation.  The viewer is
+started either on a region or the master file, depending on the last
+command issued.  This is especially useful for jumping to the location
+corresponding to point in the viewer when using
+@code{TeX-source-correlate-mode}.
+@end deffn
+
+@AUCTeX{} will try to guess which type of viewer (@acronym{DVI},
+PostScript or @acronym{PDF}) has to be used and what options are to be
+passed over to it.  This decision is based on the output files present
+in the working directory as well as the class and style options used in
+the document.  For example, if there is a @acronym{DVI} file in your
+working directory, a @acronym{DVI} viewer will be invoked.  In case of a
+@acronym{PDF} file it will be a @acronym{PDF} viewer.  If you specified
+a special paper format like @samp{a5paper} or use the @samp{landscape}
+option, this will be passed to the viewer by the appropriate options.
+Especially some @acronym{DVI} viewers depend on this kind of information
+in order to display your document correctly.  In case you are using
+@samp{pstricks} or @samp{psfrag} in your document, a @acronym{DVI}
+viewer cannot display the contents correctly and a PostScript viewer
+will be invoked instead.
+
+The association between the tests for the conditions mentioned above and
+the viewers is made in the variable @code{TeX-view-program-selection}.
+Therefore this variable is the starting point for customization if you
+want to use other viewers than the ones suggested by default.
+
+@defopt TeX-view-program-selection
+This is a list of predicates and viewers which is evaluated from front
+to back in order to find out which viewer to call under the given
+conditions.  In the first element of each list item you can reference
+one or more predicates defined in @code{TeX-view-predicate-list} or
+@code{TeX-view-predicate-list-builtin}.  In the second element you can
+reference a viewer defined in @code{TeX-view-program-list} or
+@code{TeX-view-program-list-builtin}.  The viewer of the first item with
+a positively evaluated predicate is selected.
+@end defopt
+
+So @code{TeX-view-program-selection} only contains references to the
+actual implementations of predicates and viewer commands respectively
+which can be found elsewhere.  @AUCTeX{} comes with a set of
+preconfigured predicates and viewer commands which are stored in the
+variables @code{TeX-view-predicate-list-builtin} and
+@code{TeX-view-program-list-builtin} respectively.  If you are not
+satisfied with those and want to overwrite one of them or add your own
+definitions, you can do so via the variables
+@code{TeX-view-predicate-list} and @code{TeX-view-program-list}.
+
+@defopt TeX-view-predicate-list
+This is a list of predicates for viewer selection and invocation.  The
+first element of each list item is a symbol and the second element a
+Lisp form to be evaluated.  The form should return nil if the predicate
+is not fulfilled.
+
+A built-in predicate from @code{TeX-view-predicate-list-builtin} can be
+overwritten by defining a new predicate with the same symbol.
+@end defopt
+
+@defopt TeX-view-program-list
+This is a list of viewer specifications each consisting of a symbolic
+name and either a command line or a function to be invoked when the
+viewer is called.  If a command line is used, parts of it can be
+conditionalized by prefixing them with predicates from
+@code{TeX-view-predicate-list} or
+@code{TeX-view-predicate-list-builtin}.  (See the doc string for the
+exact format to use.)  The command line can also contain placeholders as
+defined in @code{TeX-expand-list} which are expanded before the viewer
+is called.
+
+A built-in viewer spec from @code{TeX-view-program-list-builtin} can be
+overwritten by defining a new viewer spec with the same name.
+@end defopt
+
+Note that the viewer selection and invocation as described above will
+only work if certain default settings in @AUCTeX{} are intact.  For one,
+the whole viewer selection machinery will only be triggered if the
+@samp{%V} expander in @code{TeX-expand-list} is unchanged.  So if you
+have trouble with the viewer invocation you might check if there is an
+older customization of the variable in place.  In addition, the use of a
+function in @code{TeX-view-program-list} only works if the View command
+in @code{TeX-command-list} makes use of the hook
+@code{TeX-run-discard-or-function}.
+
+Note also that the implementation described above replaces an older one
+which was less flexible.  This old implementation works with the
+variables @code{TeX-output-view-style} and @code{TeX-view-style} which
+are used to associate file types and style options with viewers.  If
+desired you can reactivate it by using the placeholder @samp{%vv} for
+the View command in @code{TeX-command-list}.  Note however, that it is
+bound to be removed from @AUCTeX{} once the new implementation proved to
+be satisfactory.  For the time being, find a short description of the
+mentioned customization options below.
+
+@defopt TeX-output-view-style
+List of output file extensions, style options and view options.  Each
+item of the list consists of three elements.  If the first element (a
+regular expression) matches the output file extension, and the second
+element (a regular expression) matches the name of one of the style
+options, any occurrence of the string @code{%V} in a command in
+@code{TeX-command-list} will be replaced with the third element.
+@end defopt
+
+@defopt TeX-view-style
+List of style options and view options.  This is the predecessor of
+@code{TeX-output-view-style} which does not provide the possibility to
+specify output file extensions.  It is used as a fallback in case none
+of the alternatives specified in @code{TeX-output-view-style} match.  In
+case none of the entries in @code{TeX-view-style} match either, no
+suggestion for a viewer is made.
+@end defopt
+
+@node I/O Correlation
+@subsection Forward and Inverse Search
+@cindex Inverse search
+@cindex Forward search
+@cindex I/O correlation
+@cindex Source specials
+@cindex SyncTeX
+@cindex PDFSync
+
+Forward and inverse search refer to the correlation between the document
+source in the editor and the typeset document in the viewer.  Forward
+search allows you to jump to the place in the previewed document
+corresponding to a certain line in the document source and inverse
+search vice versa.
+
+@findex TeX-source-correlate-mode
+@AUCTeX{} supports three methods for forward and inverse search: source
+specials (only DVI output), the pdfsync @LaTeX{} package (only PDF
+output) and Sync@TeX{} (any type of output).  If you want to make use of
+forward and inverse searching with source specials or Sync@TeX{}, switch
+on @code{TeX-source-correlate-mode}.  @xref{Processor Options}, on how
+to do that.  The use of the pdfsync package is detected automatically if
+document parsing is enabled.
+
+@findex TeX-view
+Forward search happens automatically upon calling the viewer, e.g. by
+typing @kbd{C-c C-v} (@code{TeX-view}).  This will open the viewer or
+bring it to front and display the output page corresponding to the
+position of point in the source file.  @AUCTeX{} will automatically pass
+the necessary command line options to the viewer for this to happen.
+
+@vindex TeX-source-correlate-start-server
+Upon opening the viewer you will be asked if you want to start a server
+process (Gnuserv or Emacs server) which is necessary for inverse search.
+This happens only if there is no server running already.  You can
+customize the variable @code{TeX-source-correlate-start-server} to
+inhibit the question and always or never start the server respectively.
+
+@defopt TeX-source-correlate-start-server
+If @code{TeX-source-correlate-mode} is active and a viewer is invoked,
+the default behavior is to ask if a server process should be started.
+Set this variable to @code{t} if the question should be inhibited and
+the server should always be started.  Set it to @code{nil} if the server
+should never be started.  Inverse search will not be available in the
+latter case.
+@end defopt
+
+Inverse search, i.e. jumping to the part of your document source in
+Emacs corresponding to a certain position in the viewer, is triggered
+from the viewer, typically by a mouse click.  Refer to the documentation
+of your viewer to find out how it has to be configured and what you have
+to do exactly.  In xdvi you normally have to use @kbd{C-down-mouse-1}.
+
+@node Debugging
+@section Catching the errors
+@cindex Debugging
+@cindex Errors
+@cindex Parsing errors
+@cindex Parsing TeX output
+@cindex Next error
+@cindex Parsing @LaTeX{} errors
+@cindex Overfull boxes
+@cindex Bad boxes
+@cindex Underfull boxes
+
+Once you've formatted your document you may `debug' it, i.e. browse
+through the errors (La)@TeX{} reported.
+
+@deffn Command TeX-next-error
+@kindex C-c `
+(@kbd{C-c `})  Go to the next error reported by @TeX{}.  The view will
+be split in two, with the cursor placed as close as possible to the
+error in the top view.  In the bottom view, the error message will be
+displayed along with some explanatory text.
+@end deffn
+
+Normally @AUCTeX{} will only report real errors, but you may as well
+ask it to report `bad boxes' and warnings as well.
+
+@deffn Command TeX-toggle-debug-bad-boxes
+@kindex C-c C-t C-b
+(@kbd{C-c C-t C-b}) Toggle whether @AUCTeX{} should stop at bad boxes
+(i.e. overfull and underfull boxes) as well as normal errors.
+@end deffn
+
+@deffn Command TeX-toggle-debug-warnings
+@kindex C-c C-t C-w
+(@kbd{C-c C-t C-w}) Toggle whether @AUCTeX{} should stop at warnings as
+well as normal errors.
+@end deffn
+
+As default, @AUCTeX{} will display a special help buffer containing the
+error reported by @TeX{} along with the documentation.  There is however
+an `expert' option, which allows you to display the real @TeX{} output.
+
+@defopt TeX-display-help
+If t @AUCTeX{} will automatically display a help text whenever an error
+is encountered using @code{TeX-next-error} (@kbd{C-c `}).  If nil a
+terse information about the error is displayed in the echo area.  If
+@code{expert} @AUCTeX{} will display the output buffer with the raw
+@TeX{} output.
+@end defopt
+
+@node Checking
+@section Checking for problems
+@cindex Checking
+@cindex @code{lacheck}
+@cindex @code{chktex}
+@cindex Finding errors
+@cindex Running @code{lacheck}
+@cindex Running @code{chktex}
+@cindex Style
+@cindex Problems
+
+Running @TeX{} or @LaTeX{} will only find regular errors in the
+document, not examples of bad style.  Furthermore, description of the
+errors may often be confusing.  The utility @code{lacheck} can be used
+to find style errors, such as forgetting to escape the space after an
+abbreviation or using @samp{...} instead of @samp{\ldots} and many other
+problems like that.  You start @code{lacheck} with @kbd{C-c C-c Check
+@key{RET}}.  The result will be a list of errors in the
+@samp{*compilation*} buffer.  You can go through the errors with
+@kbd{C-x `} (@code{next-error}, @pxref{Compilation,,,emacs,The Emacs
+Editor}), which will move point to the location of the next error.
+
+Another newer program which can be used to find errors is @code{chktex}.
+It is much more configurable than @code{lacheck}, but doesn't find all
+the problems @code{lacheck} does, at least in its default configuration.
+You must install the programs before using them, and for @code{chktex}
+you may also need modify @code{TeX-command-list} unless you use its
+@code{lacheck} compatibility wrapper.  You can get @code{lacheck} from
+@file{<URL:ftp://ftp.ctan.org/tex-archive/support/lacheck/>} or
+alternatively @code{chktex} from
+@file{<URL:ftp://ftp.ctan.org/tex-archive/support/chktex/>}.
+
+@node Control
+@section Controlling the output
+@cindex Controlling the output
+@cindex Output
+@cindex Redisplay output
+@cindex Processes
+@cindex Killing a process
+@cindex Finding the master file
+@cindex Master file
+@cindex Stopping a process
+@cindex Current file
+@cindex Finding the current file
+
+A number of commands are available for controlling the output of an
+application running under @AUCTeX{}
+
+@deffn Command TeX-kill-job
+@kindex C-c C-k
+(@kbd{C-c C-k})  Kill currently running external application.
+This may be either of @TeX{}, @LaTeX{}, previewer, Bib@TeX{}, etc.
+@end deffn
+
+@deffn Command TeX-recenter-output-buffer
+@kindex C-c C-l
+(@kbd{C-c C-l})  Recenter the output buffer so that the bottom line is
+visible.
+@end deffn
+
+@deffn Command TeX-home-buffer
+@kindex C-c ^
+(@kbd{C-c ^}) Go to the `master' file in the document associated with
+the current buffer, or if already there, to the file where the current
+process was started.
+@end deffn
+
+@node Cleaning
+@section Cleaning intermediate and output files
+@cindex Cleaning
+
+@deffn Command TeX-clean
+@vindex plain-TeX-clean-intermediate-suffixes
+@vindex plain-TeX-clean-output-suffixes
+@vindex LaTeX-clean-intermediate-suffixes
+@vindex LaTeX-clean-output-suffixes
+@vindex docTeX-clean-intermediate-suffixes
+@vindex docTeX-clean-output-suffixes
+@vindex Texinfo-clean-intermediate-suffixes
+@vindex Texinfo-clean-output-suffixes
+@vindex ConTeXt-clean-intermediate-suffixes
+@vindex ConTeXt-clean-output-suffixes
+Remove generated intermediate files.  In case a prefix argument is
+given, remove output files as well.
+
+Canonical access to the function is provided by the @samp{Clean} and
+@samp{Clean All} entries in @code{TeX-command-list}, invokable with
+@kbd{C-c C-c} or the Command menu.
+
+The patterns governing which files to remove can be adapted separately
+for each @AUCTeX{} mode by means of the variables
+@code{plain-TeX-clean-intermediate-suffixes},
+@code{plain-TeX-clean-output-suffixes},
+@code{LaTeX-clean-intermediate-suffixes},
+@code{LaTeX-clean-output-suffixes},
+@code{docTeX-clean-intermediate-suffixes},
+@code{docTeX-clean-output-suffixes},
+@code{Texinfo-clean-intermediate-suffixes},
+@code{Texinfo-clean-output-suffixes},
+@code{ConTeXt-clean-intermediate-suffixes} and
+@code{ConTeXt-clean-output-suffixes}.
+@end deffn
+
+@defopt TeX-clean-confirm
+Control if deletion of intermediate and output files has to be confirmed
+before it is actually done.  If non-nil, ask before deleting files.
+@end defopt
+
+@node Documentation
+@section Documentation about macros and packages
+@cindex Documentation
+
+@deffn Command TeX-doc
+@kindex C-c ?
+(@kbd{C-c ?})  Get documentation about macros, packages or @TeX{} &
+Co. in general.  The function will prompt for the name of a command or
+manual, providing a list of available keywords for completion.  If point
+is on a command or word with available documentation, this will be
+suggested as default.
+
+In case no documentation could be found, a prompt for querying the
+@samp{texdoc} program is shown, should the latter be available.
+
+The command can be invoked by the key binding mentioned above as well as
+the @samp{Find Documentation...} entry in the mode menu.
+@end deffn
+
+@node Customization
+@chapter Customization and Extension
+
+@menu
+* Modes and Hooks::             Modes and Hooks
+* Multifile::                   Multifile Documents
+* Parsing Files::               Automatic Parsing of @TeX{} Files
+* Internationalization::        Language Support
+* Automatic::                   Automatic Customization
+* Style Files::                 Writing Your Own Style Support
+@end menu
+
+@node Modes and Hooks
+@section Modes and Hooks
+
+@AUCTeX{} supports a wide variety of derivatives and extensions of
+@TeX{}.  Besides plain @TeX{} those are @LaTeX{}, AMS-@TeX{},
+@ConTeXt{}, Texinfo and doc@TeX{}.  For each of them there is a separate
+major mode in @AUCTeX{} and each major mode runs @code{text-mode-hook},
+@code{TeX-mode-hook} as well as a hook special to the mode in this
+order.  The following table provides an overview of the respective mode
+functions and hooks.
+
+@multitable {Plain @TeX{}} {@code{plain-TeX-mode}} {@code{plain-TeX-mode-hook}}
+@headitem Type @tab Mode function @tab Hook
+@item Plain @TeX{} @tab @code{plain-TeX-mode} @tab @code{plain-TeX-mode-hook}
+@item @LaTeX{}     @tab @code{LaTeX-mode}     @tab @code{LaTeX-mode-hook}
+@item AMS-@TeX{}   @tab @code{ams-tex-mode}   @tab @code{AmS-TeX-mode-hook}
+@item @ConTeXt{}   @tab @code{ConTeXt-mode}   @tab @code{ConTeXt-mode-hook}
+@item Texinfo      @tab @code{Texinfo-mode}   @tab @code{Texinfo-mode-hook}
+@item Doc@TeX{}    @tab @code{docTeX-mode}    @tab @code{docTeX-mode-hook}
+@end multitable
+
+If you need to make a customization via a hook which is only relevant
+for one of the modes listed above, put it into the respective mode hook,
+if it is relevant for any @AUCTeX{} mode, add it to @code{TeX-mode-hook}
+and if it is relevant for all text modes, append it to
+@code{text-mode-hook}.
+
+@node Multifile
+@section Multifile Documents
+@cindex Multifile Documents
+@cindex Documents
+@cindex Documents with multiple files
+@cindex Multiple Files
+@cindex Many Files
+@cindex Including
+@cindex \include
+@cindex Inputing
+@cindex \input
+@cindex Master file
+
+You may wish to spread a document over many files (as you are likely to do if
+there are multiple authors, or if you have not yet discovered the power
+of the outline commands (@pxref{Outline})).  This can be done by having a
+``master'' file in which you include the various files with the @TeX{}
+macro @samp{\input} or the @LaTeX{} macro @samp{\include}.  These
+files may also include other files themselves.  However, to format the
+document you must run the commands on the top level master file.
+
+When you, for example, ask @AUCTeX{} to run a command on the master file,
+it has no way of knowing the name of the master file.  By default,
+it will assume that the current file is the master file.  If you insert
+the following in your @file{.emacs} file @AUCTeX{} will use a more
+advanced algorithm.
+
+@lisp
+(setq-default TeX-master nil) ; Query for master file.
+@end lisp
+
+If @AUCTeX{} finds the line indicating the end of the header in a master
+file (@code{TeX-header-end}), it can figure out for itself that this is
+a master file.  Otherwise, it will ask for the name of the master file
+associated with the buffer.  To avoid asking you again, @AUCTeX{} will
+automatically insert the name of the master file as a file variable
+(@pxref{File Variables,,,emacs,The Emacs Editor}).  You can also insert
+the file variable yourself, by putting the following text at the end of
+your files.
+@findex TeX-header-end
+
+@example
+%%% Local Variables:
+%%% TeX-master: "master"
+%%% End:
+@end example
+
+You should always set this variable to the name of the top level document.  If
+you always use the same name for your top level documents, you can set
+@code{TeX-master} in your @file{.emacs} file.
+
+@lisp
+(setq-default TeX-master "master") ; All master files called "master".
+@end lisp
+
+@defopt TeX-master
+The master file associated with the current buffer.  If the file being
+edited is actually included from another file, then you can tell @AUCTeX{}
+the name of the master file by setting this variable.  If there are
+multiple levels of nesting, specify the top level file.
+
+If this variable is @code{nil}, @AUCTeX{} will query you for the
+name.
+
+If the variable is @code{t}, then @AUCTeX{} will assume the file is a master
+file itself.
+
+If the variable is @code{shared}, then @AUCTeX{} will query for the name,
+but will not change the file.
+@end defopt
+
+@defopt TeX-one-master
+Regular expression matching ordinary @TeX{} files.
+
+You should set this variable to match the name of all files, for which
+it is a good idea to append a @code{TeX-master} file variable entry
+automatically.  When @AUCTeX{} adds the name of the master file as a
+file variable, it does not need to ask next time you edit the file.
+
+If you dislike @AUCTeX{} automatically modifying your files, you can
+set this variable to @samp{"<none>"}.  By default, @AUCTeX{} will modify
+any file with an extension of @samp{.tex}.
+@end defopt
+
+@deffn Command TeX-master-file-ask
+@kindex C-c _
+(@kbd{C-c _}) Query for the name of a master file and add the respective
+File Variables (@pxref{File Variables,,,emacs,The Emacs Editor}) to the
+file for setting this variable permanently.
+
+@AUCTeX{} will not ask for a master file when it encounters existing
+files.  This function shall give you the possibility to insert the
+variable manually.
+@end deffn
+
+@AUCTeX{} keeps track of macros, environments, labels, and style
+files that are used in a given document.  For this to work with
+multifile documents, @AUCTeX{} has to have a place to put the
+information about the files in the document.  This is done by having an
+@file{auto} subdirectory placed in the directory where your document is
+located.  Each time you save a file, @AUCTeX{} will write information
+about the file into the @file{auto} directory.  When you load a file,
+@AUCTeX{} will read the information in the @file{auto} directory
+about the file you loaded @emph{and the master file specified by
+@code{TeX-master}}.  Since the master file (perhaps indirectly) includes
+all other files in the document, @AUCTeX{} will get information from
+all files in the document.  This means that you will get from each file,
+for example, completion for all labels defined anywhere in the document.
+
+@AUCTeX{} will create the @file{auto} directory automatically if
+@code{TeX-auto-save} is non-nil.  Without it, the files in the document
+will not know anything about each other, except for the name of the
+master file.  @xref{Automatic Local}.
+
+@deffn Command TeX-save-document
+@kindex C-c C-d
+(@kbd{C-c C-d}) Save all buffers known to belong to the current document.
+@end deffn
+
+@defopt TeX-save-query
+If non-nil, then query the user before saving each file with
+@code{TeX-save-document}.
+@end defopt
+
+
+@node Parsing Files
+@section Automatic Parsing of @TeX{} Files
+@cindex Parsing @TeX{}
+@cindex Automatic Parsing
+@cindex Tabs
+@cindex Tabify
+@cindex Untabify
+
+@AUCTeX{} depends heavily on being able to extract information from the
+buffers by parsing them.  Since parsing the buffer can be somewhat slow,
+the parsing is initially disabled.  You are encouraged to enable them by
+adding the following lines to your @file{.emacs} file.
+
+@lisp
+(setq TeX-parse-self t) ; Enable parse on load.
+(setq TeX-auto-save t) ; Enable parse on save.
+@end lisp
+
+The latter command will make @AUCTeX{} store the parsed information in
+an @file{auto} subdirectory in the directory each time the @TeX{} files
+are stored, @pxref{Automatic Local}.  If @AUCTeX{} finds the pre-parsed
+information when loading a file, it will not need to reparse the buffer.
+The information in the @file{auto} directory is also useful for
+multifile documents, @pxref{Multifile}, since it allows each file to
+access the parsed information from all the other files in the document.
+This is done by first reading the information from the master file, and
+then recursively the information from each file stored in the master
+file.
+
+The variables can also be done on a per file basis, by changing the file
+local variables.
+
+@example
+%%% Local Variables:
+%%% TeX-parse-self: t
+%%% TeX-auto-save: t
+%%% End:
+@end example
+
+Even when you have disabled the automatic parsing, you can force the
+generation of style information by pressing @kbd{C-c C-n}.  This is
+often the best choice, as you will be able to decide when it is
+necessary to reparse the file.
+
+@defopt TeX-parse-self
+Parse file after loading it if no style hook is found for it.
+@end defopt
+
+@defopt TeX-auto-save
+Automatically save style information when saving the buffer.
+@end defopt
+
+@deffn Command TeX-normal-mode @var{arg}
+@kindex C-c C-n
+(@kbd{C-c C-n}) Remove all information about this buffer, and apply the
+style hooks again.  Save buffer first including style information.  With
+optional argument, also reload the style hooks.
+@end deffn
+
+When @AUCTeX{} saves your buffer, it can optionally convert all tabs in
+your buffer into spaces.
+Tabs confuse @AUCTeX{}'s error message parsing and so should generally be
+avoided.  However, tabs are significant in some environments, and so by
+default @AUCTeX{} does not remove them.
+To convert tabs to spaces when saving a buffer, insert the
+following in your @file{.emacs} file:
+
+@lisp
+(setq TeX-auto-untabify t)
+@end lisp
+
+@defopt TeX-auto-untabify
+Automatically remove all tabs from a file before saving it.
+@end defopt
+
+Instead of disabling the parsing entirely, you can also speed it
+significantly up by limiting the information it will search for (and
+store) when parsing the buffer.  You can do this by setting the default
+values for the buffer local variables @code{TeX-auto-regexp-list} and
+@code{TeX-auto-parse-length} in your @file{.emacs} file.
+
+@lisp
+;; Only parse LaTeX class and package information.
+(setq-default TeX-auto-regexp-list 'LaTeX-auto-minimal-regexp-list)
+;; The class and package information is usually near the beginning.
+(setq-default TeX-auto-parse-length 2000)
+@end lisp
+
+This example will speed the parsing up significantly, but @AUCTeX{}
+will no longer be able to provide completion for labels, macros,
+environments, or bibitems specified in the document, nor will it know
+what files belong to the document.
+
+These variables can also be specified on a per file basis, by changing
+the file local variables.
+
+@example
+%%% Local Variables:
+%%% TeX-auto-regexp-list: TeX-auto-full-regexp-list
+%%% TeX-auto-parse-length: 999999
+%%% End:
+@end example
+
+@defopt TeX-auto-regexp-list
+List of regular expressions used for parsing the current file.
+@end defopt
+
+@defopt TeX-auto-parse-length
+Maximal length of @TeX{} file that will be parsed.
+@end defopt
+
+The pre-specified lists of regexps are defined below.  You can use these
+before loading @AUCTeX{} by quoting them, as in the example above.
+
+@defvr Constant TeX-auto-empty-regexp-list
+Parse nothing
+@end defvr
+
+@defvr Constant LaTeX-auto-minimal-regexp-list
+Only parse @LaTeX{} class and packages.
+@end defvr
+
+@defvr Constant LaTeX-auto-label-regexp-list
+Only parse @LaTeX{} labels.
+@end defvr
+
+@defvr Constant LaTeX-auto-regexp-list
+Parse common @LaTeX{} commands.
+@end defvr
+
+@defvr Constant plain-TeX-auto-regexp-list
+Parse common plain @TeX{} commands.
+@end defvr
+
+@defvr Constant TeX-auto-full-regexp-list
+Parse all @TeX{} and @LaTeX{} commands that @AUCTeX{} can use.
+@end defvr
+
+@node Internationalization
+@section Language Support
+@cindex Internationalization
+@cindex Language Support
+@cindex Character set
+@cindex National letters
+@cindex CJK language
+@cindex MULE
+@cindex C@TeX{}
+@cindex China@TeX{}
+@cindex p@TeX{}
+@cindex ASCII p@TeX{}
+@cindex j@TeX{}
+@cindex NTT j@TeX{}
+@cindex k@TeX{}
+@cindex H@LaTeX{}
+@cindex CJK-@LaTeX{}
+@cindex UNICODE
+@cindex MULE-UCS
+
+@TeX{} and Emacs are usable for European (Latin, Cyrillic, Greek) based
+languages.  Some @LaTeX{} and EmacsLisp packages are available for easy
+typesetting and editing documents in European languages.
+
+@c Some Texinfo macros are not used because they require quite recent
+@c texinfo versions (2005-03-05):
+@c Second arg of @acronym is available with 4.7, @comma is available in
+@c 4.7, @abbr is available in 4.8.
+@c -> @abbr{MULE, MULtilingual Enhancement to GNU Emacs}
+@c -> @acronym{CJK, Chinese@comma{} Japanese@comma{} and Korean}
+
+For @acronym{CJK} (Chinese, Japanese, and Korean) languages, Emacs or
+XEmacs with @acronym{MULE} (MULtilingual Enhancement to GNU Emacs)
+support is required.  @acronym{MULE} is part of Emacs by default since
+Emacs 20.  XEmacs has to be configured with the @samp{--with-mule}
+option.  Special versions of @TeX{} are needed for @acronym{CJK}
+languages: C@TeX{} and China@TeX{} for Chinese, ASCII p@TeX{} and NTT
+j@TeX{} for Japanese, H@LaTeX{} and k@TeX{} for Korean.  The
+@acronym{CJK}-@LaTeX{} package is required for supporting multiple
+@acronym{CJK} scripts within a single document.
+
+Note that Unicode is not fully supported in Emacs 21 and XEmacs 21.
+@acronym{CJK} characters are not usable.  Please use the
+@acronym{MULE}-@acronym{UCS} EmacsLisp package or Emacs 22 (not released
+yet) if you need @acronym{CJK}.
+
+@c FIXME: We need more information for CTeX, ChinaTeX, KTeX, and HLaTeX.
+
+@menu
+* European::                    Using @AUCTeX{} with European Languages
+* Japanese::                    Using @AUCTeX{} with Japanese
+@end menu
+
+@node European
+@subsection Using @AUCTeX{} with European Languages
+@cindex Europe
+@cindex European Characters
+@cindex ISO 8859 Latin 1
+@cindex Latin 1
+@cindex ISO 8859 Latin 2
+@cindex Latin 2
+@cindex ANSI
+
+@subsubsection Typing and Displaying Non-ASCII Characters
+
+First you will need a way to write non-ASCII characters.  You can either
+use macros, or teach @TeX{} about the ISO character sets.  I prefer the
+latter, it has the advantage that the usual standard emacs word
+movement and case change commands will work.
+
+With @LaTeX{}2e, just add @samp{\usepackage[latin1]@{inputenc@}}.  Other
+languages than Western European ones will probably have other encoding
+needs.
+
+To be able to display non-ASCII characters you will need an appropriate
+font and a version of GNU Emacs capable of displaying 8-bit characters
+(e.g. Emacs 21).  The manner in which this is supported differs between
+Emacsen, so you need to take a look at your respective documentation.
+
+A compromise is to use an European character set when editing the file,
+and convert to @TeX{} macros when reading and writing the files.
+
+@table @file
+@item iso-cvt.el
+@cindex @file{iso-cvt.el}
+Much like @file{iso-tex.el} but is bundled with Emacs 19.23 and later.
+
+@item x-compose.el
+@cindex @file{x-compose.el}
+Similar package bundled with new versions of XEmacs.
+
+@item X-Symbol
+@cindex X-Symbol
+a much more complete package for both Emacs and XEmacs that can also
+handle a lot of mathematical characters and input methods.
+@end table
+
+@subsubsection Style Files for Different Languages
+
+@cindex ispell
+@AUCTeX{} supports style files for several languages.  Each style file
+may modify @AUCTeX{} to better support the language, and will run
+a language specific hook that will allow you to for example change
+ispell dictionary, or run code to change the keyboard remapping.  The
+following will for example choose a Danish dictionary for documents
+including @samp{\usepackage[danish]@{babel@}}.
+This requires parsing to be enabled, @pxref{Parsing Files}.
+
+@lisp
+(add-hook 'TeX-language-dk-hook
+	  (lambda () (ispell-change-dictionary "danish")))
+@end lisp
+
+The following style files are recognized:
+
+@c In alphabetic order of the hooks:
+@vindex TeX-language-bg-hook
+@vindex TeX-language-cz-hook
+@vindex TeX-language-dk-hook
+@vindex TeX-language-nl-hook
+@vindex TeX-language-de-hook
+@vindex TeX-language-it-hook
+@vindex TeX-language-is-hook
+@vindex TeX-language-pl-hook
+@vindex TeX-language-sk-hook
+@vindex TeX-language-sv-hook
+@cindex Bulgarian
+@cindex Czech
+@cindex Italian
+@cindex Danish
+@cindex Dutch
+@cindex German
+@cindex Polish
+@cindex Slovak
+@cindex Swedish
+@table @file
+@item bulgarian
+Runs style hook @code{TeX-language-bg-hook}.  Gives @samp{"} word
+syntax, makes the @key{"} key insert a literal @samp{"}.  Typing @key{"}
+twice will insert insert @samp{"`} or @samp{"'} depending on context.
+Typing @key{-} twice will insert @samp{"=}, three times @samp{--}.
+
+@item czech
+Runs style hook @code{TeX-language-cz-hook}.  Pressing @key{"} will
+insert @samp{\uv@{} and @samp{@}} depending on context.
+
+@c Is the difference between dk and danish really intented?
+@item danish
+Runs style hook @code{TeX-language-dk-hook}.  Pressing @key{"} will
+insert @samp{"`} and @samp{"'} depending on context.  Typing @key{-}
+twice will insert @samp{"=}, i.e. a hyphen string allowing hyphenation
+in the composing words.
+@c dk.sty seems to be obsolete, so we don't want to encourage using it.
+@c @item dk
+@c Runs style hook @code{TeX-language-dk-hook}.
+
+@item dutch
+Runs style hook @code{TeX-language-nl-hook}.
+
+@item german
+@itemx ngerman
+Runs style hook @code{TeX-language-de-hook}.  Gives @samp{"} word
+syntax, makes the @key{"} key insert a literal @samp{"}.  Pressing the
+key twice will give you opening or closing German quotes (@samp{"`} or
+@samp{"'}).  Typing @key{-} twice will insert @samp{"=}, three times
+@samp{--}.
+
+@item frenchb
+@itemx francais
+Runs style hook @code{TeX-language-fr-hook}.  Pressing @key{"} will
+insert @samp{\\og} and @samp{\\fg} depending on context.  Note that the
+language name for customizing @code{TeX-quote-language-alist} is
+@samp{french}.
+
+@item icelandic
+Runs style hook @code{TeX-language-is-hook}.  Gives @samp{"} word
+syntax, makes the @key{"} key insert a literal @samp{"}.  Typing @key{"}
+twice will insert insert @samp{"`} or @samp{"'} depending on context.
+Typing @key{-} twice will insert @samp{"=}, three times @samp{--}.
+
+@item italian
+Runs style hook @code{TeX-language-it-hook}.  Pressing @key{"} will
+insert @samp{"<} and @samp{">} depending on context.
+
+@item polish
+Runs style hook @code{TeX-language-pl-hook}.  Gives @samp{"} word syntax
+and makes the @key{"} key insert a literal @samp{"}.  Pressing @key{"}
+twice will insert @samp{"`} or @samp{"'} depending on context.
+
+@item polski
+Runs style hook @code{TeX-language-pl-hook}.  Makes the @key{"} key
+insert a literal @samp{"}.  Pressing @key{"} twice will insert @samp{,,}
+or @samp{''} depending on context.
+
+@item slovak
+Runs style hook @code{TeX-language-sk-hook}.  Pressing @key{"} will
+insert @samp{\uv@{} and @samp{@}} depending on context.
+
+@item swedish
+Runs style hook @code{TeX-language-sv-hook}.  Pressing @key{"} will
+insert @samp{''}.  Typing @key{-} twice will insert @samp{"=}, three
+times @samp{--}.
+@end table
+
+Replacement of language-specific hyphen strings like @samp{"=} with
+dashes does not require to type @key{-} three times in a row.  You can
+put point after the hypen string anytime and trigger the replacement by
+typing @key{-}.
+
+In case you are not satisfied with the suggested behavior of quote and
+hyphen insertion you can change it by customizing the variables
+@code{TeX-quote-language-alist} and
+@code{LaTeX-babel-hyphen-language-alist} respectively.
+
+@defopt TeX-quote-language-alist
+Used for overriding the default language-specific quote insertion
+behavior.  This is an alist where each element is a list consisting of
+four items.  The first item is the name of the language in concern as a
+string.  See the list of supported languages above.  The second item is
+the opening quotation mark.  The third item is the closing quotation
+mark.  Opening and closing quotation marks can be specified directly as
+strings or as functions returning a string.  The fourth item is a
+boolean controlling quote insertion.  It should be non-nil if if the
+special quotes should only be used after inserting a literal @samp{"}
+character first, i.e. on second key press.
+@end defopt
+
+@defopt LaTeX-babel-hyphen-language-alist
+Used for overriding the behavior of hyphen insertion for specific
+languages.  Every element in this alist is a list of three items.  The
+first item should specify the affected language as a string.  The second
+item denotes the hyphen string to be used as a string.  The third item,
+a boolean, controls the behavior of hyphen insertion and should be
+non-nil if the special hyphen should be inserted after inserting a
+literal @samp{-} character, i.e. on second key press.
+@end defopt
+
+The defaults of hyphen insertion are defined by the variables
+@code{LaTeX-babel-hyphen} and @code{LaTeX-babel-hyphen-after-hyphen}
+respectively.
+
+@defopt LaTeX-babel-hyphen
+String to be used when typing @key{-}.  This usually is a hyphen
+alternative or hyphenation aid provided by @samp{babel} and the related
+language style files, like @samp{"=}, @samp{"~} or @samp{"-}.
+
+Set it to an empty string or nil in order to disable language-specific
+hyphen insertion.
+@end defopt
+
+@defopt LaTeX-babel-hyphen-after-hyphen
+Control insertion of hyphen strings.  If non-nil insert normal hyphen on
+first key press and swap it with the language-specific hyphen string
+specified in the variable @code{LaTeX-babel-hyphen} on second key press.
+If nil do it the other way round.
+@end defopt
+
+@node Japanese
+@subsection Using @AUCTeX{} with Japanese @TeX{}
+@cindex Japan
+@cindex Japanese
+@cindex Nippon
+@cindex MULE
+@cindex NTT j@TeX{}
+@cindex j@TeX{}
+@cindex j@LaTeX{}
+@cindex ASCII p@TeX{}
+@cindex p@TeX{}
+@cindex p@LaTeX{}
+@cindex @file{tex-jp.el}
+@vindex TeX-default-mode
+@vindex japanese-TeX-command-default
+@vindex japanese-LaTeX-command-default
+@vindex japanese-LaTeX-default-style
+
+To write Japanese text with @AUCTeX{}, you need to have versions of
+@TeX{} and Emacs that support Japanese.  There exist at least two
+variants of @TeX{} for Japanese text (NTT j@TeX{} and ASCII p@TeX{}).
+@AUCTeX{} can be used with @acronym{MULE, MULtilingual Enhancement to GNU
+Emacs} supported Emacsen.
+
+To use the Japanese @TeX{} variants, simply activate
+@code{japanese-plain-tex-mode} or @code{japanese-latex-mode} and
+everything should work.  If not, send mail to Masayuki Ataka
+@samp{<ataka@@milk.freemail.ne.jp>}, who kindly donated the code for
+supporting Japanese in @AUCTeX{}.  None of the primary @AUCTeX{}
+maintainers understand Japanese, so they cannot help you.
+
+If you usually use @AUCTeX{} in Japanese, setting the following
+variables is useful.
+
+@defopt TeX-default-mode
+Mode to enter for a new file when it cannott be determined whether the
+file is plain @TeX{} or @LaTeX{} or what.
+
+If you want to enter Japanese @LaTeX{} mode whenever this may happen,
+set the variable like this:
+@lisp
+(setq TeX-default-mode 'japanese-latex-mode)
+@end lisp
+@end defopt
+
+@defopt japanese-TeX-command-default
+The default command for @code{TeX-command} in Japanese @TeX{} mode.
+
+The default value is @samp{"pTeX"}.
+@end defopt
+
+@defopt japanese-LaTeX-command-default
+The default command for @code{TeX-command} in Japanese @LaTeX{} mode.
+
+The default value is @samp{"LaTeX"}.
+@end defopt
+
+@defopt japanese-LaTeX-default-style
+The default style/class when creating a new Japanese @LaTeX{} document.
+
+The default value is @samp{"jarticle"}.
+@end defopt
+
+See @file{tex-jp.el} for more information.
+
+@node Automatic
+@section Automatic Customization
+@cindex Automatic Customization
+@cindex Extracting @TeX{} symbols
+@cindex Automatic
+@cindex @file{auto} directories.
+@cindex Parsing @TeX{}
+@cindex @TeX{} parsing
+@cindex Generating symbols
+
+Since @AUCTeX{} is so highly customizable, it makes sense that it is able
+to customize itself.  The automatic customization consists of scanning
+@TeX{} files and extracting symbols, environments, and things like that.
+
+The automatic customization is done on three different levels.  The
+global level is the level shared by all users at your site, and consists
+of scanning the standard @TeX{} style files, and any extra styles added
+locally for all users on the site.  The private level deals with those
+style files you have written for your own use, and use in different
+documents.  You may have a @file{~/lib/TeX/} directory where you store
+useful style files for your own use.  The local level is for a specific
+directory, and deals with writing customization for the files for your
+normal @TeX{} documents.
+
+If compared with the environment variable @code{TEXINPUTS}, the
+global level corresponds to the directories built into @TeX{}.  The
+private level corresponds to the directories you add yourself, except for
+@file{.}, which is the local level.
+
+@menu
+* Automatic Global::            Automatic Customization for the Site
+* Automatic Private::           Automatic Customization for a User
+* Automatic Local::             Automatic Customization for a Directory
+@end menu
+
+By default @AUCTeX{} will search for customization files in all the
+global, private, and local style directories, but you can also set the
+path directly.  This is useful if you for example want to add another
+person's style hooks to your path.  Please note that all matching files
+found in @code{TeX-style-path} are loaded, and all hooks defined in the
+files will be executed.
+
+@defopt TeX-style-path
+List of directories to search for @AUCTeX{} style files.
+Each must end with a slash.
+@end defopt
+
+By default, when @AUCTeX{} searches a directory for files, it will
+recursively search through subdirectories.
+
+@defopt TeX-file-recurse
+Whether to search @TeX{} directories recursively: nil means do not
+recurse, a positive integer means go that far deep in the directory
+hierarchy, t means recurse indefinitely.
+@end defopt
+
+By default, @AUCTeX{} will ignore files named @file{.}, @file{..},
+@file{SCCS}, @file{RCS}, and @file{CVS}.
+
+@defopt TeX-ignore-file
+Regular expression matching file names to ignore.
+
+These files or directories will not be considered when searching for
+@TeX{} files in a directory.
+@end defopt
+
+@node Automatic Global
+@subsection Automatic Customization for the Site
+@cindex Global style hook directory
+@cindex Global macro directory
+@cindex Site macro directory
+@cindex Global @TeX{} macro directory
+@cindex Site @TeX{} macro directory
+@cindex Global directories
+@cindex Site information
+
+Assuming that the automatic customization at the global level was done
+when @AUCTeX{} was installed, your choice is now: will you use it?  If
+you use it, you will benefit by having access to all the symbols and
+environments available for completion purposes.  The drawback is slower
+load time when you edit a new file and perhaps too many confusing
+symbols when you try to do a completion.
+
+You can disable the automatic generated global style hooks by setting
+the variable @code{TeX-auto-global} to nil.
+
+@defopt TeX-macro-global
+Directories containing the site's @TeX{} style files.
+@end defopt
+
+@defopt TeX-style-global
+Directory containing hand generated @TeX{} information.
+Must end with a slash.
+
+These correspond to @TeX{} macros shared by all users of a site.
+@end defopt
+
+@defopt TeX-auto-global
+Directory containing automatically generated information.
+
+For storing automatic extracted information about the @TeX{} macros
+shared by all users of a site.
+@end defopt
+
+@node Automatic Private
+@subsection Automatic Customization for a User
+@cindex Private style hook directory
+@cindex Private macro directory
+@cindex Personal macro directory
+@cindex Private @TeX{} macro directory
+@cindex Personal @TeX{} macro directory
+@cindex Private directories
+@cindex Personal information
+
+You should specify where you store your private @TeX{} macros, so
+@AUCTeX{} can extract their information.  The extracted information will
+go to the directories listed in @code{TeX-auto-private}
+
+Use @kbd{M-x TeX-auto-generate @key{RET}} to extract the information.
+
+@defopt TeX-macro-private
+Directories where you store your personal @TeX{} macros.  The value
+defaults to the directories listed in the @samp{TEXINPUTS} and
+@samp{BIBINPUTS} environment variables or to the respective directories
+in @code{$TEXMFHOME} if no results can be obtained from the environment
+variables.
+@end defopt
+
+@defopt TeX-auto-private
+List of directories containing automatically generated @AUCTeX{} style
+files.  These correspond to the personal @TeX{} macros.
+@end defopt
+
+@deffn Command TeX-auto-generate @var{TEX} @var{AUTO}
+(@kbd{M-x TeX-auto-generate @key{RET}}) Generate style hook for
+@var{TEX} and store it in @var{AUTO}.  If @var{TEX} is a directory,
+generate style hooks for all files in the directory.
+@end deffn
+
+@defopt TeX-style-private
+List of directories containing hand generated @AUCTeX{} style files.
+These correspond to the personal @TeX{} macros.
+@end defopt
+
+@node Automatic Local
+@subsection Automatic Customization for a Directory
+@cindex Local style hooks
+@cindex Updating style hooks
+@cindex Automatic updating style hooks
+@cindex Local style hooks
+@cindex Local style directory
+
+@AUCTeX{} can update the style information about a file each time you
+save it, and it will do this if the directory @code{TeX-auto-local}
+exist. @code{TeX-auto-local} is by default set to @samp{"auto"}, so
+simply creating an @file{auto} directory will enable automatic saving of
+style information.
+
+The advantage of doing this is that macros, labels, etc. defined in any
+file in a multifile document will be known in all the files in the
+document.  The disadvantage is that saving will be slower.  To disable,
+set @code{TeX-auto-local} to nil.
+
+@defopt TeX-style-local
+Directory containing hand generated @TeX{} information.
+Must end with a slash.
+
+These correspond to @TeX{} macros found in the current directory.
+@end defopt
+
+@defopt TeX-auto-local
+Directory containing automatically generated @TeX{} information.
+Must end with a slash.
+
+These correspond to @TeX{} macros found in the current directory.
+@end defopt
+
+@node Style Files
+@section Writing Your Own Style Support
+@cindex Style files
+@cindex Style hooks
+@cindex @file{style}
+
+@xref{Automatic}, for a discussion about automatically generated global,
+private, and local style files.  The hand generated style files are
+equivalent, except that they by default are found in @file{style}
+directories instead of @file{auto} directories.
+
+@menu
+* Simple Style::                A Simple Style File
+* Adding Macros::               Adding Support for Macros
+* Adding Environments::         Adding Support for Environments
+* Adding Other::                Adding Other Information
+* Hacking the Parser::          Automatic Extraction of New Things
+@end menu
+
+If you write some useful support for a public @TeX{} style file, please
+send it to us.
+
+@node Simple Style
+@subsection A Simple Style File
+@cindex @file{book.el}
+@cindex Sample style file
+@cindex Style file
+@cindex Example of a style file.
+@cindex Style hook
+@cindex Adding a style hook
+
+Here is a simple example of a style file.
+
+@lisp
+;;; book.el - Special code for book style.
+
+(TeX-add-style-hook
+ "book"
+ (lambda () 
+   (LaTeX-largest-level-set "chapter")))
+@end lisp
+
+The example is from the @AUCTeX{} sources and is loaded for any @LaTeX{}
+document using the book document class (or style before @LaTeX{}2e).
+The file specifies that the largest kind of section in such a document
+is chapter.  The interesting thing to notice is that the style file
+defines an (anonymous) function, and adds it to the list of loaded style
+hooks by calling @code{TeX-add-style-hook}.
+
+The first time the user indirectly tries to access some style-specific
+information, such as the largest sectioning command available, the style
+hooks for all files directly or indirectly read by the current document
+are executed.  The actual files will only be evaluated once, but the
+hooks will be called for each buffer using the style file.
+
+Note that the basename of the style file and the name of the style hook
+should usually be identical.
+
+@defun TeX-add-style-hook @var{style} @var{hook}
+Add @var{hook} to the list of functions to run when we use the @TeX{}
+file @var{style}.
+@end defun
+
+@node Adding Macros
+@subsection Adding Support for Macros
+@cindex Adding macros
+@cindex Macros, adding
+@cindex Defining macros in style hooks
+
+The most common thing to define in a style hook is new symbols (@TeX{}
+macros).  Most likely along with a description of the arguments to the
+function, since the symbol itself can be defined automatically.
+
+Here are a few examples from @file{latex.el}.
+
+@lisp
+(TeX-add-style-hook
+ "latex"
+ (lambda ()
+   (TeX-add-symbols
+    '("arabic" TeX-arg-counter)
+    '("label" TeX-arg-define-label)
+    '("ref" TeX-arg-label)
+    '("newcommand" TeX-arg-define-macro [ "Number of arguments" ] t)
+    '("newtheorem" TeX-arg-define-environment
+      [ TeX-arg-environment "Numbered like" ]
+      t [ TeX-arg-counter "Within counter" ]))))
+@end lisp
+
+@defun TeX-add-symbols @var{symbol} @dots{}
+Add each @var{symbol} to the list of known symbols.
+@end defun
+
+Each argument to @code{TeX-add-symbols} is a list describing one symbol.
+The head of the list is the name of the symbol, the remaining elements
+describe each argument.
+
+If there are no additional elements, the symbol will be inserted with
+point inside braces.  Otherwise, each argument of this function should
+match an argument of the @TeX{} macro.  What is done depends on the argument
+type.
+
+If a macro is defined multiple times, @AUCTeX{} will chose the one with
+the longest definition (i.e. the one with the most arguments).
+
+Thus, to overwrite
+@example
+	'("tref" 1) ; one argument
+@end example
+you can specify
+@example
+	'("tref" TeX-arg-label ignore) ; two arguments
+@end example
+
+@code{ignore} is a function that does not do anything, so when you
+insert a @samp{tref} you will be prompted for a label and no more.
+
+You can use the following types of specifiers for arguments:
+
+@table @code
+@item string
+Use the string as a prompt to prompt for the argument.
+
+@item number
+Insert that many braces, leave point inside the first.  0 and -1 are
+special.  0 means that no braces are inserted.  -1 means that braces are
+inserted around the macro and an active region (e.g. @samp{@{\tiny
+foo@}}).  If there is no active region, no braces are inserted.
+
+@item nil
+Insert empty braces.
+
+@item t
+Insert empty braces, leave point between the braces.
+
+@item other symbols
+Call the symbol as a function.  You can define your
+own hook, or use one of the predefined argument hooks.
+
+@item list
+If the car is a string, insert it as a prompt and the next
+element as initial input.  Otherwise, call the car of the list with
+the remaining elements as arguments.
+
+@item vector
+Optional argument.  If it has more than one element, parse it
+as a list, otherwise parse the only element as above.  Use square
+brackets instead of curly braces, and is not inserted on empty user
+input.
+@end table
+
+A lot of argument hooks have already been defined.  The first argument to
+all hooks is a flag indicating if it is an optional argument.  It is up
+to the hook to determine what to do with the remaining arguments, if
+any.  Typically the next argument is used to overwrite the default
+prompt.
+
+@ftable @code
+@item TeX-arg-conditional
+Implements if EXPR THEN ELSE.  If EXPR evaluates to true, parse THEN as an
+argument list, else parse ELSE as an argument list.
+
+@item TeX-arg-literal
+Insert its arguments into the buffer.  Used for specifying extra syntax
+for a macro.
+
+@item TeX-arg-free
+Parse its arguments but use no braces when they are inserted.
+
+@item TeX-arg-eval
+Evaluate arguments and insert the result in the buffer.
+
+@item TeX-arg-label
+Prompt for a label completing with known labels.
+
+@item TeX-arg-macro
+Prompt for a @TeX{} macro with completion.
+
+@item TeX-arg-environment
+Prompt for a @LaTeX{} environment with completion.
+
+@item TeX-arg-cite
+Prompt for a Bib@TeX{} citation.
+
+@item TeX-arg-counter
+Prompt for a @LaTeX{} counter.
+
+@item TeX-arg-savebox
+Prompt for a @LaTeX{} savebox.
+
+@item TeX-arg-file
+Prompt for a filename in the current directory, and use it without the
+extension.
+
+@item TeX-arg-input-file
+@vindex TeX-arg-input-file-search
+Prompt for the name of an input file in @TeX{}'s search path, and use it
+without the extension.  Run the style hooks for the file.  (Note that
+the behavior (type of prompt and inserted file name) of the function can
+be controlled by the variable @code{TeX-arg-input-file-search}.)
+
+@item TeX-arg-define-label
+Prompt for a label completing with known labels.  Add label to list of
+defined labels.
+
+@item TeX-arg-define-macro
+Prompt for a @TeX{} macro with completion.  Add macro to list of defined
+macros.
+
+@item TeX-arg-define-environment
+Prompt for a @LaTeX{} environment with completion.  Add environment to
+list of defined environments.
+
+@item TeX-arg-define-cite
+Prompt for a Bib@TeX{} citation.
+
+@item TeX-arg-define-counter
+Prompt for a @LaTeX{} counter.
+
+@item TeX-arg-define-savebox
+Prompt for a @LaTeX{} savebox.
+
+@item TeX-arg-corner
+Prompt for a @LaTeX{} side or corner position with completion.
+
+@item TeX-arg-lr
+Prompt for a @LaTeX{} side with completion.
+
+@item TeX-arg-tb
+Prompt for a @LaTeX{} side with completion.
+
+@item TeX-arg-pagestyle
+Prompt for a @LaTeX{} pagestyle with completion.
+
+@item TeX-arg-verb
+Prompt for delimiter and text.
+
+@item TeX-arg-pair
+Insert a pair of numbers, use arguments for prompt. The numbers are
+surrounded by parentheses and separated with a comma.
+
+@item TeX-arg-size
+Insert width and height as a pair.  No arguments.
+
+@item TeX-arg-coordinate
+Insert x and y coordinates as a pair.  No arguments.
+@end ftable
+
+If you add new hooks, you can assume that point is placed directly after
+the previous argument, or after the macro name if this is the first
+argument.  Please leave point located after the argument you are
+inserting.  If you want point to be located somewhere else after all
+hooks have been processed, set the value of @code{exit-mark}.  It will
+point nowhere, until the argument hook sets it.
+
+@node Adding Environments
+@subsection Adding Support for Environments
+@cindex Adding environments
+@cindex Environments, adding
+@cindex Defining environments in style hooks
+
+Adding support for environments is very much like adding support for
+@TeX{} macros, except that each environment normally only takes one
+argument, an environment hook.  The example is again a short version of
+@file{latex.el}.
+
+@lisp
+(TeX-add-style-hook
+ "latex"
+ (lambda ()
+   (LaTeX-add-environments
+    '("document" LaTeX-env-document)
+    '("enumerate" LaTeX-env-item)
+    '("itemize" LaTeX-env-item)
+    '("list" LaTeX-env-list))))
+@end lisp
+
+It is completely up to the environment hook to insert the environment,
+but the function @code{LaTeX-insert-environment} may be of some help.
+The hook will be called with the name of the environment as its first
+argument, and extra arguments can be provided by adding them to a list
+after the hook.
+
+For simple environments with arguments, for example defined with
+@samp{\newenvironment}, you can make @AUCTeX{} prompt for the arguments
+by giving the prompt strings in the call to
+@code{LaTeX-add-environments}.  The fact that an argument is optional
+can be indicated by wrapping the prompt string in a vector.
+
+For example, if you have defined a @code{loop} environment with the
+three arguments @var{from}, @var{to}, and @var{step}, you can add
+support for them in a style file.
+
+@example
+%% loop.sty
+
+\newenvironment@{loop@}[3]@{...@}@{...@}
+@end example
+
+@lisp
+;; loop.el
+
+(TeX-add-style-hook
+ "loop"
+ (lambda ()
+   (LaTeX-add-environments
+    '("loop" "From" "To" "Step"))))
+@end lisp
+
+If an environment is defined multiple times, @AUCTeX{} will choose the
+one with the longest definition.  Thus, if you have an enumerate style
+file, and want it to replace the standard @LaTeX{} enumerate hook above,
+you could define an @file{enumerate.el} file as follows, and place it in
+the appropriate style directory.
+
+@lisp
+(TeX-add-style-hook
+ "latex"
+ (lambda ()
+   (LaTeX-add-environments
+    '("enumerate" LaTeX-env-enumerate foo))))
+
+(defun LaTeX-env-enumerate (environment &optional ignore) ...)
+@end lisp
+
+The symbol @code{foo} will be passed to @code{LaTeX-env-enumerate} as
+the second argument, but since we only added it to overwrite the
+definition in @file{latex.el} it is just ignored.
+
+@defun LaTeX-add-environments @var{env} @dots{}
+Add each @var{env} to list of loaded environments.
+@end defun
+
+@defun LaTeX-insert-environment @var{env} [ @var{extra} ]
+Insert environment of type @var{env}, with optional argument @var{extra}.
+@end defun
+
+Following is a list of available hooks for
+@code{LaTeX-add-environments}:
+
+@ftable @code
+@item LaTeX-env-item
+Insert the given environment and the first item.
+
+@item LaTeX-env-figure
+Insert the given figure-like environment with a caption and a label.
+
+@item LaTeX-env-array
+Insert the given array-like environment with position and column
+specifications.
+
+@item LaTeX-env-label
+Insert the given environment with a label.
+
+@item LaTeX-env-list
+Insert the given list-like environment, a specifier for the label and
+the first item.
+
+@item LaTeX-env-minipage
+Insert the given minipage-like environment with position and width
+specifications.
+
+@item LaTeX-env-tabular*
+Insert the given tabular*-like environment with width, position and
+column specifications.
+
+@item LaTeX-env-picture
+Insert the given environment with width and height specifications.
+
+@item LaTeX-env-bib
+Insert the given environment with a label for a bibitem.
+
+@item LaTeX-env-contents
+Insert the given environment with a filename as its argument.
+
+@item LaTeX-env-args
+Insert the given environment with arguments.  You can use this as a hook
+in case you want to specify multiple complex arguments just like in
+elements of @code{TeX-add-symbols}.  This is most useful if the
+specification of arguments to be prompted for with strings and strings
+wrapped in a vector as described above is too limited.
+
+Here is an example from @file{listings.el} which calls a function with
+one argument in order to prompt for a key=value list to be inserted as
+an optional argument of the @samp{lstlisting} environment:
+
+@lisp
+(LaTeX-add-environments
+ `("lstlisting" LaTeX-env-args
+   [TeX-arg-key-val ,LaTeX-listings-key-val-options]))
+@end lisp
+@end ftable
+
+@node Adding Other
+@subsection Adding Other Information
+@cindex Adding bibliographies
+@cindex Bibliographies, adding
+@cindex Defining bibliographies in style hooks
+@cindex Adding labels
+@cindex Labels, adding
+@cindex Defining labels in style hooks
+@cindex Adding other information
+@cindex Other information, adding
+@cindex Defining other information in style hooks
+
+You can also specify bibliographical databases and labels in the style
+file.  This is probably of little use, since this information will
+usually be automatically generated from the @TeX{} file anyway.
+
+@defun LaTeX-add-bibliographies @var{bibliography} @dots{}
+Add each @var{bibliography} to list of loaded bibliographies.
+@end defun
+
+@defun LaTeX-add-labels @var{label} @dots{}
+Add each @var{label} to the list of known labels.
+@end defun
+
+@node Hacking the Parser
+@subsection Automatic Extraction of New Things
+@cindex Parsing new macros
+@cindex @file{macro.tex}
+@cindex @file{macro.el}
+@cindex Changing the parser
+
+The automatic @TeX{} information extractor works by searching for
+regular expressions in the @TeX{} files, and storing the matched
+information.  You can add support for new constructs to the parser,
+something that is needed when you add new commands to define symbols.
+
+For example, in the file @file{macro.tex} I define the following macro.
+
+@example
+\newcommand@{\newmacro@}[5]@{%
+\def#1@{#3\index@{#4@@#5~cite@{#4@}@}\nocite@{#4@}@}%
+\def#2@{#5\index@{#4@@#5~cite@{#4@}@}\nocite@{#4@}@}%
+@}
+@end example
+
+@AUCTeX{} will automatically figure out that @samp{newmacro} is a macro
+that takes five arguments.  However, it is not smart enough to
+automatically see that each time we use the macro, two new macros are
+defined.  We can specify this information in a style hook file.
+
+@lisp
+;;; macro.el --- Special code for my own macro file.
+
+;;; Code:
+
+(defvar TeX-newmacro-regexp
+  '("\\\\newmacro@{\\\\\\([a-zA-Z]+\\)@}@{\\\\\\([a-zA-Z]+\\)@}"
+    (1 2) TeX-auto-multi)
+  "Matches \newmacro definitions.")
+
+(defvar TeX-auto-multi nil
+  "Temporary for parsing \\newmacro definitions.")
+
+(defun TeX-macro-cleanup ()
+  "Move symbols from `TeX-auto-multi' to `TeX-auto-symbol'."
+  (mapcar (lambda (list)
+	    (mapcar (lambda (symbol)
+		      (setq TeX-auto-symbol
+			    (cons symbol TeX-auto-symbol)))
+		    list))
+	  TeX-auto-multi))
+
+(defun TeX-macro-prepare ()
+  "Clear `Tex-auto-multi' before use."
+  (setq TeX-auto-multi nil))
+
+(add-hook 'TeX-auto-prepare-hook 'TeX-macro-prepare)
+(add-hook 'TeX-auto-cleanup-hook 'TeX-macro-cleanup)
+
+(TeX-add-style-hook
+ "macro"
+ (lambda ()
+   (TeX-auto-add-regexp TeX-newmacro-regexp)
+   (TeX-add-symbols '("newmacro"
+		      TeX-arg-macro
+		      (TeX-arg-macro "Capitalized macro: \\")
+		      t
+		      "BibTeX entry: "
+		      nil))))
+
+;;; macro.el ends here
+@end lisp
+
+When this file is first loaded, it adds a new entry to
+@code{TeX-newmacro-regexp}, and defines a function to be called before
+the parsing starts, and one to be called after the parsing is done.  It
+also declares a variable to contain the data collected during parsing.
+Finally, it adds a style hook which describes the @samp{newmacro} macro,
+as we have seen it before.
+
+So the general strategy is: Add a new entry to @code{TeX-newmacro-regexp}.
+Declare a variable to contain intermediate data during parsing.  Add hook
+to be called before and after parsing.  In this case, the hook before
+parsing just initializes the variable, and the hook after parsing
+collects the data from the variable, and adds them to the list of symbols
+found.
+
+@defvar TeX-auto-regexp-list
+List of regular expressions matching @TeX{} macro definitions.
+
+The list has the following format ((REGEXP MATCH TABLE) @dots{}), that
+is, each entry is a list with three elements.
+
+REGEXP.  Regular expression matching the macro we want to parse.
+
+MATCH.  A number or list of numbers, each representing one
+parenthesized subexpression matched by REGEXP.
+
+TABLE.  The symbol table to store the data.  This can be a function, in
+which case the function is called with the argument MATCH.  Use
+@code{TeX-match-buffer} to get match data.  If it is not a function, it
+is presumed to be the name of a variable containing a list of match
+data.  The matched data (a string if MATCH is a number, a list of
+strings if MATCH is a list of numbers) is put in front of the table.
+@end defvar
+
+@defvar TeX-auto-prepare-hook nil
+List of functions to be called before parsing a @TeX{} file.
+@end defvar
+
+@defvar TeX-auto-cleanup-hook nil
+List of functions to be called after parsing a @TeX{} file.
+@end defvar
+
+@node Appendices
+@appendix Copying, Changes, Development, FAQ, Texinfo Mode
+
+@menu
+* Copying this Manual::         
+* Changes::                     
+* Development::                 
+* FAQ::                         
+* Texinfo mode::                
+@end menu
+
+@node Copying this Manual
+@appendixsec Copying this Manual
+
+@ifinfo
+The copyright notice for this manual is:
+
+@insertcopying
+@end ifinfo
+
+The full license text can be read here:
+
+@menu
+* GNU Free Documentation License:: License for copying this manual.
+@end menu
+
+@lowersections
+@include fdl.texi
+@raisesections
+
+@node Changes
+@appendixsec Changes and New Features
+
+@lowersections
+@include changes.texi
+@raisesections
+
+@subheading Older versions
+See the file @file{history.texi} for older changes.
+
+@node Development
+@appendixsec Future Development
+
+@lowersections
+@include todo.texi
+@raisesections
+
+@node FAQ
+@appendixsec Frequently Asked Questions
+
+@lowersections
+@include faq.texi
+@raisesections
+
+@node Texinfo mode
+@appendixsec Features specific to @AUCTeX{}'s Texinfo major mode
+
+@AUCTeX{} includes a major mode for editting Texinfo files.  This major
+mode is not the same mode as the native Texinfo mode (@pxref{(texinfo)
+Texinfo Mode}) of Emacs, although they have the same name.  However,
+@AUCTeX{} still relies on a number of functions from the native Texinfo
+mode.
+
+The following text describes which functionality is offered by @AUCTeX{}
+and which by the native Texinfo mode.  This should enable you to decide
+when to consult the @AUCTeX{} manual and when the manual of the native
+mode.  And in case you are a seasoned user of the native mode, the
+information should help you to swiftly get to know the
+@AUCTeX{}-specific commands.
+
+@menu
+* Exploiting::                  How @AUCTeX{} and the native mode work together
+* Superseding::                 Where the native mode is superseded
+* Mapping::                     Where key bindings are mapped to the native mode
+* Unbinding::                   Which native mode key bindings are missing
+@end menu
+
+@node Exploiting
+@appendixsubsec How @AUCTeX{} and the native mode work together
+
+In a nutshell the split between @AUCTeX{} Texinfo mode, and native
+Texinfo mode is as follows:
+
+@itemize
+@item
+Most of the editing (environment creation, commenting, font command
+insertions) and/or processing commands (e.g. compiling or printing)
+which are available in other @AUCTeX{} modes are also handled by
+@AUCTeX{} in Texinfo mode.
+
+@item
+Texinfo-related features (e.g. info node linkage or menu creation) rely
+on the commands provided by the native Texinfo mode.  @AUCTeX{} provides
+the key bindings to reach these functions, keeping the same keys as in
+native Texinfo whenever possible, or similar ones otherwise.
+@end itemize
+
+@node Superseding
+@appendixsubsec Where the native mode is superseded
+
+This section is directed to users of the native Texinfo mode switching
+to @AUCTeX{}.  It follows the summary of the native mode
+(@pxref{(texinfo) Texinfo Mode Summary}) and lists which of its commands
+are no longer of use.
+
+@table @asis
+@item Insert commands
+In the native Texinfo mode, frequently used Texinfo commands can be
+inserted with key bindings of the form @kbd{C-c C-c @var{k}} where
+@var{k} differs for each Texinfo command; @kbd{c} inserts @@code,
+@kbd{d} inserts @@dfn, @kbd{k} @@kbd, etc.
+
+In @AUCTeX{} commands are inserted with the key binding @kbd{C-c C-m}
+instead which prompts for the macro to be inserted.  For font selection
+commands (like @@b, @@i, or @@emph) and a few related ones (like @@var,
+@@key or @@code) there are bindings which insert the respective macros
+directly.  They have the form @code{C-c C-f @var{k}} or @code{C-c C-f
+C-@var{k}} and call the function @code{TeX-font}.  Type @kbd{C-c C-f
+@key{RET}} to get a list of supported commands.
+
+Note that the prefix argument is not handled the same way by @AUCTeX{}.
+Note also that the node insertion command from the native mode
+(@code{texinfo-insert-@@node}) can still accessed from the Texinfo menu
+in @AUCTeX{}.
+
+@item Insert braces
+In @AUCTeX{} braces can be inserted with the same key binding as in the
+native Texinfo mode: @kbd{C-c @{}.  But @AUCTeX{} uses its own function
+for the feature: @code{TeX-insert-braces}.
+
+@item Insert environments
+The native Texinfo mode does not insert full environments.  Instead, it
+provides the function @code{texinfo-insert-@@end} (mapped to @kbd{C-c
+C-c e}) for closing an open environment with a matching @@end statement.
+
+In @AUCTeX{} you can insert full environments, i.e. both the opening and
+closing statements, with the function @code{Texinfo-environment} (mapped
+to @kbd{C-c C-e}).
+
+@item Format info files with makeinfo and @TeX{}
+In the native Texinfo mode there are various functions and bindings to
+format a region or the whole buffer for info or to typeset the
+respective text.  For example, there is @code{makeinfo-buffer} (mapped
+to @kbd{C-c C-m C-b}) which runs @samp{makeinfo} on the buffer or there
+is @code{texinfo-tex-buffer} (mapped to @kbd{C-c C-t C-b}) which runs
+@TeX{} on the buffer in order to produce a @acronym{DVI} file.
+
+In @AUCTeX{} different commands for formatting or typesetting can be
+invoked through the function @code{TeX-command-master} (mapped to
+@kbd{C-c C-c}).  After typing @kbd{C-c C-c}, you can select the desired
+command, e.g @samp{Makeinfo} or @samp{TeX}, through a prompt in the mini
+buffer.  Note that you can make, say @samp{Makeinfo}, the default by
+adding this statement in your init file:
+
+@lisp
+(add-hook 'Texinfo-mode-hook 
+          (lambda () (setq TeX-command-default "Makeinfo")))
+@end lisp
+
+Note also that @kbd{C-c C-c Makeinfo @key{RET}} is not completely
+functionally equivalent to @code{makeinfo-buffer} as the latter will
+display the resulting info file in Emacs, showing the node corresponding
+to the position in the source file, just after a successful compilation.
+This is why, while using @AUCTeX{}, invoking @code{makeinfo-buffer}
+might still be more convenient.
+
+Note also that in the case of a multifile document, @kbd{C-c C-c} in
+@AUCTeX{} will work on the whole document (provided that the file
+variable @code{TeX-master} is set correctly), while
+@code{makeinfo-buffer} in the native mode will process only the current
+buffer, provided at the @code{@@setfilename} statement is provided.
+
+@item Produce indexes and print
+The native Texinfo mode provides the binding @kbd{C-c C-t C-i}
+(@code{texinfo-texindex}) for producing an index and the bindings
+@kbd{C-c C-t C-p} (@code{texinfo-tex-print}) and @kbd{C-c C-t C-q}
+(@code{tex-show-print-queue}) for printing and showing the printer
+queue.  These are superseded by the respective commands available
+through @kbd{C-c C-c} (@code{TeX-command-master}) in @AUCTeX{}: Index,
+Print, and Queue.
+
+@item Kill jobs
+The command @kbd{C-c C-t C-k} (@code{tex-kill-job}) in the native mode
+is superseded by @kbd{C-c C-k} (@code{TeX-kill-job}) in @AUCTeX{}.
+@end table
+
+@node Mapping
+@appendixsubsec Where key bindings are mapped to the native mode
+
+This node follows the native Texinfo mode summary (@pxref{(texinfo)
+Texinfo Mode Summary}) and lists only those commands to which @AUCTeX{}
+provides a keybinding.
+
+Basically all commands of the native mode related to producing menus and
+interlinking nodes are mapped to same or similar keys in @AUCTeX{},
+while a few insertion commands are mapped to @AUCTeX{}-like keys.
+
+@table @asis
+
+@item @code{@@item} insertion
+The binding @kbd{C-c C-c i} for the insertion of @code{@@item} in the
+native mode is mapped to @kbd{M-@key{RET}} or @kbd{C-c C-j} in
+@AUCTeX{}, similar to other @AUCTeX{} modes.
+
+@item @code{@@end} insertion
+The binding @kbd{C-c C-c e} for closing a @code{@@@var{foo}} command by
+a corresponding @code{@@end @var{foo}} statement in the native mode is
+mapped to @kbd{C-c C-]} in @AUCTeX{}, similar to other @AUCTeX{} modes.
+
+@item Move out of balanced braces
+The binding @kbd{C-@}} (@code{up-list}) is available both in the native
+mode and in @AUCTeX{}.  (This is because the command is not implemented
+in either mode but a native Emacs command.)  However, in @AUCTeX{}, you
+cannot use @kbd{C-]} for this, as it is used for @code{@@end} insertion.
+
+@item Update pointers
+The bindings @kbd{C-c C-u C-n} (@code{texinfo-update-node}) and @kbd{C-c
+C-u C-e} (@code{texinfo-every-node-update}) from the native mode are
+available in @AUCTeX{} as well.
+
+@item Update menus
+The bindings @kbd{C-c C-u m} (@code{texinfo-master-menu}), @kbd{C-c C-u
+C-m} (@code{texinfo-make-menu}), and @kbd{C-c C-u C-a}
+(@code{texinfo-all-menus-update}) from the native mode are available in
+@AUCTeX{} as well.  The command @code{texinfo-start-menu-description},
+bound to @kbd{C-c C-c C-d} in the native mode, is bound to @kbd{C-c C-u
+C-d} in @AUCTeX{} instead.
+@end table
+
+@node Unbinding
+@appendixsubsec Which native mode key bindings are missing
+
+The following commands from the native commands might still be useful
+when working with @AUCTeX{}, however, they are not accessible with a
+key binding any longer.
+
+@table @asis
+@item @code{@@node} insertion
+The node insertion command, mapped to @kbd{C-c C-c n} in the native
+mode, is not mapped to any key in @AUCTeX{}.  You can still access it
+through the Texinfo menu, though.  Another alternative is to use the
+@kbd{C-c C-m} binding for macro insertion in @AUCTeX{}.
+
+@item Show the section structure
+The command @code{texinfo-show-structure} (@kbd{C-c C-s}) from the
+native mode does not have a key binding in @AUCTeX{}.  The binding is
+used by @AUCTeX{} for sectioning.
+@end table
+
+@node Indices
+@unnumbered Indices
+
+@menu
+* Key Index::                   
+* Function Index::              
+* Variable Index::              
+* Concept Index::               
+@end menu
+
+@node Key Index
+@unnumberedsec Key Index
+
+@printindex ky
+
+@node Function Index
+@unnumberedsec Function Index
+
+@printindex fn
+
+@node Variable Index
+@unnumberedsec Variable Index
+
+@printindex vr
+
+@node Concept Index
+@unnumberedsec Concept Index
+
+@printindex cp
+
+@bye

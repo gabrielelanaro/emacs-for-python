@@ -1,0 +1,61 @@
+%%
+%% This is file `prauctex.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `auctex')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from prauctex.def.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\ifPreview\else\expandafter\endinput\fi
+\nofiles
+\preview@delay{\nonstopmode}
+\begingroup
+\lccode`\~=`\-
+\lccode`\{=`\<
+\lccode`\}=`\>
+\lowercase{\endgroup
+  \def\pr@msgi{{~}}}
+\def\pr@msgii{Preview:
+   Snippet \number\pr@snippet\space}
+\begingroup
+\catcode`\-=13
+\catcode`\<=13
+\@firstofone{\endgroup
+\def\pr@msg#1{{%
+   \let<\pr@msgi
+   \def-{\pr@msgii#1}%
+   \errhelp{Not a real error.}%
+   \errmessage<}}}
+\g@addto@macro\pr@ship@start{\pr@msg{started}}
+\g@addto@macro\pr@ship@end{\pr@msg{ended.%
+  (\number\ht\pr@box+\number\dp\pr@box x\number\wd\pr@box)}}
+\hbadness=\maxdimen
+\newcount\hbadness
+\vbadness=\maxdimen
+\let\vbadness=\hbadness
+\hfuzz=\maxdimen
+\newdimen\hfuzz
+\vfuzz=\maxdimen
+\let\vfuzz=\hfuzz
+\showboxdepth=-1
+\showboxbreadth=-1
+\pr@loadcfg{prauctex}
+\endinput
+%%
+%% End of file `prauctex.def'.
