@@ -302,7 +302,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20140915)
+      [(20140922)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
@@ -395,7 +395,7 @@
 		   nil "Unicode confusables table" tar
 		   ((:url . "http://elpa.gnu.org/packages/uni-confusables.html"))])
  (vlf .
-      [(1 5)
+      [(1 6)
        nil "View Large Files" tar
        ((:keywords "large files" "utilities")
 	(:url . "https://github.com/m00natic/vlfi"))])
