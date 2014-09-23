@@ -853,3 +853,14 @@ ov)
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
+
+;; Standard Jedi.el setting
+
+; does not work now.
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)
+
+;; Type:
+;;     M-x package-install RET jedi RET
+;;     M-x jedi:install-server RET
+;; Then open Python file.
