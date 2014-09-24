@@ -864,3 +864,8 @@ ov)
 ;;     M-x package-install RET jedi RET
 ;;     M-x jedi:install-server RET
 ;; Then open Python file.
+
+;; Save point position between sessions
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))
