@@ -1,7 +1,4 @@
 (1
- (dirtrack-buffer-name-track-mode .
-				  [(1 0 0)
-				   nil "minor mode to cause shell buffers to reflect the working directory" single])
  (zone-matrix .
 	      [(0 0 1)
 	       nil "Matrix themed Zone mode" tar])
@@ -2998,6 +2995,11 @@
       (dash
        (2 2 0)))
      "Modern API for working with files and directories" single])
+ (eyebrowse .
+	    [(0 3 2)
+	     ((dash
+	       (2 7 0)))
+	     "Easy window config switching" single])
  (extend-dnd .
 	     [(0 5)
 	      nil "R drag and Drop" single])
@@ -3425,6 +3427,9 @@
  (discord .
 	  [(0 5)
 	   nil "Discordian dates for calendar" single])
+ (dirtrack-buffer-name-track-mode .
+				  [(1 0 0)
+				   nil "minor mode to cause shell buffers to reflect the working directory" single])
  (dired-single .
 	       [(1 7)
 		nil "reuse the current dired buffer to visit another directory" single])
