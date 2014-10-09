@@ -5,15 +5,21 @@
        ((:keywords "tools" "processes" "convenience")
 	(:url . "https://github.com/leoliu/ack-el"))])
  (ada-mode .
-	   [(5 1 5)
+	   [(5 1 6)
 	    ((wisi
-	      (1 0 5))
+	      (1 0 6))
 	     (cl-lib
 	      (0 4))
 	     (emacs
 	      (24 2)))
 	    "major-mode for editing Ada sources" tar
-	    ((:url . "http://stephe-leake.org/emacs/ada-mode/emacs-ada-mode.html"))])
+	    ((:keywords "languages" "ada")
+	     (:url . "http://stephe-leake.org/emacs/ada-mode/emacs-ada-mode.html"))])
+ (ada-ref-man .
+	      [(2012 0)
+	       nil "Ada Reference Manual 2012" tar
+	       ((:keywords "languages" "ada")
+		(:url . "http://stephe-leake.org/ada/arm.html"))])
  (adaptive-wrap .
 		[(0 5)
 		 nil "Smart line-wrapping with wrap-prefix" single
@@ -210,7 +216,7 @@
 	  ((:url . "http://elpa.gnu.org/packages/ioccur.html")
 	   (:keywords))])
  (javaimp .
-	  [(0 4)
+	  [(0 5)
 	   nil "Add and reorder Java import statements in Maven projects" single
 	   ((:url . "http://elpa.gnu.org/packages/javaimp.html")
 	    (:keywords "java" "maven" "programming"))])
@@ -302,7 +308,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20140922)
+      [(20141006)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
@@ -427,13 +433,14 @@
 	      ((:url . "http://elpa.gnu.org/packages/windresize.html")
 	       (:keywords "window"))])
  (wisi .
-       [(1 0 5)
+       [(1 0 6)
 	((cl-lib
 	  (0 4))
 	 (emacs
 	  (24 2)))
 	"Utilities for implementing an indentation/navigation engine using a generalized LALR parser" tar
-	((:url . "http://stephe-leake.org/emacs/ada-mode/emacs-ada-mode.html"))])
+	((:keywords "parser" "indentation" "navigation")
+	 (:url . "http://stephe-leake.org/emacs/ada-mode/emacs-ada-mode.html"))])
  (wpuzzle .
 	  [(1 1)
 	   nil "find as many word in a given time" single
