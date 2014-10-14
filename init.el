@@ -119,6 +119,21 @@
 ;;(require 'tabbar)
 ;;(tabbar-mode)
 
+
+(require 'recentf)
+(setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
+(recentf-mode 1)
+;; (setq
+;;  recentf-menu-path '("File")
+;;  recentf-menu-title "Recent"
+;;  recentf-max-saved-items 100
+;;  recentf-max-menu-items 20)
+;; (setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(recentf-update-menu-hook)
+
+
+
 (if
     windowed-system
     (progn
@@ -128,22 +143,7 @@
       (menu-bar-mode 0)
       (mouse-wheel-mode t)
       (set-fringe-style '(0 . 0)) ; no fringes atall
-      (if (not nil)
-          (progn
-            (require 'recentf)
-            (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
-            (recentf-mode 1)
-            (setq
-             recentf-menu-path '("File")
-             recentf-menu-title "Recent"
-             recentf-max-saved-items 100
-             recentf-max-menu-items 20
-             )
-            (setq recentf-max-menu-items 25)
-            (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-            (recentf-update-menu-hook)
-            )
-      )
+
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
@@ -867,3 +867,5 @@ ov)
 (require 'saveplace)
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
+
+(global-set-key "\C-x\ \C-a" 'magit-status)
