@@ -3175,7 +3175,7 @@
 		   (3 0)))
 		 "Extra functions for emms-mark-mode and emms-tag-edit-mode" single])
  (emmet-mode .
-	     [(1 0 5)
+	     [(1 0 10)
 	      nil "Unofficial Emmet's support for emacs" single])
  (emamux .
 	 [(0 1)
