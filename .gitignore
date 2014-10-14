@@ -12,3 +12,5 @@ custom.el
 site-lisp/
 /bookmarks.bmk
 \177
+*#*#
+commit.txt
