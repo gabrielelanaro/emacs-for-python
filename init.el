@@ -116,13 +116,14 @@
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-(scroll-bar-mode 0)
 (if
     windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
+      (scroll-bar-mode 0)
       (menu-bar-mode 0)
+      (mouse-wheel-mode t)
       (set-fringe-style '(0 . 0)) ; no fringes atall
       (if (not nil)
           (progn
@@ -196,9 +197,6 @@
 (require 'window-numbering)
 (window-numbering-mode 1)
 
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-
 (require 'ido)
 
 ;;(require 'dired+)
@@ -261,8 +259,6 @@
       ediff-window-setup-function 'ediff-setup-windows-plain
       xterm-mouse-mode t
       )
-
-(mouse-wheel-mode t)
 
 (add-to-list 'safe-local-variable-values '(lexical-binding . t))
 (add-to-list 'safe-local-variable-values '(whitespace-line-column . 80))
