@@ -1,11 +1,11 @@
+(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
+(setq win32-system (eq window-system 'w32))
+
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-
-(setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
-(setq win32-system (eq window-system 'w32))
 
 ;; magnars cool setup
 ;; Set path to .emacs.d
@@ -118,37 +118,31 @@
 ;;(require 'tabbar)
 ;;(tabbar-mode)
 
+(require 'recentf)
+(setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
+(recentf-mode 1)
+;; (setq
+;;  recentf-menu-path '("File")
+;;  recentf-menu-title "Recent"
+;;  recentf-max-saved-items 100
+;;  recentf-max-menu-items 20
+;;  )
+;; (setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(recentf-update-menu-hook)
+
 (if
     windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
-      (menu-bar-mode 0)
+      ;(menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
-      (if (not nil)
-          (progn
-            (require 'recentf)
-            (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
-            (recentf-mode 1)
-            (setq
-             recentf-menu-path '("File")
-             recentf-menu-title "Recent"
-             recentf-max-saved-items 100
-             recentf-max-menu-items 20
-             )
-            (setq recentf-max-menu-items 25)
-            (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-            (recentf-update-menu-hook)
-            )
-      )
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
       (setq font-lock-maximum-decoration t)
       )
-  (progn
-      (menu-bar-mode 0)
-    )
 )
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
@@ -212,20 +206,12 @@
   ;(replace-regexp "\\s-+" "_")
   )
 
-(defun rec-tmp ()
-  (interactive)
-
-)
-
 
 ;; Handy key definition
 (define-key global-map [f9] 'reconstruct-paragraph)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
-
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
 
 (require 'ido)
 
@@ -249,11 +235,9 @@
 (global-set-key (kbd "C-x e") 'erase-buffer)
 (global-set-key (kbd "C-<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "<escape>-<escape>-<escape>"))
-(global-set-key (kbd "C-q") 'undo)
-(global-set-key (kbd "C-z") 'quoted-insert)
+(global-set-key (kbd "C-q") 'quoted-insert)
+(global-set-key (kbd "C-z") 'undo)
 
-(global-set-key (kbd "C-x C-m") 'execute-extended-command)
-(global-set-key (kbd "C-с C-m") 'execute-extended-command)
 (global-set-key (kbd "s-<right>") 'next-buffer)
 (global-set-key (kbd "s-<left>") 'previous-buffer)
 (global-set-key (kbd "C-<return>") 'open-next-line)
