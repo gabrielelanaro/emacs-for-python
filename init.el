@@ -1,3 +1,8 @@
+(menu-bar-mode 0)
+;(tool-bar-mode 0)
+;(scroll-bar-mode 0)
+(setq inhibit-startup-message t)
+
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
@@ -114,8 +119,6 @@
 ;;(require 'tabbar)
 ;;(tabbar-mode)
 
-(menu-bar-mode 0)
-(tool-bar-mode 0)
 (if
     windowed-system
     (progn
@@ -191,8 +194,35 @@
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
+(defun reconstruct-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)
+    )
+  (replace-regexp "\\(\\w+\\)-\\s-+\\(\\w+\\)" "\\1\\2" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s-*вЂ\”" "~---" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\(\\w+\\)-\\(\\w+\\)" "\\1\"=\\2" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\.\\.\\." "\\\\ldots{}" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\[\\([[:digit:]]+\\)\\]" "\\\\cite{b\\1}" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\(\\w\\|\\.\\):" "\\1\\\\,:" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\([тТ]\\.\\)\\s-*\\(\\w\\.\\)" "\\1~\\2" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\([[:upper:]]\\.\\)\\s-*\\([[:upper:]]\\.\\)\\s-+\\([[:upper:]]\\w*\\)" "\\1~\\2~\\3" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\([[:upper:]]\\.\\)\\s-+\\([[:upper:]]\\w*\\)" "\\1~\\2" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\"\\(\\w+\\)" "<<\1" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\\(\\w+\\)\"" "\1>>" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\"\\(\\.\\)\"" "<<\1>>" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\\s-+" "_")
+  )
+
+(defun rec-tmp ()
+  (interactive)
+
+)
+
+
 ;; Handy key definition
-(define-key global-map "\M-Q" 'unfill-paragraph)
+(define-key global-map [f9] 'reconstruct-paragraph)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
@@ -465,10 +495,10 @@
                           global-proc-buffer-name))))
 
 
-;(require 'jump-char)
+(require 'jump-char)
 
-;(global-set-key [(meta m)] 'jump-char-forward)
-;(global-set-key [(shift meta m)] 'jump-char-backward)
+(global-set-key [(meta m)] 'jump-char-forward)
+(global-set-key [(shift meta m)] 'jump-char-backward)
 
 (defun set-input-method-english ()
   (interactive)
@@ -652,7 +682,8 @@
   ;; (add-hook 'post-command-hook 'auto-language-environment)
   )
 
-(add-hook 'latex-mode-hook 'latex-12-hacks)
+;;(add-hook 'latex-mode-hook 'latex-12-hacks)
+
 (global-set-key (kbd "C-`") 'linum-mode)
 (put 'scroll-left 'disabled nil)
 
@@ -678,7 +709,7 @@
   (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
   )
 
-(setq-default ispell-program-name "aspell")
+;(setq-default ispell-program-name "aspell")
 
 (load "server")
 (unless (server-running-p) (server-start))
@@ -717,6 +748,8 @@ ov)
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 ;(unless (package-installed-p 'scala-mode2)
 ;  (package-refresh-contents) (package-install 'scala-mode2))
@@ -742,3 +775,95 @@ ov)
 (if (not (functionp 'rope-before-save-actions))
     (defun rope-before-save-actions ())
 )
+
+;; AuCTeX Setups
+
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+; (setq-default TeX-master nil)
+(custom-set-variables
+'(TeX-PDF-mode t)
+'(TeX-master nil)
+'(TeX-source-correlate-method (quote synctex))
+'(TeX-source-correlate-mode t)
+'(TeX-source-correlate-start-server (quote ask)))
+
+(require 'rw-language-and-country-codes)
+(require 'rw-ispell)
+(require 'rw-hunspell)
+(add-to-list 'ispell-local-dictionary-alist  '("russian"
+        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[-]"  nil ("-d" "ru_RU") nil utf-8)
+)
+
+(add-to-list 'ispell-local-dictionary-alist  '("english"
+       "[A-Za-z]" "[^A-Za-z]"
+       "[']"  nil ("-d" "en_US") nil iso-8859-1)
+)
+(setq ispell-program-name "hunspell")
+(setq ispell-really-aspell nil
+      ispell-really-hunspell t)
+(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
+;;; The following is set via custom
+(custom-set-variables
+ '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t)
+)
+
+(defun fd-switch-dictionary()
+  (interactive)
+      (let* ((dic ispell-current-dictionary)
+             (change (if (string= dic "russian") "english" "russian")))
+        (ispell-change-dictionary change)
+        (message "Dictionary switched from %s to %s" dic change)
+        ))
+
+;(require 'ispell-multi)
+;(require 'flyspell-babel)
+
+;(autoload 'flyspell-babel-setup "flyspell-babel")
+;(add-hook 'latex-mode-hook 'flyspell-babel-setup)
+
+(global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+(global-set-key (kbd "<f7>")   'ispell-word)
+(put 'upcase-region 'disabled nil)
+
+(autoload
+  'ace-jump-mode
+  "ace-jump-mode"
+  "Emacs quick move minor mode"
+  t)
+
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;; enable a more powerful jump back function from ace jump mode
+(autoload
+  'ace-jump-mode-pop-mark
+  "ace-jump-mode"
+  "Ace jump back:-)"
+  t)
+(eval-after-load "ace-jump-mode"
+  '(ace-jump-mode-enable-mark-sync))
+(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+(global-set-key (kbd "C-x f") 'fiplr-find-file)
+
+;; Standard Jedi.el setting
+
+; does not work now.
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)
+
+;; Type:
+;;     M-x package-install RET jedi RET
+;;     M-x jedi:install-server RET
+;; Then open Python file.
+
+;; Save point position between sessions
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))

@@ -1,0 +1,137 @@
+Release notes for AUCTeX 11.87 with preview-latex
+=================================================
+
+AUCTeX provides by far the most wide-spread and sophisticated
+environment for editing LaTeX, TeX, ConTeXt and Texinfo documents with
+Emacs or XEmacs.  Combined with packages like RefTeX, flyspell and
+others it is pretty much without peer as a comprehensive authoring
+solution for a large variety of operating system platforms and TeX
+distributions.  It supports document-dependent completion and syntax
+highlighting, easily accessible menus, jumping to error locations in
+the source file, a number of editing shortcuts, intelligent
+indentation and filling of text during entry, and WYSIWYG previews of
+graphical elements like math formulas right in the Emacs source
+buffer, by virtue of its preview-latex component.
+
+One part of the preview-latex subsystem is the central `preview.sty'
+file that is independently useful for a number of applications and is
+available in unbundled form from CTAN.[1]
+
+AUCTeX needs volunteers in particular for non-programming tasks:
+documentation writing, tutorials, translations, reference material,
+sleuth work, testing.
+
+
+New features and fixed bugs in this release
+-------------------------------------------
+
+AUCTeX now supports Biber in conjunction with biblatex in addition to
+BibTeX.
+
+Each AUCTeX mode now has its own abbrev table.  On Emacsen which
+provide the possibility to inherit abbrevs from other tables, the
+abbrevs from the Text mode abbrev table are available as well.  Newly
+defined abbrevs are written to the mode-specific tables, though.
+
+The file tex-fptex.el was removed.
+
+Forward/backward search for Evince has been improved.  If Emacs is
+compiled with DBUS support and a recent Evince version (3.x) is
+installed, the communication goes over the desktop bus instead of the
+command line, resulting in more accurate positioning of point in Emacs
+and highlighting of the target paragraph in Evince.
+
+A problem where Ghostscript threw an /invalidfileaccess error when
+running preview-latex was fixed.
+
+A lot of smaller fixes and additions have been made.
+
+
+Requirements
+------------
+
+It is required that you use at least GNU Emacs 21 or XEmacs 21.4.
+XEmacs requires at least version 1.84 of the xemacs-base package
+(released on 01/27/2004) or a sumo tarball dated 02/02/2004 or newer
+for compiling AUCTeX: please use the XEmacs package system for
+upgrading if necessary.
+
+The preview-latex subsystem requires image support.  This is available
+with GNU Emacs 21.3 under the X window system.  For Windows[2], Mac OS
+X (Carbon, Cocoa)[3] or native GTK+ toolkit support, at least version
+22.1 of GNU Emacs is required.  Emacs 22 and later is the recommended
+platform for AUCTeX in general.  If you prefer XEmacs, it will work in
+version 21.4.10 or later.
+
+You'll also need a working LaTeX installation and Ghostscript.
+dvipng[4] (version 1.4 or later), a very fast DVI converter, can be
+used to speed up the conversion.
+
+Availability
+------------
+
+AUCTeX can be downloaded in various formats from
+<URL:ftp://ftp.gnu.org/gnu/auctex/>.  At release time, we provide the
+source tarball, a precompiled version for Emacs on Windows, and a
+platform-independent XEmacs package file (which you have to install
+yourself using XEmacs' own package system, after using it for removing
+the previous version of AUCTeX).  The easiest way for using AUCTeX, of
+course, is using versions of Emacs that already include AUCTeX or a
+software package management system for your operating system which
+provides you with the latest release.
+
+The XEmacs package file can be discerned by `pkg' in its name.  It is
+usually more recent than what gets distributed from XEmacs servers and
+as part of the Sumo tarball.
+
+A separate directory for each release contains some stuff from the
+tarball, such as ChangeLog, printable manuals, and a reference sheet.
+The download area is mirrored to the directory support/auctex on CTAN.
+AUCTeX is licensed under the GNU General Public License version 3.
+
+You'll find more information at the web site of AUCTeX
+<URL:http://www.gnu.org/software/auctex/>, including its mailing list
+addresses.
+
+
+Future development and additional information
+---------------------------------------------
+
+AUCTeX is proceeding as a GNU project with the long-term intent of
+merging it into Emacs.  For that reason, all new contributors need to
+assign copyright to their contributions to the FSF (the usual
+procedure for Emacs contributors).  The same holds for past
+contributors.  The principal authors and maintainers have already done
+so, but it would require a diligent and diplomatic volunteer to find
+and ask the rest.
+
+Current project manager is David Kastrup.  Paypal contributions to
+<URL:mailto:auctex@gnu.org> would be appreciated in order to
+compensate for time, money and hardware required for presenting AUCTeX
+at conferences.  Extensions may be commissioned: enquire on the
+developer list (see above).  Other than that, volunteering for tasks
+remains the most effective way of helping AUCTeX development.
+
+The following people contributed to this release series (in
+alphabetical order): Ralf Angeli, Masayuki Ataka, Thomas Baumann,
+Vincent Belaïche, Berend de Boer, Ken Brown, Joshua Buhl, Patrice
+Dumas, Miguel Frasson, Peter S. Galbraith, Patrick Gundlach, Tassilo
+Horn, Yvon Hevel, Mads Jensen, Arne Jørgensen, David Kastrup, Ikumi
+Keita, Philip Kime, Joost Kremers, Frank Küster, Jan-Åke Larsson,
+Antoine Levitt, Dan Nicolaescu, Piet van Oostrum, Augusto Ritter
+Stoffel, Davide G. M. Salvetti, Holger Sparr, Mike Sperber, Reiner
+Steib, Christian Schlauer, Shiro Takeda, Mark Trettin (Please accept
+our apologies if we forgot somebody.)
+
+Footnotes: 
+
+[1]  <URL:ftp://ftp.dante.de/tex-archive/macros/latex/contrib/preview/>
+
+[2]  You can get a precompiled version of Emacs for Windows at
+<URL:ftp://ftp.gnu.org/gnu/emacs/windows/>.
+
+[3]  See e.g. <URL:http://www.emacswiki.org/cgi-bin/wiki/EmacsForMacOS>
+for a list of precompiled versions of Emacs for Mac OS X.
+
+[4]  dvipng is available via its project page
+<URL:http://savannah.nongnu.org/projects/dvipng> and from CTAN.

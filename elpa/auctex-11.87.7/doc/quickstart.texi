@@ -1,0 +1,303 @@
+@include macros.texi
+
+@node Quick Start
+@chapter Quick Start
+
+@AUCTeX{} is a powerful program offering many features and configuration
+options.  If you are new to @AUCTeX{} this might be deterrent.
+Fortunately you do not have to learn everything at once.  This Quick
+Start Guide will give you the knowledge of the most important commands
+and enable you to prepare your first @LaTeX{} document with @AUCTeX{}
+after only a few minutes of reading.
+
+In this introduction, we assume that @AUCTeX{} is already installed on
+your system.  If this is not the case, you should read the file
+@file{INSTALL} in the base directory of the unpacked distribution
+tarball.  These installation instructions are available in this manual
+as well, @ref{Installation}.  We also assume that you are familiar with
+the way keystrokes are written in Emacs manuals.  If not, have a look at
+the Emacs Tutorial in the Help menu.
+
+If @AUCTeX{} is installed, you might still need to activate it, by
+inserting
+
+@lisp
+(load "auctex.el" nil t t)
+@end lisp
+
+in your user init file.@footnote{This usually is a file in your home
+directory called @file{.emacs} if you are utilizing GNU Emacs or
+@file{.xemacs/init.el} if you are using XEmacs.}  If you've installed
+@AUCTeX{} from the Emacs package manager (ELPA), you must not have this
+line in your user init file.  The installation procedure already cares
+about loading @AUCTeX{} correctly.
+
+In order to get support for many of the @LaTeX{} packages you will use
+in your documents, you should enable document parsing as well, which can
+be achieved by putting
+
+@lisp
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+@end lisp
+
+into your init file.  Finally, if you often use @code{\include} or
+@code{\input}, you should make @AUCTeX{} aware of the multi-file
+document structure.  You can do this by inserting
+
+@lisp
+(setq-default TeX-master nil)
+@end lisp
+
+into your init file.  Each time you open a new file, @AUCTeX{} will then
+ask you for a master file.
+
+@menu
+* Editing Facilities::          Functions for editing TeX files
+* Processing Facilities::       Creating and viewing output, debugging
+@end menu
+
+@iftex
+This Quick Start Guide covers two main topics: First we explain how
+@AUCTeX{} helps you in editing your input file for @TeX{}, @LaTeX{}, and
+some other formats.  Then we describe the functions that @AUCTeX{}
+provides for processing the input files with @LaTeX{}, Bib@TeX{}, etc.,
+and for viewing and debugging.
+@end iftex
+
+@node Editing Facilities
+@section Functions for editing TeX files
+
+@subsection Making your @TeX{} code more readable
+
+@AUCTeX{} can do syntax highlighting of your source code, that means
+commands will get special colors or fonts.  You can enable it locally by
+typing @kbd{M-x font-lock-mode RET}.  If you want to have font locking
+activated generally, enable @code{global-font-lock-mode}, e.g. with
+@kbd{M-x customize-variable RET global-font-lock-mode RET}.
+
+@AUCTeX{} will indent new lines to indicate their syntactical
+relationship to the surrounding text.  For example, the text of a
+@code{\footnote} or text inside of an environment will be indented
+relative to the text around it.  If the indenting has gotten wrong after
+adding or deleting some characters, use @key{TAB} to reindent the line,
+@kbd{M-q} for the whole paragraph, or @kbd{M-x LaTeX-fill-buffer RET}
+for the whole buffer.
+
+@subsection Entering sectioning commands
+@cindex Sectioning
+@cindex Sections
+@cindex Chapters
+@cindex @code{\chapter}
+@cindex @code{\section}
+@cindex @code{\subsection}
+@cindex @code{\label}
+
+Insertion of sectioning macros, that is @samp{\chapter},
+@samp{\section}, @samp{\subsection}, etc. and accompanying @samp{\label}
+commands may be eased by using @kbd{C-c C-s}.  You will be asked for the
+section level.  As nearly everywhere in @AUCTeX{}, you can use the
+@key{TAB} or @key{SPC} key to get a list of available level names, and
+to auto-complete what you started typing.  Next, you will be asked for
+the printed title of the section, and last you will be asked for a label
+to be associated with the section.
+
+@subsection Inserting environments
+
+Similarly, you can insert environments, that is
+@samp{\begin@{@}}--@samp{\end@{@}} pairs: Type @kbd{C-c C-e}, and select
+an environment type.  Again, you can use @key{TAB} or @key{SPC} to get a
+list, and to complete what you type.  Actually, the list will not only
+provide standard @LaTeX{} environments, but also take your
+@samp{\documentclass} and @samp{\usepackage} commands into account if
+you have parsing enabled by setting @code{TeX-parse-self} to @code{t}.
+If you use a couple of environments frequently, you can use the up and
+down arrow keys (or @kbd{M-p} and @kbd{M-n}) in the minibuffer to get
+back to the previously inserted commands.
+
+Some environments need additional arguments.  Often, @AUCTeX{} knows about
+this and asks you to enter a value. 
+
+@subsection Inserting macros
+
+@kbd{C-c C-m}, or simply @kbd{C-c RET} will give you a prompt that asks
+you for a @LaTeX{} macro.  You can use @key{TAB} for completion, or the
+up/down arrow keys (or @kbd{M-p} and @kbd{M-n}) to browse the command
+history.  In many cases, @AUCTeX{} knows which arguments a macro needs
+and will ask you for that.  It even can differentiate between mandatory
+and optional arguments---for details, see @ref{Completion}.
+
+An additional help for inserting macros is provided by the possibility
+to complete macros right in the buffer.  With point at the end of a
+partially written macro, you can complete it by typing @kbd{M-TAB}.
+
+@subsection Changing the font 
+
+@AUCTeX{} provides convenient keyboard shortcuts for inserting macros
+which specify the font to be used for typesetting certain parts of the
+text.  They start with @kbd{C-c C-f}, and the last @kbd{C-} combination
+tells @AUCTeX{} which font you want:
+
+@table @kbd
+@item C-c C-f C-b
+@kindex C-c C-f C-b
+@cindex @code{\textbf}
+Insert @b{bold face} @samp{\textbf@{@point{}@}} text.
+
+@item C-c C-f C-i
+@kindex C-c C-f C-i
+@cindex @code{\textit}
+Insert @i{italics} @samp{\textit@{@point{}@}} text.
+
+@item C-c C-f C-e
+@kindex C-c C-f C-e
+@cindex @code{\emph}
+Insert @i{emphasized} @samp{\emph@{@point{}@}} text.
+
+@item C-c C-f C-s
+@kindex C-c C-f C-s
+@cindex @code{\textsl}
+Insert @i{slanted} @samp{\textsl@{@point{}@}} text.
+
+@item C-c C-f C-r
+@kindex C-c C-f C-r
+@cindex @code{\textrm}
+Insert roman @r{\textrm@{@point{}@}} text.
+
+@item C-c C-f C-f
+@kindex C-c C-f C-f
+@cindex @code{\textsf}
+Insert  @sansserif{sans serif} @samp{\textsf@{@point{}@}} text.
+
+@item C-c C-f C-t
+@kindex C-c C-f C-t
+@cindex @code{\texttt}
+Insert @t{typewriter} @samp{\texttt@{@point{}@}} text.
+
+@item C-c C-f C-c
+@kindex C-c C-f C-c
+@cindex @code{\textsc}
+Insert @sc{small caps} @samp{\textsc@{@point{}@}} text.
+
+@item C-c C-f C-d
+@kindex C-c C-f C-c
+@cindex Deleting fonts
+Delete the innermost font specification containing point.
+
+@end table
+
+If you want to change font attributes of existing text, mark it as a
+region, and then invoke the commands.  If no region is selected, the
+command will be inserted with empty braces, and you can start typing the
+changed text.
+
+Most of those commands will also work in math mode, but then macros like
+@code{\mathbf} will be inserted.
+
+
+@subsection Other useful features
+
+@AUCTeX{} also tries to help you when inserting the right ``quote''
+signs for your language, dollar signs to typeset math, or pairs of
+braces.  It offers shortcuts for commenting out text (@kbd{C-c ;} for
+the current region or @kbd{C-c %} for the paragraph you are in).  The
+same keystrokes will remove the % signs, if the region or paragraph is
+commented out yet.  With @code{TeX-fold-mode}, you can hide certain
+parts (like footnotes, references etc.) that you do not edit currently.
+Support for Emacs' outline mode is provided as well.  And there's more,
+but this is beyond the scope of this Quick Start Guide.
+
+
+
+@node Processing Facilities
+@section Creating and viewing output, debugging
+
+@subsection One Command for @LaTeX{}, helpers, viewers, and printing
+
+If you have typed some text and want to run @LaTeX{} (or @TeX{}, or
+other programs---see below) on it, type @kbd{C-c C-c}.  If applicable,
+you will be asked whether you want to save changes, and which program
+you want to invoke.  In many cases, the choice that @AUCTeX{} suggests
+will be just what you want: first @command{latex}, then a viewer.  If a
+@command{latex} run produces or changes input files for
+@command{makeindex}, the next suggestion will be to run that program,
+and @AUCTeX{} knows that you need to run @command{latex} again
+afterwards---the same holds for Bib@TeX{}.
+
+When no processor invocation is necessary anymore, @AUCTeX{} will
+suggest to run a viewer, or you can chose to create a PostScript file
+using @command{dvips}, or to directly print it.
+
+At this place, a warning needs to be given: First, although @AUCTeX{} is
+really good in detecting the standard situations when an additional
+@command{latex} run is necessary, it cannot detect it always.  Second,
+the creation of PostScript files or direct printing currently only works
+when your output file is a @acronym{DVI} file, not a @acronym{PDF} file.
+
+Ah, you didn't know you can do both?  That brings us to the next topic.
+
+@subsection Choosing an output format
+
+From a @LaTeX{} file, you can produce @acronym{DVI} output, or a
+@acronym{PDF} file directly @i{via} @command{pdflatex}.  You can switch
+on source specials for easier navigation in the output file, or tell
+@command{latex} to stop after an error (usually @code{\noninteractive}
+is used, to allow you to detect all errors in a single run).
+
+These options are controlled by toggles, the keystrokes should be easy
+to memorize:
+
+@table @kbd
+@item @kbd{C-c C-t C-p}
+This command toggles between @acronym{DVI} and @acronym{PDF} output
+
+@item @kbd{C-c C-t C-i}
+toggles interactive mode
+
+@item @kbd{C-c C-t C-s}
+toggles source specials support
+
+@item @kbd{C-c C-t C-o}
+toggles usage of Omega/lambda.
+
+@end table
+
+@subsection Debugging @LaTeX{}
+
+When @AUCTeX{} runs a program, it creates an output buffer in which it
+displays the output of the command.  If there is a syntactical error in
+your file, @command{latex} will not complete successfully. @AUCTeX{}
+will tell you that, and you can get to the place where the first error
+occured by pressing @kbd{C-c `} (the last character is a backtick).  The
+view will be split in two windows, the output will be displayed in the
+lower buffer, and both buffers will be centered around the place where
+the error ocurred.  You can then try to fix it in the document buffer,
+and use the same keystrokes to get to the next error.  This procedure
+may be repeated until all errors have been dealt with.  By pressing
+@kbd{C-c C-w} (@code{TeX-toggle-debug-boxes}) you can toggle whether
+@AUCTeX{} should notify you of overfull and underfull boxes in addition
+to regular errors.
+
+If a command got stuck in a seemingly infinite loop, or you want to stop
+execution for other reasons, you can use @kbd{C-c C-k} (for ``kill'').
+Similar to @kbd{C-l}, which centers the buffer you are in around your
+current position, @kbd{C-c C-l} centers the output buffer so that the
+last lines added at the bottom become visible.
+
+@subsection Running @LaTeX{} on parts of your document
+
+If you want to check how some part of your text looks like, and do not
+want to wait until the whole document has been typeset, then mark it as
+a region and use @kbd{C-c C-r}.  It behaves just like @kbd{C-c C-c}, but
+it only uses the document preamble and the region you marked.
+
+If you are using @code{\include} or @code{\input} to structure your
+document, try @kbd{C-c C-b} while you are editing one of the included
+files.  It will run @command{latex} only on the current buffer, using the
+preamble from the master file.
+@c does this also work with input? why not?
+
+@c Local Variables: 
+@c mode: texinfo
+@c TeX-master: "auctex"
+@c End: 

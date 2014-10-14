@@ -1,0 +1,146 @@
+%%
+%% This is file `prtightpage.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `tightpage')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from prtightpage.def.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\ifx\PreviewBorder\@undefined
+  \newdimen\PreviewBorder
+  \PreviewBorder=0.50001bp
+\fi
+\ifx\PreviewBbAdjust\@undefined
+  \def\PreviewBbAdjust{-\PreviewBorder -\PreviewBorder
+    \PreviewBorder \PreviewBorder}
+\fi
+\ifPreview\else\expandafter\endinput\fi
+\def\pr@nextbb{\edef\next{\next\space\number\dimen@}%
+  \expandafter\xdef\csname pr@bb@%
+    \romannumeral\count@\endcsname{\the\dimen@}%
+  \advance\count@\@ne\ifnum\count@<5
+  \afterassignment\pr@nextbb\dimen@=\fi}
+\ifnum\pr@graphicstype=\z@
+  \ifcase
+    \ifx\XeTeXversion\@undefined
+      \ifx\pdfoutput\@undefined \@ne\fi
+      \ifx\pdfoutput\relax \@ne\fi
+      \ifnum\pdfoutput>\z@ \tw@\fi \@ne
+    \else \thr@@\fi
+  \or \ExecuteOptions{dvips}\relax
+  \or \ExecuteOptions{pdftex}\relax
+  \or \ExecuteOptions{xetex}\relax\fi\fi
+\global\let\pr@bbadjust\@empty
+\pr@addto@front\pr@ship@end{\begingroup
+  \let\next\@gobble
+  \count@\@ne\afterassignment\pr@nextbb
+  \dimen@\PreviewBbAdjust
+  \ifx\pr@bbadjust\next
+  \else \global\let\pr@bbadjust\next
+  \typeout{Preview: Tightpage \pr@bbadjust}%
+  \fi\endgroup}
+\ifcase\pr@graphicstype
+\or
+  \g@addto@macro\pr@ship@end{\setbox\pr@box\hbox{%
+    \special{ps::\pr@bbadjust\space
+      \number\ifdim\ht\pr@box>\z@ \ht\pr@box
+             \else \z@
+             \fi \space
+      \number\ifdim\dp\pr@box>\z@ \dp\pr@box
+             \else \z@
+             \fi \space
+      \number\ifdim\wd\pr@box>\z@ \wd\pr@box
+             \else \z@
+             \fi}\box\pr@box}}
+\or
+  \g@addto@macro\pr@ship@end{{\dimen@\ht\pr@box
+    \ifdim\dimen@<\z@ \dimen@\z@\fi
+    \advance\dimen@\pr@bb@iv
+    \dimen@ii=\dimen@
+    \global\pdfvorigin\dimen@
+    \dimen@\dp\pr@box
+    \ifdim\dimen@<\z@ \dimen@\z@\fi
+    \advance\dimen@-\pr@bb@ii
+    \advance\dimen@\dimen@ii
+    \global\pdfpageheight\dimen@
+    \dimen@\wd\pr@box
+    \ifdim\dimen@<\z@ \dimen@=\z@\fi
+    \advance\dimen@-\pr@bb@i
+    \advance\dimen@\pr@bb@iii
+    \global\pdfpagewidth\dimen@
+    \global\pdfhorigin-\pr@bb@i}}
+\or
+  \g@addto@macro\pr@ship@end{\dimen@\ht\pr@box
+    \ifdim\dimen@<\z@ \dimen@\z@\fi
+    \advance\dimen@\pr@bb@iv
+    \dimen@ii=\dimen@
+    \voffset=-1in
+    \advance\voffset\dimen@
+    \advance\voffset-\ht\pr@box
+    \dimen@\dp\pr@box
+    \ifdim\dimen@<\z@ \dimen@\z@\fi
+    \advance\dimen@-\pr@bb@ii
+    \advance\dimen@\dimen@ii
+    \global\pdfpageheight\dimen@
+    \global\paperheight\dimen@
+    \dimen@\wd\pr@box
+    \ifdim\dimen@<\z@ \dimen@=\z@\fi
+    \advance\dimen@-\pr@bb@i
+    \advance\dimen@\pr@bb@iii
+    \global\pdfpagewidth\dimen@
+    \hoffset=-1in
+    \advance\hoffset-\pr@bb@i
+    \let\pr@offset@override\@empty}
+\fi
+\ifnum\pr@graphicstype=\@ne
+\preview@delay{\AtBeginDvi{%
+  \special{!/preview@tightpage true def (%
+     compatibility PostScript comment for dvipng<=1.5 }
+  \special{!userdict begin/bop-hook{%
+     7{currentfile token not{stop}if
+       65781.76 div DVImag mul}repeat
+       72 add 72 2 copy gt{exch}if 4 2 roll
+       neg 2 copy lt{exch}if dup 0 gt{pop 0 exch}%
+       {exch dup 0 lt{pop 0}if}ifelse 720 add exch 720 add
+       3 1 roll
+       4{5 -1 roll add 4 1 roll}repeat
+     <</PageSize[5 -1 roll 6 index sub 5 -1 roll 5 index sub]%
+       /PageOffset[7 -2 roll [1 1 dtransform exch]%
+       {0 ge{neg}if exch}forall]>>setpagedevice%
+       //bop-hook exec}bind def end}
+  \special{!userdict (some extra code to avoid
+     dvipng>=1.6 unknown special:
+       7{currentfile token not{stop}if 65781.76 div })) pop}
+  \special{!userdict begin/bop-hook{%
+  preview-bop-level 0 le{%
+     7{currentfile token not{stop}if
+       65781.76 div DVImag mul}repeat
+     72 add 72 2 copy gt{exch}if 4 2 roll
+     neg 2 copy lt{exch}if dup 0 gt{pop 0 exch}%
+     {exch dup 0 lt{pop 0}if}ifelse 720 add exch 720 add
+     3 1 roll
+    4{5 -1 roll add 4 1 roll}repeat
+     <</PageSize[5 -1 roll 6 index sub 5 -1 roll 5 index sub]%
+       /PageOffset[7 -2 roll [1 1 dtransform exch]%
+       {0 ge{neg}if exch}forall]>>setpagedevice}if%
+     //bop-hook exec}bind def end}}}
+\fi
+\endinput
+%%
+%% End of file `prtightpage.def'.

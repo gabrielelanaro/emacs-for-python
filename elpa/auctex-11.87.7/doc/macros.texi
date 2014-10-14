@@ -1,0 +1,81 @@
+@ifclear macros
+@set macros
+@ifnottex
+@macro AUCTeX {}
+AUC@TeX{}
+@end macro
+@macro ConTeXt {}
+Con@TeX{}t
+@end macro
+@macro previewlatex {}
+preview-latex
+@end macro
+@macro fontlatex {}
+font-latex
+@end macro
+@ifset no-acronym
+@clear no-acronym
+@macro acronym {text}
+@sc{\text\}
+@end macro
+@end ifset
+@ifset no-env
+@clear no-env
+@macro env {text}
+@code{\text\}
+@end macro
+@end ifset
+@ifset no-option
+@clear no-option
+@macro option {text}
+@samp{\text\}
+@end macro
+@end ifset
+@ifset no-command
+@clear no-command
+@macro command {text}
+@samp{\text\}
+@end macro
+@end ifset
+@end ifnottex
+@ifset no-sansserif
+@macro sansserif {text}@c
+@iftex
+{@textsf \text\}@c
+@end iftex
+@ifnottex
+\text\@c
+@end ifnottex
+@end macro
+@end ifset
+@tex
+\global\let\savedTeX\TeX
+\gdef\TeX#1{\savedTeX#1}
+\gdef\LaTeX{%
+    L\kern-.36em\raise.3ex\hbox{\sc{a}}\kern-.15em\TeX}
+\gdef\previewlatex#1{%
+    {\sf preview-latex}#1}
+\gdef\fontlatex#1{%
+    {\sf font-latex}#1}
+\gdef\AUCTeX{AUC\TeX}
+\gdef\ConTeXt#1{%
+    Con\TeX t#1}
+\toks0\expandafter{\indexnofonts
+  \def\TeX#1{TeX#1}%
+  \def\LaTeX#1{LaTeX#1}\def\previewlatex#1{preview-latex#1}}
+\xdef\indexnofonts{\the\toks0}
+\toks0\expandafter{\commondummies
+  \def\TeX#1{TeX#1}%
+  \def\LaTeX#1{LaTeX#1}\def\previewlatex#1{preview-latex#1}}
+\xdef\commondummies{\the\toks0}
+\ifx\acronym\undefined \gdef\acronym#1{{\smallcaps \lowercase{#1}}} \fi
+\ifx\env\undefined \global\let\env=\code \fi
+\ifx\option\undefined \global\let\option=\samp \fi
+\ifx\command\undefined \global\let\command=\samp \fi
+%Bug fix for texinfo.tex:
+\gdef\cslet#1#2{%
+\expandafter\let
+\csname#1\expandafter\endcsname
+\csname#2\endcsname}
+@end tex
+@end ifclear

@@ -1,6 +1,10 @@
 *~
 *.elc
 *.pyc
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 668d50951be4afcc422c746b358e9b4485593b70
 ac-comphist.dat
 .emacs.desktop*
 tramp
@@ -14,3 +18,7 @@ site-lisp/
 \177
 *#*#
 commit.txt
+<<<<<<< HEAD
+=======
+.places
+>>>>>>> 668d50951be4afcc422c746b358e9b4485593b70

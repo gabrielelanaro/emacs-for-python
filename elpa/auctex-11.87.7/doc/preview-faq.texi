@@ -1,0 +1,340 @@
+@c This is part of the preview-latex manual.
+@c Copyright (C) 2002, 2003, 2004, 2005, 2006, 2009 Free Software
+@c   Foundation, Inc.
+@c See file preview-latex.texi for copying conditions.
+@ifset rawfile
+@include macros.texi
+
+@node Frequently Asked Questions, Introduction to FAQ, (dir), (dir)
+@top Frequently Asked Questions about @previewlatex{}
+
+@contents
+
+@end ifset
+
+@menu
+* Introduction to FAQ::         
+* Requirements::                
+* Installation Trouble::        
+* Customization::               
+* Troubleshooting::               
+* Other formats::               
+@end menu
+
+@comment we need at least one chapter, or the numbers disappear in the
+@comment plain version of the FAQ.
+
+@ifset rawfile
+@node Introduction to FAQ, Requirements, Frequently Asked Questions, Frequently Asked Questions
+@chapter Introduction
+@raisesections
+@end ifset
+@ifclear rawfile
+@node Introduction to FAQ, Requirements, Frequently Asked Questions, Frequently Asked Questions
+@section Introduction
+@end ifclear
+
+@subsection How can I contribute to the FAQ?
+
+Send an email with the subject:
+@example
+Preview FAQ
+@end example
+to @email{auctex-devel@@gnu.org}.
+
+@node Requirements, Installation Trouble, Introduction to FAQ, Frequently Asked Questions
+@section Requirements
+
+@subsection Which version of (X)Emacs is needed?
+See also the table at the end of the section.
+
+@previewlatex{} nominally requires @w{GNU Emacs} with a version of at
+least 21.1.  However, @w{Emacs 22} (currently under development) offers
+superior performance and wider platform support, and is even now the
+recommended platform to use.
+
+While recent versions of @w{XEmacs 21.4} are supported, doing this in a
+satisfactory manner has proven to be difficult due to technical
+shortcomings and differing API's which are hard to come by.  If
+@previewlatex{} is an important part of your editing workflow, you are
+likely to get better results and support by switching to Emacs.  Of
+course, you can improve support for your favorite editor by giving
+feedback in case you encounter bugs.
+
+@subsection Which versions of Ghostscript and @AUCTeX{} are needed?
+
+We recommend to use GNU or AFPL Ghostscript with a version of at least
+7.07.
+
+@previewlatex{} has been distributed as part of @AUCTeX{} since version
+11.80.  If your version of @AUCTeX{} is older than that, or if it does
+not contain a working copy of @previewlatex{}, complain to wherever you
+got it from.
+
+@subsection I have trouble with the display format...
+We recommend keeping the variable @code{preview-image-type} set to
+@code{dvipng} (if you have it installed) or @code{png}.  This is the
+default and can be set via the Preview/Customize menu.
+
+All other formats are known to have inconveniences, either in file size
+or quality.  There are some Emacs versions around not supporting
+@acronym{PNG}; the proper way to deal with that is to complain to your
+Emacs provider.  Short of that, checking out @acronym{PNM} or
+@acronym{JPEG} formats might be a good way to find out whether the lack
+of @acronym{PNG} format support might be the only problem with your
+Emacs.
+
+@subsection For which OS does preview work?
+
+It is known to work under the X Window System for Linux and for several
+flavors of Unix: we have reports for HP and Solaris.
+
+There are several development versions of Emacs around for native MacOS
+Carbon, and @previewlatex{} is working with them, too.
+
+With Windows, Cygwin and native ports of XEmacs should work.
+@previewlatex{} will not work with any native version 21 of Emacs under
+Windows: you need to get a hold of @w{Emacs 22} which is at the time of
+this writing not released but available as a developer snapshot.
+
+The entry "X11/Unix" currently means Linux, Solaris or HP/UX, as well as
+the X-specific version for Mac/OSX.
+
+@multitable {Win9x native} {Emacs version} {XEmacs version}
+@item OS @tab Emacs version @tab XEmacs version
+@item X11/Unix @tab 21.1 @tab 21.4.9
+@item Win9x cygwin @tab 21.3.50? @tab 21.4.8
+@item Win9x native @tab 22.1 @tab 21.4.8
+@item MacOSX native @tab 22.1 @tab --
+@end multitable
+
+@node Installation Trouble, Customization, Requirements, Frequently Asked Questions
+@section Installation Trouble
+
+@subsection I just get @samp{LaTeX found no preview images}.
+
+The reason for this is that @LaTeX{} found no preview images in the
+document in question.
+
+One reason might be that there are no previews to be seen.  If you have
+not used @previewlatex{} before, you might not know its manner of
+operation.  One sure-fire way to test if you just have a document where
+no previews are to be found is to use the provided example document
+@file{circ.tex} (you will have to copy it to some directory where you
+have write permissions).  If the symptom persists, you have a problem,
+and the problem is most likely a @LaTeX{} problem.  Here are possible
+reasons:
+
+@table @asis
+
+@item Filename database not updated
+Various @TeX{} distributions have their own ways of knowing where the
+files are without actually searching directories.  The normal
+@previewlatex{} installation should detect common tools for that purpose
+and use them.  If this goes wrong, or if the files get installed into a
+place where they are not looked for, the @LaTeX{} run will fail.
+
+@item An incomplete manual installation
+This should not happen if you followed installation instructions.
+Unfortunately, people know better all the time.  If only
+@file{preview.sty} gets installed without a set of supplementary files
+also in the @file{latex} subdirectory, @previewlatex{} runs will not
+generate any errors, but they will not produce any previews, either.
+
+@item An outdated @file{preview} installation
+The @file{preview.sty} package is useful for more than just
+@previewlatex{}.  For example, it is part of @TeX{}live.  So you have
+to make sure that @previewlatex{} does not get to work with outdated
+style and configuration files: some newer features will not work with
+older @TeX{} style files, and really old files will make
+@previewlatex{} fail completely.  There usual is a local @file{texmf}
+tree, or even a user-specific tree that are searched before the default
+tree.  Make sure that the first version of those files that gets found
+is the correct one.
+@end table
+
+@subsection I have problems with the XEmacs installation
+Please note that the XEmacs installation is different, since XEmacs has
+a package system that gets used here.  Please make sure that you read
+and follow the installation instructions for XEmacs.
+
+@node Customization, Troubleshooting, Installation Trouble, Frequently Asked Questions
+@section Customization
+
+@subsection Why don't I get balloon help like in the screen shots?
+
+Some users have reported problems with their XEmacs version, so balloon
+help is no longer switched on by default.  Use the Preview/Customize
+menu or @kbd{@key{M-x} customize-variable} in order to customize
+@code{preview-use-balloon-help} to `On'.  This only concerns XEmacs:
+tooltips under @w{GNU Emacs} are enabled by default and unproblematic.
+
+@subsection How to include additional environments like @code{enumerate}
+
+By default, @previewlatex{} is intended mainly for displaying
+mathematical formulas, so environments like @code{enumerate} or
+@code{tabular} (except where contained in a float) are not included.
+You can include them however manually by adding the lines:
+
+@example
+\usepackage[displaymath,textmath,sections,graphics,floats]@{preview@}
+\PreviewEnvironment@{enumerate@}
+@end example
+
+in your document header, that is before 
+
+@example
+\begin@{document@}
+@end example
+@noindent
+In general, @file{preview} should be loaded as the last thing before
+the start of document.
+
+Be aware that
+
+@example
+\PreviewEnvironment@{...@}
+@end example
+
+does not accept a comma separated
+list!  Also note that by putting more and more 
+
+@example
+\PreviewEnvironment@{...@}
+@end example
+
+in your document, it will look more and more like a @acronym{DVI} file
+preview when running @previewlatex{}.  Since each preview is treated as
+one large monolithic block by Emacs, one should really restrict
+previews to those elements where the improvement in visual
+representation more than makes up for the decreased editability.
+
+@subsection What if I don't want to change the document?
+The easiest way is to generate a configuration file in the current
+directory.  You can basically either create @file{prdefault.cfg} which
+is used for any use of the @samp{preview} package, or you can use
+@file{prauctex.cfg} which only applies to the use from with Emacs.  Let
+us assume you use the latter.  In that case you should write something like
+
+@example
+\InputIfFileExists@{preview/prauctex.cfg@}@{@}@{@}
+\PreviewEnvironment@{enumerate@}
+@end example
+
+in it.  The first line inputs the system-wide default configuration
+(the file name should match that, but not your own
+@file{prauctex.cfg}), then you add your own stuff.
+
+@subsection Suddenly I get gazillions of ridiculous pages?!?
+
+When @previewlatex{} works on extracting its stuff, it typesets each
+single preview on a page of its own.  This only happens when actual
+previews get generated.  Now if you want to configure @previewlatex{} in
+your document, you need to add your own @code{\usepackage} call to
+@samp{preview} so that it will be able to interpret its various
+definition commands.  It is an error to add the @code{active} option to
+this invocation: you don't want the package to be active unless
+@previewlatex{} itself enables the previewing operation (which it will).
+
+@subsection Does @previewlatex{} work with presentation classes?
+
+@previewlatex{} should work with most presentation classes.  However,
+since those classes often have macros or pseudo environments
+encompassing a complete slide, you will need to use the customization
+facilities of @file{preview.sty} to tell it how to resolve this, whether
+you want no previews, previews of whole slides or previews of inner
+material.
+
+@node Troubleshooting, Other formats, Customization, Frequently Asked Questions
+@section Troubleshooting
+
+@subsection Preview causes all sort of strange error messages
+
+When running @previewlatex{} and taking a look at either log file or
+terminal output, lots of messages like
+
+@example
+! Preview: Snippet 3 started.
+<-><->
+      
+l.52 \item Sie lassen sich als Funktion $
+                                         y = f(x)$ darstellen.
+! Preview: Snippet 3 ended.(491520+163840x2494310).
+<-><->
+      
+l.52 \item Sie lassen sich als Funktion $y = f(x)$
+                                                   darstellen.
+@end example
+
+appear (previous versions generated messages looking even more like
+errors).  Those are not real errors (as will be noted in the log
+file).  Or rather, while they @strong{are} really @TeX{} error
+messages, they are intentional.  This currently is the only reliable
+way to pass the information from the @LaTeX{} run of @previewlatex{} to
+its Emacs part about where the previews originated in the source text.
+Since they are actual errors, you will also get @AUCTeX{} to state
+@example
+Preview-LaTeX exited as expected with code 1 at Wed Sep  4 17:03:30
+@end example
+after the @LaTeX{} run in the run buffer.  This merely indicates that
+errors were present, and errors will always be present when
+@previewlatex{} is operating.  There might be also real errors, so in
+case of doubt, look for them explicitly in either run buffer or the
+resulting @file{.log} file.
+
+@subsection Why do my @acronym{DVI} and @acronym{PDF} output files vanish?
+
+In order to produce the preview images @previewlatex{} runs @LaTeX{} on
+the master or region file.  The resulting @acronym{DVI} or @acronym{PDF}
+file can happen to have the same name as the output file of a regular
+@LaTeX{} run.  So the regular output file gets overwritten and is
+subsequently deleted by @previewlatex{}.
+
+@subsection My output file suddenly only contains preview images?!
+
+As mentioned in the previews @acronym{FAQ} entry, @previewlatex{} might
+use the file name of the original output file for the creation of
+preview images.  If the original output file is being displayed with a
+viewer when this happens, you might see strange effects depending on the
+viewer, e.g. a message about the file being corrupted or the display of
+all the preview images instead of your typeset document.  (Also
+@xref{Customization}.)
+
+
+@node Other formats, , Troubleshooting, Frequently Asked Questions
+@section @previewlatex{} when not using @LaTeX{}
+
+@subsection Does @previewlatex{} work with  PDF@LaTeX{}?
+
+Yes, as long as you use @AUCTeX{}'s own PDF@LaTeX{} mode and have not
+messed with @samp{TeX-command-list}.
+
+@subsection Does @previewlatex{} work with @samp{elatex}?
+
+No problem here.  If you configure your @AUCTeX{} to use @samp{elatex},
+or simply have @samp{latex} point to @samp{elatex}, this will work fine.
+Modern @TeX{} distributions use e@TeX{} for @LaTeX{}, anyway.
+
+@subsection Does @previewlatex{} work with @ConTeXt{}?
+
+In short, no.  The @samp{preview} package is
+@LaTeX{}-dependent.  Adding support for other formats requires
+volunteers.
+
+@subsection Does @previewlatex{} work with plain TeX?
+
+Again, no.  Restructuring the @samp{preview} package for @samp{plain}
+operation would be required.  Volunteers welcome.
+
+In some cases you might get around by making a wrapper pseudo-Master
+file looking like the following:
+
+@example
+\documentclass@{article@}
+\usepackage@{plain@}
+\begin@{document@}
+\begin@{plain@}
+\input myplainfile
+\end@{plain@}
+\end@{document@}
+@end example
