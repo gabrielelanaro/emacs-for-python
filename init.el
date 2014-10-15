@@ -2,8 +2,9 @@
 (setq win32-system (eq window-system 'w32))
 
 (menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
+;(tool-bar-mode 0)
+;(scroll-bar-mode 0)
+(setq inhibit-startup-message t)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
@@ -118,16 +119,15 @@
 ;;(require 'tabbar)
 ;;(tabbar-mode)
 
+
 (require 'recentf)
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode 1)
 ;; (setq
 ;;  recentf-menu-path '("File")
 ;;  recentf-menu-title "Recent"
-;;  recentf-max-saved-items 100
-;;  recentf-max-menu-items 20
-;;  )
-;; (setq recentf-max-menu-items 25)
+;;  recentf-max-saved-items 20
+;;  recentf-max-menu-items 20)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (recentf-update-menu-hook)
 
@@ -138,6 +138,7 @@
       ;(tabbar-mode)
       ;(menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
+      (mouse-wheel-mode t)
       (setq window-numbering-assign-func
             (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
@@ -273,8 +274,6 @@
       ediff-window-setup-function 'ediff-setup-windows-plain
       xterm-mouse-mode t
       )
-
-(mouse-wheel-mode t)
 
 (add-to-list 'safe-local-variable-values '(lexical-binding . t))
 (add-to-list 'safe-local-variable-values '(whitespace-line-column . 80))
@@ -737,9 +736,31 @@ ov)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
+
+; (package-activated-list)
+; (ace-jump-buffer ace-jump-mode auctex-latexmk auctex
+;  auctex-lua auto-complete-auctex cdlatex color-theme
+;  d-mode dash distinguished-theme fiplr goto-last-change
+;  grizzl jedi auto-complete epc ctable concurrent lua-mode
+;  magit-gh-pulls gh logito magit-push-remote magit git-rebase-mode
+;  git-commit-mode markdown-mode+ markdown-mode pcache popup
+;  python-environment deferred s smex yasnippet)
+
 ;(unless (package-installed-p 'scala-mode2)
 ;  (package-refresh-contents) (package-install 'scala-mode2))
 (put 'erase-buffer 'disabled nil)
+;; (defun packages-reinstall (&optional arg)
+;;   "Reinstall activated packages."
+;;   (interactive "p")
+;;   (mapcar
+;;    (lambda (package)
+;;      (when (package-installed-p package)
+;;        (package-uninstall))
+;;      (package-install package)
+;;    )
+;;    package-activated-list
+;;    )
+;; )
 
 (require 'compile)
 (add-to-list
@@ -848,3 +869,10 @@ ov)
 ;;     M-x package-install RET jedi RET
 ;;     M-x jedi:install-server RET
 ;; Then open Python file.
+
+;; Save point position between sessions
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))
+
+(global-set-key "\C-x\ \C-m" 'magit-status)

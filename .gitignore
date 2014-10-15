@@ -1,7 +1,6 @@
 *~
 *.elc
 *.pyc
-<<<<<<< HEAD
 ac-comphist.dat
 .emacs.desktop*
 tramp
@@ -15,3 +14,6 @@ site-lisp/
 \177
 *#*#
 commit.txt
+.places
+elpa/*/*autoloads.el
+elpa/archives

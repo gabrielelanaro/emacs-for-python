@@ -194,6 +194,13 @@
 	  "emacs frontend to GNU Global source code tagging system" single
 	  ((:url . "https://github.com/leoliu/ggtags")
 	   (:keywords "tools" "convenience"))])
+ (gnorb .
+	[(1)
+	 ((cl-lib
+	   (0 5)))
+	 "Glue code between Gnus, Org, and BBDB" tar
+	 ((:keywords "mail" "org" "gnus" "bbdb" "todo" "task")
+	  (:url . "https://github.com/girzel/gnorb"))])
  (gnugo .
 	[(3 0 0)
 	 ((ascii-art-to-unicode
@@ -308,7 +315,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20141006)
+      [(20141013)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)

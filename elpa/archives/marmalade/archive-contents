@@ -1490,7 +1490,7 @@
 		(21 0)))
 	      "Integrates Readme.org and Commentary/Change-logs." single])
  (org-publish-agenda .
-		     [(1 4)
+		     [(1 5)
 		      nil "Publish org agenda with links to other files" single])
  (org-protocol-jekyll .
 		      [(0 1)
@@ -1887,7 +1887,7 @@
 	    [(1 2 8)
 	     nil "modeline replacement forked from an early version of powerline.el" single])
  (maildir .
-	  [(0 0 27)
+	  [(0 0 28)
 	   ((kv
 	     (0 0 17))
 	    (dash
@@ -2601,6 +2601,11 @@
  (git-gutter .
 	     [(0 42)
 	      nil "Port of Sublime Text plugin GitGutter" single])
+ (git-draft .
+	    [(0 0 2)
+	     ((dash
+	       (2 9 0)))
+	     "draft git commit messages" single])
  (git-commit-mode .
 		  [(0 13)
 		   nil "Major mode for editing git commit messages" single])
@@ -3111,6 +3116,9 @@
 	       (emacs
 		(24)))
 	      "Window-management utilities" single])
+ (ertx .
+       [(0 0 1)
+	nil "Extra useful testing functions for EmacsLisp." single])
  (ert-x .
 	[(0)
 	 ((ert
@@ -3167,7 +3175,7 @@
 		   (3 0)))
 		 "Extra functions for emms-mark-mode and emms-tag-edit-mode" single])
  (emmet-mode .
-	     [(1 0 5)
+	     [(1 0 10)
 	      nil "Unofficial Emmet's support for emacs" single])
  (emamux .
 	 [(0 1)
