@@ -71,7 +71,7 @@
 	       ((:url . "http://github.com/defunkt/coffee-mode")
 		(:keywords "coffeescript" "major" "mode"))])
  (company .
-	  [(0 8 5)
+	  [(0 8 6)
 	   ((emacs
 	     (24 1))
 	    (cl-lib
