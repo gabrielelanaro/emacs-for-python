@@ -20,7 +20,7 @@
  '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
  '(rw-hunspell-make-dictionary-menu t)
  '(rw-hunspell-use-rw-ispell t)
- '(safe-local-variable-values (quote ((TeX-source-correlate-start-server) (TeX-source-correlate-mode . 1) (TeX-PDF-mode . 1) (eval ispell-change-dictionary "ru_RU_hunspell") (TeX-master . t) (ispell-dictionary . american) (py-indent-offset . 4) (TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values (quote ((major-mode . rst-mode) (TeX-source-correlate-start-server) (TeX-source-correlate-mode . 1) (TeX-PDF-mode . 1) (eval ispell-change-dictionary "ru_RU_hunspell") (TeX-master . t) (ispell-dictionary . american) (py-indent-offset . 4) (TeX-master . "dis") (py-master-file . "/path/to/interactivetest.py") (whitespace-line-column . 80) (lexical-binding . t))))
  '(show-paren-mode t)
  '(text-mode-hook (quote (turn-on-flyspell text-mode-hook-identify)))
  '(tool-bar-mode nil)

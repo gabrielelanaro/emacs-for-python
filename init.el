@@ -2,8 +2,6 @@
 (setq win32-system (eq window-system 'w32))
 
 (menu-bar-mode 0)
-;(tool-bar-mode 0)
-;(scroll-bar-mode 0)
 (setq inhibit-startup-message t)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
@@ -38,12 +36,17 @@
 
 ;; Keep emacs Custom-settings in separate file
 (if windowed-system
-    (if win32-system
+    (progn
+      (tool-bar-mode 0)
+      (scroll-bar-mode 0)
+
+      (if win32-system
+          (progn
+            (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+            )
         (progn
-          (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+          (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
           )
-      (progn
-        (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
         )
       )
   (setq custom-file (expand-file-name "custom-nw.el" dotfiles-dir))
@@ -123,11 +126,12 @@
 (require 'recentf)
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode 1)
-;; (setq
+(setq
 ;;  recentf-menu-path '("File")
 ;;  recentf-menu-title "Recent"
-;;  recentf-max-saved-items 20
-;;  recentf-max-menu-items 20)
+  recentf-max-saved-items 200
+;;  recentf-max-menu-items 20
+  )
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (recentf-update-menu-hook)
 
