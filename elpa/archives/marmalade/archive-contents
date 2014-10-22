@@ -201,6 +201,9 @@
 		  (cl-lib
 		   (0 3)))
 		 "Weather data from met.no in Emacs" tar])
+ (weather .
+	  [(2012 3 27 2)
+	   nil "Get weather reports via worldweatheronline.com" single])
  (wcheck-mode .
 	      [(2014 6 21)
 	       nil "General interface for text checkers" tar])
@@ -266,6 +269,11 @@
  (vala-mode .
 	    [(0 1)
 	     nil "Vala mode derived mode" single])
+ (uzumaki .
+	  [(0 1)
+	   ((cl-lib
+	     (0 5)))
+	   "A simple buffer cycler" single])
  (uuid .
        [(0 0 3)
 	nil "UUID's for EmacsLisp" single])
@@ -580,9 +588,9 @@
 	    (yasnippet
 	     (0 6 1)))
 	   "REQUIRES EMACS 24 - Sublime Text 2 Emulation for Emacs" tar])
- (subatomic-enhanced-theme .
-			   [(1 0 1)
-			    nil "Nice looking emacs 24 theme" single])
+ (subatomic-theme .
+		  [(1 6 0)
+		   nil "Low contrast bluish color theme" single])
  (stylus-mode .
 	      [(0 1)
 	       nil "Major mode for editing stylus templates." single])
@@ -673,7 +681,7 @@
 	    [(0 3 0)
 	     nil "Make sparkline images from a list of numbers" single])
  (sourcetalk .
-	     [(1 1 0)
+	     [(1 2 0)
 	      ((request
 		(0 2 0)))
 	      "SourceTalk (http://sourcetalk.net) plugin for Emacs" single])
@@ -843,6 +851,9 @@
  (shell-here .
 	     [(1 1)
 	      nil "Open a shell relative to the working directory" single])
+ (shadchen .
+	   [(1 2)
+	    nil "pattern matching for elisp" single])
  (setup-cygwin .
 	       [(21 0)
 		nil "Set up Emacs for using Cygwin" single])
@@ -1068,6 +1079,9 @@
  (rect-mark .
 	    [(1 4)
 	     nil "Mark a rectangle of text with highlighting." single])
+ (real-auto-save .
+		 [(0 3)
+		  nil "enable real auto save" single])
  (rcirc-ucomplete .
 		  [(1 0 1)
 		   nil "Unambiguous non-cycling completion for rcirc" single])
@@ -1084,7 +1098,7 @@
 		  (0 0 5)))
 		"robots based on rcirc irc" single])
  (rcirc-notify .
-	       [(0 6)
+	       [(0 9)
 		nil "libnotify popups" single])
  (rcirc-color .
 	      [(0 2)
@@ -1217,6 +1231,9 @@
 		     (emacs
 		      (24)))
 		    "A project explorer sidebar" single])
+ (project .
+	  [(1 0)
+	   nil "Keep track of the current project" single])
  (processing-snippets .
 		      [(1 0 0)
 		       ((yasnippet
@@ -1463,7 +1480,7 @@
 	      (1 6 8)))
 	    "Blog from Org mode to wordpress" tar])
  (org-trello .
-	     [(0 6 2)
+	     [(0 6 3)
 	      ((request-deferred
 		(0 1 0))
 	       (deferred
@@ -1490,7 +1507,7 @@
 		(21 0)))
 	      "Integrates Readme.org and Commentary/Change-logs." single])
  (org-publish-agenda .
-		     [(1 5)
+		     [(1 7)
 		      nil "Publish org agenda with links to other files" single])
  (org-protocol-jekyll .
 		      [(0 1)
@@ -1528,8 +1545,14 @@
 	       (0 1)))
 	     "Orgmode integration with the GNOME desktop" single])
  (org-email .
-	    [(1 0)
-	     nil "use org for an email database" single])
+	    [(2 1)
+	     ((shadchen
+	       (1 1))
+	      (dash
+	       (2 9 0))
+	      (noflet
+	 (0 0 12)))
+	     "use org for an email database" single])
  (org-ehtml .
 	    [(0 20131014)
 	     ((elnode
@@ -1637,6 +1660,9 @@
 	     ((nose
 	       (0 1 1)))
 	     "Minor mode for running nose tests." tar])
+ (nose .
+       [(0 1 1)
+	nil "Easy Python test running in Emacs" single])
  (noflet .
    [(0 0 12)
      nil "locally override functions" single])
@@ -1833,6 +1859,13 @@
  (marmalade-demo .
 		 [(0 0 5)
 		  nil "a demonstration elpa package" single])
+ (marmalade-client .
+		   [(0 0 8)
+		    ((web
+		      (0 4 2))
+		     (kv
+		      (0 0 19)))
+		    "client for marmalade API from emacs" single])
  (marmalade .
 	    [(0 0 4)
 	     ((furl
@@ -1897,13 +1930,6 @@
 	    (noflet
        (0 0 8)))
 	   "Simple maildir based MUA." tar])
- (magithub .
-	   [(0 2)
-	    ((magit
-	      (0 8))
-	     (json
-	      (1 2)))
-	    "Magit extensions for using GitHub" single])
  (magit-tramp .
 	      [(0 1 0)
 	       ((magit
@@ -1933,7 +1959,7 @@
 	 [(0 0 1)
 	  nil "Mode for automatically handle multiple tags files with Mactag rubygem" single])
  (macrostep .
-	    [(0 6)
+	    [(0 8)
 	     nil "interactive macro stepper for Emacs Lisp" single])
  (macro-utils .
 	      [(1 0)
@@ -2109,7 +2135,7 @@
 	 [(0 1 2)
 	  nil "Parse org-todo headlines to use org-tables as Kanban tables" single])
  (jump-dls .
-	   [(0 4)
+	   [(0 5)
 	    nil "Jump to definition of symbol using various methods." single])
  (jump-char .
 	    [(0 1)
@@ -2445,6 +2471,11 @@
  (helm-delicious .
 		 [(1 3)
 		  nil "helm extensions for delicious bookmarks" single])
+ (helm-dash .
+	    [(1 1)
+	     ((helm
+	       (0 0 0)))
+	     "Helm extension to search dash docsets" single])
  (helm-ag .
 	  [(0 4)
 	   ((helm
@@ -2547,6 +2578,9 @@
  (goto-chg .
 	   [(1 6)
 	    nil "goto last change" single])
+ (gopher .
+	 [(0 0 2)
+	  nil "easily access and navigate Gopher servers" single])
  (google-translate .
 		   [(0 10 4)
 		    nil "Emacs interface to Google Translate." tar])
@@ -2559,6 +2593,9 @@
  (go-mode .
 	  [(20131222)
 	   nil "Major mode for the Go programming language" single])
+ (gnusnotes .
+	    [(0 91)
+	     nil "Adding per-message notes in gnus summary buffer" single])
  (gnus-summary-ext .
 		   [(0 1)
 		    ((macro-utils
@@ -2710,11 +2747,6 @@
 		 ((emacs
 		   (24 1)))
 		 "Restore Emacs frame" single])
- (foo .
-      [(3 0 20)
-       ((haml-mode
-	 (3 0 20)))
-       "Sass major mode" single])
  (font-utils .
 	     [(0 7 0)
 	      ((persistent-soft
@@ -2953,6 +2985,9 @@
  (fiplr .
 	[(0 1 3)
 	 nil "Fuzzy finder for files in a project." single])
+ (findr .
+	[(0 7)
+	 nil "Breadth-first file-finding facility for (X)Emacs" single])
  (find-things-fast .
 		   [(20111123)
 		    nil "An emacs mode to find things fast and move around in a project quickly" tar])
@@ -2962,6 +2997,9 @@
  (find-file-in-project .
 		       [(3 3)
 			nil "Find files in a project quickly." single])
+ (find-file-in-git-repo .
+			[(0 1 2)
+			 nil "Utility to find files in a git repo" single])
  (finalize .
 	   [(1 0 0)
 	    ((emacs
@@ -3255,6 +3293,9 @@
 		   ((cl-lib
 		     (0 2)))
 		   "Make M-. and M-, work in elisp like they do in slime" single])
+ (elisp-indexer .
+		[(0 0 4)
+		 nil "indexing utils for emacslisp" single])
  (elisp-depend .
 	       [(1 0 2)
 		nil "Parse depend libraries of elisp file." single])
@@ -3380,7 +3421,7 @@
 	      (22)))
 	    "A bucket of tricks for Clojure and Slime." single])
  (dummy-package .
-		[(0 0 3)
+		[(0 0 10)
 		 ((timeclock
 		   (2 6 1)))
 		 "a fake package for the marmalade test suite" single])
@@ -3456,12 +3497,18 @@
  (dired-dups .
 	     [(0 3)
 	      nil "Find duplicate files and display them in a dired buffer" single])
+ (dired-details .
+		[(1 3 1)
+		 nil "make file details hide-able in dired" single])
  (dircmp .
 	 [(1)
 	  nil "Compare and sync directories." single])
  (diminish .
 	   [(0 44)
 	    nil "Diminished modes are minor modes with no modeline display" single])
+ (diatheke .
+	   [(1 0)
+	    nil "A minor mode using the diatheke command-line Bible tool" single])
  (desktop-registry .
 		   [(1 2 0)
 		    nil "Keep a central registry of desktop files" single])
@@ -3546,9 +3593,6 @@
  (ctable .
 	 [(0 1 1)
 	  nil "Table component for Emacs Lisp" single])
- (csv-mode .
-	   [(1 50)
-	    nil "major mode for editing comma-separated value files" single])
  (csharp-mode .
 	      [(0 8 6)
 	       nil "C# mode derived mode" single])
@@ -3744,6 +3788,11 @@
 		       ((color-theme
 			 (6 6 1)))
 		       "A dark color theme for GNU Emacs." single])
+ (color-theme-active .
+		     [(0 0 1)
+		      ((color-theme
+			(6 6 1)))
+		      "Active theme inspired by jEdit theme of the same name" single])
  (color-theme .
 	      [(6 6 1)
 	       nil "install color themes" single])
@@ -3885,6 +3934,9 @@
  (centered-cursor-mode .
 		       [(0 5 1)
 			nil "cursor stays vertically centered" single])
+ (center-text .
+	      [(0 8)
+	       nil "Center the text in a fixed-width column" single])
  (cedit .
 	[(0 0 0)
 	 nil "paredit-like commands for c-like languages" single])
@@ -3894,6 +3946,9 @@
  (caml .
        [(3 12 0 1)
 	nil "OCaml code editing commands for Emacs" tar])
+ (calfw-gcal .
+	     [(0 0 3)
+	      nil "edit Google calendar for calfw.el." single])
  (cacoo .
 	[(2 1 2)
 	 ((concurrent
@@ -3928,8 +3983,8 @@
 	       [(1 5)
 		nil "Enhanced intelligent switch-to-other-buffer replacement." single])
  (buffer-move .
-	      [(0 4)
-	       nil "swap buffers between windows" single])
+	      [(0 6 1)
+	       nil "" single])
  (buffer-file-utils .
 		    [(1 0)
 		     nil "utilities operating on a buffer and the associated file" single])
@@ -4148,11 +4203,6 @@
 		((clojure-mode
 		  (1 11 5)))
 		"Space align various Clojure forms" single])
- (alert .
-	[(0 5 10)
-	 ((string-utils
-	   (0 0 2)))
-	 "Alternatives to `message'" single])
  (ahg .
       [(0 99)
        nil "Alberto's Emacs interface for Mercurial (Hg)" single])
@@ -4185,6 +4235,9 @@
 	     (auto-complete
 	      (1 4)))
 	    "auto-complete sources for Clojure using nrepl completions" single])
+ (ac-ja .
+	[(0 0 1)
+	 nil "auto-complete-mode source for Japanese" single])
  (ac-inf-ruby .
 	      [(0 4)
 	       ((inf-ruby
@@ -4206,6 +4259,15 @@
 			(auto-complete
 			 (1 4)))
 		       "auto-complete sources for Clojure using" single])
+ (ac-cider .
+	   [(0 2 0)
+	    ((cider
+	      (0 8 0))
+	     (auto-complete
+	      (1 4))
+	     (cl-lib
+	      (0 3)))
+	    "Clojure auto-complete sources using CIDER" single])
  (ac-R .
        [(0 2)
 	nil "Autocompletion routines for R" single])

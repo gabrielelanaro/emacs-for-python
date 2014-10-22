@@ -71,7 +71,7 @@
 	       ((:url . "http://github.com/defunkt/coffee-mode")
 		(:keywords "coffeescript" "major" "mode"))])
  (company .
-	  [(0 8 5)
+	  [(0 8 6)
 	   ((emacs
 	     (24 1))
 	    (cl-lib
@@ -229,7 +229,9 @@
 	    (:keywords "java" "maven" "programming"))])
  (jgraph-mode .
 	      [(1 0)
-	       nil "Major mode for Jgraph files" single
+	       ((cl-lib
+		 (0 5)))
+	       "Major mode for Jgraph files" single
 	       ((:url . "http://elpa.gnu.org/packages/jgraph-mode.html")
 		(:keywords "tex" "wp"))])
  (js2-mode .
@@ -315,7 +317,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20141013)
+      [(20141020)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
@@ -352,6 +354,11 @@
 	 nil "A collaborative editing framework for Emacs" tar
 	 ((:keywords "rudel" "collaboration")
 	  (:url . "http://rudel.sourceforge.net/"))])
+ (scroll-restore .
+		 [(1 0)
+		  nil "restore original position after scrolling" single
+		  ((:url . "http://elpa.gnu.org/packages/scroll-restore.html")
+		   (:keywords "scrolling"))])
  (shen-mode .
 	    [(0 1)
 	     nil "A major mode for editing shen source code" tar
@@ -385,7 +392,7 @@
 	((:url . "http://www.dr-qubit.org/emacs.php")
 	 (:keywords "extensions" "matching" "data structures tnfa" "nfa" "dfa" "finite state automata" "automata" "regexp"))])
  (temp-buffer-browse .
-		     [(1 2)
+		     [(1 3)
 		      nil "temp buffer browse mode" single
 		      ((:url . "http://elpa.gnu.org/packages/temp-buffer-browse.html")
 		       (:keywords "convenience"))])
