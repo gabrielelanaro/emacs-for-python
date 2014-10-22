@@ -2,8 +2,6 @@
 (setq win32-system (eq window-system 'w32))
 
 (menu-bar-mode 0)
-;(tool-bar-mode 0)
-;(scroll-bar-mode 0)
 (setq inhibit-startup-message t)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
@@ -41,16 +39,20 @@
 
 ;; Keep emacs Custom-settings in separate file
 (if windowed-system
-    (if win32-system
+    (progn
+      (tool-bar-mode 0)
+      (scroll-bar-mode 0)
+      (if win32-system
+          (progn
+            (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+            )
         (progn
-          (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
+          (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
           )
-      (progn
-        (setq custom-file (expand-file-name "custom.el" dotfiles-dir))
         )
       )
   (setq custom-file (expand-file-name "custom-nw.el" dotfiles-dir))
-)
+  )
 
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
