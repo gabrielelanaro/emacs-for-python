@@ -128,11 +128,12 @@
 (require 'recentf)
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode 1)
-;; (setq
+(setq
 ;;  recentf-menu-path '("File")
 ;;  recentf-menu-title "Recent"
-;;  recentf-max-saved-items 20
-;;  recentf-max-menu-items 20)
+  recentf-max-saved-items 200
+;;  recentf-max-menu-items 20
+  )
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (recentf-update-menu-hook)
 
