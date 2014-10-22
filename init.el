@@ -6,19 +6,22 @@
 ;(scroll-bar-mode 0)
 (setq inhibit-startup-message t)
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/epy"))
 
 ;; magnars cool setup
 ;; Set path to .emacs.d
-(setq dotfiles-dir (file-name-directory
-                    (or (buffer-file-name) load-file-name)))
+;;(setq dotfiles-dir (file-name-directory
+;;      (or (buffer-file-name) load-file-name)))
+(setq dotfiles-dir (expand-file-name "~/.emacs.d/"))
+
 
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" dotfiles-dir))
-(setq ext-lisp-dir (expand-file-name "extensions" dotfiles-dir))
+(setq ext-lisp-dir (expand-file-name "epy/extensions" dotfiles-dir))
 
 ;; Set up load path
-(add-to-list 'load-path dotfiles-dir)
+;;(add-to-list 'load-path dotfiles-dir)
 (add-to-list 'load-path site-lisp-dir)
 
 ;; Settings for currently logged in user
@@ -71,7 +74,7 @@
     (setenv "PYMACS_PYTHON" "python2")
 )
 
-(load-file (expand-file-name "epy-init.el" dotfiles-dir))
+(load-file (expand-file-name "epy/epy-init.el" dotfiles-dir))
 
 (if
     windowed-system
