@@ -1,10 +1,10 @@
 ;;; magit-push-remote-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (magit-pushr-push magit-push-remote-mode) "magit-push-remote"
-;;;;;;  "magit-push-remote.el" (21480 10075 118611 981000))
+;;;### (autoloads nil "magit-push-remote" "magit-push-remote.el"
+;;;;;;  (21575 47014 621317 964000))
 ;;; Generated autoloads from magit-push-remote.el
 
 (defvar magit-push-remote-mode nil "\
@@ -42,16 +42,9 @@ options `branch.<name>.remote' and `branch.<name>.merge'.
 
 ;;;***
 
-;;;### (autoloads nil nil ("magit-push-remote-pkg.el") (21480 10075
-;;;;;;  190746 90000))
-
-;;;***
-
-(provide 'magit-push-remote-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; magit-push-remote-autoloads.el ends here

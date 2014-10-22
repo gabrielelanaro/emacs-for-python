@@ -324,6 +324,11 @@
        nil "Open Sound Control protocol library" single
        ((:url . "http://elpa.gnu.org/packages/osc.html")
 	(:keywords "comm" "processes" "multimedia"))])
+ (pabbrev .
+	  [(4 1)
+	   nil "Predictive abbreviation expansion" single
+	   ((:url . "http://elpa.gnu.org/packages/pabbrev.html")
+	    (:keywords))])
  (poker .
 	[(0 1)
 	 nil "Texas hold'em poker" single
