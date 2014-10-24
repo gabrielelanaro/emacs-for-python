@@ -912,7 +912,7 @@
 	  [(20110708)
 	   nil "Mode-specific scratch buffers" single])
  (scpaste .
-	  [(0 6 2)
+	  [(0 6 3)
 	   ((htmlize
 	     (1 39)))
 	   "Paste to the web via scp." single])
@@ -1664,7 +1664,7 @@
        [(0 1 1)
 	nil "Easy Python test running in Emacs" single])
  (noflet .
-   [(0 0 12)
+   [(0 0 13)
      nil "locally override functions" single])
  (nodejs-repl .
 	      [(0 0 2 1)
@@ -1860,7 +1860,7 @@
 		 [(0 0 5)
 		  nil "a demonstration elpa package" single])
  (marmalade-client .
-		   [(0 0 8)
+		   [(0 0 9)
 		    ((web
 		      (0 4 2))
 		     (kv
@@ -1953,7 +1953,7 @@
 		     (1 2 0)))
 		   "completing-read over all files in Git" single])
  (magit .
-	[(1 2 1)
+	[(1 2 2)
 	 nil "Control Git from Emacs." tar])
  (mactag .
 	 [(0 0 1)
@@ -2690,7 +2690,7 @@
 		     [(0 0 10)
 		      nil "A package to help you lazy-load everything" single])
  (geiser .
-	 [(0 5)
+	 [(0 6)
 	  nil "GNU Emacs and Scheme talk to each other" tar])
  (gecf .
        [(0 1 0)
@@ -3294,7 +3294,7 @@
 		     (0 2)))
 		   "Make M-. and M-, work in elisp like they do in slime" single])
  (elisp-indexer .
-		[(0 0 6)
+		[(0 0 7)
 		 nil "indexing utils for emacslisp" single])
  (elisp-depend .
 	       [(1 0 2)
@@ -3421,7 +3421,7 @@
 	      (22)))
 	    "A bucket of tricks for Clojure and Slime." single])
  (dummy-package .
-		[(0 0 10)
+		[(0 0 21)
 		 ((timeclock
 		   (2 6 1)))
 		 "a fake package for the marmalade test suite" single])
@@ -4123,57 +4123,6 @@
  (anzu .
        [(0 22)
 	nil "Show number of matches in mode-line while searching" single])
- (anything-show-completion .
-			   [(20091119)
-			    nil "Show selection in buffer for anything completion" single])
- (anything-obsolete .
-		    [(0 1)
-		     nil "obsolete functions of anything" single])
- (anything-match-plugin .
-			[(1 27)
-			 nil "Humane match plug-in for anything" single])
- (anything-ipython .
-		   [(0 1 2009)
-		    ((ipython
-		      (2927))
-		     (anything
-		      (1 287)))
-		    "Ipython anything" single])
- (anything-git-goto .
-		    [(0 1 0)
-		     nil "Quick listing of:" single])
- (anything-git .
-	       [(1 1 1)
-		nil "Show git files in anything" single])
- (anything-exuberant-ctags .
-			   [(0 1 2)
-			    nil "Exuberant ctags anything.el interface" single])
- (anything-extension .
-		     [(0 2)
-		      nil "Extension functions for anything.el" single])
- (anything-el-swank-fuzzy .
-			  [(0 1 2009)
-			   ((anything
-			     (1 287))
-			    (anything-complete
-			     (1 86)))
-			   "anything-sources for el-swank-fuzzy.el" single])
- (anything-config .
-		  [(0 4 1)
-		   nil "Predefined configurations for `anything.el'" single])
- (anything-complete .
-		    [(1 86)
-		     ((anything
-		       (1 287))
-		      (anything-obsolete
-		       (0 1)))
-		     "completion with anything" single])
- (anything-R .
-	     [(0 1 2010)
-	      nil "anything-sources and some utilities for GNU R." single])
- (anything .
-	   [(1 287)
-	    nil "open anything / QuickSilver-like candidate-selection framework" single])
  (angular-snippets .
 		   [(0 2 3)
 		    ((s

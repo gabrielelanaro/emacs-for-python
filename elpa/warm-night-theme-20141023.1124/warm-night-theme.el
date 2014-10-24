@@ -4,7 +4,7 @@
 
 ;; Author: martin haesler
 ;; https://github.com/mswift42/warm-night-theme.git
-;; Version: 20141021.837
+;; Version: 20141023.1124
 ;; X-Original-Version: 0.1
 ;; Package-Requires: ((emacs "24"))
 ;; Created with emacs-theme-generator, https://github.com/mswift42/theme-creator.
@@ -173,7 +173,45 @@
    `(term-color-magenta ((,class (:foreground ,builtin :background ,builtin))))
    `(term-color-cyan ((,class (:foreground ,str :background ,str))))
    `(term-color-white ((,class (:foreground ,fg2 :background ,fg2))))
-   `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))))
+   `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))
+   `(helm-header ((,class (:foreground ,fg2 :background ,bg1 :underline nil :box nil))))
+   `(helm-source-header ((,class (:foreground ,keyword :background ,bg1 :underline nil :weight bold))))
+   `(helm-selection ((,class (:background ,bg2 :underline nil))))
+   `(helm-selection-line ((,class (:background ,bg2))))
+   `(helm-visible-mark ((,class (:foreground ,bg1 :background ,bg3))))
+   `(helm-candidate-number ((,class (:foreground ,bg1 :background ,fg1))))
+   `(helm-separator ((,class (:foreground ,type :background ,bg1))))
+   `(helm-time-zone-current ((,class (:foreground ,builtin :background ,bg1))))
+   `(helm-time-zone-home ((,class (:foreground ,type :background ,bg1))))
+   `(helm-buffer-not-saved ((,class (:foreground ,type :background ,bg1))))
+   `(helm-buffer-process ((,class (:foreground ,builtin :background ,bg1))))
+   `(helm-buffer-saved-out ((,class (:foreground ,fg1 :background ,bg1))))
+   `(helm-buffer-size ((,class (:foreground ,fg1 :background ,bg1))))
+   `(helm-ff-directory ((,class (:foreground ,func :background ,bg1 :weight bold))))
+   `(helm-ff-file ((,class (:foreground ,fg1 :background ,bg1 :weight normal))))
+   `(helm-ff-executable ((,class (:foreground ,key2 :background ,bg1 :weight normal))))
+   `(helm-ff-invalid-symlink ((,class (:foreground ,key3 :background ,bg1 :weight bold))))
+   `(helm-ff-symlink ((,class (:foreground ,keyword :background ,bg1 :weight bold))))
+   `(helm-ff-prefix ((,class (:foreground ,bg1 :background ,keyword :weight normal))))
+   `(helm-grep-cmd-line ((,class (:foreground ,fg1 :background ,bg1))))
+   `(helm-grep-file ((,class (:foreground ,fg1 :background ,bg1))))
+   `(helm-grep-finish ((,class (:foreground ,fg2 :background ,bg1))))
+   `(helm-grep-lineno ((,class (:foreground ,fg1 :background ,bg1))))
+   `(helm-grep-match ((,class (:foreground nil :background nil :inherit helm-match))))
+   `(helm-grep-running ((,class (:foreground ,func :background ,bg1))))
+   `(helm-moccur-buffer ((,class (:foreground ,func :background ,bg1))))
+   `(web-mode-builtin-face ((,class (:inherit ,font-lock-builtin-face))))
+   `(web-mode-comment-face ((,class (:inherit ,font-lock-comment-face))))
+   `(web-mode-constant-face ((,class (:inherit ,font-lock-constant-face))))
+   `(web-mode-keyword-face ((,class (:foreground ,keyword))))
+   `(web-mode-doctype-face ((,class (:inherit ,font-lock-comment-face))))
+   `(web-mode-function-name-face ((,class (:inherit ,font-lock-function-name-face))))
+   `(web-mode-string-face ((,class (:foreground ,str))))
+   `(web-mode-type-face ((,class (:inherit ,font-lock-type-face))))
+   `(web-mode-html-attr-name-face ((,class (:foreground ,var))))
+   `(web-mode-html-attr-value-face ((,class (:foreground ,const))))
+   `(web-mode-warning-face ((t (:inherit ,font-lock-warning-face))))
+   `(web-mode-html-tag-face ((t (:foreground ,fg3))))))
 
 ;;;###autoload
 (when load-file-name
