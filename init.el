@@ -428,7 +428,7 @@
       ;; (ac-fuzzy-complete)
       ;; (ac-use-fuzzy)
       ;; (add-hook 'after-make-frame-functions 'fullscreen-toggle)
-      (defun toggle-fullscreen (&optional f)
+      (defun toggle-fullscreen-1 (&optional f)
         (interactive)
         (let ((current-value (frame-parameter nil 'fullscreen)))
           (set-frame-parameter nil 'fullscreen
@@ -441,8 +441,8 @@
                                )
           )
         )
-      (global-set-key [f11] 'toggle-fullscreen)
-      (global-set-key (kbd "C-c f") 'toggle-fullscreen)
+      (global-set-key [f11] 'toggle-frame-fullscreen)
+      ;;(global-set-key (kbd "C-c f") 'toggle-fullscreen)
 	(if (not win32-system)
 	(progn
       (defun maximize-window (&optional f)
