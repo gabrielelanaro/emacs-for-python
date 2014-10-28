@@ -1,185 +1,172 @@
-(defcustom TeX-macro-global (TeX-macro-global)
-  "Directories containing the site's TeX macro and style files."
+;;; tex-site.el - Site specific variables.  Don't edit.
+
+;; Copyright (C) 2005, 2013, 2014 Free Software Foundation, Inc.
+;;
+;; completely rewritten.
+
+;; Author: David Kastrup <dak@gnu.org>
+;; Maintainer: auctex-devel@gnu.org
+;; Keywords: tex
+
+;; This file is part of AUCTeX.
+
+;; AUCTeX is free software; you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+
+;; AUCTeX is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with AUCTeX; see the file COPYING.  If not, write to the Free
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
+
+;;; Commentary:
+
+;; This file contains startup code, autoloads and variables adapted to
+;; the local site configuration.  It is generated and placed by the
+;; installation procedure and should not be edited by hand, nor moved
+;; to a different place, as some settings may be established relative
+;; to the file.
+
+;; All user customization should be done with
+;; M-x customize-variable RET
+
+;;; Code:
+
+(if (< emacs-major-version 21)
+  (error "AUCTeX requires Emacs 21 or later"))
+
+;; Define here in order for `M-x customize-group <RET> AUCTeX <RET>'
+;; to work if the main AUCTeX files are not loaded yet.
+(defgroup AUCTeX nil
+  "A (La)TeX environment."
+  :tag "AUCTeX"
+  :link '(custom-manual "(auctex)Top")
+  :link '(url-link :tag "Home Page" "http://www.gnu.org/software/auctex/")
+  :prefix "TeX-"
+  :group 'tex
+  :load "tex" :load "latex" :load "tex-style")
+
+(defvar TeX-lisp-directory
+  (file-name-directory load-file-name)
+  "The directory where most of the AUCTeX lisp files are located.
+For the location of lisp files associated with
+styles, see the variables TeX-style-* (hand-generated lisp) and
+TeX-auto-* (automatically generated lisp).")
+
+(add-to-list 'load-path TeX-lisp-directory)
+
+(defvar TeX-data-directory
+  (file-name-directory load-file-name)
+  "The directory where the AUCTeX non-Lisp data is located.")
+
+(defcustom TeX-auto-global
+    (if (file-writable-p "/usr/local/var/auctex") "/usr/local/var/auctex" "~/.emacs.d/auctex")
+  "*Directory containing automatically generated information.
+Must end with a directory separator.
+
+For storing automatic extracted information about the TeX macros
+shared by all users of a site."
   :group 'TeX-file
-  :type '(repeat (directory :format "%v")))
+  :type 'directory)
 
-(defcustom TeX-printer-list
-  '(("Default"
-     ;; Print to the (unnamed) default printer.  If there is a DVI
-     ;; file print via Dvips.  If not, pass the output file (which
-     ;; should then be a Postscript or PDF file) directly to lpr.
-     "{ test -e %s.dvi && %(o?)dvips -f %r %s | lpr; } || lpr %o"
-     ;; Show the queue for the (unnamed) default printer.
-     "lpq"))
-  "List of available printers.
+(defconst TeX-mode-alist
+  '((tex-mode . tex-mode)
+    (plain-tex-mode . tex-mode)
+    (texinfo-mode . texinfo)
+    (latex-mode . tex-mode)
+    (doctex-mode . tex-mode))
+  "Alist of built-in TeX modes and their load files.")
 
-The first element of each entry is the printer name.
+(defalias 'TeX-load-hack 'ignore)
 
-The second element is the command used to print to this
-printer.  It defaults to the value of `TeX-print-command' when nil.
+(add-hook 'tex-site-unload-hook
+	  (lambda ()
+	    (let ((list after-load-alist))
+	      (while list
+		;; Adapted copy of the definition of `assq-delete-all'
+		;; from Emacs 21 as substitute for
+		;; `(assq-delete-all'TeX-modes-set (car list))' which
+		;; fails on non-list elements in Emacs 21.
+		(let* ((alist (car list))
+		       (tail alist)
+		       (key 'TeX-modes-set))
+		  (while tail
+		    (if (and (consp (car tail))
+			     (eq (car (car tail)) key))
+			(setq alist (delq (car tail) alist)))
+		    (setq tail (cdr tail))))
+		(setq list (cdr list))))
+	    (setq load-path (delq TeX-lisp-directory load-path))))
 
-The third element is the command used to examine the print queue for
-this printer.  It defaults to the value of `TeX-queue-command' similarly.
+(defun TeX-modes-set (var value &optional update)
+  "Set VAR (which should be `TeX-modes') to VALUE.
 
-Any occurrence of `%p' in the second or third element is expanded to
-the printer name given in the first element, then ordinary expansion
-is performed as specified in `TeX-expand-list'.
+This places either the standard or the AUCTeX versions of
+functions into the respective function cell of the mode.
+If UPDATE is set, a previously saved value for
+the non-AUCTeX function gets overwritten with the current
+definition."
+  (custom-set-default var value)
+  (let ((list TeX-mode-alist) elt)
+    (while list
+      (setq elt (car (pop list)))
+      (let ((dst (intern (concat "TeX-" (symbol-name elt)))))
+        (if (fboundp 'advice-add)
+            (if (memq elt value)
+                (advice-add elt :override dst)
+              (advice-remove elt dst))
+          (when (or update (null (get elt 'tex-saved)))
+            (when (fboundp elt)
+              (put elt 'tex-saved (symbol-function elt))))
+          (defalias elt
+            (if (memq elt value)
+                dst
+              (get elt 'tex-saved))))))))
 
-If this list is empty, only `TeX-print-command' and `TeX-queue-command'
-get consulted."
-  :group 'TeX-command
-  :type '(repeat (group (string :tag "Name")
-			(option (group :inline t
-				       :extra-offset -4
-				       (choice :tag "Print"
-					       (const :tag "default")
-					       (string :format "%v"))
-				       (option (choice :tag "Queue"
-						       (const :tag "default")
-						       (string
-							:format "%v"))))))))
+(defcustom TeX-modes
+  (mapcar 'car TeX-mode-alist)
+  "List of modes provided by AUCTeX.
 
+This variable can't be set normally; use customize for that, or
+set it with `TeX-modes-set'."
+  :type (cons 'set
+	      (mapcar (lambda(x) (list 'const (car x))) TeX-mode-alist))
+  :set 'TeX-modes-set
+  :group 'AUCTeX
+  :initialize (lambda (var value)
+		(custom-initialize-reset var value)
+                (unless (fboundp 'advice-add)
+                  (let ((list TeX-mode-alist))
+                    (while list
+                      (eval-after-load (cdar list)
+                        `(TeX-modes-set ',var ,var t))
+                      (setq list (cdr list)))))))
 
-;; This is the major configuration variable.  Most sites will only
-;; need to change the second string in each entry, which is the name
-;; of a command to send to the shell.  If you use other formatters
-;; like AMSLaTeX or AMSTeX, you can add those to the list.  See
-;; TeX-expand-list for a description of the % escapes
+(defconst AUCTeX-version "11.87.2012-12-04"
+    "AUCTeX version.
+If not a regular release, the date of the last change.")
 
-(defcustom TeX-command-list
-  `(("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t"
-     TeX-run-TeX nil
-     (plain-tex-mode ams-tex-mode texinfo-mode) :help "Run plain TeX")
-    ("LaTeX" "%`%l%(mode)%' %t"
-     TeX-run-TeX nil
-     (latex-mode doctex-mode) :help "Run LaTeX")
-	;; Not part of standard TeX.
-    ("Makeinfo" "makeinfo %t" TeX-run-compile nil
-     (texinfo-mode) :help "Run Makeinfo with Info output")
-    ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
-     (texinfo-mode) :help "Run Makeinfo with HTML output")
-    ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t"
-     TeX-run-TeX nil (ams-tex-mode) :help "Run AMSTeX")
-    ;; support for ConTeXt  --pg
-    ;; first version of ConTeXt to support nonstopmode: 2003.2.10
-    ("ConTeXt" "texexec --once --texutil %(execopts)%t"
-     TeX-run-TeX nil (context-mode) :help "Run ConTeXt once")
-    ("ConTeXt Full" "texexec %(execopts)%t"
-     TeX-run-TeX nil
-     (context-mode) :help "Run ConTeXt until completion")
-    ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-    ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-    ,(if (or window-system (getenv "DISPLAY"))
-	'("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-       '("View" "dvi2tty -q -w 132 %s" TeX-run-command t t
-	 :help "Run Text viewer"))
-    ("Print" "%p" TeX-run-command t t :help "Print the file")
-    ("Queue" "%q" TeX-run-background nil t :help "View the printer queue"
-     :visible TeX-queue-command)
-    ("File" "%(o?)dvips %d -o %f " TeX-run-command t t
-     :help "Generate PostScript file")
-    ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-    ("Check" "lacheck %s" TeX-run-compile nil (latex-mode)
-     :help "Check LaTeX file for correctness")
-    ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t
-     :help "Spell-check the document")
-    ("Clean" "TeX-clean" TeX-run-function nil t
-     :help "Delete generated intermediate files")
-    ("Clean All" "(TeX-clean t)" TeX-run-function nil t
-     :help "Delete generated intermediate and output files")
-    ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))
-  "List of commands to execute on the current document.
+(defconst AUCTeX-date "2012-12-04"
+  "AUCTeX release date using the ISO 8601 format, yyyy-mm-dd.")
 
-Each element is a list, whose first element is the name of the command
-as it will be presented to the user.
+;; Store bibitems when saving a BibTeX buffer
+(add-hook 'bibtex-mode-hook 'BibTeX-auto-store)
 
-The second element is the string handed to the shell after being
-expanded.  The expansion is done using the information found in
-`TeX-expand-list'.
+;;; Code specific to ELPA packaging:
 
-The third element is the function which actually start the process.
-Several such hooks has been defined:
+;; From preview-latex.el:
 
-TeX-run-command: Start up the process and show the output in a
-separate buffer.  Check that there is not two commands running for the
-same file.  Return the process object.
+(defvar preview-TeX-style-dir
+  (expand-file-name "latex" (file-name-directory load-file-name)))
 
-TeX-run-format: As `TeX-run-command', but assume the output is created
-by a TeX macro package.  Return the process object.
+;;; Ensure that loading the autoloads file also loads this file.
+;;;###autoload (require 'tex-site)
 
-TeX-run-TeX: For TeX output.
-
-TeX-run-interactive: Run TeX or LaTeX interactively.
-
-TeX-run-BibTeX: For BibTeX output.
-
-TeX-run-Biber: For Biber output.
-
-TeX-run-compile: Use `compile' to run the process.
-
-TeX-run-shell: Use `shell-command' to run the process.
-
-TeX-run-discard: Start the process in the background, discarding its
-output.
-
-TeX-run-background: Start the process in the background, show output
-in other window.
-
-TeX-run-silent: Start the process in the background.
-
-TeX-run-discard-foreground: Start the process in the foreground,
-discarding its output.
-
-TeX-run-function: Execute the Lisp function or function call
-specified by the string in the second element.  Consequently,
-this hook does not start a process.
-
-TeX-run-discard-or-function: If the command is a Lisp function,
-execute it as such, otherwise start the command as a process,
-discarding its output.
-
-To create your own hook, define a function taking three arguments: The
-name of the command, the command string, and the name of the file to
-process.  It might be useful to use `TeX-run-command' in order to
-create an asynchronous process.
-
-If the fourth element is non-nil, the user will get a chance to
-modify the expanded string.
-
-The fifth element indicates in which mode(s) the command should be
-present in the Command menu.  Use t if it should be active in any
-mode.  If it should only be present in some modes, specify a list with
-the respective mode names.
-
-Any additional elements get just transferred to the respective menu entries."
-  :group 'TeX-command
-  :type '(repeat (group :value ("" "" TeX-run-command nil t)
-			(string :tag "Name")
-			(string :tag "Command")
-			(choice :tag "How"
-				:value TeX-run-command
-				(function-item TeX-run-command)
-				(function-item TeX-run-format)
-				(function-item TeX-run-TeX)
-				(function-item TeX-run-interactive)
-				(function-item TeX-run-BibTeX)
-				(function-item TeX-run-Biber)
-				(function-item TeX-run-compile)
-				(function-item TeX-run-shell)
-				(function-item TeX-run-discard)
-				(function-item TeX-run-background)
-				(function-item TeX-run-silent)
-				(function-item TeX-run-discard-foreground)
-				(function-item TeX-run-function)
-				(function-item TeX-run-discard-or-function)
-				(function :tag "Other"))
-			(boolean :tag "Prompt")
-			(choice :tag "Modes"
-				(const :tag "All" t)
-				(set (const :tag "Plain TeX" plain-tex-mode)
-				     (const :tag "LaTeX" latex-mode)
-				     (const :tag "DocTeX" doctex-mode)
-				     (const :tag "ConTeXt" context-mode)
-				     (const :tag "Texinfo" texinfo-mode)
-				     (const :tag "AmSTeX" ams-tex-mode)))
-			(repeat :tag "Menu elements" :inline t sexp))))
+(provide 'tex-site)
+;;; tex-site.el ends here
