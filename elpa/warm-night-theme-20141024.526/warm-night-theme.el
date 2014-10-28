@@ -4,7 +4,7 @@
 
 ;; Author: martin haesler
 ;; https://github.com/mswift42/warm-night-theme.git
-;; Version: 20141023.1124
+;; Version: 20141024.526
 ;; X-Original-Version: 0.1
 ;; Package-Requires: ((emacs "24"))
 ;; Created with emacs-theme-generator, https://github.com/mswift42/theme-creator.
@@ -210,8 +210,9 @@
    `(web-mode-type-face ((,class (:inherit ,font-lock-type-face))))
    `(web-mode-html-attr-name-face ((,class (:foreground ,var))))
    `(web-mode-html-attr-value-face ((,class (:foreground ,const))))
-   `(web-mode-warning-face ((t (:inherit ,font-lock-warning-face))))
-   `(web-mode-html-tag-face ((t (:foreground ,fg3))))))
+   `(web-mode-warning-face ((,class (:inherit ,font-lock-warning-face))))
+   `(web-mode-html-tag-face ((,class (:foreground ,fg3))))
+   `(ace-jump-face-foreground ((,class (:foreground ,func  :bold t))))))
 
 ;;;###autoload
 (when load-file-name

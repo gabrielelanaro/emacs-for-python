@@ -139,8 +139,10 @@
 	     [(1 0 8)
 	      nil "fast, dynamic bindings for window-switching/resizing" single])
  (wikidoc .
-	  [(0 8 1)
-	   nil "use elisp doc strings to make other documentation" single])
+	  [(0 9)
+	   ((s\.el
+	     (1 9 0)))
+	   "use elisp doc strings to make other documentation" single])
  (wiki-nav .
 	   [(1 0 0)
 	    ((button-lock
@@ -1664,7 +1666,7 @@
        [(0 1 1)
 	nil "Easy Python test running in Emacs" single])
  (noflet .
-   [(0 0 13)
+   [(0 0 14)
      nil "locally override functions" single])
  (nodejs-repl .
 	      [(0 0 2 1)
@@ -1744,6 +1746,9 @@
 	     ((ruby-mode
 	       (1 1)))
 	     "Mote minor mode" single])
+ (monroe .
+	 [(0 2 0)
+	  nil "Yet another client for nREPL" single])
  (monokai-theme .
 		[(0 0 12)
 		 nil "DEPRECATED: Monokai Color Theme for Emacs." single])
@@ -1811,6 +1816,9 @@
  (mic-paren .
 	    [(3 8)
 	     nil "advanced highlighting of matching parentheses" single])
+ (message-templ .
+		[(0 1 20141026)
+		 nil "Templates for message-mode." single])
  (memoize .
 	  [(1 0 1)
 	   nil "Memoization functions" single])
@@ -2050,7 +2058,7 @@
 	       [(21 0)
 		nil "Commands to list Emacs Lisp library dependencies." single])
  (lexbind-mode .
-	       [(0 8)
+	       [(0 9)
 		nil "Puts the value of lexical-binding in the mode line" single])
  (levenshtein .
 	      [(1 0)
@@ -2636,8 +2644,12 @@
 		       (0 1 1)))
 		     "Fringe version of git-gutter.el" single])
  (git-gutter .
-	     [(0 42)
-	      nil "Port of Sublime Text plugin GitGutter" single])
+	     [(0 78)
+	      ((cl-lib
+		(0 5))
+	       (emacs
+		(24)))
+	      "Port of Sublime Text plugin GitGutter" single])
  (git-draft .
 	    [(0 0 2)
 	     ((dash
@@ -2937,7 +2949,7 @@
 		   (0 6 0)))
 		 "Cask support in Flycheck" single])
  (flycheck .
-	   [(0 20)
+	   [(0 21)
 	    ((dash
 	      (2 4 0))
 	     (pkg-info
@@ -3142,8 +3154,8 @@
       [(0 1)
        nil "Emacs Search Kit - An easy way to find files and/or strings in a project" tar])
  (eshell-manual .
-		[(1348477812)
-		 nil "An updated manual for Eshell." tar])
+		[(20141024)
+		 nil "An manual for Eshell." tar])
  (eshell-fringe-status .
 		       [(1 0 0)
 			nil "Show last status in fringe" single])
@@ -3155,7 +3167,7 @@
 		(24)))
 	      "Window-management utilities" single])
  (ertx .
-       [(0 0 1)
+       [(0 0 2)
 	nil "Extra useful testing functions for EmacsLisp." single])
  (ert-x .
 	[(0)
@@ -3251,12 +3263,16 @@
 	  (0 8 0)))
 	"Emacs Python Development Environment" tar])
  (elpakit .
-	  [(1 1 1)
-	   ((anaphora
-	     (0 0 6))
-	    (dash
-	     (2 3 0)))
-	   "package archive builder" single])
+	  [(2 0 2)
+	   ((dash
+	     (2 9 0))
+	    (shadchen
+	     (1 2))
+	    (noflet
+       (0 0 14))
+	    (s
+	     (1 9 0)))
+	   "The ELPA package maintainer's friend" tar])
  (elpa-mirror .
 	      [(1 1 2)
 	       nil "ELPA mirror from locally installed packages is easy" tar])
@@ -3421,7 +3437,7 @@
 	      (22)))
 	    "A bucket of tricks for Clojure and Slime." single])
  (dummy-package .
-		[(0 0 21)
+		[(0 0 25)
 		 ((timeclock
 		   (2 6 1)))
 		 "a fake package for the marmalade test suite" single])
@@ -3520,6 +3536,9 @@
 		      ((anything
 			(1 287)))
 		      "Yet Another `describe-bindings' with `anything'." single])
+ (demo-multifile .
+		 [(0 0 2)
+		  nil "a demo multifile package." tar])
  (deft .
      [(0 3)
       nil "quickly browse, filter, and edit plain text notes" single])

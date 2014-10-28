@@ -5,7 +5,7 @@
 ;; Author: Cornelius Mika <cornelius.mika@gmail.com> and contributors
 ;; URL: http://github.com/nonsequitur/smex/
 ;; Package-Requires: ((emacs "24"))
-;; Version: 20140425.1314
+;; Version: 20141027.245
 ;; X-Original-Version: 3.0
 ;; Keywords: convenience, usability
 
@@ -42,7 +42,7 @@ Turn it off for minor speed improvements on older systems."
   :type 'boolean
   :group 'smex)
 
-(defcustom smex-save-file "~/.smex-items"
+(defcustom smex-save-file (locate-user-emacs-file "smex-items" ".smex-items")
   "File in which the smex state is saved between Emacs sessions.
 Variables stored are: `smex-data', `smex-history'.
 Must be set before initializing Smex."

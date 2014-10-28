@@ -12,7 +12,7 @@
 ;;              Aaron Smith <aaron-lua@gelatinous.com>.
 ;;
 ;; URL:         http://immerrr.github.com/lua-mode
-;; Version: 20141021.1422
+;; Version: 20141025.1746
 ;; X-Original-Version:     20130419
 ;;
 ;; This file is NOT part of Emacs.
@@ -303,10 +303,46 @@ If the latter is nil, the keymap translates into `lua-mode-map' verbatim.")
 (defcustom lua-traceback-line-re
   ;; This regexp skips prompt and meaningless "stdin:N:" prefix when looking
   ;; for actual file-line locations.
-  "^\\(?:[\t ]*\\|.*>[\t ]+\\)\\(?:stdin:[0-9]+:[\t ]*\\)?\\(?:stdin:[0-9]+:\\|\\([^\n\t ]*\\):\\([0-9]+\\):\\)"
+  "^\\(?:[\t ]*\\|.*>[\t ]+\\)\\(?:[^\n\t ]+:[0-9]+:[\t ]*\\)*\\(?:\\([^\n\t ]+\\):\\([0-9]+\\):\\)"
   "Regular expression that describes tracebacks and errors."
   :type 'regexp
   :group 'lua)
+
+(defvar lua--repl-buffer-p nil
+  "Buffer-local flag saying if this is a Lua REPL buffer.")
+(make-variable-buffer-local 'lua--repl-buffer-p)
+
+
+(defadvice compilation-find-file (around lua--repl-find-file
+                                         (marker filename directory &rest formats)
+                                         activate)
+  "Return Lua REPL buffer when looking for \"stdin\" file in it."
+  (if (and
+       lua--repl-buffer-p
+       (string-equal filename "stdin")
+       ;; NOTE: this doesn't traverse `compilation-search-path' when
+       ;; looking for filename.
+       (not (file-exists-p (expand-file-name
+                        filename
+                        (when directory (expand-file-name directory))))))
+      (setq ad-return-value (current-buffer))
+    ad-do-it))
+
+
+(defadvice compilation-goto-locus (around lua--repl-goto-locus
+                                          (msg mk end-mk)
+                                          activate)
+  "When message points to Lua REPL buffer, go to the message itself.
+Usually, stdin:XX line number points to nowhere."
+  (let ((errmsg-buf (marker-buffer msg))
+        (error-buf (marker-buffer mk)))
+    (if (and (with-current-buffer errmsg-buf lua--repl-buffer-p)
+             (eq error-buf errmsg-buf))
+        (progn
+          (compilation-set-window (display-buffer (marker-buffer msg)) msg)
+          (goto-char msg))
+      ad-do-it)))
+
 
 (defcustom lua-indent-string-contents nil
   "If non-nil, contents of multiline string will be indented.
@@ -1601,6 +1637,7 @@ When called interactively, switch to the process buffer."
 
     ;; enable error highlighting in stack traces
     (require 'compile)
+    (setq lua--repl-buffer-p t)
     (make-local-variable 'compilation-error-regexp-alist)
     (setq compilation-error-regexp-alist
           (cons (list lua-traceback-line-re 1 2)
@@ -1640,7 +1677,9 @@ When called interactively, switch to the process buffer."
   "Send STR plus a newline to Lua subprocess.
 
 If `lua-process' is nil or dead, start a new process first."
-  (comint-simple-send (lua-get-create-process) str))
+  (unless (string-equal (substring str -1) "\n")
+    (setq str (concat str "\n")))
+  (process-send-string (lua-get-create-process) str))
 
 (defun lua-send-current-line ()
   "Send current line to Lua subprocess, found in `lua-process'.
@@ -1693,7 +1732,9 @@ Otherwise, return START."
          (lua-file (or (buffer-file-name) (buffer-name)))
          (region-str (buffer-substring-no-properties start end))
          (command
-          (format "luamode_loadstring(%s, %s, %s)"
+          ;; Print empty line before executing the code so that the first line
+          ;; of output doesn't end up on the same line as current prompt.
+          (format "print(''); luamode_loadstring(%s, %s, %s);\n"
                   (lua-make-lua-string region-str)
                   (lua-make-lua-string lua-file)
                   lineno)))

@@ -195,7 +195,7 @@
 	  ((:url . "https://github.com/leoliu/ggtags")
 	   (:keywords "tools" "convenience"))])
  (gnorb .
-	[(1)
+	[(1 0 1)
 	 ((cl-lib
 	   (0 5)))
 	 "Glue code between Gnus, Org, and BBDB" tar
@@ -317,7 +317,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20141020)
+      [(20141027)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
