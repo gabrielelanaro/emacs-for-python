@@ -1,0 +1,19 @@
+If you retrieved AUCTeX via Git instead of as a regular release, there
+are some files that need to be generated from their respective source
+files before you can continue reasonably with the instructions
+detailed in the README and INSTALL files (which will not be present
+otherwise).
+
+Run the shell script
+
+    ./autogen.sh
+
+in order to do that.  This will also generate the respective files for
+the preview subsystem.
+
+You will need to have a working and rather current copy of `makeinfo',
+`autoconf' and of `perl'.
+
+Running ./autogen.sh on a fresh clone of the Git repository will give
+you the state of the distribution tarball, except that Git-specific
+files are not removed.

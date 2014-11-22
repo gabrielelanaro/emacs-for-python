@@ -400,6 +400,11 @@
  (tsql .
        [(1 0)
 	nil "customizes sql.el for T-SQL" single])
+ (try .
+   [(0 0 1)
+    ((emacs
+      (24)))
+    "Try out Emacs packages." single])
  (truthy .
 	 [(0 2 8)
 	  ((list-utils
@@ -1555,7 +1560,7 @@
 	       (6 1)))
 	     "basic support for magit links" single])
  (org-journal .
-	      [(1 5 3)
+	      [(1 6 1)
 	       nil "a simple org-mode based journaling mode" single])
  (org-gnome .
 	    [(0 1)
@@ -2374,6 +2379,17 @@
  (idle-highlight .
 		 [(1 0)
 		  nil "highlight the word the point is on" single])
+ (ical-pull .
+	    [(0 0 2)
+	     ((shadchen
+	       (1 2))
+	      (dash
+	       (2 9 0))
+	      (s
+	       (1 9 0))
+	      (noflet
+	 (0 0 14)))
+	     "pull ical feeds into org-agenda" single])
  (ibuffer-vc .
 	     [(0 7)
 	      ((cl-lib
@@ -3160,7 +3176,7 @@
 			    (0)))
 			  "evil textobjects based on indentation" single])
  (evil-escape .
-	      [(1 1)
+	      [(1 5 1)
 	       ((emacs
 		 (24))
 		(evil
@@ -3314,7 +3330,7 @@
 	  (0 8 0)))
 	"Emacs Python Development Environment" tar])
  (elpakit .
-	  [(2 0 3)
+	  [(2 0 4)
 	   ((dash
 	     (2 9 0))
 	    (shadchen
@@ -3945,7 +3961,7 @@
 	 [(0 1 0)
 	  nil "eldoc mode for clojure" single])
  (clj-refactor .
-	       [(0 10 0)
+	       [(0 13 0)
 		((s
 		  (1 8 0))
 		 (dash
@@ -3955,7 +3971,9 @@
 		 (paredit
 		  (22))
 		 (multiple-cursors
-		  (1 2 2)))
+		  (1 2 2))
+		 (cider
+		  (0 6 0)))
 		"A collection of clojure refactoring functions" single])
  (clj-mode .
 	   [(0 9)
@@ -3998,6 +4016,13 @@
  (chicken-scheme .
 		 [(1 3 0)
 		  nil "Scheme-mode extensions for Chicken Scheme" single])
+ (checkbox .
+	   [(0 2 1)
+	    ((emacs
+	      (24))
+	     (cl-lib
+	      (0 5)))
+	    "Quick manipulation of textual checkboxes" single])
  (charmap .
 	  [(0 0 1)
 	   nil "Unicode table for Emacs" single])

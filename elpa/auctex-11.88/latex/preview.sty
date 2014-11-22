@@ -1,0 +1,391 @@
+%%
+%% This is file `preview.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% preview.dtx  (with options: `style')
+%% preview.dtx  (with options: `style,active')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from preview.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file preview.dtx preview.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\NeedsTeXFormat{LaTeX2e} \def\reserved@a #1#2$#3:
+#4${\xdef#1{\reserved@c #2#4 $}} \def\reserved@c #1 #2${#1}
+\begingroup \catcode`\_=12
+\reserved@a\pr@version $Name: release_11_88 $ \ifx\pr@version\@empty
+\reserved@a\pr@version CVS-$Revision: 1.126 $ \endgroup \else
+  \def\next release_{} \lccode`\_=`.
+  \edef\next{\lowercase{\endgroup
+    \def\noexpand\pr@version{\expandafter\next\pr@version}}} \next \fi
+\reserved@a\next $Date: 2010/02/14 16:19:00 $
+\edef\next{\noexpand\ProvidesPackage{preview}%
+  [\next\space \pr@version\space (AUCTeX/preview-latex)]}
+\next
+\let\ifPreview\iffalse
+\let\preview@delay=\@gobble
+\let\pr@advise=\@gobbletwo
+\long\def\pr@advise@ship#1#2#3{}
+\def\pr@loadcfg#1{\InputIfFileExists{#1.cfg}{}{}}
+\DeclareOption{noconfig}{\let\pr@loadcfg=\@gobble}
+\long\def\pr@addto@front#1#2{%
+  \toks@{#2}\toks@\expandafter{\the\expandafter\toks@#1}%
+  \xdef#1{\the\toks@}}
+\DeclareOption{active}{%
+  \let\ifPreview\iftrue
+  \def\pr@advise#1{%
+    \expandafter\pr@adviseii\csname pr@\string#1\endcsname#1}%
+  \long\def\pr@advise@ship#1#2#3{\pr@advise#1{\pr@protect@ship{#2}{#3}}}%
+  \let\preview@delay\@firstofone}
+\long\def\pr@adviseii#1#2#3{\preview@delay{%
+  \ifx#1\relax \let#1#2\fi
+  \toks@{#3#1}%
+  \ifx\@undefined\protected \else \protected\fi
+  \long\edef#2{\the\toks@}}}
+\DeclareOption{delayed}{%
+  \ifPreview \def\preview@delay{\AtBeginDocument}\fi
+}
+\newif\ifpr@fixbb
+\pr@fixbbfalse
+\DeclareOption{psfixbb}{\ifPreview%
+  \pr@fixbbtrue
+  \newbox\pr@markerbox
+  \setbox\pr@markerbox\hbox{\special{psfile=/dev/null}}\fi
+}
+\let\pr@graphicstype=\z@
+\DeclareOption{dvips}{%
+  \let\pr@graphicstype\@ne
+  \preview@delay{\AtBeginDvi{%
+      \special{!/preview@version(\pr@version)def}
+      \special{!userdict begin/preview-bop-level 0 def%
+      /bop-hook{/preview-bop-level dup load dup 0 le{/isls false def%
+          /vsize 792 def/hsize 612 def}if 1 add store}bind def%
+      /eop-hook{/preview-bop-level dup load dup 0 gt{1 sub}if
+        store}bind def end}}}}
+\DeclareOption{pdftex}{%
+  \let\pr@graphicstype\tw@}
+\DeclareOption{xetex}{%
+  \let\pr@graphicstype\thr@@}
+\begingroup
+\catcode`\*=11
+\@firstofone{\endgroup
+\DeclareOption{displaymath}{%
+  \preview@delay{\toks@{%
+      \pr@startbox{\noindent$$%
+        \aftergroup\pr@endbox\@gobbletwo}{$$}\@firstofone}%
+    \everydisplay\expandafter{\the\expandafter\toks@
+      \expandafter{\the\everydisplay}}}%
+  \pr@advise@ship\equation{\begingroup\aftergroup\pr@endbox
+    \def\dt@ptrue{\m@ne=\m@ne}\noindent}%
+    {\endgroup}%
+  \pr@advise@ship\equation*{\begingroup\aftergroup\pr@endbox
+    \def\dt@ptrue{\m@ne=\m@ne}\noindent}%
+    {\endgroup}%
+  \PreviewOpen[][\def\dt@ptrue{\m@ne=\m@ne}\noindent#1]\[%
+  \PreviewClose\]%
+  \PreviewEnvironment[][\noindent#1]{eqnarray}%
+  \PreviewEnvironment[][\noindent#1]{eqnarray*}%
+  \PreviewEnvironment{displaymath}%
+}}
+\begingroup
+\def\next#1#2{%
+  \endgroup
+  \DeclareOption{textmath}{%
+    \PreviewEnvironment{math}%
+    \preview@delay{\ifx#1\@undefined \let#1=$%$
+      \fi\catcode`\$=\active
+      \ifx\xyreuncatcodes\@undefined\else
+        \edef\next{\catcode`@=\the\catcode`@\relax}%
+        \makeatother\expandafter\xyreuncatcodes\next\fi}%
+    \pr@advise@ship\(\pr@endaftergroup{}% \)
+    \pr@advise@ship#1{\@firstoftwo{\let#1=#2%
+        \futurelet\reserved@a\pr@textmathcheck}}{}}%
+  \def\pr@textmathcheck{\expandafter\pr@endaftergroup
+    \ifx\reserved@a#1{#2#2}\expandafter\@gobbletwo\fi#2}}
+\lccode`\~=`\$
+\lowercase{\expandafter\next\expandafter~}%
+  \csname pr@\string$%$
+  \endcsname
+\DeclareOption{graphics}{%
+  \PreviewMacro[*[[!]{\includegraphics}%]]
+}
+\def\pr@floatfix#1#2{\ifx#1#2%
+  \ifx#1\@undefined\else
+  \PackageWarningNoLine{preview}{%
+Your document class has a bad definition^^J
+of \string#1, most likely^^J
+\string\let\string#1=\string#2^^J
+which has now been changed to^^J
+\string\def\string#1{\string#2}^^J
+because otherwise subsequent changes to \string#2^^J
+(like done by several packages changing float behaviour)^^J
+can't take effect on \string#1.^^J
+Please complain to your document class author}%
+  \def#1{#2}\fi\fi}
+\begingroup
+\def\next#1#2{\endgroup
+  \DeclareOption{floats}{%
+    \pr@floatfix\endfigure\end@float
+    \pr@floatfix\endtable\end@float
+    \pr@floatfix#1\end@dblfloat
+    \pr@floatfix#2\end@dblfloat
+    \PreviewSnarfEnvironment[![]{@float}%]
+    \PreviewSnarfEnvironment[![]{@dblfloat}%]
+  }}
+\expandafter\next\csname endfigure*\expandafter\endcsname
+  \csname endtable*\endcsname
+\DeclareOption{sections}{%
+  \PreviewMacro[!!!!!!*[[!]{\@startsection}%]]
+  \PreviewMacro[*[[!]{\chapter}%]]
+}
+\DeclareOption*
+   {\InputIfFileExists{pr\CurrentOption.def}{}{\OptionNotUsed}}
+\def\PreviewMacro{\@ifstar\pr@starmacro\pr@macro}
+\long\def\pr@domacro#1#2{%
+   \long\def\next##1{#2}%
+   \pr@callafter\next#1]\pr@endparse}
+\newcommand\pr@macro[1][]{%
+   \toks@{\pr@domacro{#1}}%
+   \long\edef\next[##1]##2{%
+    \noexpand\pr@advise@ship{##2}{\the\toks@{##1\noexpand\pr@endbox}}{}}%
+   \@ifnextchar[\next\pr@macroii}
+\def\pr@macroii{\next[##1]}
+\long\def\pr@endmacro#1{#1\pr@endbox}
+\long\def\pr@protect@domacro#1#2{\pr@protect{%
+    \long\def\next##1{#2}%
+    \pr@callafter\next#1]\pr@endparse}}
+\newcommand\pr@starmacro[1][]{\toks@{\pr@protect@domacro{#1}}%
+    \long\edef\next[##1]##2{%
+      \noexpand\pr@advise##2{\the\toks@{##1}}}%
+    \@ifnextchar[\next{\next[]}}
+\def\PreviewOpen{\@ifstar\pr@starmacro\pr@open}
+\newcommand\pr@open[1][]{%
+   \toks@{\pr@domacro{#1}}%
+   \long\edef\next[##1]##2{%
+     \noexpand\pr@advise##2{\begingroup
+     \noexpand\pr@protect@ship
+        {\the\toks@{\begingroup\aftergroup\noexpand\pr@endbox##1}}%
+        {\endgroup}}}%
+   \@ifnextchar[\next\pr@macroii}
+\def\PreviewClose{\@ifstar\pr@starmacro\pr@close}
+\newcommand\pr@close[1][]{%
+  \toks@{\pr@domacro{#1}}%
+  \long\edef\next[##1]##2{%
+   \noexpand\pr@advise{##2}{\the\toks@{##1\endgroup}}}%
+   \@ifnextchar[\next\pr@macroii}
+\def\PreviewEnvironment{\@ifstar\pr@starenv\pr@env}
+\newcommand\pr@starenv[1][]{\toks@{\pr@starmacro[{#1}]}%
+  \long\edef\next##1##2{%
+    \the\toks@[{##2}]##1}%
+  \begingroup\pr@starenvii}
+\newcommand\pr@starenvii[2][]{\endgroup
+  \expandafter\next\csname#2\endcsname{#1}%
+  \expandafter\pr@starmacro\csname end#2\endcsname}
+\newcommand\pr@env[1][]{%
+   \toks@{\pr@domacro{#1}}%
+   \long\edef\next[##1]##2{%
+   \noexpand\expandafter\noexpand\pr@advise@ship
+     \noexpand\csname##2\noexpand\endcsname{\the\toks@
+      {\begingroup\aftergroup\noexpand\pr@endbox##1}}{\endgroup}}%
+   \@ifnextchar[\next\pr@macroii %]
+ }
+\newcommand{\PreviewSnarfEnvironment}[2][]{%
+  \expandafter\pr@advise
+   \csname #2\endcsname{\pr@snarfafter{#1}}%
+ \expandafter\pr@advise
+   \csname end#2\endcsname{\pr@endsnarf}}
+\let\pr@ship@start\@empty
+\let\pr@ship@end\@empty
+\newenvironment{preview}{\ignorespaces}{\ifhmode\unskip\fi}
+\newenvironment{nopreview}{\ignorespaces}{\ifhmode\unskip\fi}
+\ProcessOptions\relax
+\ifPreview\else\expandafter\endinput\fi
+%%    The preview style for extracting previews from LaTeX documents.
+%%    Developed as part of AUCTeX <URL:http://www.gnu.org/software/auctex>.
+\newif\ifpr@outer
+\pr@outertrue
+\newcount\pr@snippet
+\global\pr@snippet=1
+\def\pr@protect{\ifx\protect\@typeset@protect
+  \ifpr@outer \expandafter\expandafter\expandafter
+     \@secondoftwo\fi\fi\@gobble}
+\def\pr@protect@ship{\pr@protect{\@firstoftwo\pr@startbox}%
+   \@gobbletwo}
+\def\pr@insert{\begingroup\afterassignment\pr@insertii\count@}
+\def\pr@insertii{\endgroup\setbox\pr@box\vbox}
+\def\pr@mark{{\afterassignment}\toks@}
+\def\pr@marks{{\aftergroup\pr@mark\afterassignment}\count@}
+\newbox\pr@box
+\long\def\pr@startbox#1#2{%
+  \ifpr@outer
+    \toks@{#2}%
+    \edef\pr@cleanup{\the\toks@}%
+    \setbox\pr@box\vbox\bgroup
+    \break
+    \pr@outerfalse\@arrayparboxrestore
+    \let\insert\pr@insert
+    \let\mark\pr@mark
+    \let\marks\pr@marks
+    \expandafter\expandafter\expandafter
+    \pr@ship@start
+    \expandafter\@firstofone
+  \else
+     \expandafter \@gobble
+  \fi{#1}}
+\def\pr@endbox{%
+   \let\reserved@a\relax
+   \ifvmode \edef\reserved@a{\the\everypar}%
+      \ifx\reserved@a\@empty\else
+            \dimen@\prevdepth
+            \noindent\par
+            \setbox\z@\lastbox\unskip\unpenalty
+            \prevdepth\dimen@
+            \setbox\z@\hbox\bgroup\penalty-\maxdimen\unhbox\z@
+              \ifnum\lastpenalty=-\maxdimen\egroup
+              \else\egroup\box\z@ \fi\fi\fi
+   \ifhmode \par\unskip\setbox\z@\lastbox
+     \nointerlineskip\hbox{\unhbox\z@\/}%
+   \else \unskip\unpenalty\unskip \fi
+   \egroup
+   \setbox\pr@box\vbox{%
+       \baselineskip\z@skip \lineskip\z@skip \lineskiplimit\z@
+       \@begindvi
+       \nointerlineskip
+       \splittopskip\z@skip\setbox\z@\vsplit\pr@box to\z@
+       \unvbox\z@
+       \nointerlineskip
+       %\color@setgroup
+       \box\pr@box
+       %\color@endgroup
+     }%
+   \pr@ship@end
+   {\let\protect\noexpand
+   \ifx\pr@offset@override\@undefined
+     \voffset=-\ht\pr@box
+     \hoffset=\z@
+   \fi
+   \c@page=\pr@snippet
+   \pr@shipout
+   \ifpr@fixbb\hbox{%
+     \dimen@\wd\pr@box
+     \@tempdima\ht\pr@box
+     \@tempdimb\dp\pr@box
+     \box\pr@box
+     \llap{\raise\@tempdima\copy\pr@markerbox\kern\dimen@}%
+     \lower\@tempdimb\copy\pr@markerbox}%
+   \else \box\pr@box \fi}%
+   \global\advance\pr@snippet\@ne
+   \pr@cleanup
+}
+\let\pr@shipout=\shipout
+\def\shipout{\deadcycles\z@\bgroup\setbox\z@\box\voidb@x
+  \afterassignment\pr@shipoutegroup\setbox\z@}
+\def\pr@shipoutegroup{\ifvoid\z@ \expandafter\aftergroup\fi \egroup}
+\def\pr@parseit#1{\csname pr@parse#1\endcsname}
+\let\pr@endparse=\@percentchar
+\def\next#1{%
+\def\pr@callafter{%
+  \afterassignment\pr@parseit
+  \let#1= }}
+\expandafter\next\csname pr@parse\pr@endparse\endcsname
+\long\expandafter\def\csname pr@parse*\endcsname#1\pr@endparse#2{%
+  \begingroup\toks@{#1\pr@endparse{#2}}%
+  \edef\next##1{\endgroup##1\the\toks@}%
+  \@ifstar{\next{\pr@parse@*}}{\next\pr@parseit}}
+\long\expandafter\def\csname pr@parse[\endcsname#1\pr@endparse#2{%
+  \begingroup\toks@{#1\pr@endparse{#2}}%
+  \edef\next##1{\endgroup##1\the\toks@}%
+  \@ifnextchar[{\next\pr@bracket}{\next\pr@parseit}}
+\long\def\pr@bracket#1\pr@endparse#2[#3]{%
+   \pr@parseit#1\pr@endparse{#2[{#3}]}}
+\expandafter\let\csname pr@parse]\endcsname=\pr@parseit
+\long\def\pr@parse#1\pr@endparse#2#3{%
+  \pr@parseit#1\pr@endparse{#2{#3}}}
+\expandafter\let\csname pr@parse!\endcsname=\pr@parse
+\long\expandafter\def\csname pr@parse?\endcsname#1#2\pr@endparse#3{%
+  \begingroup\toks@{#2\pr@endparse{#3}}%
+  \@ifnextchar#1{\pr@parsecond\@firstoftwo}%
+                {\pr@parsecond\@secondoftwo}}
+\def\pr@parsecond#1{\expandafter\endgroup
+  \expandafter\expandafter\expandafter\pr@parseit
+  \expandafter#1\the\toks@}
+ \long\def\pr@parse@#1#2\pr@endparse#3{%
+   \pr@parseit #2\pr@endparse{#3#1}}
+\long\expandafter\def\csname pr@parse-\endcsname
+  #1\pr@endparse#2{\begingroup
+  \toks@{\endgroup\pr@parseit #1\pr@endparse{#2}}%
+  {\aftergroup\the\aftergroup\toks@ \afterassignment}%
+  \let\next= }
+\long\expandafter\def\csname pr@parse:\endcsname
+  #1#2#3\pr@endparse#4{\begingroup
+    \toks@{\endgroup \pr@parseit#3\pr@endparse{#4}}%
+    \long\def\next#1{#2}%
+    \the\expandafter\toks@\next}
+\long\expandafter\def\csname pr@parse#\endcsname
+  #1#2#3\pr@endparse#4{\begingroup
+    \toks@{#4}%
+    \long\edef\next##1{\toks@{\the\toks@##1}}%
+    \toks@{\endgroup \pr@parseit#3\pr@endparse}%
+    \long\def\reserved@a#1{{#2}}%
+    \the\expandafter\next\reserved@a}
+\def\pr@endaftergroup#1{#1\aftergroup\pr@endbox}
+\let\pr@endsnarf\relax
+\long\def\pr@snarfafter#1{\ifpr@outer
+     \pr@ship@start
+     \let\pr@ship@start\relax
+     \let\pr@endsnarf\endgroup
+   \else
+     \let\pr@endsnarf\relax
+   \fi
+  \pr@protect{\pr@callafter\pr@startsnarf#1]\pr@endparse}}
+\def\pr@startsnarf#1{#1\begingroup
+   \pr@startbox{\begingroup\aftergroup\pr@endbox}{\endgroup}%
+   \ignorespaces}
+\renewenvironment{preview}{\begingroup
+   \pr@startbox{\begingroup\aftergroup\pr@endbox}%
+               {\endgroup}%
+   \ignorespaces}%
+   {\ifhmode\unskip\fi\endgroup}
+\renewenvironment{nopreview}{\pr@outerfalse\ignorespaces}%
+  {\ifhmode\unskip\fi}
+\newtoks\pr@output
+\pr@output\output
+\output{%
+  \pr@outerfalse
+  \let\@begindvi\@empty
+  \the\pr@output}
+\let\output\pr@output
+\def\pr@typeinfos{\typeout{Preview: Fontsize \f@size pt}%
+  \ifnum\mag=\@m\else\typeout{Preview: Magnification \number\mag}\fi
+  \ifx\pdfoutput\@undefined
+    \ifx\XeTeXversion\@undefined \else
+      % FIXME: The message should not be emitted if XeTeX does not produce
+      % PDF.  There does not seem to be a primitive for that, though.
+      \typeout{Preview: PDFoutput 1}%
+    \fi
+  \else
+    \ifx\pdfoutput\relax \else
+      \ifnum\pdfoutput>\z@
+        \typeout{Preview: PDFoutput 1}%
+      \fi
+    \fi
+  \fi
+}
+\AtBeginDocument{\pr@typeinfos}
+\pr@loadcfg{prdefault}
+\endinput
+%%
+%% End of file `preview.sty'.

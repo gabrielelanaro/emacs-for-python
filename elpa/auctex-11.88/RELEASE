@@ -1,0 +1,204 @@
+Release notes for AUCTeX 11.88 with preview-latex
+=================================================
+
+AUCTeX provides by far the most wide-spread and sophisticated
+environment for editing LaTeX, TeX, ConTeXt and Texinfo documents with
+Emacs or XEmacs.  Combined with packages like RefTeX, flyspell and
+others it is pretty much without peer as a comprehensive authoring
+solution for a large variety of operating system platforms and TeX
+distributions.  It supports document-dependent completion and syntax
+highlighting, easily accessible menus, jumping to error locations in
+the source file, a number of editing shortcuts, intelligent
+indentation and filling of text during entry, and WYSIWYG previews of
+graphical elements like math formulas right in the Emacs source
+buffer, by virtue of its preview-latex component.
+
+One part of the preview-latex subsystem is the central `preview.sty'
+file that is independently useful for a number of applications and is
+available in unbundled form from CTAN.[1]
+
+AUCTeX needs volunteers in particular for non-programming tasks:
+documentation writing, tutorials, translations, reference material,
+sleuth work, testing.
+
+
+New features and fixed bugs in this release
+-------------------------------------------
+
+'TeX-PDF-mode' is now enabled by default.
+
+Now 'TeX-previous-error' works with TeX commands if the new option
+'TeX-parse-all-errors' is non-nil, which is the default.  When this
+option is non-nil, an overview of errors and warnings reported by the
+TeX compiler can be opened with 'M-x TeX-error-overview <RET>'.
+
+Style file authors are encouraged to distinguish common from expert
+macros and environments, and mark the latter using
+'TeX-declare-expert-macros' and 'LaTeX-declare-expert-environments'.
+Users can then restrict completion using
+'TeX-complete-expert-commands'.
+
+Management of LaTeX package options in the parser was improved.  You
+might need to reparse your documents, especially if you loaded the
+'babel' package with language options.
+
+Now you can insert '$...$' or '\(...\)' by typing a single '$'.  To do
+this, customize the new option 'TeX-electric-math'.
+'TeX-math-close-double-dollar' was removed.
+
+'C-c <RET> documentclass <RET>' completes with all available LaTeX
+classes, if the 'TeX-arg-input-file-search' variable is non-nil.
+Completion for class options of the standard LaTeX classes is provided
+as well.
+
+New user options 'LaTeX-default-author',
+'LaTeX-fontspec-arg-font-search', 'LaTeX-fontspec-font-list-default',
+'TeX-date-format', and 'TeX-insert-braces-alist'.  A new possible value
+('show-all-optional-args') for 'TeX-insert-macro-default-style' was
+added.  The default value of 'TeX-source-correlate-method' has been
+changed.
+
+'biblatex' support was greatly expanded.  If parsing is enabled, AUCTeX
+looks at 'backend' option to decide whether to use Biber or BibTeX. The
+'LaTeX-biblatex-use-Biber' variable was changed to be file local only
+and is no more customizable.
+
+With some LaTeX classes, the default environment suggested by
+'LaTeX-environment' ('C-c C-e') when the current environment is
+'document' was changed.  With 'beamer' class the default environment is
+'frame', with 'letter' it is 'letter', with 'slides' it is 'slide'.
+
+Brace pairing feature was enhanced in LaTeX documents.  Support for
+'\bigl', '\Bigl', '\biggl' and '\Biggl', the same as the one for
+'\left', was added to 'TeX-insert-macro'.  For example, 'C-c <RET> bigl
+<RET> ( <RET>' inserts '\bigl(\bigr)'.
+
+You can insert brace pair '()', '{}' and '[]' by typing a single left
+brace if the new user option 'LaTeX-electric-left-right-brace' is
+enabled.
+
+Macros '\langle', '\lfloor' and '\lceil', which produce the left part
+of the paired braces, are treated similarly as '(', '{' and '[' during
+the course of 'TeX-insert-macro'.
+
+Support for dozens of LaTeX packages was added.
+
+Tabular-like environments (tabular, tabular*, tabularx, tabulary,
+array, align, ...)  are indented in a nicer and more informative way
+when the column values of a table line are written across multiple
+lines in the tex file.
+
+The suitable number of ampersands are inserted when you insert array,
+tabular and tabular* environments with 'C-c C-e'.  Similar experience
+is obtained if you terminate rows in these environments with 'C-c
+<LFD>'.  It supplies line break macro '\\' and inserts the suitable
+number of ampersands on the next line.  Similar supports are provided
+for various amsmath environments.
+
+Commands for narrowing to a group ('TeX-narrow-to-group') and to LaTeX
+environments ('LaTeX-narrow-to-environment') were added.
+
+Now arbitrary options can be passed to the TeX processor on a per file
+basis using the 'TeX-command-extra-options' option.
+
+Now 'C-c C-e document <RET>', in an empty document, prompts for
+'\usepackage' macros in addition to '\documentclass'.
+
+'TeX-add-style-hook' has now a third argument to tell AUCTeX for which
+dialect (LaTeX, Texinfo or BibTeX) the style hook is registers.
+Labelling style hook by dialect will avoid applying them not in the
+right context.
+
+There have been lots of bug fixes and feature additions.
+
+Requirements
+------------
+
+It is required that you use at least GNU Emacs 21 or XEmacs 21.4.
+XEmacs requires at least version 1.84 of the xemacs-base package
+(released on 01/27/2004) or a sumo tarball dated 02/02/2004 or newer
+for compiling AUCTeX: please use the XEmacs package system for
+upgrading if necessary.
+
+The preview-latex subsystem requires image support.  This is available
+with GNU Emacs 21.3 under the X window system.  For Windows[2], Mac OS
+X (Carbon, Cocoa)[3] or native GTK+ toolkit support, at least version
+22.1 of GNU Emacs is required.  Emacs 22 and later is the recommended
+platform for AUCTeX in general.  If you prefer XEmacs, it will work in
+version 21.4.10 or later.
+
+You'll also need a working LaTeX installation and Ghostscript.
+dvipng[4] (version 1.4 or later), a very fast DVI converter, can be
+used to speed up the conversion.
+
+Availability
+------------
+
+AUCTeX can be downloaded in various formats from
+<URL:ftp://ftp.gnu.org/gnu/auctex/>.  At release time, we provide the
+source tarball, a precompiled version for Emacs on Windows, and a
+platform-independent XEmacs package file (which you have to install
+yourself using XEmacs' own package system, after using it for removing
+the previous version of AUCTeX).  The easiest way for using AUCTeX, of
+course, is using versions of Emacs that already include AUCTeX or a
+software package management system for your operating system which
+provides you with the latest release.
+
+The XEmacs package file can be discerned by `pkg' in its name.  It is
+usually more recent than what gets distributed from XEmacs servers and
+as part of the Sumo tarball.
+
+A separate directory for each release contains some stuff from the
+tarball, such as ChangeLog, printable manuals, and a reference sheet.
+The download area is mirrored to the directory support/auctex on CTAN.
+AUCTeX is licensed under the GNU General Public License version 3.
+
+You'll find more information at the web site of AUCTeX
+<URL:http://www.gnu.org/software/auctex/>, including its mailing list
+addresses.
+
+
+Future development and additional information
+---------------------------------------------
+
+AUCTeX is proceeding as a GNU project with the long-term intent of
+merging it into Emacs.  For that reason, all new contributors need to
+assign copyright to their contributions to the FSF (the usual
+procedure for Emacs contributors).  The same holds for past
+contributors.  The principal authors and maintainers have already done
+so, but it would require a diligent and diplomatic volunteer to find
+and ask the rest.
+
+Current project manager is David Kastrup.  Paypal contributions to
+<URL:mailto:auctex@gnu.org> would be appreciated in order to
+compensate for time, money and hardware required for presenting AUCTeX
+at conferences.  Extensions may be commissioned: enquire on the
+developer list (see above).  Other than that, volunteering for tasks
+remains the most effective way of helping AUCTeX development.
+
+The following people contributed to this release series (in
+alphabetical order): Ivan Andrus, Ralf Angeli, Masayuki Ataka, Fabrice
+Ben Hamouda, Thomas Baumann, Vincent Belaïche, Berend de Boer, Ken
+Brown, Joshua Buhl, Patrice Dumas, Werner Fink, Miguel Frasson, Peter
+S. Galbraith, Mosè Giordano, Patrick Gundlach, Jobst Hoffmann, Tassilo
+Horn, Yvon Hevel, Mads Jensen, Arne Jørgensen, David Kastrup, Ikumi
+Keita, Philip Kime, Oleh Krehel, Joost Kremers, Frank Küster, Jan-Åke
+Larsson, Matthew Leach, Antoine Levitt, Leo Liu, Vladimir Lomov, Stefan
+Monnier, Dan Nicolaescu, Piet van Oostrum, Nicolas Richard, Augusto
+Ritter Stoffel, Florent Rougon, Davide G. M. Salvetti, Rüdiger
+Sonderfeld, Holger Sparr, Mike Sperber, Reiner Steib, Christian
+Schlauer, Shiro Takeda, Mark Trettin (Please accept our apologies if we
+forgot somebody.)
+
+Footnotes: 
+
+[1]  <URL:ftp://ftp.dante.de/tex-archive/macros/latex/contrib/preview/>
+
+[2]  You can get a precompiled version of Emacs for Windows at
+<URL:ftp://ftp.gnu.org/gnu/emacs/windows/>.
+
+[3]  See e.g. <URL:http://www.emacswiki.org/cgi-bin/wiki/EmacsForMacOS>
+for a list of precompiled versions of Emacs for Mac OS X.
+
+[4]  dvipng is available via its project page
+<URL:http://savannah.nongnu.org/projects/dvipng> and from CTAN.

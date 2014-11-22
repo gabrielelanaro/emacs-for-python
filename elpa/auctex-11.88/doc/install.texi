@@ -1,0 +1,577 @@
+@c This is part of the AUCTeX Manual.
+@c Copyright (C) 1994, 1996, 2003-2007, 2012  Free Software Foundation, Inc.
+@c See the file auctex.texi for copying conditions.
+@ifset rawfile
+@include macros.texi
+@node Installation,,(dir),(dir)
+@top Installing @AUCTeX{}
+@end ifset
+
+@ifclear rawfile
+@node Installation
+@chapter Installing @AUCTeX{}
+@end ifclear
+
+The simplest way of installing @AUCTeX{} is by using the Emacs package
+manager integrated in Emacs 24 and greater (@acronym{ELPA}).  Simply do
+@kbd{M-x package-list-packages RET}, mark the auctex package for
+installation with @kbd{i}, and hit @kbd{x} to execute the installation
+procedure.  That's all.
+
+The remainder of this section is about installing @AUCTeX{} from a
+release tarball or from a checkout of the @AUCTeX{} repository.
+
+Installing @AUCTeX{} should be simple: merely @command{./configure},
+@command{make}, and @code{make install} for a standard site-wide
+installation (most other installations can be done by specifying a
+@option{--prefix=@dots{}} option).
+
+On many systems, this will already activate the package, making its
+modes the default instead of the built-in modes of Emacs.  If this is
+not the case, consult @ref{Loading the package}.  Please read through
+this document fully before installing anything.  The installation
+procedure has changed as compared to earlier versions.  Users of @w{MS
+Windows} are asked to consult
+@ifset rawfile
+the file @file{INSTALL.windows}.
+@end ifset
+@ifclear rawfile
+@xref{Installation under MS Windows}.
+@end ifclear
+
+@ifclear rawfile
+@menu
+* Prerequisites::
+* Configure::
+* Build/install::
+* Loading the package::
+* Advice for package providers::
+* Advice for non-privileged users::
+* Installation under MS Windows::
+* Customizing::
+@end menu
+@end ifclear
+
+@ifset rawfile
+@menu
+* Prerequisites::
+* Configure::
+* Build/install::
+* Loading the package::
+* Advice for package providers::
+* Advice for non-privileged users::
+* Customizing::
+@end menu
+@end ifset
+
+@ifset rawfile
+@node Prerequisites
+@chapter Prerequisites
+@raisesections
+@end ifset
+
+@ifclear rawfile
+@node Prerequisites
+@section Prerequisites
+@end ifclear
+
+@itemize @bullet
+@item A recent version of Emacs, alternatively XEmacs
+
+@w{Emacs 20} is no longer supported, and neither is XEmacs with a
+version of @code{xemacs-base} older than 1.84 (released in sumo from
+02/02/2004).  Using @previewlatex{} requires a version of Emacs compiled
+with image support.  While the X11 version of @w{Emacs 21} will likely
+work, @w{Emacs 22} and later is preferred.
+
+@table @b
+@item Windows
+Precompiled versions are available from
+@uref{ftp://ftp.gnu.org/gnu/emacs/windows/}.
+@item Mac OS X
+For an overview of precompiled versions of Emacs for Mac OS X see for
+example @uref{http://www.emacswiki.org/cgi-bin/wiki/EmacsForMacOS}.
+@item GNU/Linux
+Most GNU/Linux distributions nowadays provide a recent variant of Emacs
+via their package repositories.
+@item Self-compiled
+Compiling Emacs yourself requires a C compiler and a number of tools and
+development libraries.  Details are beyond the scope of this manual.
+Instructions for checking out the source code can be found at
+@uref{https://savannah.gnu.org/bzr/?group=emacs}.
+@end table
+
+If you really need to use @w{Emacs 21} on platforms where this implies
+missing image support, you should disable the installation of
+@previewlatex{} (see below).
+
+While XEmacs (version 21.4.15, 21.4.17 or later) is supported, doing
+this in a satisfactory manner has proven to be difficult.  This is
+mostly due to technical shortcomings and differing API's which are hard
+to come by.  If @AUCTeX{} is your main application for XEmacs, you are
+likely to get better results and support by switching to Emacs.  Of
+course, you can improve support for your favorite editor by giving
+feedback in case you encounter bugs.
+
+@item A working @TeX{} installation
+
+Well, @AUCTeX{} would be pointless without that.  Processing
+documentation requires @TeX{}, @LaTeX{} and Texinfo during installation.
+@previewlatex{} requires Dvips for its operation in @acronym{DVI} mode.
+The default configuration of @AUCTeX{} is tailored for te@TeX{} or
+@TeX{}live-based distributions, but can be adapted easily.
+
+@item A recent Ghostscript
+
+This is needed for operation of @previewlatex{} in both @acronym{DVI}
+and @acronym{PDF} mode.  Most versions of Ghostscript nowadays in use
+should work fine (version 7.0 and newer).
+
+@item The @code{texinfo} package
+
+Strictly speaking, you can get away without it if you are building
+from the distribution tarball, have not modified any files and don't
+need a printed version of the manual: the pregenerated info file is
+included in the tarball.  At least @w{version 4.0} is required.
+
+@end itemize
+
+For some known issues with various software, see
+@ifset rawfile
+the @file{PROBLEMS} file.
+@end ifset
+@ifclear rawfile
+@ref{Known problems,,,preview-latex,the @previewlatex{} manual}.
+@end ifclear
+
+@node Configure
+@section Configure
+
+The first step is to configure the source code, telling it where
+various files will be.  To do so, run
+
+@example
+./configure @var{options}
+@end example
+
+(Note: if you have fetched @AUCTeX{} from @acronym{Git} rather than
+a regular release, you will have to first follow the instructions in
+@file{README.GIT}).
+
+On many machines, you will not need to specify any options, but if
+@command{configure} cannot determine something on its own, you'll need to
+help it out with one of these options:
+
+@table @code
+@item --prefix=@file{/usr/local}
+All automatic placements for package components will be chosen from
+sensible existing hierarchies below this: directories like @file{man},
+@file{share} and @file{bin} are supposed to be directly below
+@var{prefix}.
+
+Only if no workable placement can be found there, in some cases an
+alternative search will be made in a prefix deduced from a suitable
+binary.
+
+@file{/usr/local} is the default @var{prefix}, intended to be suitable
+for a site-wide installation.  If you are packaging this as an
+operating system component for distribution, the setting @file{/usr}
+will probably be the right choice.  If you are planning to install the
+package as a single non-priviledged user, you will typically set
+@var{prefix} to your home directory.
+
+@item --with-emacs[=@var{/path/to/emacs}]
+If you are using a pretest which isn't in your @code{$PATH}, or
+@command{configure} is not finding the right Emacs executable, you can
+specify it with this option.
+
+@item --with-xemacs[=@var{/path/to/xemacs}]
+Configure for generation under XEmacs (Emacs is the default).  Again,
+the name of the right XEmacs executable can be specified, complete with
+path if necessary.
+
+@item --with-packagedir=@var{/dir}
+This XEmacs-only option configures the directory for XEmacs packages.  A
+typical user-local setting would be @file{~/.xemacs/xemacs-packages}.
+If this directory exists and is below @var{prefix}, it should be
+detected automatically.  This will install and activate the package.
+
+@item --without-packagedir
+This XEmacs-only option switches the detection of a package directory
+and corresponding installation off.  Consequently, the Emacs
+installation scheme will be used.  This might be appropriate if you are
+using a different package system/installer than the XEmacs one and want
+to avoid conflicts.
+
+The Emacs installation scheme has the following options:
+
+@item --with-lispdir=@var{/dir}
+This Emacs-only option specifies the location of the @file{site-lisp}
+directory within @samp{load-path} under which the files will get
+installed (the bulk will get installed in a subdirectory).
+@file{./configure} should figure this out by itself.
+
+@item --with-auctexstartfile=@file{auctex.el}
+@itemx --with-previewstartfile=@file{preview-latex.el}
+This is the name of the respective startup files.  If @var{lispdir}
+contains a subdirectory @file{site-start.d}, the start files are
+placed there, and @file{site-start.el} should
+load them automatically.  Please be aware that you must not move the
+start files after installation since other files are found
+@emph{relative} to them.
+
+@item --with-packagelispdir=@file{auctex}
+This is the directory where the bulk of the package gets located.  The
+startfile adds this into @var{load-path}.
+
+@item --with-auto-dir=@var{/dir}
+You can use this option to specify the directory containing
+automatically generated information.  It is not necessary for most
+@TeX{} installs, but may be used if you don't like the directory that
+configure is suggesting.
+
+@item --help
+This is not an option specific to @AUCTeX{}. A number of standard
+options to @command{configure} exist, and we do not have the room to
+describe them here; a short description of each is available, using
+@code{--help}.  If you use @samp{--help=recursive}, then also
+@previewlatex{}-specific options will get listed.
+
+@item --disable-preview
+This disables configuration and installation of @previewlatex{}.  This
+option is not actually recommended.  If your Emacs does not support
+images, you should really upgrade to a newer version.  Distributors
+should, if possible, refrain from distributing @AUCTeX{} and
+@previewlatex{} separately in order to avoid confusion and upgrade
+hassles if users install partial packages on their own.
+
+@item --with-texmf-dir=@var{/dir}@*--without-texmf-dir
+@cindex preview-install-styles
+This option is used for specifying a @acronym{TDS}-compliant directory
+hierarchy.  Using @code{--with-texmf-dir=@var{/dir}} you can specify
+where the @TeX{} @acronym{TDS} directory hierarchy resides, and the
+@TeX{} files will get installed in
+@file{@var{/dir}/tex/latex/preview/}.
+
+If you use the @code{--without-texmf-dir} option, the @TeX{}-related
+files will be kept in the Emacs Lisp tree, and at runtime the
+@env{TEXINPUTS} environment variable will be made to point there.  You
+can install those files into your own @TeX{} tree at some later time
+with @kbd{M-x preview-install-styles RET}.
+
+@item --with-tex-dir=@var{/dir}
+If you want to specify an exact directory for the preview @TeX{} files,
+use @code{--with-tex-dir=@var{/dir}}. In this case, the files will be
+placed in @file{@var{/dir}}, and you'll also need the following option:
+
+@item --with-doc-dir=@var{/dir}
+This option may be used to specify where the @TeX{} documentation goes.
+It is to be used when you are using @code{--with-tex-dir=@var{/dir}},
+but is normally not necessary otherwise.
+@end table
+
+@node Build/install
+@section Build/install
+
+@cindex Installation
+@cindex Make
+
+Once @command{configure} has been run, simply enter
+
+@example
+make
+@end example
+
+@noindent
+at the prompt to byte-compile the lisp files, extract the @TeX{} files
+and build the documentation files.  To install the files into the
+locations chosen earlier, type
+
+@example
+make install
+@end example
+
+You may need special privileges to install, e.g., if you are installing
+into system directories.
+
+@node Loading the package
+@section Loading the package
+@cindex @file{.emacs}
+
+You can detect the successful activation of @AUCTeX{} and
+@previewlatex{} in the menus after loading a @LaTeX{} file like
+@file{preview/circ.tex}: @AUCTeX{} then gives you a @samp{Command} menu,
+and @previewlatex{} gives you a @samp{Preview} menu.
+
+For XEmacs, if the installation occured into a valid package directory
+(which is the default), then this should work out of the box.
+
+@cindex @file{auctex.el}
+@cindex @file{tex-site.el}
+With Emacs (or if you explicitly disabled use of the package system),
+the startup files @file{auctex.el} and @file{preview-latex.el} may
+already be in a directory of the @file{site-start.d/} variety if your
+Emacs installation provides it.  In that case they should be
+automatically loaded on startup and nothing else needs to be done.  If
+not, they should at least have been placed somewhere in your
+@code{load-path}.  You can then load them by placing the lines
+
+@example
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+@end example
+
+into your init file.
+
+If you explicitly used @code{--with-lispdir}, you may need to add the
+specified directory into Emacs' @code{load-path} variable by adding
+something like
+
+@example
+(add-to-list 'load-path "~/elisp")
+@end example
+
+before the above lines into your Emacs startup file.
+
+For site-wide activation in GNU Emacs, see
+@ifset rawfile
+below.
+@end ifset
+@ifclear rawfile
+@xref{Advice for package providers}.
+@end ifclear
+
+Once activated, the modes provided by @AUCTeX{} are used per default for
+all supported file types.  If you want to change the modes for which it
+is operative instead of the default, use
+@example
+@kbd{M-x customize-variable @key{RET} TeX-modes @key{RET}}
+@end example
+
+If you want to remove a preinstalled @AUCTeX{} completely before any of
+its modes have been used,
+@example
+(unload-feature 'tex-site)
+@end example
+should accomplish that.
+
+@node Advice for package providers
+@section Providing @AUCTeX{} as a package
+
+As a package provider, you should make sure that your users will be
+served best according to their intentions, and keep in mind that a
+system might be used by more than one user, with different
+preferences.
+
+There are people that prefer the built-in Emacs modes for editing
+@TeX{} files, in particular plain @TeX{} users.  There are various
+ways to tell @AUCTeX{} even after auto-activation that it should
+not get used, and they are described in
+@ifset rawfile
+the @file{README} file.
+@end ifset
+@ifclear rawfile
+@ref{Introduction,,Introduction to @AUCTeX{}}.
+@end ifclear
+
+So if you have users that don't want to use the preinstalled @AUCTeX{},
+they can easily get rid of it.  Activating @AUCTeX{} by default is
+therefore a good choice.
+
+If the installation procedure did not achieve this already by placing
+@file{auctex.el} and @file{preview-latex.el} into a possibly existing
+@file{site-start.d} directory, you can do this by placing
+
+@example
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+@end example
+
+@noindent in the system-wide @file{site-start.el}.
+
+If your package is intended as an XEmacs package or to accompany a
+precompiled version of Emacs, you might not know which @TeX{} system
+will be available when @previewlatex{} gets used.  In this case you
+should build using the @code{--without-texmf-dir} option described
+previously.  This can also be convenient for systems that are intended
+to support more than a single TeX distribution.  Since more often than
+not @TeX{} packages for operating system distributions are either much
+more outdated or much less complete than separately provided systems
+like @w{@TeX{} Live}, this method may be generally preferable when
+providing packages.
+
+The following package structure would be adequate for a typical fully
+supported Unix-like installation:
+
+@table @samp
+@item preview-tetex
+Style files and documentation for @file{preview.sty}, placed into a
+@TeX{} tree where it is accessible from the te@TeX{} executables usually
+delivered with a system.  If there are other commonly used @TeX{} system
+packages, it might be appropriate to provide separate packages for
+those.
+@item auctex-emacs-tetex
+This package will require the installation of @samp{preview-tetex} and
+will record in @samp{TeX-macro-global} where to find the @TeX{} tree.
+It is also a good idea to run
+@example
+emacs -batch -f TeX-auto-generate-global
+@end example
+when either @AUCTeX{} or te@TeX{} get installed or upgraded.  If your
+users might want to work with a different @TeX{} distribution (nowadays
+pretty common), instead consider the following:
+@item auctex-emacs
+This package will be compiled with @samp{--without-texmf-dir} and will
+consequently contain the @samp{preview} style files in its private
+directory.  It will probably not be possible to initialize
+@samp{TeX-macro-global} to a sensible value, so running
+@samp{TeX-auto-generate-global} does not appear useful.  This package
+would neither conflict with nor provide @samp{preview-tetex}.
+@item auctex-xemacs-tetex
+@itemx auctex-xemacs
+Those are the obvious XEmacs equivalents.  For XEmacs, there is the
+additional problem that the XEmacs sumo package tree already possibly
+provides its own version of @AUCTeX{}, and the user might even have used
+the XEmacs package manager to updating this package, or even installing
+a private @AUCTeX{} version.  So you should make sure that such a
+package will not conflict with existing XEmacs packages and will be
+at an appropriate place in the load order (after site-wide and
+user-specific locations, but before a distribution-specific sumo package
+tree).  Using the @code{--without-packagedir} option might be one idea
+to avoid conflicts.  Another might be to refrain from providing an
+XEmacs package and just rely on the user or system administrator to
+instead use the XEmacs package system.
+@end table
+
+@node Advice for non-privileged users
+@section Installation for non-privileged users
+
+Often people without system administration privileges want to install
+software for their private use.  In that case you need to pass more
+options to the @command{configure} script.  For XEmacs users, this is
+fairly easy, because the XEmacs package system has been designed to make
+this sort of thing practical: but GNU Emacs users (and XEmacs users for
+whom the package system is for some reason misbehaving) may need to do a
+little more work.
+
+The main expedient is using the @option{--prefix} option to the
+@file{configure} script, and let it point to the personal home
+directory.  In that way, resulting binaries will be installed under the
+@file{bin} subdirectory of your home directory, manual pages under
+@file{man} and so on.  It is reasonably easy to maintain a bunch of
+personal software, since the prefix argument is supported by most
+@file{configure} scripts.
+
+You'll have to add something like
+@file{/home/myself/share/emacs/site-lisp} to your @code{load-path}
+variable, if it isn't there already.
+
+XEmacs users can achieve the same end by pointing @command{configure} at an
+appropriate package directory (normally
+@option{--with-packagedir=~/.xemacs/xemacs-packages} will serve).  The
+package directory stands a good chance at being detected automatically
+as long as it is in a subtree of the specified @var{prefix}.
+
+Now here is another thing to ponder: perhaps you want to make it easy
+for other users to share parts of your personal Emacs configuration.  In
+general, you can do this by writing @samp{~myself/} anywhere where you
+specify paths to something installed in your personal subdirectories,
+not merely @samp{~/}, since the latter, when used by other users, will
+point to non-existent files.
+
+For yourself, it will do to manipulate environment variables in your
+@file{.profile} resp.@: @file{.login} files.  But if people will be
+copying just Elisp files, their copies will not work.  While it would
+in general be preferable if the added components where available from
+a shell level, too (like when you call the standalone info reader, or
+try using @file{preview.sty} for functionality besides of Emacs
+previews), it will be a big help already if things work from inside
+of Emacs.
+
+Here is how to do the various parts:
+
+@subheading Making the Elisp available
+
+In GNU Emacs, it should be sufficient if people just do
+
+@lisp
+(load "~myself/share/emacs/site-lisp/auctex.el" nil t t)
+(load "~myself/share/emacs/site-lisp/preview-latex.el" nil t t)
+@end lisp
+
+where the path points to your personal installation.  The rest of the
+package should be found relative from there without further ado.
+
+In XEmacs, you should ask the other users to add symbolic links in the
+subdirectories @file{lisp}, @file{info} and @file{etc} of their
+@file{~/.xemacs/xemacs-packages/} directory.  (Alas, there is presently
+no easy programmatic way to do this, except to have a script do the
+symlinking for them.)
+
+@subheading Making the Info files available
+
+For making the info files accessible from within Elisp, something like
+the following might be convenient to add into your or other people's
+startup files:
+
+@lisp
+(eval-after-load 'info
+   '(add-to-list 'Info-directory-list "~myself/info"))
+@end lisp
+
+In XEmacs, as long as XEmacs can see the package, there should be no
+need to do anything at all; the info files should be immediately
+visible.  However, you might want to set @env{INFOPATH} anyway, for the
+sake of standalone readers outside of XEmacs. (The info files in XEmacs
+are normally in @file{~/.xemacs/xemacs-packages/info}.)
+
+@subheading Making the @LaTeX{} style available
+
+If you want others to be able to share your installation, you should
+configure it using @samp{--without-texmf-dir}, in which case things
+should work as well for them as for you.
+
+@ifclear rawfile
+@node Installation under MS Windows
+@section Installation under MS Windows
+@include wininstall.texi
+@end ifclear
+
+@node Customizing
+@section Customizing
+@cindex Site initialization
+@cindex Initialization
+@cindex @file{tex-site.el}
+@cindex Personal customization
+@cindex Site customization
+@cindex Customization
+@cindex Customization, personal
+@cindex Customization, site
+Most of the site-specific customization should already have happened
+during configuration of @AUCTeX{}.  Any further customization can be
+done with customization buffers directly in Emacs.  Just type @kbd{M-x
+customize-group RET AUCTeX RET} to open the customization group for
+@AUCTeX{} or use the menu entries provided in the mode menus.  Editing
+the file @file{tex-site.el} as suggested in former versions of @AUCTeX{}
+should not be done anymore because the installation routine will
+overwrite those changes.
+
+You might check some variables with a special significance.  They are
+accessible directly by typing @kbd{M-x customize-variable RET <variable>
+RET}.
+
+@defopt TeX-macro-global
+Directories containing the site's @TeX{} style files.
+@end defopt
+
+Normally, @AUCTeX{} will only allow you to complete macros and
+environments which are built-in, specified in @AUCTeX{} style files or
+defined by yourself.  If you issue the @kbd{M-x
+TeX-auto-generate-global} command after loading @AUCTeX{}, you will be
+able to complete on all macros available in the standard style files
+used by your document.  To do this, you must set this variable to a list
+of directories where the standard style files are located.  The
+directories will be searched recursively, so there is no reason to list
+subdirectories explicitly.  Automatic configuration will already have
+set the variable for you if it could use the program @samp{kpsewhich}.
+In this case you normally don't have to alter anything.
