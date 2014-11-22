@@ -127,8 +127,8 @@
 	   [(1 4)
 	    nil "Remember buffer positions per-window, not per buffer" single])
  (window-number .
-		[(1 0 1)
-		 nil "Jump to a window by number" single])
+		[(1 0 3)
+		 nil "Select windows by numbers." single])
  (window-margin .
 		[(0 1)
 		 nil "automatic margins for visual-line-mode wrapping" single])
@@ -139,8 +139,10 @@
 	     [(1 0 8)
 	      nil "fast, dynamic bindings for window-switching/resizing" single])
  (wikidoc .
-	  [(0 8 1)
-	   nil "use elisp doc strings to make other documentation" single])
+	  [(0 9)
+	   ((s\.el
+	     (1 9 0)))
+	   "use elisp doc strings to make other documentation" single])
  (wiki-nav .
 	   [(1 0 0)
 	    ((button-lock
@@ -188,9 +190,9 @@
 	   [(8 0 4)
 	    nil "major mode for editing html templates" single])
  (web .
-      [(0 4 5)
+      [(0 5 1)
        ((dash
-	 (2 3 0))
+	 (2 9 0))
 	(s
 	 (1 5 0)))
        "useful HTTP client" single])
@@ -852,7 +854,7 @@
 	     [(1 1)
 	      nil "Open a shell relative to the working directory" single])
  (shadchen .
-	   [(1 2)
+	   [(1 4)
 	    nil "pattern matching for elisp" single])
  (setup-cygwin .
 	       [(21 0)
@@ -881,6 +883,11 @@
 	      (sequences
 	       (0 1 0)))
 	     "A dead simple way to load sensitive information" single])
+ (seethru .
+	  [(0 2)
+	   ((shadchen
+	     (1 4)))
+	   "Easily change Emacs' transparency" single])
  (sedated .
 	  [(1 0)
 	   nil "A few extremely simple sed functions for familiar text manipulation" single])
@@ -888,7 +895,7 @@
 		 [(1 1 1)
 		  nil "Edit in seclusion. A Dark Room mode." single])
  (sea-before-storm-theme .
-			 [(0 3)
+			 [(0 4 20141114)
 			  nil "Sea Before Storm color theme for Emacs 24" single])
  (scss-mode .
 	    [(0 5 0)
@@ -1199,6 +1206,19 @@
  (psgml .
 	[(1 4 1)
 	 nil "Lennart Staflin's Psgml package, with Elisp syntax and sgml-validate fixed for Emacsen >=24." tar])
+ (psci .
+       [(0 0 5)
+	((purescript-mode
+	  (13 10))
+	 (dash
+	  (2 9 0))
+	 (s
+	  (1 9 0))
+	 (f
+	  (0 17 1))
+	 (deferred
+	     (0 3 2)))
+	"Major mode for purescript repl psci" single])
  (ps-ccrypt .
 	    [(1 10)
 	     nil "reading/writing/loading encrypted files" tar])
@@ -1439,7 +1459,7 @@
 	     (1 0)))
 	   "Simple package system for Emacs" single])
  (pabbrev .
-	  [(3 1)
+	  [(4 1)
 	   nil "Predictive abbreviation expansion" single])
  (p4 .
      [(11 0)
@@ -1545,9 +1565,9 @@
 	       (0 1)))
 	     "Orgmode integration with the GNOME desktop" single])
  (org-email .
-	    [(2 1)
+	    [(3 0 0)
 	     ((shadchen
-	       (1 1))
+	       (1 2))
 	      (dash
 	       (2 9 0))
 	      (noflet
@@ -1570,6 +1590,9 @@
  (org-cua-dwim .
 	       [(0 5)
 		nil "Org-mode and Cua mode compatibility layer" single])
+ (org-cliplink .
+	       [(0 1 1)
+		nil "a simple command that takes a URL from the clipboard and inserts an org-mode link with a title of a page found by the URL into the current buffer" single])
  (org-blog .
 	   [(1 18 1 1)
 	    nil "create and publish a blog with org-mode" single])
@@ -1664,7 +1687,7 @@
        [(0 1 1)
 	nil "Easy Python test running in Emacs" single])
  (noflet .
-   [(0 0 13)
+   [(0 0 15)
      nil "locally override functions" single])
  (nodejs-repl .
 	      [(0 0 2 1)
@@ -1723,7 +1746,7 @@
 	     [(0 8 8)
 	      nil "Managing multiple terminal buffers in Emacs." single])
  (multi-project .
-		[(0 0 15)
+		[(0 0 16)
 		 nil "Easily work with multiple projects." single])
  (multi-eshell .
 	       [(0 0 1)
@@ -1744,6 +1767,9 @@
 	     ((ruby-mode
 	       (1 1)))
 	     "Mote minor mode" single])
+ (monroe .
+	 [(0 2 0)
+	  nil "Yet another client for nREPL" single])
  (monokai-theme .
 		[(0 0 12)
 		 nil "DEPRECATED: Monokai Color Theme for Emacs." single])
@@ -1811,6 +1837,9 @@
  (mic-paren .
 	    [(3 8)
 	     nil "advanced highlighting of matching parentheses" single])
+ (message-templ .
+		[(0 1 20141026)
+		 nil "Templates for message-mode." single])
  (memoize .
 	  [(1 0 1)
 	   nil "Memoization functions" single])
@@ -1820,6 +1849,13 @@
  (mc-jump .
 	  [(1 0 0)
 	   nil "like \"jump-char\", but \"multiple-cursors\" friendly" single])
+ (mbe .
+      [(0 1)
+       ((emacs
+	 (24))
+	(cl-lib
+	 (0 5)))
+       "Macros by Example" single])
  (maxframe .
 	   [(0 5 1)
 	    nil "maximize the emacs frame based on display size" single])
@@ -1860,11 +1896,13 @@
 		 [(0 0 5)
 		  nil "a demonstration elpa package" single])
  (marmalade-client .
-		   [(0 0 9)
+		   [(0 0 11)
 		    ((web
 		      (0 4 2))
 		     (kv
-		      (0 0 19)))
+		      (0 0 19))
+		     (gh
+		      (0 8 0)))
 		    "client for marmalade API from emacs" single])
  (marmalade .
 	    [(0 0 4)
@@ -2050,7 +2088,7 @@
 	       [(21 0)
 		nil "Commands to list Emacs Lisp library dependencies." single])
  (lexbind-mode .
-	       [(0 8)
+	       [(0 9)
 		nil "Puts the value of lexical-binding in the mode line" single])
  (levenshtein .
 	      [(1 0)
@@ -2131,11 +2169,14 @@
 		(color-theme-emacs-revert-theme
 		 (0 1)))
 	       "Key Choices -- Also Viper has different colors in different modes" single])
+ (karma .
+	[(0 1 0)
+	 nil "Karma Test Runner Emacs Integration" single])
  (kanban .
 	 [(0 1 2)
 	  nil "Parse org-todo headlines to use org-tables as Kanban tables" single])
  (jump-dls .
-	   [(0 5)
+	   [(0 6)
 	    nil "Jump to definition of symbol using various methods." single])
  (jump-char .
 	    [(0 1)
@@ -2510,7 +2551,7 @@
 		  [(1 3)
 		   nil "A major mode for editing Handlebars files." single])
  (haml-mode .
-	    [(3 1 5)
+	    [(3 1 8)
 	     ((ruby-mode
 	       (1 0)))
 	     "Major mode for editing Haml files" single])
@@ -2578,6 +2619,9 @@
  (goto-chg .
 	   [(1 6)
 	    nil "goto last change" single])
+ (gotham-theme .
+	       [(1 0)
+		nil "A very dark Emacs color theme." single])
  (gopher .
 	 [(0 0 2)
 	  nil "easily access and navigate Gopher servers" single])
@@ -2620,8 +2664,10 @@
 	       [(0 0 3)
 		nil "Github color theme for GNU Emacs 24" single])
  (github-browse-file .
-		     [(0 3 0)
-		      nil "View the file you're editing on GitHub" single])
+		     [(0 4 0)
+		      ((cl-lib
+			(0 5)))
+		      "View the file you're editing on GitHub" single])
  (gitconfig-mode .
 		 [(0 3)
 		  nil "Major mode for editing .gitconfig files" single])
@@ -2636,8 +2682,12 @@
 		       (0 1 1)))
 		     "Fringe version of git-gutter.el" single])
  (git-gutter .
-	     [(0 42)
-	      nil "Port of Sublime Text plugin GitGutter" single])
+	     [(0 78)
+	      ((cl-lib
+		(0 5))
+	       (emacs
+		(24)))
+	      "Port of Sublime Text plugin GitGutter" single])
  (git-draft .
 	    [(0 0 2)
 	     ((dash
@@ -2747,6 +2797,12 @@
 		 ((emacs
 		   (24 1)))
 		 "Restore Emacs frame" single])
+ (fpaste .
+	 [(0 1 3)
+	  nil "Send text to http://fpaste.org" single])
+ (fooddice .
+	   [(0 1)
+	    nil "Help me I am hungry and dont know what to eat!" single])
  (font-utils .
 	     [(0 7 0)
 	      ((persistent-soft
@@ -2937,7 +2993,7 @@
 		   (0 6 0)))
 		 "Cask support in Flycheck" single])
  (flycheck .
-	   [(0 20)
+	   [(0 21)
 	    ((dash
 	      (2 4 0))
 	     (pkg-info
@@ -3064,11 +3120,9 @@
 	     (0 3 2)))
 	   "Alternatives to `message'" single])
  (expectations-mode .
-		    [(0 0 4)
-		     ((nrepl
-		       (0 1 5))
-		      (clojure-mode
-		       (1 11)))
+		    [(0 0 5)
+		     ((cider
+		       (0 7 0)))
 		     "Minor mode for expectations tests" single])
  (expand-region .
 		[(0 10 0)
@@ -3105,6 +3159,15 @@
 			  ((evil
 			    (0)))
 			  "evil textobjects based on indentation" single])
+ (evil-escape .
+	      [(1 1)
+	       ((emacs
+		 (24))
+		(evil
+		 (1 0 9))
+		(key-chord
+		 (0 6)))
+	       "Customizable key sequence to escape from insert state and everything else." single])
  (evil .
        [(1 0 8)
 	((undo-tree
@@ -3142,8 +3205,8 @@
       [(0 1)
        nil "Emacs Search Kit - An easy way to find files and/or strings in a project" tar])
  (eshell-manual .
-		[(1348477812)
-		 nil "An updated manual for Eshell." tar])
+		[(20141024)
+		 nil "An manual for Eshell." tar])
  (eshell-fringe-status .
 		       [(1 0 0)
 			nil "Show last status in fringe" single])
@@ -3155,7 +3218,7 @@
 		(24)))
 	      "Window-management utilities" single])
  (ertx .
-       [(0 0 1)
+       [(0 0 2)
 	nil "Extra useful testing functions for EmacsLisp." single])
  (ert-x .
 	[(0)
@@ -3236,7 +3299,7 @@
 	   [(1 4 6)
 	    nil "Screen for Emacsen" single])
  (elpy .
-       [(1 5 1)
+       [(1 6 0)
 	((company
 	  (0 8 2))
 	 (find-file-in-project
@@ -3251,12 +3314,16 @@
 	  (0 8 0)))
 	"Emacs Python Development Environment" tar])
  (elpakit .
-	  [(1 1 1)
-	   ((anaphora
-	     (0 0 6))
-	    (dash
-	     (2 3 0)))
-	   "package archive builder" single])
+	  [(2 0 3)
+	   ((dash
+	     (2 9 0))
+	    (shadchen
+	     (1 2))
+	    (noflet
+       (0 0 14))
+	    (s
+	     (1 9 0)))
+	   "The ELPA package maintainer's friend" tar])
  (elpa-mirror .
 	      [(1 1 2)
 	       nil "ELPA mirror from locally installed packages is easy" tar])
@@ -3264,23 +3331,23 @@
 	     [(0 4)
 	      nil "Handy functions for inspecting and comparing package archives" single])
  (elnode .
-	 [(0 9 9 8 7)
+	 [(0 9 9 8 8)
 	  ((web
 	    (0 4 3))
 	   (dash
-	    (1 1 0))
+	    (2 9 0))
 	   (noflet
-      (0 0 7))
+      (0 0 14))
 	   (s
 	    (1 5 0))
 	   (creole
-	    (0 8 14))
+	    (1 0 6))
 	   (fakir
-	    (0 1 6))
+	    (0 1 9))
 	   (db
-	    (0 0 5))
+	    (0 0 6))
 	   (kv
-	    (0 0 17)))
+	    (0 0 19)))
 	  "The Emacs webserver." tar])
  (elixir-mode .
 	      [(1 0 0)
@@ -3294,7 +3361,7 @@
 		     (0 2)))
 		   "Make M-. and M-, work in elisp like they do in slime" single])
  (elisp-indexer .
-		[(0 0 7)
+		[(0 0 9)
 		 nil "indexing utils for emacslisp" single])
  (elisp-depend .
 	       [(1 0 2)
@@ -3312,7 +3379,7 @@
 		(24 1)))
 	      "web interface to Elfeed" tar])
  (elfeed .
-	 [(1 1 0)
+	 [(1 1 2)
 	  ((emacs
 	    (24 1)))
 	  "an Emacs Atom/RSS feed reader" tar])
@@ -3421,7 +3488,7 @@
 	      (22)))
 	    "A bucket of tricks for Clojure and Slime." single])
  (dummy-package .
-		[(0 0 21)
+		[(0 0 25)
 		 ((timeclock
 		   (2 6 1)))
 		 "a fake package for the marmalade test suite" single])
@@ -3520,6 +3587,9 @@
 		      ((anything
 			(1 287)))
 		      "Yet Another `describe-bindings' with `anything'." single])
+ (demo-multifile .
+		 [(0 0 2)
+		  nil "a demo multifile package." tar])
  (deft .
      [(0 3)
       nil "quickly browse, filter, and edit plain text notes" single])
@@ -3543,9 +3613,9 @@
 	   (0 0 6)))
 	 "A PostgreSQL adapter for emacs-db" single])
  (db .
-     [(0 0 6)
+     [(0 0 7)
       ((kv
-	(0 0 11)))
+	(0 0 19)))
       "A database for EmacsLisp" single])
  (dash-functional .
 		  [(1 2 0)
@@ -3609,7 +3679,7 @@
 	      [(0 0 5)
 	       nil "a markup mode for creole" single])
  (creole .
-	 [(1 0 5)
+	 [(1 0 6)
 	  ((noflet
       (0 0 3))
 	   (kv
@@ -4002,7 +4072,7 @@
 		     (0 3 2)))
 		   "Context-sensitive external browse URL or Internet search" single])
  (browse-kill-ring .
-		   [(1 3 1)
+		   [(2 0 0)
 		    nil "interactively insert items from kill-ring" single])
  (boxquote .
 	   [(1 23)
@@ -4152,6 +4222,13 @@
 		((clojure-mode
 		  (1 11 5)))
 		"Space align various Clojure forms" single])
+ (alchemist .
+	    [(0 6 0)
+	     ((emacs
+	       (24))
+	      (pkg-info
+	       (0 5)))
+	     "Elixir tooling integration into emacs" tar])
  (ahg .
       [(0 99)
        nil "Alberto's Emacs interface for Mercurial (Hg)" single])
