@@ -40,7 +40,7 @@
 			((:url . "http://www.gnuvola.org/software/aa2u/")
 			 (:keywords "ascii" "unicode" "box-drawing"))])
  (auctex .
-	 [(11 87 7)
+	 [(11 88)
 	  nil "Integrated environment for *TeX*" tar
 	  ((:url . "http://www.gnu.org/software/auctex/"))])
  (aumix-mode .
@@ -71,7 +71,7 @@
 	       ((:url . "http://github.com/defunkt/coffee-mode")
 		(:keywords "coffeescript" "major" "mode"))])
  (company .
-	  [(0 8 6)
+	  [(0 8 7)
 	   ((emacs
 	     (24 1))
 	    (cl-lib
@@ -186,7 +186,7 @@
 	   ((:url . "http://elpa.gnu.org/packages/flylisp.html")
 	    (:keywords))])
  (ggtags .
-	 [(0 8 6)
+	 [(0 8 7)
 	  ((emacs
 	    (24))
 	   (cl-lib
@@ -235,7 +235,7 @@
 	       ((:url . "http://elpa.gnu.org/packages/jgraph-mode.html")
 		(:keywords "tex" "wp"))])
  (js2-mode .
-	   [(20140114)
+	   [(20141118)
 	    ((emacs
 	      (24 1)))
 	    "Improved JavaScript editing mode" tar
@@ -287,6 +287,15 @@
 	nil "Authoring and publishing tool for Emacs" tar
 	((:keywords "hypermedia")
 	 (:url . "http://mwolson.org/projects/EmacsMuse.html"))])
+ (names .
+	[(20141119)
+	 ((emacs
+	   (24 1))
+	  (cl-lib
+	   (0 5)))
+	 "Namespaces for emacs-lisp. Avoid name clobbering without hiding symbols." tar
+	 ((:keywords "extensions" "lisp")
+	  (:url . "http://github.com/Bruce-Connor/names"))])
  (nhexl-mode .
 	     [(0 1)
 	      nil "Minor mode to edit files via hex-dump format" single
@@ -317,7 +326,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20141027)
+      [(20141117)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)

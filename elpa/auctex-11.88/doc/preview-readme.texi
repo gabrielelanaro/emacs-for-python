@@ -1,0 +1,230 @@
+@include macros.texi
+@ifset rawfile
+@node Introduction, What use is it?, (dir), (dir)
+@top @previewlatex{} in a nutshell
+@paragraphindent none
+@end ifset
+@c -----------------------
+@cindex Readme
+Does your neck hurt from turning between previewer windows and the
+source too often? This @AUCTeX{} component will render your displayed
+@LaTeX{} equations right into the editing window where they belong.
+
+The purpose of @previewlatex{} is to embed @LaTeX{} environments such as
+display math or figures into the source buffers and switch conveniently
+between source and image representation.
+
+@menu
+* What use is it?::
+* Activating preview-latex::
+* Getting started::
+* Basic modes of operation::
+* More documentation::
+* Availability::
+* Contacts::
+@end menu
+
+@ifset rawfile
+@node What use is it?, Activating preview-latex, Introduction, Introduction
+@chapter What use is it?
+@raisesections
+@end ifset
+@ifclear rawfile
+@node What use is it?, Activating preview-latex, Introduction, Introduction
+@section What use is it?
+@end ifclear
+@cindex Philosophy of @previewlatex{}
+@acronym{WYSIWYG} (what you see is what you get) sometimes is considered
+all the rage, sometimes frowned upon.  Do we really want it?  Wrong
+question.  The right question is @emph{what} we want from it.  Except
+when finetuning the layout, we don't want to use printer fonts for
+on-screen text editing.  The low resolution and contrast of a computer
+screen render all but the coarsest printer fonts (those for low-quality
+newsprint) unappealing, and the margins and pagination of the print are
+not wanted on the screen, either.  On the other hand, more complex
+visual compositions like math formulas and tables can't easily be taken
+in when seen only in the source.  @previewlatex{} strikes a balance: it
+only uses graphic renditions of the output for certain, configurable
+constructs, does this only when told, and then right in the source code.
+Switching back and forth between the source and preview is easy and
+natural and can be done for each image independently.  Behind the scenes
+of @previewlatex{}, a sophisticated framework of other programs like
+@samp{dvipng}, Dvips and Ghostscript are employed together with a
+special @LaTeX{} style file for extracting the material of interest in
+the background and providing fast interactive response.
+
+@node  Activating preview-latex, Getting started, What use is it?, Introduction
+@section Activating @previewlatex{}
+@cindex Activation
+After installation, the package may need to be activated (and remember
+to activate @AUCTeX{} too).  In XEmacs, and in any prepackaged versions
+worth their salt, activation should be automatic upon installation.  If
+this seems not the case, complain to your installation provider.
+
+The usual activation (if it is not done automatically) would be
+
+@example
+(load "preview-latex.el" nil t t)
+@end example
+
+If you still don't get a ``Preview'' menu in @LaTeX{} mode in spite
+of @AUCTeX{} showing its ``Command'', your installation is broken.  One
+possible cause are duplicate Lisp files that might be detectable with
+@kbd{@key{M-x} list-load-path-shadows @key{RET}}.
+
+@node Getting started, Basic modes of operation, Activating preview-latex, Introduction
+@section Getting started
+
+Once activated, @previewlatex{} and its documentation will be accessible
+via its menus (note that @previewlatex{} requires @AUCTeX{} to be
+loaded).  When you have loaded a @LaTeX{} document (a
+sample document @file{circ.tex} is included in the distribution, but
+most documents including math and/or figures should do), you can use
+its menu or @kbd{C-c C-p C-d} (for @samp{Preview/Document}).
+Previews will now be generated for various objects in your document.
+You can use the time to take a short look at the other menu entries and
+key bindings in the @samp{Preview} menu.  You'll see the previewed
+objects change into a roadworks sign when @previewlatex{} has determined
+just what it is going to preview.  Note that you can freely navigate the
+buffer while this is going on.  When the process is finished you will
+see the objects typeset in your buffer.
+
+It is a bad idea, however, to edit the buffer before the roadworks signs
+appear, since that is the moment when the correlation between the
+original text and the buffer locations gets established.  If the buffer
+changes before that point of time, the previews will not be placed where
+they belong. If you do want to change some obvious error you just
+spotted, we recommend you stop the background process by pressing
+@kbd{C-c C-k}.
+
+To see/edit the @LaTeX{} code for a specific object, put the point (the
+cursor) on it and press @kbd{C-c C-p C-p} (for @samp{Preview/at point}).
+It will also do to click with the middle mouse button on the preview.
+Now you can edit the code, and generate a new preview by again pressing
+@kbd{C-c C-p C-p} (or by clicking with the middle mouse button on the
+icon before the edited text).
+
+If you are using the @code{desktop} package, previews will remain from
+one session to the next as long as you don't kill your buffer.  If you
+are using XEmacs, you will probably need to upgrade the package to
+the newest one; things are being fixed just as I am writing this.
+
+@node Basic modes of operation, More documentation, Getting started, Introduction
+@section Basic modes of operation
+
+@previewlatex{} has a number of methods for generating its graphics.
+Its default operation is equivalent to using the `@LaTeX{}' command from
+@AUCTeX{}.  If this happens to be a call of PDF@LaTeX{} generating
+@acronym{PDF} output (you need at least @w{@AUCTeX{} 11.51} for this),
+then Ghostscript will be called directly on the resulting @acronym{PDF}
+file.  If a @acronym{DVI} file gets produced, first Dvips and then
+Ghostscript get called by default.
+
+The image type to be generated by Ghostscript can be configured with
+
+@example
+@kbd{M-x} customize-variable @kbd{RET} preview-image-type @kbd{RET}
+@end example
+@vindex preview-image-type
+
+@noindent
+The default is @samp{png} (the most efficient image type).  A special
+setting is @samp{dvipng} in case you have the @samp{dvipng}
+@cindex Using dvipng
+@pindex dvipng
+program installed.  In this case, @samp{dvipng} will be used for
+converting @acronym{DVI} files and Ghostscript (with a @samp{PNG}
+device) for converting @acronym{PDF} files.  @samp{dvipng} is much
+faster than the combination of Dvips and Ghostscript.  You can get
+downloads, access to its @acronym{CVS} archive and further information
+from its @uref{http://savannah.nongnu.org/projects/dvipng, project
+site}.
+
+@node More documentation, Availability, Basic modes of operation, Introduction
+@section More documentation
+After the installation, documentation in the form of 
+@ifinfo
+@ifclear rawfile
+this
+@end ifclear
+@ifset rawfile
+an
+@end ifset
+@end ifinfo
+@ifnotinfo
+an
+@end ifnotinfo
+info manual will be available.  You can access it with the standalone
+info reader with
+
+@example
+info preview-latex
+@end example
+
+@noindent
+or by pressing @kbd{C-h i d m preview-latex @key{RET}} in Emacs.  Once
+@previewlatex{} is activated, you can instead use @kbd{C-c C-p
+@key{TAB}} (or the menu entry @samp{Preview/Read documentation}).
+
+Depending on your installation, 
+@ifnottex
+a printable 
+@end ifnottex
+@iftex
+this printed
+@end iftex
+manual may also be available in the form of @file{preview-latex.dvi} or
+@file{preview-latex.ps}.
+
+Detailed documentation for the @LaTeX{} style used for extracting the
+preview images is placed in @file{preview.dvi} in a suitable directory
+during installation; on typical teTeX-based systems,
+
+@example
+texdoc preview
+@end example
+
+@noindent
+will display it.
+
+@node  Availability, Contacts, More documentation, Introduction
+@section Availability
+@cindex Download
+@cindex @sc{git} access
+
+The @previewlatex{} project is now part of @AUCTeX{} and accessible as
+part of the @uref{http://savannah.gnu.org/projects/auctex,@AUCTeX{}
+project page}.  You can get its files from the
+@uref{ftp://ftp.gnu.org/pub/gnu/auctex,@AUCTeX{} download area}.  As of
+@w{@AUCTeX{} 11.81}, @previewlatex{} should already be integrated into
+@AUCTeX{}, so no separate download will be necessary.
+
+You will also find @file{.rpm} files there for Fedora and possibly
+SuSE. Anonymous @acronym{Git} is available as well.
+
+@node  Contacts,  , Availability, Introduction
+@section Contacts
+@cindex Contacts
+@cindex Mailing list
+
+Bug reports should be sent by using @kbd{M-x preview-report-bug
+@key{RET}}, as this will fill in a lot of information interesting to
+us.  If the installation fails (but this should be a rare event), report
+bugs to @email{bug-auctex@@gnu.org}.
+
+There is a general discussion list for @AUCTeX{} which also
+covers @previewlatex{}, look at
+@uref{http://lists.gnu.org/mailman/listinfo/auctex}.  For more
+information on the mailing list, send a message with just the word
+``help'' as subject or body to @email{auctex-request@@gnu.org}.  For the
+developers, there is the @email{auctex-devel@@gnu.org} list; it would
+probably make sense to direct feature requests and questions about
+internal details there.  There is a low-volume read-only announcement
+list available to which you can subscribe by sending a mail with
+``subscribe'' in the subject to @email{info-auctex-request@@gnu.org}.
+
+Offers to support further development will be appreciated.  If you want
+to show your appreciation with a donation to the main developer, you can
+do so via PayPal to @email{dak@@gnu.org}, and of course you can arrange
+for service contracts or for added functionality.  Take a look at the
+@file{TODO} list for suggestions in that area.
