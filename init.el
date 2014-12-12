@@ -1,3 +1,9 @@
+;; http://www.masteringemacs.org/article/whats-new-in-emacs-24-4
+
+(custom-set-variables
+ '(load-prefer-newer t)
+ )
+(electric-indent-mode nil)
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
 (setq win32-system (eq window-system 'w32))
 
