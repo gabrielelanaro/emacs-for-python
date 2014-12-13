@@ -1,10 +1,24 @@
-;; http://www.masteringemacs.org/article/whats-new-in-emacs-24-4
 
 (custom-set-variables
  '(load-prefer-newer t)
  '(epy-load-yasnippet-p t)
  )
-;; (electric-indent-mode nil)
+
+;; AuCTeX Setups
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+; (setq-default TeX-master nil)
+(custom-set-variables
+'(TeX-PDF-mode t)
+'(TeX-master nil)
+'(TeX-source-correlate-method (quote synctex))
+'(TeX-source-correlate-mode t)
+'(TeX-source-correlate-start-server (quote ask)))
+
+
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
 (setq win32-system (eq window-system 'w32))
 
@@ -805,19 +819,6 @@ ov)
 (if (not (functionp 'rope-before-save-actions))
     (defun rope-before-save-actions ())
 )
-
-;; AuCTeX Setups
-
-
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-; (setq-default TeX-master nil)
-(custom-set-variables
-'(TeX-PDF-mode t)
-'(TeX-master nil)
-'(TeX-source-correlate-method (quote synctex))
-'(TeX-source-correlate-mode t)
-'(TeX-source-correlate-start-server (quote ask)))
 
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)
