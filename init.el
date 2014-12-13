@@ -2,8 +2,9 @@
 
 (custom-set-variables
  '(load-prefer-newer t)
+ '(epy-load-yasnippet-p t)
  )
-(electric-indent-mode nil)
+;; (electric-indent-mode nil)
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
 (setq win32-system (eq window-system 'w32))
 
@@ -189,7 +190,7 @@
         ((progn
            (backward-char 1)
            (looking-at "\\s\)")) (forward-char 1) (backward-list 1))))
-(define-key global-map (kbd "C-x p") 'goto-matching-paren) ; Bind to C-z p
+(define-key global-map (kbd "C-x p p") 'goto-matching-paren) ; Bind to C-z p
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun unfill-paragraph ()
@@ -330,6 +331,10 @@
 (add-hook 'python-mode-hook 'imenu-add-defs-to-menubar)
 (global-set-key [S-mouse-3] 'imenu)
 
+(require 'highlight-indentation)
+(add-hook 'python-mode-hook 'highlight-indentation)
+(add-hook 'python-mode-hook (lambda ()(setq skeleton-pair nil)))
+
 ;;; Set some more
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -356,6 +361,12 @@
 
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)))
 (add-hook 'python-mode-hook '(lambda () (define-key python-mode-map (kbd "C-c C-y") 'python-add-pubreakpoint)))
+
+(add-hook 'python-mode-hook '(lambda ()
+                               (define-key python-mode-map (kbd "C-c C-y") 'python-add-pubreakpoint)
+                               (electric-indent-local-mode -1)
+                               (local-set-key (kbd "C-j") #'newline-and-indent)
+                               ))
 
 (defun my-ttt ()
   (erase-buffer)

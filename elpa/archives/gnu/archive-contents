@@ -5,9 +5,9 @@
        ((:keywords "tools" "processes" "convenience")
 	(:url . "https://github.com/leoliu/ack-el"))])
  (ada-mode .
-	   [(5 1 6)
+	   [(5 1 7)
 	    ((wisi
-	      (1 0 6))
+	      (1 1 0))
 	     (cl-lib
 	      (0 4))
 	     (emacs
@@ -186,7 +186,7 @@
 	   ((:url . "http://elpa.gnu.org/packages/flylisp.html")
 	    (:keywords))])
  (ggtags .
-	 [(0 8 7)
+	 [(0 8 8)
 	  ((emacs
 	    (24))
 	   (cl-lib
@@ -246,6 +246,11 @@
 	 nil "jump to previous insertion points" single
 	 ((:url . "http://elpa.gnu.org/packages/jumpc.html")
 	  (:keywords))])
+ (let-alist .
+	    [(1 0)
+	     nil "Easily let-bind values of an assoc-list by their names" single
+	     ((:url . "http://elpa.gnu.org/packages/let-alist.html")
+	      (:keywords "extensions" "lisp"))])
  (lex .
       [(1 1)
        nil "Lexical analyser construction" tar
@@ -326,7 +331,7 @@
 	    ((:url . "http://elpa.gnu.org/packages/omn-mode.html")
 	     (:keywords))])
  (org .
-      [(20141117)
+      [(20141208)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
@@ -393,9 +398,20 @@
 	   nil "Implementation of Sokoban for Emacs." tar
 	   ((:keywords "games")
 	    (:url . "http://elpa.gnu.org/packages/sokoban.html"))])
+ (svg .
+      [(0 1)
+       ((emacs
+	 (25)))
+       "svg image creation functions" single
+       ((:url . "http://elpa.gnu.org/packages/svg.html")
+	(:keywords "image"))])
  (svg-clock .
 	    [(0 5)
-	     nil "Analog clock using Scalable Vector Graphics" single
+	     ((svg
+	       (0 1))
+	      (emacs
+	       (25 0)))
+	     "Analog clock using Scalable Vector Graphics" single
 	     ((:url . "http://elpa.gnu.org/packages/svg-clock.html")
 	      (:keywords "demo" "svg" "clock"))])
  (tNFA .
@@ -461,7 +477,7 @@
 	      ((:url . "http://elpa.gnu.org/packages/windresize.html")
 	       (:keywords "window"))])
  (wisi .
-       [(1 0 6)
+       [(1 1 0)
 	((cl-lib
 	  (0 4))
 	 (emacs
