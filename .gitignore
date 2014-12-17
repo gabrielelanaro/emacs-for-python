@@ -17,3 +17,4 @@ commit.txt
 .places
 elpa/*/*autoloads.el
 elpa/archives
+url/
