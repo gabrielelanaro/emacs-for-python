@@ -4,8 +4,8 @@
 
 ;; Author: Tomohiro Matsuyama <tomo@cx4a.org>
 ;; Keywords: lisp
-;; Version: 20141120.1742
-;; X-Original-Version: 0.5.1
+;; Version: 20141215.349
+;; X-Original-Version: 0.5.2
 ;; Package-Requires: ((cl-lib "0.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@
 
 (require 'cl-lib)
 
-(defconst popup-version "0.5.1")
+(defconst popup-version "0.5.2")
 
 
 
@@ -1385,8 +1385,8 @@ If `INITIAL-INDEX' is non-nil, this is an initial index value for
             (popup-jump menu cursor)
           (popup-draw menu))
         (when initial-index
-          (popup-select menu
-                        (min (- (length list) 1) initial-index)))
+          (dotimes (_i (min (- (length list) 1) initial-index))
+            (popup-next menu)))
         (if nowait
             menu
           (popup-menu-event-loop menu keymap fallback
