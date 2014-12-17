@@ -1,10 +1,10 @@
 ;;; auctex-lua-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-
+(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
 
-;;;### (autoloads (LaTeX-edit-Lua-code-start LaTeX-Lua-environments)
-;;;;;;  "auctex-lua" "auctex-lua.el" (21481 36471 923877 44000))
+;;;### (autoloads nil "auctex-lua" "auctex-lua.el" (21649 17416 814661
+;;;;;;  867000))
 ;;; Generated autoloads from auctex-lua.el
 
 (defvar LaTeX-Lua-environments '("luacode" "luacode*") "\
@@ -19,16 +19,9 @@ Place Lua code in a separate buffer in `lua-mode'.
 
 ;;;***
 
-;;;### (autoloads nil nil ("auctex-lua-pkg.el") (21481 36472 93555
-;;;;;;  345000))
-
-;;;***
-
-(provide 'auctex-lua-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
-;; coding: utf-8
 ;; End:
 ;;; auctex-lua-autoloads.el ends here

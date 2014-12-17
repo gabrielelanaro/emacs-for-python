@@ -4,6 +4,13 @@
  '(epy-load-yasnippet-p t)
  )
 
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
+
 ;; AuCTeX Setups
 ;(load "auctex.el" nil t t)
 ;(load "preview-latex.el" nil t t)
