@@ -14,6 +14,8 @@
 ;; AuCTeX Setups
 ;(load "auctex.el" nil t t)
 ;(load "preview-latex.el" nil t t)
+;(require 'auctex-latexmk)
+(auctex-latexmk-setup)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -25,6 +27,9 @@
 '(TeX-source-correlate-mode t)
 '(TeX-source-correlate-start-server (quote ask)))
 
+(require 'cursor-chg)
+(change-cursor-mode 1) ; On for overwrite/read-only/input mode
+(toggle-cursor-type-when-idle 1) ; On when idle
 
 (setq windowed-system (or (eq window-system 'x) (eq window-system 'w32)))
 (setq win32-system (eq window-system 'w32))

@@ -1,4 +1,9 @@
 (1
+ (ansible-doc .
+	      [(0 2)
+	       ((emacs
+		 (24 1)))
+	       "Ansible documentation Minor Mode" single])
  (zone-matrix .
 	      [(0 0 1)
 	       nil "Matrix themed Zone mode" tar])
@@ -80,6 +85,9 @@
  (wxwidgets-help .
 		 [(0 0 3)
 		  nil "Look up wxWidgets API by using local html manual." tar])
+ (wsd-mode .
+	   [(0 1 0)
+	    nil "Emacs major-mode for www.websequencediagrams.com" tar])
  (ws-trim .
 	  [(1 4)
 	   nil "Tools and minor mode to trim whitespace on text lines" single])
@@ -681,7 +689,7 @@
 		   (0 0 2)))
 		 "Major mode for dealing with sprint.ly" single])
  (spotify .
-	  [(0 2)
+	  [(0 3)
 	   nil "Control the spotify application from emacs" single])
  (speck .
 	[(2010 5 25)
@@ -1917,7 +1925,7 @@
 	       [(1 0 0)
 		nil "collection of faces for markup language modes" single])
  (markdown-toc .
-	       [(0 0 6)
+	       [(0 0 7)
 		((markdown-mode
 		  (2 0))
 		 (dash
@@ -3009,7 +3017,7 @@
 			      (24 1)))
 			    "Change mode line color with Flycheck status" single])
  (flycheck-cask .
-		[(0 2)
+		[(0 2 1)
 		 ((emacs
 		   (24 1))
 		  (flycheck
@@ -4234,7 +4242,7 @@
 		      (1 2 0)))
 		    "Yasnippets for AngularJS" tar])
  (android-mode .
-	       [(0 3 0)
+	       [(0 4 0)
 		nil "Minor mode for Android application development" single])
  (anaphora .
 	   [(1 0 0)
@@ -4256,7 +4264,7 @@
 		  (1 11 5)))
 		"Space align various Clojure forms" single])
  (alchemist .
-	    [(0 10 0)
+	    [(0 10 1)
 	     ((emacs
 	       (24)))
 	     "Elixir tooling integration into emacs" tar])
