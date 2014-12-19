@@ -394,6 +394,15 @@
                                (local-set-key (kbd "C-j") #'newline-and-indent)
                                ))
 
+(defun tex-add-russian-dash ()
+  (interactive)
+  (insert "~---"))
+
+;(add-hook 'late-mode-hook (lambda ()
+;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
+
+(global-set-key (kbd "C-=") 'tex-add-russian-dash)
+
 (defun my-ttt ()
   (erase-buffer)
   (face-remap-add-relative 'default '(
