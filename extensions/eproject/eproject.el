@@ -974,42 +974,6 @@ for all project files (nil/t).")
     (select-frame-set-input-focus f)
     ))
 
-
-(defun prj-option-in (arg fun)
-  (let ((old-dir default-directory))
-    (cd arg)
-    (save-excursion (funcall fun))
-    (cd old-dir)))
-
-(defun prj-option-virt (arg fun)
-  (virtualenv-activate arg)
-  (funcall fun)
-  (virtualenv-deactivate))
-
-(defun prj-option-workon (arg fun)
-  (virtualenv-workon arg)
-  (funcall fun)
-  (virtualenv-deactivate))
-
-;;(devar prj-run-options '(("in" prj-option-in) ("virt" prj-option-virt) ("workon" prj-option-workon)))
-
-;; Defining prj-run-new
-;; special case of the -e
-;; wrap all in a cd new dir cd old dir
-;; TODO: for each of the option
-;; - match the option
-;; - apply partially the option to the context
-;; - save the resulting context in a list
-;;
-;; then
-;; apply the multiple contexts to the command
-(defun prj-run-new (cmd)
-  (dolist (opt prj-run-options)
-    (if string-match (concat "^" (first opt) cmd)
-      (add-to-list contexts )))
-
-  )
-
 (defun prj-run (cmd)
   (cond ((string-match "^-e +" cmd)
          (setq cmd (read (substring cmd (match-end 0))))
