@@ -5,23 +5,65 @@
  )
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+; list the packages you want
+(setq package-list '(auctex magit
+			    auctex-latexmk
+			    ace-jump-mode
+			    color-theme
+			    cursor-chg
+			    d-mode
+			    ace-jump-mode
+			    ace-jump-buffer
+			    ace-jump-zap
+			    auto-complete
+			    auto-complete-auctex
+					; auto-dictionary-readme.txt
+					; ediprolog
+					; eide
+					; enclose
+			    fiplr
+			    gh
+			    goto-last-change
+			    jedi
+			    lua-mode
+			    magit-find-file
+			    magit-push-remote
+			    magit-gh-pulls
+			    markdown-mode+
+			    markdown-mode
+			    python-environment
+			    s
+			    w3m
+			    yasnippet
+))
+
+; list the repositories containing them
+(setq package-archives '(("elpa" . "http://tromey.com/elpa/")
+			 ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+
+; activate all the packages (in particular autoloads)
 (package-initialize)
 
-;; AuCTeX Setups
-;(load "auctex.el" nil t t)
-;(load "preview-latex.el" nil t t)
-;(require 'auctex-latexmk)
+; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(require 'auctex-latexmk)
 (auctex-latexmk-setup)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 ; (setq-default TeX-master nil)
 (custom-set-variables
-'(TeX-PDF-mode t)
+; '(TeX-install-font-lock 'tex-font-setup)
 '(TeX-master nil)
 '(TeX-source-correlate-method (quote synctex))
 '(TeX-source-correlate-mode t)
@@ -252,19 +294,9 @@
 
 (require 'window-numbering)
 (window-numbering-mode 1)
-
 (require 'ido)
-
-;;(require 'dired+)
-;;(require 'highlight-80+)
-;;(require 'window-numbering)
-;;(window-numbering-mode 1)
-;;(setq window-numbering-assign-func
-;;      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
 (require 'highlight-80+)
-
-;(require 'python-mode)
-;(require 'ipython)
+(highlight-80+-mode)
 
 
 (add-to-list 'auto-mode-alist '("\\.zcml\\'" . xml-mode))
@@ -787,38 +819,7 @@ ov)
                             ))
 ;;-------------------------------------------------------------
 
-
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-initialize)
-
-; (package-activated-list)
-; (ace-jump-buffer ace-jump-mode auctex-latexmk auctex
-;  auctex-lua auto-complete-auctex cdlatex color-theme
-;  d-mode dash distinguished-theme fiplr goto-last-change
-;  grizzl jedi auto-complete epc ctable concurrent lua-mode
-;  magit-gh-pulls gh logito magit-push-remote magit git-rebase-mode
-;  git-commit-mode markdown-mode+ markdown-mode pcache popup
-;  python-environment deferred s smex yasnippet)
-
-;(unless (package-installed-p 'scala-mode2)
-;  (package-refresh-contents) (package-install 'scala-mode2))
 (put 'erase-buffer 'disabled nil)
-;; (defun packages-reinstall (&optional arg)
-;;   "Reinstall activated packages."
-;;   (interactive "p")
-;;   (mapcar
-;;    (lambda (package)
-;;      (when (package-installed-p package)
-;;        (package-uninstall))
-;;      (package-install package)
-;;    )
-;;    package-activated-list
-;;    )
-;; )
 
 (require 'compile)
 (add-to-list
