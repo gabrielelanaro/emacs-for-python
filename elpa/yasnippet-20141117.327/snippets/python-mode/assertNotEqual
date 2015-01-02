@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: assertNotEqual
-# key: ane
-# group: testing
-# --
-self.assertNotEqual($1, $2)

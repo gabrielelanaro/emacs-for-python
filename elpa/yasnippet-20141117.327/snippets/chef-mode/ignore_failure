@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: ignore_failure
-# key: ignore_failure
-# --
-ignore_failure ${0:true}

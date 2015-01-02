@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: debug fmt.Printf
-# key: dd
-# --
-fmt.Printf("%+v\n", $1) // output for debug
-$0

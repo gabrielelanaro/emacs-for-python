@@ -1,1 +1,0 @@
-;; AUCTeX style/ and auto/ directories should not appear in load path.
