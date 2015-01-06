@@ -213,7 +213,7 @@
 ;;  recentf-max-menu-items 20
   )
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-(recentf-update-menu-hook)
+;;(recentf-update-menu-hook)
 
 (if
     windowed-system
@@ -621,13 +621,21 @@
   (local-set-key (kbd "C-4") 'dollar-equation)
   )
 
+(defun turn-off-auto-fill ()
+  (auto-fill-mode 0))
+
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
-(add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'diff-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'latex-mode-hook 'turn-off-auto-fill)
+(add-hook 'latex-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
+
+(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
+(add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
