@@ -934,3 +934,9 @@ ov)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
 (global-set-key "\C-x\ \C-m" 'magit-status)
+
+(setq ring-bell-function
+      (lambda ()
+	(unless (memq this-command
+		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
+	  (ding))))
