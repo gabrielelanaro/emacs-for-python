@@ -64,10 +64,20 @@
 ; (setq-default TeX-master nil)
 (custom-set-variables
 ; '(TeX-install-font-lock 'tex-font-setup)
-'(TeX-master nil)
-'(TeX-source-correlate-method (quote synctex))
-'(TeX-source-correlate-mode t)
-'(TeX-source-correlate-start-server (quote ask)))
+ '(TeX-master nil)
+ '(TeX-auto-save t)
+ '(TeX-source-correlate-method (quote synctex))
+ '(TeX-source-correlate-mode t)
+ '(TeX-source-correlate-start-server (quote ask)))
+
+
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
 
 (require 'cursor-chg)
 (setq curchg-default-cursor-color "LightSkyBlue1")
@@ -116,7 +126,7 @@
 (add-to-list 'load-path ".")
 
 ;; Keep emacs Custom-settings in separate file
-(if windowed-system
+(if t ;; windowed-system
     (progn
       (tool-bar-mode 0)
       (scroll-bar-mode 0)
@@ -157,7 +167,7 @@
 (load-file (expand-file-name "epy/epy-init.el" dotfiles-dir))
 
 (if
-    windowed-system
+    t ;;windowed-system
     (setq linum-format "%4d ")
   (progn
     (setq linum-format "%3d ")
@@ -216,7 +226,7 @@
 (recentf-update-menu-hook)
 
 (if
-    windowed-system
+    t ;;windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
@@ -431,7 +441,7 @@
 
 (defun tex-add-russian-dash ()
   (interactive)
-  (insert "~---"))
+  (insert "~--- "))
 
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
@@ -464,7 +474,7 @@
 (load custom-file)
 
 (if
-    windowed-system
+    t   ;; windowed-system
     (progn
       ;; This script is set for a `text-scale-mode-step` of `1.04`
       (setq text-scale-mode-step 1.2)
@@ -620,6 +630,9 @@
   (interactive)
   (local-set-key (kbd "C-4") 'dollar-equation)
   )
+
+(defun turn-off-auto-fill ()
+  (auto-fill-mode 0))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
