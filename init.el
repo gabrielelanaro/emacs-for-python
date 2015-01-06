@@ -59,24 +59,23 @@
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
 
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
 ; (setq-default TeX-master nil)
 (custom-set-variables
 ; '(TeX-install-font-lock 'tex-font-setup)
- '(TeX-master nil)
  '(TeX-auto-save t)
+ '(TeX-parse-self t)
+ '(TeX-master nil)
+ '(TeX-save-query nil)
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server (quote ask)))
 
-
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
-(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(add-hook 'LaTeX-mode-hook 'turn-off-auto-fill)
+(add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
+
 (setq reftex-plug-into-AUCTeX t)
 
 (require 'cursor-chg)
@@ -223,7 +222,6 @@
 ;;  recentf-max-menu-items 20
   )
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-(recentf-update-menu-hook)
 
 (if
     t ;;windowed-system
@@ -637,10 +635,12 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 
-(add-hook 'latex-mode-hook 'turn-off-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'diff-mode-hook 'turn-on-visual-line-mode)
+(add-hook 'latex-mode-hook 'turn-off-auto-fill)
+(add-hook 'latex-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'latex-mode-hook 'turn-on-flyspell)
+
 ;;(add-hook 'latex-mode-hook 'highlight-changes-mode)
 
 (global-set-key (kbd "C-<menu>") 'toggle-input-method)
@@ -938,3 +938,9 @@ ov)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
 (global-set-key "\C-x\ \C-m" 'magit-status)
+
+(setq ring-bell-function
+      (lambda ()
+	(unless (memq this-command
+		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
+	  (ding))))
