@@ -59,15 +59,16 @@
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
 
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
 ; (setq-default TeX-master nil)
 (custom-set-variables
 ; '(TeX-install-font-lock 'tex-font-setup)
-'(TeX-master nil)
-'(TeX-source-correlate-method (quote synctex))
-'(TeX-source-correlate-mode t)
-'(TeX-source-correlate-start-server (quote ask)))
+ '(TeX-auto-save t)
+ '(TeX-parse-self t)
+ '(TeX-master nil)
+ '(TeX-save-query nil)
+ '(TeX-source-correlate-method (quote synctex))
+ '(TeX-source-correlate-mode t)
+ '(TeX-source-correlate-start-server (quote ask)))
 
 (require 'cursor-chg)
 (setq curchg-default-cursor-color "LightSkyBlue1")
