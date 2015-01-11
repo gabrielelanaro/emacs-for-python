@@ -4,7 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
+ '(TeX-auto-save t)
  '(TeX-master nil)
+ '(TeX-parse-self t)
+ '(TeX-save-query nil)
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server (quote ask))
@@ -20,12 +23,14 @@
    (quote
     ("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "024b0033a950d6a40bbbf2b1604075e6c457d40de0b52debe3ae994f88c09a4a" "5ea08b040c5515152d2bcae79a05ae5c98339b5729c359d02437bf4cc567cca5" "e200f481e31ceee929079ad8a6f629e45bdad45e5ac27101c89d55f4827071db" "e885ba299f1f0f0927bc8b10136a704c1ec05c7d04b7011559439dd9e56c56ab" "6252dbc43eefee0edc82ef000659ece4f77c4c989b4571d8d23485efc5e9ef4d" "d5af8f6ee92912a7bac8185ed447e1e825252728a1ebd1d41eb2da660d27ad62" default)))
  '(default-input-method "russian-computer")
+ '(epy-load-yasnippet-p t)
  '(fci-rule-color "#073642")
  '(fringe-mode 0 nil (fringe))
  '(ispell-dictionary "english")
+ '(load-prefer-newer t)
  '(minibuffer-auto-raise t)
  '(minibuffer-frame-alist (quote ((width . 80) (height . 1))))
- '(python-shell-interpreter "python2")
+ '(python-shell-interpreter "python3")
  '(rw-hunspell-default-dictionary "russian")
  '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
  '(rw-hunspell-make-dictionary-menu t)

@@ -160,7 +160,7 @@
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
-    (setenv "PYMACS_PYTHON" "python2")
+    (setenv "PYMACS_PYTHON" "python3")
 )
 
 (load-file (expand-file-name "epy/epy-init.el" dotfiles-dir))
@@ -597,20 +597,6 @@
   (insert "\\")
 )
 
-(defun ask-user-latex-command (cmd)
-  "Prompt user to enter a string, with input history support."
-  (interactive (list (read-string "LaTeX Command:")) )
-  ;; (message "String is 「%s」." cmd)
-  (insert "\\")
-  (insert cmd)
-  (insert "{}")(backward-char)
-  )
-
-(defun latex-set-b-slash-hack ()
-  (interactive)
-  (local-set-key (kbd "\\") 'ask-user-latex-command)
-  )
-
 ;; (set-background-color        "wheat3") ; Set emacs bg color
 
 ;;(toggle-fullscreen)
@@ -769,11 +755,10 @@
 
 (defun latex-12-hacks ()
   (latex-dollar-hack)
-  (latex-set-b-slash-hack)
-  ;; (add-hook 'post-command-hook 'auto-language-environment)
+  (add-hook 'post-command-hook 'auto-language-environment)
   )
 
-;;(add-hook 'latex-mode-hook 'latex-12-hacks)
+(add-hook 'LaTeX-mode-hook 'latex-12-hacks)
 
 (global-set-key (kbd "C-`") 'linum-mode)
 (put 'scroll-left 'disabled nil)
