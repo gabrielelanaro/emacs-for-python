@@ -608,6 +608,7 @@
   (set-input-method-english)
   (insert "$$")
   (backward-char)
+  (set-input-method-english)
 )
 
 (defun latex-dollar-hack ()
@@ -710,6 +711,7 @@
 
 (defun auto-language-environment ()
   (interactive)
+  ;; (print last-command)
   (cond
    (
     (and
@@ -721,6 +723,9 @@
      )
     t
     )
+   ((eq this-command 'dollar-equation)
+    (set-input-method-english)
+    t)
    (
     (or
      (eq this-command 'toggle-input-method)
