@@ -617,6 +617,7 @@
   )
 
 (defun turn-off-auto-fill ()
+  (interactive)
   (auto-fill-mode 0))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
