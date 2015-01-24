@@ -444,7 +444,23 @@
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
 
+(defun tex-add-verb-environmant ()
+  (interactive)
+  (open-next-line 1)
+  (insert "{\\tt%")
+  (open-next-line 1)(beginning-of-line)
+  (insert "\\begin{verbatim}")
+  (open-next-line 1)
+  (open-next-line 1)
+  (insert "\\end{verbatim}%")
+  (open-next-line 1)(beginning-of-line)
+  (insert "}%")
+  (backward-char 2)
+  (forward-line -2)
+  )
+
 (global-set-key (kbd "C-=") 'tex-add-russian-dash)
+(global-set-key (kbd "C-c C-=") 'tex-add-verb-environmant)
 
 (defun my-ttt ()
   (erase-buffer)
