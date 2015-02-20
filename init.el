@@ -444,7 +444,7 @@
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
 
-(defun tex-add-verb-environmant ()
+(defun tex-add-verb-environment ()
   (interactive)
   (open-next-line 1)
   (insert "{\\tt%")
@@ -460,7 +460,7 @@
   )
 
 (global-set-key (kbd "C-=") 'tex-add-russian-dash)
-(global-set-key (kbd "C-c C-=") 'tex-add-verb-environmant)
+(global-set-key (kbd "C-c C-=") 'tex-add-verb-environment)
 
 (defun my-ttt ()
   (erase-buffer)
@@ -951,3 +951,17 @@ ov)
 	(unless (memq this-command
 		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
 	  (ding))))
+
+;; Multitran dictionary lookup
+(defun multitran-lookup-english (keyword)
+  (interactive (list (thing-at-point 'word)))
+  (switch-to-buffer-other-window
+   (eww
+   ;; (w3m-goto-url
+    (concat "http://multitran.ru/c/m.exe?l1=1&s=" keyword "&%CF%EE%E8%F1%EA=%CF%EE%E8%F1%EA")
+    )
+   )
+  ;;(run-at-time 4 nil 'iconify-frame)
+  )
+
+(global-set-key (kbd "C-c m") 'multitran-lookup-english)
