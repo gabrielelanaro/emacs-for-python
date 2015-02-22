@@ -89,6 +89,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Fira Mono" :foundry "unknown" :slant normal :weight normal :height 117 :width normal))))
+ '(font-latex-verbatim-face ((t (:inherit Fira\ Mono :foreground "burlywood"))))
  '(minibuffer-prompt ((t (:foreground "CadetBlue1"))))
  '(mode-line ((t (:background "gray75" :foreground "black" :weight normal :height 0.5 :family "Droid Sans"))))
  '(mode-line-highlight ((t (:background "gold"))))

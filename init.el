@@ -728,7 +728,7 @@
 
 (defun auto-language-environment ()
   (interactive)
-  ;; (print last-command)
+  ;; (print last-command this-command)
   (cond
    (
     (and
