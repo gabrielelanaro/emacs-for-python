@@ -47,7 +47,7 @@
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			 ("melpa" . "http://melpa.milkbox.net/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ("marmalade" . "https://marmalade-repo.org/packages/")))
 
 ; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -896,7 +896,9 @@ ov)
 ; '(rw-hunspell-use-rw-ispell t)
                                         ;)
 
-(setq ispell-program-name "aspell")
+;(setq ispell-program-name "c:/GNU/bin/aspell --data-dir=C:/GNU/data")
+(setq ispell-program-name "c:/GNU/bin/aspell")
+;(setq ispell-program-name "aspell")
 (setq ispell-personal-dictionary "C:/GNU/custom.ispell")
 (require 'ispell)
 
