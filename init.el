@@ -1,8 +1,15 @@
+(if (eq window-system 'w32)
+    (progn
+      (if (file-directory-p "c:/GNU/bin")
+          (progn
+            (add-to-list 'exec-path "c:/GNU/bin")
+            )
+        )
+      (setq url-proxy-services '(("no_proxy" . "172.27.24.")
+                                 ("http" . "titan.cyber:ghbdtnbr@172.27.100.5:4444")))
 
-(setq url-proxy-services '(("no_proxy" . "172.27.24.")
-                          ("http" . "titan.cyber:ghbdtnbr@172.27.100.5:4444")))
-(if (file-directory-p "c:/GNU")
-      (add-to-list 'exec-path "c:/GNU/bin"))
+      )
+  )
 
 (custom-set-variables
  '(load-prefer-newer t)
@@ -41,6 +48,9 @@
 			    s
 			    w3m
 			    yasnippet
+			    rw-ispell
+			    rw-hunspell
+			    rw-language-and-country-codes
 ))
 
 ; list the repositories containing them
@@ -449,7 +459,7 @@
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
 
-(defun tex-add-verb-environmant ()
+(defun tex-add-verb-environment ()
   (interactive)
   (open-next-line 1)
   (insert "{\\tt%")
@@ -465,7 +475,7 @@
   )
 
 (global-set-key (kbd "C-=") 'tex-add-russian-dash)
-(global-set-key (kbd "C-c C-=") 'tex-add-verb-environmant)
+(global-set-key (kbd "C-c C-=") 'tex-add-verb-environment)
 
 (defun my-ttt ()
   (erase-buffer)
@@ -733,7 +743,7 @@
 
 (defun auto-language-environment ()
   (interactive)
-  ;; (print last-command)
+  ;; (print last-command this-command)
   (cond
    (
     (and
@@ -812,8 +822,6 @@
   (scroll-lock-move-to-column scroll-lock-temporary-goal-column)
   )
 
-;(setq-default ispell-program-name "aspell")
-
 (load "server")
 (unless (server-running-p) (server-start))
 
@@ -870,42 +878,41 @@ ov)
     (defun rope-before-save-actions ())
 )
 
-;(require 'rw-language-and-country-codes)
-;(require 'rw-ispell)
-;(require 'rw-hunspell)
-;(add-to-list 'ispell-local-dictionary-alist  '("russian"
-;        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
-;        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
-;        "[-]"  nil ("-d" "ru_RU") nil utf-8)
-;)
+(require 'rw-language-and-country-codes)
+(require 'rw-ispell)
+(require 'rw-hunspell)
+(add-to-list 'ispell-local-dictionary-alist  '("russian"
+        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[-]"  nil ("-d" "ru_RU") nil utf-8)
+)
 
-;(add-to-list 'ispell-local-dictionary-alist  '("english"
-;       "[A-Za-z]" "[^A-Za-z]"
-;       "[']"  nil ("-d" "en_US") nil iso-8859-1)
+(add-to-list 'ispell-local-dictionary-alist  '("english"
+       "[A-Za-z]" "[^A-Za-z]"
+       "[']"  nil ("-d" "en_US") nil iso-8859-1)
                                         ;)
 
-;(setq ispell-program-name "hunspell")
-;(setq ispell-really-aspell nil
-;      ispell-really-hunspell t)
-;(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
-;;; The following is set via custom
-;(custom-set-variables
-; '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
-; '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
-; '(rw-hunspell-make-dictionary-menu t)
-; '(rw-hunspell-use-rw-ispell t)
+(setq ispell-program-name "hunspell")
+(setq ispell-really-aspell nil
+      ispell-really-hunspell t)
+(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
+;; The following is set via custom
+(custom-set-variables
+ '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t)
                                         ;)
 
-;(setq ispell-program-name "c:/GNU/bin/aspell --data-dir=C:/GNU/data")
-(setq ispell-program-name "c:/GNU/bin/aspell")
+;(setq ispell-program-name "c:/GNU/bin/aspell")
 ;(setq ispell-program-name "aspell")
-                                        ;(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
+;(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
+
 ;; (setq ispell-extra-args
 ;;       '("--data-dir" "C:/GNU/data"
 ;;         "--dict-dir" "C:/GNU/dict"
 ;;         )
 ;;       )
-
 
 (require 'ispell)
 
@@ -970,3 +977,17 @@ ov)
 	(unless (memq this-command
 		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
 	  (ding))))
+
+;; Multitran dictionary lookup
+(defun multitran-lookup-english (keyword)
+  (interactive (list (thing-at-point 'word)))
+  (switch-to-buffer-other-window
+   (eww
+   ;; (w3m-goto-url
+    (concat "http://multitran.ru/c/m.exe?l1=1&s=" keyword "&%CF%EE%E8%F1%EA=%CF%EE%E8%F1%EA")
+    )
+   )
+  ;;(run-at-time 4 nil 'iconify-frame)
+  )
+
+(global-set-key (kbd "C-c m") 'multitran-lookup-english)
