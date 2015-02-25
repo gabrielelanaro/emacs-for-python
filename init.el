@@ -1,8 +1,16 @@
 
-(setq url-proxy-services '(("no_proxy" . "172.27.24.")
-                          ("http" . "titan.cyber:ghbdtnbr@172.27.100.5:4444")))
-(add-to-list 'exec-path "C:/GNU/bin/")
+(if (eq window-system 'w32)
+    (progn
+      (if (file-directory-p "c:/GNU/bin")
+          (progn
+            (add-to-list 'exec-path "c:/GNU/bin")
+            )
+        )
+      (setq url-proxy-services '(("no_proxy" . "172.27.24.")
+                                 ("http" . "titan.cyber:ghbdtnbr@172.27.100.5:4444")))
 
+      )
+  )
 
 (custom-set-variables
  '(load-prefer-newer t)
