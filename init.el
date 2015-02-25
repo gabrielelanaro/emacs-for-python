@@ -49,13 +49,16 @@
 			    s
 			    w3m
 			    yasnippet
+			    rw-ispell
+			    rw-hunspell
+			    rw-language-and-country-codes
 ))
 
 ; list the repositories containing them
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			 ("melpa" . "http://melpa.milkbox.net/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")))
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 ; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -878,36 +881,36 @@ ov)
     (defun rope-before-save-actions ())
 )
 
-;(require 'rw-language-and-country-codes)
-;(require 'rw-ispell)
-;(require 'rw-hunspell)
-;(add-to-list 'ispell-local-dictionary-alist  '("russian"
-;        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
-;        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
-;        "[-]"  nil ("-d" "ru_RU") nil utf-8)
-;)
+(require 'rw-language-and-country-codes)
+(require 'rw-ispell)
+(require 'rw-hunspell)
+(add-to-list 'ispell-local-dictionary-alist  '("russian"
+        "[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[^АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя]"
+        "[-]"  nil ("-d" "ru_RU") nil utf-8)
+)
 
-;(add-to-list 'ispell-local-dictionary-alist  '("english"
-;       "[A-Za-z]" "[^A-Za-z]"
-;       "[']"  nil ("-d" "en_US") nil iso-8859-1)
+(add-to-list 'ispell-local-dictionary-alist  '("english"
+       "[A-Za-z]" "[^A-Za-z]"
+       "[']"  nil ("-d" "en_US") nil iso-8859-1)
                                         ;)
 
-;(setq ispell-program-name "hunspell")
-;(setq ispell-really-aspell nil
-;      ispell-really-hunspell t)
-;(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
-;;; The following is set via custom
-;(custom-set-variables
-; '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
-; '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
-; '(rw-hunspell-make-dictionary-menu t)
-; '(rw-hunspell-use-rw-ispell t)
+(setq ispell-program-name "hunspell")
+(setq ispell-really-aspell nil
+      ispell-really-hunspell t)
+(setq ispell-dictionary "russian") ;"ru_RU_hunspell")
+;; The following is set via custom
+(custom-set-variables
+ '(rw-hunspell-default-dictionary "russian") ;"ru_RU_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t)
                                         ;)
 
 ;(setq ispell-program-name "c:/GNU/bin/aspell --data-dir=C:/GNU/data")
-(setq ispell-program-name "c:/GNU/bin/aspell")
+;(setq ispell-program-name "c:/GNU/bin/aspell")
 ;(setq ispell-program-name "aspell")
-(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
+;(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
 (require 'ispell)
 
 (defun fd-switch-dictionary()
