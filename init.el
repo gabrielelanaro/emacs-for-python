@@ -1,8 +1,8 @@
 
 (setq url-proxy-services '(("no_proxy" . "172.27.24.")
                           ("http" . "titan.cyber:ghbdtnbr@172.27.100.5:4444")))
-(add-to-list 'exec-path "C:/GNU/bin/")
-
+(if (file-directory-p "c:/GNU")
+      (add-to-list 'exec-path "c:/GNU/bin"))
 
 (custom-set-variables
  '(load-prefer-newer t)
@@ -896,8 +896,17 @@ ov)
 ; '(rw-hunspell-use-rw-ispell t)
                                         ;)
 
-(setq ispell-program-name "aspell")
-(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
+;(setq ispell-program-name "c:/GNU/bin/aspell --data-dir=C:/GNU/data")
+(setq ispell-program-name "c:/GNU/bin/aspell")
+;(setq ispell-program-name "aspell")
+                                        ;(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
+;; (setq ispell-extra-args
+;;       '("--data-dir" "C:/GNU/data"
+;;         "--dict-dir" "C:/GNU/dict"
+;;         )
+;;       )
+
+
 (require 'ispell)
 
 (defun fd-switch-dictionary()
