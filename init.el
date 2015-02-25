@@ -892,7 +892,8 @@ ov)
        "[']"  nil ("-d" "en_US") nil iso-8859-1)
 )
 
-(setq ispell-program-name "hunspell")
+;(setq ispell-program-name "hunspell")
+(setq ispell-program-name (executable-find "hunspell"))
 (setq ispell-really-aspell nil
       ispell-really-hunspell t)
 (setq ispell-dictionary "russian") ;"ru_RU_hunspell")
