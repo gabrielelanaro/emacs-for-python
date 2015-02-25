@@ -42,7 +42,7 @@
 ;;
 ;; ESSENTIAL: `ispell-program-name' must be set to the Hunspell program name.
 ;; ATTENTION: Hunspell is not supported by ispell.el before GNU Emacs 23.x.
-;; `ispell-dictionary' can be set, in addtion to the default dictionary.
+;; `ispell-dictionary' can be set, in addition to the default dictionary.
 ;; `ispell-local-dictionary-alist' can be set, as manual list in addition to
 ;; or overriding the automatically generated `rw-hunspell-dictionary' alist.
 ;;

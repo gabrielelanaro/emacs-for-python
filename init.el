@@ -48,16 +48,16 @@
 			    s
 			    w3m
 			    yasnippet
-			    rw-ispell
-			    rw-hunspell
-			    rw-language-and-country-codes
+			    ;rw-ispell
+			    ;rw-hunspell
+			    ;rw-language-and-country-codes
 ))
 
 ; list the repositories containing them
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			 ("melpa" . "http://melpa.milkbox.net/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ("marmalade" . "https://marmalade-repo.org/packages/")))
 
 ; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -890,7 +890,7 @@ ov)
 (add-to-list 'ispell-local-dictionary-alist  '("english"
        "[A-Za-z]" "[^A-Za-z]"
        "[']"  nil ("-d" "en_US") nil iso-8859-1)
-                                        ;)
+)
 
 (setq ispell-program-name "hunspell")
 (setq ispell-really-aspell nil
@@ -902,7 +902,7 @@ ov)
  '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
  '(rw-hunspell-make-dictionary-menu t)
  '(rw-hunspell-use-rw-ispell t)
-                                        ;)
+ )
 
 ;(setq ispell-program-name "c:/GNU/bin/aspell")
 ;(setq ispell-program-name "aspell")
