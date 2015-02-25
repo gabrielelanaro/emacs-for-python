@@ -904,6 +904,14 @@ ov)
  '(rw-hunspell-use-rw-ispell t)
  )
 
+(if (eq window-system 'w32)
+    (progn
+      (custom-set-variables
+       '(rw-hunspell-dicpath-list (quote ("c:/GNU/share/hunspell")))
+       )
+      )
+  )
+
 ;(setq ispell-program-name "c:/GNU/bin/aspell")
 ;(setq ispell-program-name "aspell")
 ;(setq ispell-personal-dictionary "C:/GNU/custom.ispell")
