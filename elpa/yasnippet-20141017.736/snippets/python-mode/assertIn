@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: assertIn
-# key: ai
-# group: testing
-# --
-self.assertIn(${1:member}, ${2:container})

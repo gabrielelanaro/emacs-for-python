@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: supports
-# key: supports
-# --
-supports :status => :${1:true}, :restart => :${2:true}, :reload => :${3:true}

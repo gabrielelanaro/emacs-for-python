@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: retries
-# key: retries
-# --
-retries ${1:1}
-retry_delay ${2:2}

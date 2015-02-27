@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: provider
-# key: provider
-# --
-provider Chef::Provider::${0:Package::Rubygems}
