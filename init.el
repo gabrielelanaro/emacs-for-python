@@ -40,7 +40,7 @@
 			    jedi
 			    lua-mode
 			    magit-find-file
-			    magit-push-remote
+			    ; magit-push-remote
 			    magit-gh-pulls
 			    markdown-mode+
 			    markdown-mode
