@@ -40,7 +40,6 @@
 			    jedi
 			    lua-mode
 			    magit-find-file
-			    ; magit-push-remote
 			    magit-gh-pulls
 			    markdown-mode+
 			    markdown-mode
@@ -50,7 +49,8 @@
 			    yasnippet
 			    ;rw-ispell
 			    ;rw-hunspell
-			    ;rw-language-and-country-codes
+                            ;rw-language-and-country-codes
+                            htmlize
 ))
 
 ; list the repositories containing them
@@ -70,6 +70,8 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
