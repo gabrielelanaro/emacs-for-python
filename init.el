@@ -177,7 +177,7 @@
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
-    (setenv "PYMACS_PYTHON" "python3")
+    (setenv "PYMACS_PYTHON" "python2")
 )
 
 (load-file (expand-file-name "epy/epy-init.el" dotfiles-dir))
@@ -302,11 +302,11 @@
     (fill-paragraph nil)
     )
   (replace-regexp "\\(\\w+\\)-\\s-+\\(\\w+\\)" "\\1\\2" nil (line-beginning-position) (line-end-position))
-  (replace-regexp "\\s-*вЂ\”" "~---" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s-*вЂ\”" "~--" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\(\\w+\\)-\\(\\w+\\)" "\\1\"=\\2" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\.\\.\\." "\\\\ldots{}" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\[\\([[:digit:]]+\\)\\]" "\\\\cite{b\\1}" nil (line-beginning-position) (line-end-position))
-  (replace-regexp "\\(\\w\\|\\.\\):" "\\1\\\\,:" nil (line-beginning-position) (line-end-position))
+  ;(replace-regexp "\\(\\w\\|\\.\\):" "\\1\\\\,:" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\([тТ]\\.\\)\\s-*\\(\\w\\.\\)" "\\1~\\2" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\([[:upper:]]\\.\\)\\s-*\\([[:upper:]]\\.\\)\\s-+\\([[:upper:]]\\w*\\)" "\\1~\\2~\\3" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\([[:upper:]]\\.\\)\\s-+\\([[:upper:]]\\w*\\)" "\\1~\\2" nil (line-beginning-position) (line-end-position))
@@ -316,9 +316,38 @@
   ;(replace-regexp "\\s-+" "_")
   )
 
+(defun reconstruct-minted ()
+  "From cursor till '\end{' performs text cleaning."
+  (interactive)
+  (let ((endpos (point)))
+    (save-excursion
+      (goto-char (mark))
+      (beginning-of-line)
+      (while (< (point) endpos)
+        ;; (funcall fun (buffer-substring (line-beginning-position) (line-end-position)))
+        (reconstruct-minted-line)
+        )
+      )
+    )
+  )
+
+(defun reconstruct-minted-line ()
+  (interactive)
+  (beginning-of-line)
+  (replace-regexp "\\\\textquotedbl{}" "\"" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "#doctest:.*$" "" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "^\\.\\.\\." "   " nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\~" " " nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\\\" "" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "{\\[}" "[" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "{\\]}" "]" nil (line-beginning-position) (line-end-position))
+  (forward-line 1)
+  ; #doctest: +ELLIPSIS
+  )
 
 ;; Handy key definition
 (define-key global-map [f9] 'reconstruct-paragraph)
+(define-key global-map [f12] 'reconstruct-minted-line)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
@@ -456,7 +485,7 @@
 
 (defun tex-add-russian-dash ()
   (interactive)
-  (insert "~--- "))
+  (insert "~-- "))
 
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
@@ -794,7 +823,7 @@
 
 (defun latex-12-hacks ()
   (latex-dollar-hack)
-  (add-hook 'post-command-hook 'auto-language-environment)
+  ;(add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'LaTeX-mode-hook 'latex-12-hacks)
