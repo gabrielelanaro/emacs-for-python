@@ -302,7 +302,8 @@
     (fill-paragraph nil)
     )
   (replace-regexp "\\(\\w+\\)-\\s-+\\(\\w+\\)" "\\1\\2" nil (line-beginning-position) (line-end-position))
-  (replace-regexp "\\s-*вЂ\”" "~---" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s-*вЂ\”" "~--" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s—" "~--" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\(\\w+\\)-\\(\\w+\\)" "\\1\"=\\2" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\.\\.\\." "\\\\ldots{}" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\[\\([[:digit:]]+\\)\\]" "\\\\cite{b\\1}" nil (line-beginning-position) (line-end-position))
@@ -456,7 +457,7 @@
 
 (defun tex-add-russian-dash ()
   (interactive)
-  (insert "~--- "))
+  (insert "~-- "))
 
 ;(add-hook 'late-mode-hook (lambda ()
 ;                (local-set-key (kbd "C-=") #'tex-add-russian-dash)))
@@ -501,6 +502,19 @@
 (add-to-list 'auto-mode-alist '("\\.vapi$" . vala-mode))
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
+
+;; JavaScript
+
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js2-mode-hook 'ac-js2-mode)
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+(setq js2-highlight-level 3)
+
+(add-hook 'js2-mode-hook 'skewer-mode)
+(add-hook 'css-mode-hook 'skewer-css-mode)
+(add-hook 'html-mode-hook 'skewer-html-mode)
 
 (load custom-file)
 
@@ -794,7 +808,7 @@
 
 (defun latex-12-hacks ()
   (latex-dollar-hack)
-  (add-hook 'post-command-hook 'auto-language-environment)
+  ; (add-hook 'post-command-hook 'auto-language-environment)
   )
 
 (add-hook 'LaTeX-mode-hook 'latex-12-hacks)
