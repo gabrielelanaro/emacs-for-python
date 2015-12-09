@@ -144,10 +144,10 @@
 ;; Keep emacs Custom-settings in separate file
 (if t ;; windowed-system
     (progn
-      (tool-bar-mode 0)
-      (scroll-bar-mode 0)
       (if win32-system
           (progn
+	    (tool-bar-mode 0)
+	    (scroll-bar-mode 0)
             (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
             )
         (progn
@@ -177,7 +177,7 @@
 
 (if win32-system
     (setenv "PYMACS_PYTHON" "c:/python27/python.exe")
-    (setenv "PYMACS_PYTHON" "python3")
+    (setenv "PYMACS_PYTHON" "python2")
 )
 
 (load-file (expand-file-name "epy/epy-init.el" dotfiles-dir))
@@ -241,19 +241,22 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (if
-    t ;;windowed-system
+    windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
       ;(menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
       (mouse-wheel-mode t)
-      (setq window-numbering-assign-func
-            (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
       (setq font-lock-maximum-decoration t)
       )
+  (progn
+    (setq window-numbering-assign-func
+	  (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+    )
 )
+
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
 (defun my-minibuffer-setup ()
@@ -317,9 +320,38 @@
   ;(replace-regexp "\\s-+" "_")
   )
 
+(defun reconstruct-minted ()
+  "From cursor till '\end{' performs text cleaning."
+  (interactive)
+  (let ((endpos (point)))
+    (save-excursion
+      (goto-char (mark))
+      (beginning-of-line)
+      (while (< (point) endpos)
+        ;; (funcall fun (buffer-substring (line-beginning-position) (line-end-position)))
+        (reconstruct-minted-line)
+        )
+      )
+    )
+  )
+
+(defun reconstruct-minted-line ()
+  (interactive)
+  (beginning-of-line)
+  (replace-regexp "\\\\textquotedbl{}" "\"" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "#doctest:.*$" "" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "^\\.\\.\\." "   " nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\~" " " nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\\\" "" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "{\\[}" "[" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "{\\]}" "]" nil (line-beginning-position) (line-end-position))
+  (forward-line 1)
+  ; #doctest: +ELLIPSIS
+  )
 
 ;; Handy key definition
 (define-key global-map [f9] 'reconstruct-paragraph)
+(define-key global-map [f12] 'reconstruct-minted-line)
 
 (require 'window-numbering)
 (window-numbering-mode 1)
