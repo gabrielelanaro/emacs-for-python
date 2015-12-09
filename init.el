@@ -144,10 +144,10 @@
 ;; Keep emacs Custom-settings in separate file
 (if t ;; windowed-system
     (progn
-      (tool-bar-mode 0)
-      (scroll-bar-mode 0)
       (if win32-system
           (progn
+	    (tool-bar-mode 0)
+	    (scroll-bar-mode 0)
             (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
             )
         (progn
@@ -241,19 +241,22 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (if
-    t ;;windowed-system
+    windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
       ;(menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
       (mouse-wheel-mode t)
-      (setq window-numbering-assign-func
-            (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
       (setq font-lock-maximum-decoration t)
       )
+  (progn 
+    (setq window-numbering-assign-func
+	  (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+    )
 )
+
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
 (defun my-minibuffer-setup ()
