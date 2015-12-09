@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
  '(TeX-auto-save t)
+ '(TeX-command-extra-options "-shell-escape")
  '(TeX-master nil)
  '(TeX-parse-self t)
  '(TeX-save-query nil)
@@ -37,7 +38,8 @@
  '(rw-hunspell-use-rw-ispell t)
  '(safe-local-variable-values
    (quote
-    ((TeX-auto-save . t)
+    ((TeX-command-extra-options . "-shell-escape")
+     (TeX-auto-save . t)
      (TeX-parse-self . t)
      (major-mode . rst-mode)
      (eval ispell-change-dictionary "ru_RU_hunspell")
