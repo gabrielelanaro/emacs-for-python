@@ -27,6 +27,7 @@
  '(epy-load-yasnippet-p t)
  '(fci-rule-color "#073642")
  '(fringe-mode 0 nil (fringe))
+ '(httpd-port 8380)
  '(ispell-dictionary "english")
  '(load-prefer-newer t)
  '(minibuffer-auto-raise t)
@@ -92,6 +93,8 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Fira Mono" :foundry "unknown" :slant normal :weight normal :height 117 :width normal))))
  '(font-latex-verbatim-face ((t (:inherit Fira\ Mono :foreground "burlywood"))))
+ '(js2-external-variable ((t (:foreground "orange" :slant italic))))
+ '(js2-function-call ((t (:inherit default))))
  '(minibuffer-prompt ((t (:foreground "CadetBlue1"))))
  '(mode-line ((t (:background "gray75" :foreground "black" :weight normal :height 0.5 :family "Droid Sans"))))
  '(mode-line-highlight ((t (:background "gold"))))
