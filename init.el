@@ -144,10 +144,14 @@
 ;; Keep emacs Custom-settings in separate file
 (if t ;; windowed-system
     (progn
+      (if windowed-system
+          (progn
+            (tool-bar-mode 0)
+	    (scroll-bar-mode 0)
+            )
+          )
       (if win32-system
           (progn
-	    (tool-bar-mode 0)
-	    (scroll-bar-mode 0)
             (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
             )
         (progn

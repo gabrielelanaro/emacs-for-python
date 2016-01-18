@@ -31,6 +31,7 @@
  '(ispell-dictionary "english")
  '(js2-basic-offset 2)
  '(load-prefer-newer t)
+ '(markdown-command-needs-filename t)
  '(minibuffer-auto-raise t)
  '(minibuffer-frame-alist (quote ((width . 80) (height . 1))))
  '(python-shell-interpreter "python3")
