@@ -144,8 +144,12 @@
 ;; Keep emacs Custom-settings in separate file
 (if t ;; windowed-system
     (progn
-      (tool-bar-mode 0)
-      (scroll-bar-mode 0)
+      (if windowed-system
+          (progn
+            (tool-bar-mode 0)
+	    (scroll-bar-mode 0)
+            )
+          )
       (if win32-system
           (progn
             (setq custom-file (expand-file-name "custom-w32.el" dotfiles-dir))
@@ -240,19 +244,22 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (if
-    t ;;windowed-system
+    windowed-system
     (progn
       ;(require 'tabbar)
       ;(tabbar-mode)
       ;(menu-bar-mode 0)
       (set-fringe-style '(0 . 0)) ; no fringes atall
       (mouse-wheel-mode t)
-      (setq window-numbering-assign-func
-            (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       (global-font-lock-mode t)
       (setq font-lock-maximum-decoration t)
       )
+  (progn
+    (setq window-numbering-assign-func
+	  (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+    )
 )
+
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
 (defun my-minibuffer-setup ()
@@ -302,6 +309,7 @@
     )
   (replace-regexp "\\(\\w+\\)-\\s-+\\(\\w+\\)" "\\1\\2" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\s-*вЂ\”" "~--" nil (line-beginning-position) (line-end-position))
+  (replace-regexp "\\s—" "~--" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\(\\w+\\)-\\(\\w+\\)" "\\1\"=\\2" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\.\\.\\." "\\\\ldots{}" nil (line-beginning-position) (line-end-position))
   (replace-regexp "\\[\\([[:digit:]]+\\)\\]" "\\\\cite{b\\1}" nil (line-beginning-position) (line-end-position))
@@ -530,6 +538,19 @@
 (add-to-list 'file-coding-system-alist '("\\.vala$" . utf-8))
 (add-to-list 'file-coding-system-alist '("\\.vapi$" . utf-8))
 
+;; JavaScript
+
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js2-mode-hook 'ac-js2-mode)
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+(setq js2-highlight-level 3)
+
+(add-hook 'js2-mode-hook 'skewer-mode)
+(add-hook 'css-mode-hook 'skewer-css-mode)
+(add-hook 'html-mode-hook 'skewer-html-mode)
+
 (load custom-file)
 
 (if
@@ -644,8 +665,8 @@
 
 (require 'jump-char)
 
-(global-set-key [(meta m)] 'jump-char-forward)
-(global-set-key [(shift meta m)] 'jump-char-backward)
+(global-set-key [(meta \])] 'jump-char-forward)
+(global-set-key [(meta \[)] 'jump-char-backward)
 
 (defun set-input-method-english ()
   (interactive)
