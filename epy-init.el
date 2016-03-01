@@ -11,6 +11,7 @@
 (add-to-list 'load-path epy-install-dir)
 (require 'epy-setup)
 (require 'epy-python)
+(load-file (concat epy-install-dir "epy-completion.el"))
 (require 'epy-completion)
 (require 'epy-editing)
 (require 'epy-nose)
