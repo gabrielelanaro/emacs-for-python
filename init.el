@@ -218,7 +218,6 @@
 ;; Write backup files to own directory
 (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat dotfiles-dir "backups")))))
-
 (require 'auto-complete)
 
 (require 'linum)
